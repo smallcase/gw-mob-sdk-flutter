@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 
 class ConnectScreen extends StatefulWidget {
 
@@ -22,7 +23,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   static const connectToBroker = const MethodChannel('smartinvesting/connect');
 
-  int _currentSelection = 0;
+  int _environmentSelected = 0;
 
   bool _leprechaunMode = true;
   bool _isAmoEnabled = true;
@@ -35,7 +36,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   String _transactionId = "";
 
-  Map<int, Widget> _children = {
+  Map<int, Widget> _environments = {
     0: Text('Prod'),
     1: Text('Dev'),
     2: Text('Staging')
@@ -43,7 +44,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   Future<void> _initSession() async {
 
-      switch(_currentSelection) {
+      switch(_environmentSelected) {
         case 1: {
           _baseUrl = "https://api.dev.smartinvesting.io/";
         }
@@ -60,59 +61,63 @@ class _ConnectScreenState extends State<ConnectScreen> {
         break;
       }
 
-      getSessionToken(_baseUrl, _userIdText);
+      ScgatewayFlutterPlugin.setGatewayEnvironment(_baseUrl, _userIdText, _environmentSelected, _leprechaunMode, _isAmoEnabled)
+          .then((String setupResult) =>
+                _showAlertDialog(setupResult.toString()));
+
+      // _showAlertDialog(setupResult.toString());
   }
 
-  Future<void> _initGateway() async {
-    String initGatewayResult;
+  // Future<void> _initGateway() async {
+  //   String initGatewayResult;
+  //
+  //   try{
+  //     initGatewayResult = await setupGateway.invokeMethod(
+  //         'initializeGateway',
+  //         <String, dynamic>{"env": _environmentSelected, "gateway": "gatewaydemo", "userId": _userIdText, "leprechaun": _leprechaunMode, "amo": _isAmoEnabled, "authToken": _authToken});
+  //     print(initGatewayResult);
+  //   } on PlatformException catch (e) {
+  //     initGatewayResult = "Failed to get result: ' ${e.message}'";
+  //   }
+  // }
 
-    try{
-      initGatewayResult = await setupGateway.invokeMethod(
-          'initializeGateway',
-          <String, dynamic>{"env": _currentSelection, "gateway": "gatewaydemo", "userId": _userIdText, "leprechaun": _leprechaunMode, "amo": _isAmoEnabled, "authToken": _authToken});
-      print(initGatewayResult);
-    } on PlatformException catch (e) {
-      initGatewayResult = "Failed to get result: ' ${e.message}'";
-    }
-  }
-
-  Future<void> getSessionToken(String baseUrl, String idText) async {
-    final http.Response response = await http.post(
-      baseUrl + 'user/login',
-
-      headers: <String, String>{
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-        'Accept': 'application/json',
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-
-      body: jsonEncode(<String, String>{
-        'id': _userIdText,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-
-      var connected = data["connected"] as bool;
-
-      setState(() {
-        _authToken = data["smallcaseAuthToken"] as String;
-      });
-
-      _showAlertDialog('authToken: ' + _authToken, 'connected: ' + connected.toString() );
-
-      print(connected);
-      print(_authToken);
-
-      _initGateway();
-
-      // return AppAuthDTO.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to get session token.');
-    }
-  }
+  // Future<void> getSessionToken(String baseUrl, String idText) async {
+  //   final http.Response response = await http.post(
+  //     baseUrl + 'user/login',
+  //
+  //     headers: <String, String>{
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+  //       'Accept': 'application/json',
+  //       'content-type': 'application/x-www-form-urlencoded'
+  //     },
+  //
+  //     body: jsonEncode(<String, String>{
+  //       'id': _userIdText,
+  //     }),
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     var data = jsonDecode(response.body);
+  //
+  //     var connected = data["connected"] as bool;
+  //
+  //     setState(() {
+  //       _authToken = data["smallcaseAuthToken"] as String;
+  //     });
+  //
+  //     _showAlertDialog('authToken: ' + _authToken, 'connected: ' + connected.toString() );
+  //
+  //     print(connected);
+  //     print(_authToken);
+  //
+  //     _initGateway();
+  //
+  //     // return AppAuthDTO.fromJson(jsonDecode(response.body));
+  //   } else {
+  //     throw Exception('Failed to get session token.');
+  //   }
+  // }
 
   Future<void> _getTransactionId(String gatewayIntent, Object orderConfig) async {
 
@@ -182,7 +187,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   }
 
-  Future<void> _showAlertDialog(String title, String message) async {
+  Future<void> _showAlertDialog(String message) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -192,7 +197,6 @@ class _ConnectScreenState extends State<ConnectScreen> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(title),
                 Text(message)
               ],
             ),
@@ -215,11 +219,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
       width: 200,
       padding: const EdgeInsets.only(left: 20),
       child: CupertinoSlidingSegmentedControl(
-          groupValue: _currentSelection,
-          children: _children,
+          groupValue: _environmentSelected,
+          children: _environments,
           onValueChanged: (value) {
             setState(() {
-              _currentSelection = value;
+              _environmentSelected = value;
             });
           }
       ),
