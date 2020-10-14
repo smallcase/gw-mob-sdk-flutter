@@ -64,112 +64,61 @@ class _ConnectScreenState extends State<ConnectScreen> {
       ScgatewayFlutterPlugin.setGatewayEnvironment(_baseUrl, _userIdText, _environmentSelected, _leprechaunMode, _isAmoEnabled)
           .then((String setupResult) =>
                 _showAlertDialog(setupResult.toString()));
-
-      // _showAlertDialog(setupResult.toString());
   }
 
-  // Future<void> _initGateway() async {
-  //   String initGatewayResult;
-  //
-  //   try{
-  //     initGatewayResult = await setupGateway.invokeMethod(
-  //         'initializeGateway',
-  //         <String, dynamic>{"env": _environmentSelected, "gateway": "gatewaydemo", "userId": _userIdText, "leprechaun": _leprechaunMode, "amo": _isAmoEnabled, "authToken": _authToken});
-  //     print(initGatewayResult);
-  //   } on PlatformException catch (e) {
-  //     initGatewayResult = "Failed to get result: ' ${e.message}'";
-  //   }
-  // }
+  Future<void> triggerTransaction(String gatewayIntent, Object orderConfig) async {
 
-  // Future<void> getSessionToken(String baseUrl, String idText) async {
-  //   final http.Response response = await http.post(
-  //     baseUrl + 'user/login',
-  //
-  //     headers: <String, String>{
-  //       'Access-Control-Allow-Origin': '*',
-  //       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-  //       'Accept': 'application/json',
-  //       'content-type': 'application/x-www-form-urlencoded'
-  //     },
-  //
-  //     body: jsonEncode(<String, String>{
-  //       'id': _userIdText,
-  //     }),
-  //   );
-  //
-  //   if (response.statusCode == 200) {
-  //     var data = jsonDecode(response.body);
-  //
-  //     var connected = data["connected"] as bool;
-  //
-  //     setState(() {
-  //       _authToken = data["smallcaseAuthToken"] as String;
-  //     });
-  //
-  //     _showAlertDialog('authToken: ' + _authToken, 'connected: ' + connected.toString() );
-  //
-  //     print(connected);
-  //     print(_authToken);
-  //
-  //     _initGateway();
-  //
-  //     // return AppAuthDTO.fromJson(jsonDecode(response.body));
-  //   } else {
-  //     throw Exception('Failed to get session token.');
-  //   }
-  // }
+    ScgatewayFlutterPlugin.getTransactionId(gatewayIntent, orderConfig);
 
-  Future<void> _getTransactionId(String gatewayIntent, Object orderConfig) async {
-
-    String connectGatewayResult;
-
-    try {
-      connectGatewayResult = await connectToBroker.invokeMethod(
-        'getTransactionId', <String, dynamic>{"intent": gatewayIntent}
-      );
-      print(connectGatewayResult);
-    } on PlatformException catch (e) {
-      connectGatewayResult = "Failed to get result: ' ${e.message}'";
-    }
-
-    Map data = {
-      'id': _userIdText,
-      'intent': connectGatewayResult,
-      'orderConfig': null
-    };
-
-    String bodyData = json.encode(data);
-
-    final http.Response response = await http.post(
-      _baseUrl + 'transaction/new',
-
-      headers: <String, String>{
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-        'Accept': 'application/json',
-        'content-type':'application/json'
-      },
-
-      body: bodyData,
-    );
-
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      var connectData = jsonDecode(response.body);
-
-      var txnId = connectData["transactionId"] as String;
-
-      setState(() {
-        // _transactionId = connectData["transactionId"] as String;
-        _transactionId = txnId;
-      });
-
-      _triggerGatewayTransaction(txnId);
-
-    } else {
-      throw Exception('Failed to get session token.');
-    }
+    // String connectGatewayResult;
+    //
+    // try {
+    //   connectGatewayResult = await connectToBroker.invokeMethod(
+    //     'getTransactionId', <String, dynamic>{"intent": gatewayIntent}
+    //   );
+    //   print(connectGatewayResult);
+    // } on PlatformException catch (e) {
+    //   connectGatewayResult = "Failed to get result: ' ${e.message}'";
+    // }
+    //
+    // Map data = {
+    //   'id': _userIdText,
+    //   'intent': connectGatewayResult,
+    //   'orderConfig': null
+    // };
+    //
+    // String bodyData = json.encode(data);
+    //
+    // final http.Response response = await http.post(
+    //   _baseUrl + 'transaction/new',
+    //
+    //   headers: <String, String>{
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+    //     'Accept': 'application/json',
+    //     'content-type':'application/json'
+    //   },
+    //
+    //   body: bodyData,
+    // );
+    //
+    // print(response.body);
+    //
+    // if (response.statusCode == 200) {
+    //   var connectData = jsonDecode(response.body);
+    //
+    //   var txnId = connectData["transactionId"] as String;
+    //
+    //   setState(() {
+    //     // _transactionId = connectData["transactionId"] as String;
+    //     _transactionId = txnId;
+    //   });
+    //
+    //   _triggerGatewayTransaction(txnId);
+    //
+    // } else {
+    //   throw Exception('Failed to get session token.');
+    // }
   }
 
   Future<void> _triggerGatewayTransaction(String txnId) async{
@@ -311,7 +260,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   Widget connect() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
       onPressed: () {
-        _getTransactionId("connect", null);
+        triggerTransaction("connect", null);
       },
       child: const Text('Connect', style: TextStyle(fontSize: 20)),
     ));
