@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">SmallcaseGateway</string>
+    <string name="Connecting_to_brokerGateway">Connecting to smallcase gateway</string>
+    <string name="Connecting_to_brokerGateway_mMessage">Redirecting to the broker gateway \n Do not press back, refresh or close the page</string>
+    <string name="Powered_by">Powered by</string>
+    <string name="Dont_have_a_broker_account">Don\'t have a broker account? </string>
+    <string name="Signup">Sign Up</string>
+    <string name="Login_with_your_broker">Login with your broker</string>
+    <string name="Broker_chooser_mMessage"><![CDATA[Choose a broker and start investing in, \ntracking & managing smallcases \nseamlessly]]></string>
+    <string name="ProcessingYourOrderFor">Processing your order for</string>
+    <string name="manual_transaction_status_request_message">To check your transaction status,\nplease click here</string>
+    <string name="Got_It">Got it</string>
+    <string name="your_broker_is_not_in_the_list">Your broker is not in the list?</string>
+    <string name="tweet_them">Tweet Now</string>
+    <string name="select_your_broker">Select your broker</string>
+    <string name="other_brokers">Other Brokers</string>
+    <string name="results">Results</string>
+    <string name="no_brokers_found">No Brokers found</string>
+    <string name="more_partner_brokers">More partner brokers</string>
+    <string name="search_brokers">Search Brokers</string>
+    <string name="login_to_continue">Login to Continue</string>
+    <integer name="slide_animation_duration">300</integer>
+    <string name="connected_consent_subTitle">To place orders, you need to login with your %1$s account</string>
+    <string name="continue_with_broker">Continue with %1$s</string>
+    <string name="open_a_trading_account_online">Open a trading account online</string>
+    <string name="choose_from_india_s_top_brokers">Choose from India\'s top brokers</string>
+    <string name="signup_now">Signup now</string>
+</resources>

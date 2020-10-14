@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.smallcase.gateway">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+        <activity android:name=".screens.leadgen.activity.LeadGenActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.SmallcaseGateway" />
+        <activity
+            android:name=".screens.connect.activity.ConnectedConsentActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.SmallcaseGateway" />
+        <activity
+            android:name=".screens.common.RedirectActivity"
+            android:theme="@style/Theme.SmallcaseGateway">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="redirect"
+                    android:scheme="scgateway" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".screens.transaction.activity.TransactionProcessActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.SmallcaseGateway" />
+        <activity
+            android:name=".screens.connect.activity.BrokerChooserActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.BrokerChooser"
+            android:windowSoftInputMode="adjustUnspecified" />
+        <activity
+            android:name=".screens.connect.activity.ConnectActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.SmallcaseGateway" />
+    </application>
+
+</manifest>

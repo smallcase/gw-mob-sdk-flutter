@@ -1,0 +1,201 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+def versionMajor = 2
+def versionMinor = 0
+def versionPatch = 3
+
+
+android {
+    compileSdkVersion 29
+//    signingConfigs {
+//        release {
+//            storeFile file(GATEWAY_RELEASE_STORE_FILE)
+//            storePassword GATEWAY_RELEASE_STORE_PASSWORD
+//            keyAlias GATEWAY_RELEASE_KEY_ALIAS
+//            keyPassword GATEWAY_RELEASE_KEY_PASSWORD
+//        }
+//    }
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode versionMajor * 100 + versionMinor * 10 + versionPatch
+
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "gateway-proguard-rules.pro"
+            consumerProguardFiles 'gateway-proguard-rules.pro'
+
+            //signingConfig signingConfigs.release
+        }
+        releaseDebug {
+            initWith release
+            debuggable true
+            matchingFallbacks = ["release"]
+        }
+
+        debug {
+            minifyEnabled false
+        }
+//
+//        staging {
+//            initWith release
+//            debuggable true
+//            matchingFallbacks = ["release"]
+//        }
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    compileOptions {
+        incremental true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    task copyLibs(type: Copy) {
+        from configurations.implementation
+        into 'libs'
+    }
+}
+
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:$rootProject.app_compat"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation "junit:junit:$rootProject.jUnit"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.jUnit_ext"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.expresso_core"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraint_layout"
+    implementation "androidx.cardview:cardview:$rootProject.cardview"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerview"
+
+
+    //Gson
+    implementation "com.google.code.gson:gson:$rootProject.gson"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.gson_converter"
+
+    //Retrofit2
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$rootProject.retrofit_coroutines_adapter"
+
+    //Okhttp3
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp_interceptor"
+
+
+    //Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.kotlin_coroutine"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.kotlin_coroutine"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //browser
+    implementation "androidx.browser:browser:$rootProject.browser"
+    implementation "io.coil-kt:coil:$rootProject.coil"
+    implementation "com.airbnb.android:lottie:$rootProject.lottie"
+
+
+    //remove these from release builds later
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.logging_interceptor"
+    implementation "com.github.mrmike:ok2curl:$rootProject.curl_interceptor"
+
+    //dagger2
+    implementation "com.google.dagger:dagger:$rootProject.dagger"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.dagger"
+    implementation "com.google.dagger:dagger-android:$rootProject.dagger"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
+
+
+}
+
+configurations.all() {
+    resolutionStrategy.force "com.google.dagger:dagger-android-processor:$rootProject.dagger",
+            "com.google.dagger:dagger-android-support:$rootProject.dagger", "com.google.dagger:dagger-android:$rootProject.dagger", "com.google.dagger:dagger-compiler:$rootProject.dagger",
+            "com.google.dagger:dagger:$rootProject.dagger", "com.github.mrmike:ok2curl:$rootProject.curl_interceptor", "com.squareup.okhttp3:logging-interceptor:$rootProject.logging_interceptor", "com.airbnb.android:lottie:$rootProject.lottie",
+            "io.coil-kt:coil:$rootProject.coil", "androidx.browser:browser:$rootProject.browser", "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.kotlin_coroutine",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.kotlin_coroutine", "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp_interceptor", "com.squareup.okhttp3:okhttp:$rootProject.okhttp",
+            "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$rootProject.retrofit_coroutines_adapter",
+            "com.squareup.retrofit2:retrofit:$rootProject.retrofit", "com.squareup.retrofit2:converter-gson:$rootProject.gson_converter", "com.google.code.gson:gson:$rootProject.gson", "androidx.recyclerview:recyclerview:$rootProject.recyclerview"
+}
+
+
+artifactory {
+    /*clientConfig.setIncludeEnvVars(true)
+    clientConfig.info.addEnvironmentProperty('test.adding.dynVar', new Date().toString())*/
+
+    contextUrl = "${artifactory_contextUrl}"
+    //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'gradle-dev-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+
+        }
+        defaults {
+            publications('aar')
+            // Reference to Gradle publications defined in the build script.
+            // This is how we tell the Artifactory Plugin which artifacts should be
+            // published to Artifactory.
+            publishArtifacts = true
+            // Properties to be attached to the published artifacts.
+            properties = ['qa.level': 'basic', 'dev.team': 'core']
+            publishPom = true // Publish generated POM files to Artifactory (true by default)
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'gradle-dev'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+
+        }
+    }
+
+}
+
+def packageName = 'com.smallcase.gateway'
+def libraryVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+def artifactID = 'sdk'
+
+build.finalizedBy(artifactoryPublish)
+artifactoryPublish.dependsOn(build)
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId = packageName
+            version = libraryVersion
+            artifactId = artifactID
+
+            // Tell maven to prepare the generated "*.aar" file for publishing
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+
+            pom.withXml {
+                def dependencies = asNode().appendNode('dependencies')
+                configurations.getByName("releaseCompileClasspath").getResolvedConfiguration().getFirstLevelModuleDependencies().each {
+                    def dependency = dependencies.appendNode('dependency')
+                    dependency.appendNode('groupId', it.moduleGroup)
+                    dependency.appendNode('artifactId', it.moduleName)
+                    dependency.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
+}

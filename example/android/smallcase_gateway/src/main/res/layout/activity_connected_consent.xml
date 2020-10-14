@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.SmallcaseGateway"
+    tools:context=".screens.connect.activity.ConnectedConsentActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_rectangle_white_with_grey_broders_rounded_corners"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_connected_consent_closebt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:padding="16dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_atom_icons_functional_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_connected_consent_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/graphikapp_medium"
+            android:text="@string/login_to_continue"
+            android:textColor="#2f363f"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_connected_consent_closebt"
+            />
+
+        <TextView
+            android:id="@+id/tv_connected_consent_subTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/graphikapp_regular"
+            android:gravity="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/header_text_color"
+            android:lineSpacingExtra="1dp"
+            android:lineSpacingMultiplier="1.23"
+            tools:text="To place orders,you need to login with your AxisDirect account"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_connected_consent_title"/>
+
+        <TextView
+            android:id="@+id/tv_connected_consent_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/connected_consent_text_background"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            tools:text="I hereby agree to be redirected to Axis Securities's trading website. I hereby authorise Axis Securities to share details of scrip, traded quantity and trade price of transactions executed persuant to this redirection with merchant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_connected_consent_subTitle"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_connected_consent_broker"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:background="@drawable/spinner_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="40dp"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_connected_consent_text">
+
+            <ImageView
+                android:id="@+id/iv_select_broker_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="12dp"
+                android:clickable="false"
+                android:focusable="false" />
+
+            <TextView
+                android:id="@+id/tv_broker_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:clickable="false"
+                android:focusable="false"
+                android:fontFamily="@font/graphikapp_medium"
+                android:text="@string/select_your_broker"
+                android:textColor="@color/selected_other_broker_text_color" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
