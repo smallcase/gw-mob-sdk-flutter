@@ -100,6 +100,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         ))
       }
 
+      
       if (transactionId != null) {
         SmallcaseGatewaySdk.triggerTransaction(activity!!,
                 transactionId,
@@ -108,12 +109,12 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                     try {
                       if (transactionResult.success) {
-                        val toastString =
-                                "authToken:${SmallcaseGatewaySdk.getSmallcaseAuthToken()}"
+//                        val toastString =
+//                                "authToken:${SmallcaseGatewaySdk.getSmallcaseAuthToken()}"
 
                         Toast.makeText(
                                 context,
-                                toastString,
+                                transactionResult.toString(),
                                 Toast.LENGTH_LONG
                         ).show()
 
@@ -199,25 +200,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                         object : DataListener<InitialisationResponse> {
                           override fun onSuccess(authData: InitialisationResponse) {
-
-//                                        alertDialog.setMessage(
-//                                                "user connected :${SmallcaseGatewaySdk.isUserConnected()}" +
-//                                                        "\n broker:${if (SmallcaseGatewaySdk.getConnectedUserData() != null) {
-//                                                            SmallcaseGatewaySdk.getConnectedUserData()!!.broker
-//                                                        } else {
-//                                                            "none"
-//                                                        }}" +
-//                                                        "\n authToken:${SmallcaseGatewaySdk.getSmallcaseAuthToken()}"
-//
-//                                        )
-//                                        alertDialog.setPositiveButton(
-//                                                "ok"
-//                                        ) { dialog, which ->
-//
-//                                            // authData.toString()
-//                                        }
-//
-//                                        alertDialog.show()
+                            
                           }
 
                           override fun onFailure(errorCode: Int, errorMessage: String) {

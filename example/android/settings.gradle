@@ -1,4 +1,3 @@
-include ':smallcase_gateway'
 include ':app'
 
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")

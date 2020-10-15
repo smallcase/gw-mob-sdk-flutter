@@ -6,9 +6,181 @@
   <component name="ChangeListManager">
     <list default="true" id="7628e587-59d8-4a17-a6f6-b5f19324e39a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/leadgen_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/leadgen_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/dependencies.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/gateway-proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/androidTest/java/com/smallcase/gateway/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/assets/holdings_loader.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/Session/Global.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/Session/SessionManager.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/exceptions/GatewayAlreadyConnectedException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/exceptions/GatewayNotInitialsedException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/exceptions/SmallcaseGatewayResponseContractsNotImplementedException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/exceptions/UserNotConnectedException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/helpers/CustomTabHelper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/helpers/Extensions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/helpers/GatewayUtilHelper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/helpers/PackageHelper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/helpers/SharedPreferencesManager.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/network/NetworkHelper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/base/network/RetrofitRxCallbackInterface.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/ApiFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/ConfigRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/ConfigRepositoryImp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/Repository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/SdkConstants.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/UpdateDeviceType.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/UpdateDeviceTypeBody.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/adapters/BrokerGridAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/adapters/BrokerYetToComeAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/adapters/OtherBrokerAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/adapters/ResponseToSmallcaseGatewayDataResponseAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/adapters/SearchBrokerAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/adapters/UiConfigParserAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/listeners/DataListener.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/listeners/TransactionResponseListener.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/ActionsDTO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/ActiveDays.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/BaseReponseDataModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/BrokerConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/BrokerDTO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/BrokerRedirectParams.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/Environment.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/FixDTO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/GatewayConnectData.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/GatewaySdkError.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/GetSmallcasesRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/HoldingsImportSuccess.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/InitialisationResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/MarkTranxAsCancelledRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/MarketStatusCheck.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/OrderConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/OrderDetails.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/Result.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/SipDTO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/SmallcaseGatewayDataResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/SmallcaseTransaction.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/TransactionPollStatusResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/TransactionProcessingModel/Batches.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/TransactionProcessingModel/Data.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/TransactionProcessingModel/TransactionProcessingSuccess.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/TransactionResult.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/UiConfigItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/Update.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/UpdateBrokerInDbBody.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/UpdateConsent.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/UpdateConsentInDb.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/UserDataDTO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/init/InitAuthData.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/tweetConfig/TweetConfigDTO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/models/tweetConfig/UpcomingBroker.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/requests/InitRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/data/requests/MarkTranxAsErroredRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/DaggerCustomWrapper/LibraryCore.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/annotation/ViewModelKey.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/components/AppComponent.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/factory/AppViewModelFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/modules/activity/ActivityModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/modules/fragment/FragmentModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/modules/network/BaseNetworkModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/modules/network/ConfigNetworkModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/modules/network/FakeNetworkModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/modules/network/GatewayNetworkModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/di/modules/viewModel/ViewModelModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/enums/BuildTypes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/enums/PollTransactionStatus.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/extensions/Extensions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/network/Result.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/network/apiInterface/ConfigService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/network/apiInterface/FakeApiService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/network/apiInterface/GatewayApiService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/network/interceptor/FakeInterceptor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/network/interceptor/GatewayInterceptor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/portal/SmallcaseGatewayContracts.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/portal/SmallcaseGatewayResponseContracts.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/portal/SmallcaseGatewaySdk.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/base/BaseRepo.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/base/BaseViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/common/RedirectActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/connect/activity/BrokerChooserActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/connect/activity/ConnectActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/connect/activity/ConnectedConsentActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/connect/repo/GateWayRepo.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/connect/viewModel/ConnectActivityViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/leadgen/activity/LeadGenActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/leadgen/viewModel/LeadGenViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/transaction/activity/TransactionProcessActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/screens/transaction/viewModel/TransactionActivityViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/utils/CustomTypefaceSpan.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/utils/GridDividerItemDecoration.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/java/com/smallcase/gateway/utils/Helper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/anim/consent_text_appear.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/anim/nothing.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/anim/popup_appear.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/anim/popup_disappear.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/anim/slide_in_right.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/anim/slide_in_up.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/anim/slide_out_left.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/anim/slide_out_up.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/baseline_arrow_back_white_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/broker_chooser_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/card_border.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/circular_blue.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/connected_consent_text_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/consent_button.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/error_large.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/gateway_loader.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/grid_horizontal_divider.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/grid_vertical_divider.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_arrow_back_white_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_atom_icons_brand_smallcase.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_atom_icons_functional_close.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_check_mark.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_close_grey.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_expand_less_grey.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_expand_more_grey.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_gateway_loader.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_loading_graphic.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_rectangle_white_top_rounded_corners.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_rectangle_white_with_grey_broders_rounded_corners.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/ic_search_grey.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/sign_up_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/spinner_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/spinner_selector.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/success_large.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/twitter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/drawable/twitter_button_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/font/graphikapp_bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/font/graphikapp_light.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/font/graphikapp_medium.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/font/graphikapp_mediumitalic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/font/graphikapp_regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/font/graphikapp_regularitalic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/font/graphikapp_semibold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/activity_broker_chooser.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/activity_connected_consent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/activity_gateway_connect.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/activity_lead_gen.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/activity_redirect.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/activity_transaction_process.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/more_broker_popup.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/row_broker_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/layout/spinner_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/raw/gateway_loader.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/raw/smallcase_loader.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/raw/tickertape_loader.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/values/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/smallcase_gateway/src/test/java/com/smallcase/gateway/ExampleUnitTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,22 +224,22 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1750" height="411" key="GridCell.Tab.0.bottom" timestamp="1602760421611">
+    <state width="1750" height="411" key="GridCell.Tab.0.bottom" timestamp="1602764417219">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="411" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1602760421611" />
-    <state width="1750" height="411" key="GridCell.Tab.0.center" timestamp="1602760421610">
+    <state width="1750" height="411" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1602764417219" />
+    <state width="1750" height="411" key="GridCell.Tab.0.center" timestamp="1602764417218">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="411" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1602760421610" />
-    <state width="1750" height="411" key="GridCell.Tab.0.left" timestamp="1602760421609">
+    <state width="1750" height="411" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1602764417218" />
+    <state width="1750" height="411" key="GridCell.Tab.0.left" timestamp="1602764417218">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="411" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1602760421609" />
-    <state width="1750" height="411" key="GridCell.Tab.0.right" timestamp="1602760421611">
+    <state width="1750" height="411" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1602764417218" />
+    <state width="1750" height="411" key="GridCell.Tab.0.right" timestamp="1602764417219">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="411" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1602760421611" />
+    <state width="1750" height="411" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1602764417219" />
     <state x="548" y="392" key="com.intellij.ide.util.TipDialog" timestamp="1602760510768">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
