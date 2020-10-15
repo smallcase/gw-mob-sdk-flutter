@@ -16,9 +16,9 @@ class ScgatewayFlutterPlugin {
       const MethodChannel('scgateway_flutter_plugin');
 
   static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
+      final String version = await _channel.invokeMethod('getPlatformVersion');
+      return version;
+    }
 
   static Future<String> setGatewayEnvironment(String baseUrl, String idText, int env, bool leprechaun, bool amo) async {
 
@@ -85,7 +85,7 @@ class ScgatewayFlutterPlugin {
     Map data = {
       'id': _userId,
       'intent': connectGatewayResult,
-      'orderConfig': null
+      'orderConfig': orderConfig
     };
 
     String bodyData = json.encode(data);
@@ -110,6 +110,8 @@ class ScgatewayFlutterPlugin {
 
       var txnId = connectData["transactionId"] as String;
 
+      print("connect data: " + connectData.toString());
+
       _transactionId = txnId;
 
       _triggerGatewayTransaction(txnId);
@@ -129,8 +131,6 @@ class ScgatewayFlutterPlugin {
       triggerTxnRes = await _channel.invokeMethod(
           'connectToBroker', <String, dynamic>{"transactionId": txnId}
       );
-
-      // print(triggerTxnRes);
 
       if(!triggerTxnRes.contains("error")) {
         _onUserConnected(triggerTxnRes);
@@ -165,5 +165,32 @@ class ScgatewayFlutterPlugin {
     );
 
     print(response.body);
+  }
+
+  static Future<void> placeOrder(String tickerList) {
+
+    if(tickerList != "") {
+
+      var tickers = tickerList.split(',');
+
+      print(tickers);
+
+      var tickersList = [];
+
+      for (var i = 0; i < tickers.length; i++) {
+        tickersList.add({
+          "ticker":tickers[i]
+        });
+      }
+
+      var res = {"securities":tickersList,"type":"SECURITIES"};
+
+      print(res);
+
+      getTransactionId("transaction",res);
+    } else {
+      // triggerTransaction(transactionId);
+    }
+
   }
 }
