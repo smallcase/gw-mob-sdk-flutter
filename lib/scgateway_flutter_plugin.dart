@@ -127,10 +127,41 @@ class ScgatewayFlutterPlugin {
       triggerTxnRes = await _channel.invokeMethod(
           'connectToBroker', <String, dynamic>{"transactionId": txnId}
       );
-      print(triggerTxnRes);
+
+      // print(triggerTxnRes);
+
+      if(!triggerTxnRes.contains("error")) {
+        _onUserConnected(triggerTxnRes);
+      }
+
     } on PlatformException catch (e) {
       triggerTxnRes = "Failed to get result: ' ${e.message}'";
     }
 
+  }
+
+  static Future<void> _onUserConnected(String smallcaseAuthToken) async {
+
+    Map data = {
+      'id': _userId,
+      'smallcaseAuthToken': smallcaseAuthToken
+    };
+
+    String bodyData = json.encode(data);
+
+    final http.Response response = await http.post(
+      _baseUrl + 'user/connect',
+
+      headers: <String, String>{
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+        'Accept': 'application/json',
+        'content-type':'application/json'
+      },
+
+      body: bodyData
+    );
+
+    print(response.body);
   }
 }

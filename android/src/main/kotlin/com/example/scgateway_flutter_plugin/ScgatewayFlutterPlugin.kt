@@ -31,6 +31,9 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   private lateinit var context: Context
   private lateinit var activity: Activity
+  
+  private var txnResult: String? = ""
+  
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -82,13 +85,69 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       var transactionId: String? = call.argument("transactionId")
 
-      val res = triggerGatewayTransaction(transactionId)
+      if(transactionId != null) {
 
-//                if(!res.isEmpty()) {
-//                    result.success(res)
-//                } else {
-//                    result.error("UNAVAILABLE", "Broker not Connected.", null)
-//                }
+      } else {
+        // This means user is already connected and trying to reconnect again
+        // hence pass the existing user and quit the transaction
+        SmallcaseGatewaySdk.setTransactionResult(TransactionResult(
+                true, SmallcaseGatewaySdk.Result.CONNECT,
+                SmallcaseGatewaySdk.getSmallcaseAuthToken(), null, null
+        ))
+      }
+
+      if (transactionId != null) {
+        SmallcaseGatewaySdk.triggerTransaction(activity!!,
+                transactionId,
+                object : TransactionResponseListener {
+                  override fun onSuccess(transactionResult: TransactionResult) {
+
+                    try {
+                      if (transactionResult.success) {
+                        val toastString =
+                                "authToken:${SmallcaseGatewaySdk.getSmallcaseAuthToken()}"
+
+                        Toast.makeText(
+                                context,
+                                toastString,
+                                Toast.LENGTH_LONG
+                        ).show()
+
+                        Log.d(TAG, "onSuccess: " + transactionResult.data!!)
+
+                        txnResult = transactionResult.data!!
+
+                        result.success(txnResult)
+                      } else {
+                        Toast.makeText(
+                                context,
+                                transactionResult.error + " " + transactionResult.errorCode,
+                                Toast.LENGTH_LONG
+                        ).show()
+
+                        txnResult = transactionResult.error + " " + transactionResult.errorCode
+
+                        result.error("error", txnResult, null)
+                      }
+                    } catch (e: Exception) {
+                      e.printStackTrace()
+                    }
+                  }
+
+                  override fun onError(errorCode: Int, errorMessage: String) {
+                    Toast.makeText(
+                            context,
+                            "$errorCode $errorMessage",
+                            Toast.LENGTH_LONG
+                    ).show()
+                    errorCode.toString()
+
+                    txnResult = errorMessage
+
+                    result.error("error", txnResult, null)
+                  }
+                })
+      }
     }
     else {
       result.notImplemented()
@@ -178,11 +237,11 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       ))
     }
 
-    triggerTransactionWithTransactionId(transactionId!!)
+//    triggerTransactionWithTransactionId(transactionId!!)
 
   }
 
-  private fun triggerTransactionWithTransactionId(transactionId:String) {
+  private fun triggerTransactionWithTransactionId(transactionId:String){
     SmallcaseGatewaySdk.triggerTransaction(activity!!,
             transactionId,
             object : TransactionResponseListener {
@@ -199,7 +258,10 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                             Toast.LENGTH_LONG
                     ).show()
 
-                    Log.d(TAG, "onSuccess: " +  transactionResult.data!!)
+                    Log.d(TAG, "onSuccess: " + transactionResult.data!!)
+
+
+                    txnResult = transactionResult.data!!
 //                                onUserConnected(transactionResult.data!!)
                   } else {
                     Toast.makeText(
@@ -207,6 +269,8 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                             transactionResult.error + " " + transactionResult.errorCode,
                             Toast.LENGTH_LONG
                     ).show()
+
+                    txnResult = transactionResult.error + " " + transactionResult.errorCode
                   }
                 } catch (e: Exception) {
                   e.printStackTrace()
@@ -220,6 +284,8 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                         Toast.LENGTH_LONG
                 ).show()
                 errorCode.toString()
+
+                txnResult = errorMessage
               }
             })
   }

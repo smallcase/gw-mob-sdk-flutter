@@ -23,6 +23,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   static const connectToBroker = const MethodChannel('smartinvesting/connect');
 
+  TextEditingController _c;
+
   int _environmentSelected = 0;
 
   bool _leprechaunMode = true;
@@ -41,6 +43,12 @@ class _ConnectScreenState extends State<ConnectScreen> {
     1: Text('Dev'),
     2: Text('Staging')
   };
+
+  @override
+  initState(){
+    _c = new TextEditingController();
+    super.initState();
+  }
 
   Future<void> _initSession() async {
 
@@ -69,70 +77,6 @@ class _ConnectScreenState extends State<ConnectScreen> {
   Future<void> triggerTransaction(String gatewayIntent, Object orderConfig) async {
 
     ScgatewayFlutterPlugin.getTransactionId(gatewayIntent, orderConfig);
-
-    // String connectGatewayResult;
-    //
-    // try {
-    //   connectGatewayResult = await connectToBroker.invokeMethod(
-    //     'getTransactionId', <String, dynamic>{"intent": gatewayIntent}
-    //   );
-    //   print(connectGatewayResult);
-    // } on PlatformException catch (e) {
-    //   connectGatewayResult = "Failed to get result: ' ${e.message}'";
-    // }
-    //
-    // Map data = {
-    //   'id': _userIdText,
-    //   'intent': connectGatewayResult,
-    //   'orderConfig': null
-    // };
-    //
-    // String bodyData = json.encode(data);
-    //
-    // final http.Response response = await http.post(
-    //   _baseUrl + 'transaction/new',
-    //
-    //   headers: <String, String>{
-    //     'Access-Control-Allow-Origin': '*',
-    //     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-    //     'Accept': 'application/json',
-    //     'content-type':'application/json'
-    //   },
-    //
-    //   body: bodyData,
-    // );
-    //
-    // print(response.body);
-    //
-    // if (response.statusCode == 200) {
-    //   var connectData = jsonDecode(response.body);
-    //
-    //   var txnId = connectData["transactionId"] as String;
-    //
-    //   setState(() {
-    //     // _transactionId = connectData["transactionId"] as String;
-    //     _transactionId = txnId;
-    //   });
-    //
-    //   _triggerGatewayTransaction(txnId);
-    //
-    // } else {
-    //   throw Exception('Failed to get session token.');
-    // }
-  }
-
-  Future<void> _triggerGatewayTransaction(String txnId) async{
-
-    String triggerTxnRes;
-
-    try {
-      triggerTxnRes = await connectToBroker.invokeMethod(
-          'connectToBroker', <String, dynamic>{"transactionId": txnId}
-      );
-      print(triggerTxnRes);
-    } on PlatformException catch (e) {
-      triggerTxnRes = "Failed to get result: ' ${e.message}'";
-    }
 
   }
 
@@ -266,6 +210,55 @@ class _ConnectScreenState extends State<ConnectScreen> {
     ));
   }
 
+  Widget enterTransactionId() {
+    return SizedBox(width: 300, height: 35, child:
+    RaisedButton(
+      onPressed: () {
+        showDialog(
+            child: new Dialog(
+                  child: SizedBox(
+                    width: 300, height: 96,
+                    child: new Column(
+                        children: <Widget>[
+                          new TextField(
+                            decoration: new InputDecoration(hintText: "Enter Transaction Id"),
+                            controller: _c,
+                          ),
+                          new FlatButton(
+                            child: new Text("Save"),
+                              onPressed: () {
+                                setState((){
+                                  this._transactionId = _c.text;
+                                });
+                                Navigator.pop(context);
+                              },
+                          )
+                        ],
+                    )
+                  )
+                // child: new Column(
+                //     children: <Widget>[
+                //       new TextField(
+                //         decoration: new InputDecoration(hintText: "Enter Transaction Id"),
+                //         controller: _c,
+                //       ),
+                //       new FlatButton(
+                //         child: new Text("Save"),
+                //           onPressed: () {
+                //             setState((){
+                //               this._transactionId = _c.text;
+                //             });
+                //             Navigator.pop(context);
+                //           },
+                //       )
+                //     ],
+                // )
+            ), context: context);
+      },
+      child: const Text('Enter Transaction Id', style: TextStyle(fontSize: 20)),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -313,6 +306,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
               alignment: Alignment.center,
               fit: BoxFit.none,
               child: connect(),
+            ),
+            FittedBox(
+              alignment: Alignment.center,
+              fit: BoxFit.none,
+              child: enterTransactionId(),
             )
           ],
         ),
