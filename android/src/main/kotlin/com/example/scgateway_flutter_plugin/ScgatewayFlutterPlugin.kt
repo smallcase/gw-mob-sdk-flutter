@@ -33,6 +33,10 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var activity: Activity
   
   private var txnResult: String? = ""
+
+  private val leadGenMap by lazy {
+    HashMap<String,String>()
+  }
   
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
@@ -149,6 +153,25 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 })
       }
     }
+
+    if(call.method == "leadGen") {
+
+      val name: String? = call.argument("name")
+      val email: String? = call.argument("email")
+      val contact: String? = call.argument("contact")
+      val pincode: String? = call.argument("pincode")
+
+      val res = generateLead(name, email, contact, pincode)
+
+      if (res != null) {
+        if(!res.isEmpty()) {
+          result.success(res)
+        } else {
+          result.error("UNAVAILABLE", "Broker not Connected.", null)
+        }
+      }
+
+    }
     else {
       result.notImplemented()
     }
@@ -222,72 +245,27 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }
   }
 
-  private fun triggerGatewayTransaction(transactionId: String?) {
-
-    Log.d(TAG, "SDK auth Token: " + SmallcaseGatewaySdk.getSmallcaseAuthToken())
-
-    if(transactionId != null) {
-
-    } else {
-      // This means user is alread connected and trying to reconnect again
-      // hence pass the existing user and quit the transaction
-      SmallcaseGatewaySdk.setTransactionResult(TransactionResult(
-              true, SmallcaseGatewaySdk.Result.CONNECT,
-              SmallcaseGatewaySdk.getSmallcaseAuthToken(), null, null
-      ))
+  private fun generateLead(name: String?, email: String?, contact: String?, pincode: String?) : String? {
+    
+    if(name != null && name.isNotEmpty()) {
+      leadGenMap.put("name", name)
+    }
+    
+    if(email != null && email.isNotEmpty()) {
+      leadGenMap.put("email", email)
+    }
+    
+    if(contact != null && contact.isNotEmpty()) {
+      leadGenMap.put("contact", contact)
+    }
+    
+    if(pincode != null && pincode.isNotEmpty()) {
+      leadGenMap.put("pinCode", pincode)
     }
 
-//    triggerTransactionWithTransactionId(transactionId!!)
-
-  }
-
-  private fun triggerTransactionWithTransactionId(transactionId:String){
-    SmallcaseGatewaySdk.triggerTransaction(activity!!,
-            transactionId,
-            object : TransactionResponseListener {
-              override fun onSuccess(transactionResult: TransactionResult) {
-
-                try {
-                  if (transactionResult.success) {
-                    val toastString =
-                            "authToken:${SmallcaseGatewaySdk.getSmallcaseAuthToken()}"
-
-                    Toast.makeText(
-                            context,
-                            toastString,
-                            Toast.LENGTH_LONG
-                    ).show()
-
-                    Log.d(TAG, "onSuccess: " + transactionResult.data!!)
-
-
-                    txnResult = transactionResult.data!!
-//                                onUserConnected(transactionResult.data!!)
-                  } else {
-                    Toast.makeText(
-                            context,
-                            transactionResult.error + " " + transactionResult.errorCode,
-                            Toast.LENGTH_LONG
-                    ).show()
-
-                    txnResult = transactionResult.error + " " + transactionResult.errorCode
-                  }
-                } catch (e: Exception) {
-                  e.printStackTrace()
-                }
-              }
-
-              override fun onError(errorCode: Int, errorMessage: String) {
-                Toast.makeText(
-                        context,
-                        "$errorCode $errorMessage",
-                        Toast.LENGTH_LONG
-                ).show()
-                errorCode.toString()
-
-                txnResult = errorMessage
-              }
-            })
+    SmallcaseGatewaySdk.triggerLeadGen(activity!!,leadGenMap)
+    
+    return "Lead Gen Success"
   }
   
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {

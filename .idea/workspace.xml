@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7628e587-59d8-4a17-a6f6-b5f19324e39a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/connect_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/connect_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/sst_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/sst_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/screens/leadgen_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/leadgen_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,26 +52,26 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1750" height="411" key="GridCell.Tab.0.bottom" timestamp="1602758377783">
+    <state width="1750" height="411" key="GridCell.Tab.0.bottom" timestamp="1602760421611">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="411" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1602758377783" />
-    <state width="1750" height="411" key="GridCell.Tab.0.center" timestamp="1602758377782">
+    <state width="1750" height="411" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1602760421611" />
+    <state width="1750" height="411" key="GridCell.Tab.0.center" timestamp="1602760421610">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="411" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1602758377782" />
-    <state width="1750" height="411" key="GridCell.Tab.0.left" timestamp="1602758377781">
+    <state width="1750" height="411" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1602760421610" />
+    <state width="1750" height="411" key="GridCell.Tab.0.left" timestamp="1602760421609">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="411" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1602758377781" />
-    <state width="1750" height="411" key="GridCell.Tab.0.right" timestamp="1602758377783">
+    <state width="1750" height="411" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1602760421609" />
+    <state width="1750" height="411" key="GridCell.Tab.0.right" timestamp="1602760421611">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="411" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1602758377783" />
-    <state x="548" y="384" key="com.intellij.ide.util.TipDialog" timestamp="1602751407032">
-      <screen x="0" y="23" width="1792" height="1030" />
+    <state width="1750" height="411" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1602760421611" />
+    <state x="548" y="392" key="com.intellij.ide.util.TipDialog" timestamp="1602760510768">
+      <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="548" y="392" key="com.intellij.ide.util.TipDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1602736156858" />
+    <state x="548" y="392" key="com.intellij.ide.util.TipDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1602760510767" />
     <state x="548" y="383" key="com.intellij.ide.util.TipDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1602684854256" />
     <state x="548" y="384" key="com.intellij.ide.util.TipDialog/0.23.1792.1030@0.23.1792.1030" timestamp="1602751407032" />
   </component>

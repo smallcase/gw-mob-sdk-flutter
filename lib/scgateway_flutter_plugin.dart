@@ -199,4 +199,19 @@ class ScgatewayFlutterPlugin {
     getTransactionId("holdings",null);
 
   }
+
+  static Future<void> leadGen(String name, String email, String contact, String pincode) async {
+
+    String leadGenRes;
+
+    try{
+      leadGenRes = await _channel.invokeMethod(
+          'leadGen',
+          <String, dynamic>{"name": name, "email": email, "contact": contact, "pincode": pincode});
+      print(leadGenRes);
+    } on PlatformException catch (e) {
+      leadGenRes = "Failed to get result: ' ${e.message}'";
+    }
+
+  }
 }
