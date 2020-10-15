@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:clipboard_manager/clipboard_manager.dart';
 
 class ConnectScreen extends StatefulWidget {
 
@@ -76,7 +77,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   Future<void> triggerTransaction(String gatewayIntent, Object orderConfig) async {
 
-    ScgatewayFlutterPlugin.getTransactionId(gatewayIntent, orderConfig);
+    ScgatewayFlutterPlugin.getTransactionId(gatewayIntent, orderConfig).then((txnId) => setState((){
+      this._transactionId = txnId;
+    }));
 
   }
 
@@ -107,6 +110,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     );
   }
 
+  //----------------------------------  WIDGETS -------------------------------------- //
   Widget segmentedControl() {
     return Container(
       width: 200,
@@ -236,26 +240,27 @@ class _ConnectScreenState extends State<ConnectScreen> {
                         ],
                     )
                   )
-                // child: new Column(
-                //     children: <Widget>[
-                //       new TextField(
-                //         decoration: new InputDecoration(hintText: "Enter Transaction Id"),
-                //         controller: _c,
-                //       ),
-                //       new FlatButton(
-                //         child: new Text("Save"),
-                //           onPressed: () {
-                //             setState((){
-                //               this._transactionId = _c.text;
-                //             });
-                //             Navigator.pop(context);
-                //           },
-                //       )
-                //     ],
-                // )
             ), context: context);
       },
       child: const Text('Enter Transaction Id', style: TextStyle(fontSize: 20)),
+    ));
+  }
+
+  Widget copyTransactionId() {
+    return SizedBox(width: 300, height: 35, child: RaisedButton(
+      onPressed: () {
+        ClipboardManager.copyToClipBoard(_transactionId).then((result) {
+          final snackBar = SnackBar(
+            content: Text('Copied to Clipboard: ' + _transactionId),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {},
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        });
+      },
+      child: const Text('Copy Transaction Id', style: TextStyle(fontSize: 20)),
     ));
   }
 
@@ -311,6 +316,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
               alignment: Alignment.center,
               fit: BoxFit.none,
               child: enterTransactionId(),
+            ),
+            FittedBox(
+              alignment: Alignment.center,
+              fit: BoxFit.none,
+              child: copyTransactionId(),
             )
           ],
         ),

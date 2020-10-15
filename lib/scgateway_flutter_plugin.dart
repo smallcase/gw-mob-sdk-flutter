@@ -69,7 +69,7 @@ class ScgatewayFlutterPlugin {
     }
   }
 
-  static Future<void> getTransactionId(String gatewayIntent, Object orderConfig) async {
+  static Future<String> getTransactionId(String gatewayIntent, Object orderConfig) async {
 
     String connectGatewayResult;
 
@@ -113,6 +113,8 @@ class ScgatewayFlutterPlugin {
       _transactionId = txnId;
 
       _triggerGatewayTransaction(txnId);
+
+      return txnId;
 
     } else {
       throw Exception('Failed to get session token.');
