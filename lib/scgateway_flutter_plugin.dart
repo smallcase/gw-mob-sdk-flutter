@@ -69,22 +69,22 @@ class ScgatewayFlutterPlugin {
     }
   }
 
-  static Future<String> getTransactionId(String gatewayIntent, Object orderConfig) async {
+  static Future<String> getTransactionId(String intent, Object orderConfig) async {
 
-    String connectGatewayResult;
+    String gatewayIntent;
 
     try {
-      connectGatewayResult = await _channel.invokeMethod(
-          'getTransactionId', <String, dynamic>{"intent": gatewayIntent}
+      gatewayIntent = await _channel.invokeMethod(
+          'getTransactionId', <String, dynamic>{"intent": intent}
       );
-      print(connectGatewayResult);
+      print(gatewayIntent);
     } on PlatformException catch (e) {
-      connectGatewayResult = "Failed to get result: ' ${e.message}'";
+      gatewayIntent = "Failed to get result: ' ${e.message}'";
     }
 
     Map data = {
       'id': _userId,
-      'intent': connectGatewayResult,
+      'intent': gatewayIntent,
       'orderConfig': orderConfig
     };
 
@@ -191,6 +191,12 @@ class ScgatewayFlutterPlugin {
     } else {
       // triggerTransaction(transactionId);
     }
+
+  }
+
+  static Future<void> importHoldings() {
+
+    getTransactionId("holdings",null);
 
   }
 }

@@ -20,10 +20,6 @@ class ConnectScreen extends StatefulWidget {
 
 class _ConnectScreenState extends State<ConnectScreen> {
 
-  static const setupGateway = const MethodChannel('smartinvesting/setup');
-
-  static const connectToBroker = const MethodChannel('smartinvesting/connect');
-
   TextEditingController _c;
 
   int _environmentSelected = 0;

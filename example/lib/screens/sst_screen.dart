@@ -1,12 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter/services.dart';
-
-import 'package:http/http.dart' as http;
-
 import 'dart:async';
-import 'dart:convert';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 
 class SstScreen extends StatefulWidget {
