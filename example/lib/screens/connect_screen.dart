@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+
 import 'package:clipboard_manager/clipboard_manager.dart';
 
 class ConnectScreen extends StatefulWidget {

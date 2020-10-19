@@ -15,6 +15,9 @@ Scgateway Flutter plugin.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
+  s.dependency 'SCGateway', '~> 2.1.2'
+  s.xcconfig = {'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'}
+  s.vendored_frameworks = 'SCGateway.framework'
   s.platform = :ios, '8.0'
 
   # Flutter.framework does not contain a i386 slice.
