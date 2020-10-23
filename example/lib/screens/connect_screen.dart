@@ -7,9 +7,10 @@ import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-
 import 'package:clipboard_manager/clipboard_manager.dart';
+
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/gateway.dart';
 
 class ConnectScreen extends StatefulWidget {
 
@@ -67,17 +68,108 @@ class _ConnectScreenState extends State<ConnectScreen> {
         break;
       }
 
-      ScgatewayFlutterPlugin.setGatewayEnvironment(_baseUrl, _userIdText, _environmentSelected, _leprechaunMode, _isAmoEnabled)
+      Gateway.setGatewayEnvironment(_baseUrl, _userIdText, _environmentSelected, _leprechaunMode, _isAmoEnabled)
           .then((String setupResult) =>
-                _showAlertDialog(setupResult.toString()));
+          _showAlertDialog(setupResult.toString()));
   }
 
-  Future<void> triggerTransaction(String gatewayIntent, Object orderConfig) async {
+  Future<void> startConnect(String intent, Object orderConfig) async {
 
-    ScgatewayFlutterPlugin.getTransactionId(gatewayIntent, orderConfig).then((txnId) => setState((){
-      this._transactionId = txnId;
-    }));
+    // Gateway.triggerTransaction(gatewayIntent, orderConfig).then((txnId) => setState((){
+    //   this._transactionId = txnId;
+    // }));
 
+    ScgatewayFlutterPlugin.getGatewayIntent(intent)
+        .then((value) =>
+      
+        _getTransactionId(value, orderConfig)
+    );
+
+    // Gateway.triggerTransaction(gatewayIntent, orderConfig).then((result) => _showAlertDialog(result));
+  }
+  
+  Future<void> _getTransactionId(String intent, Object orderConfig) async {
+
+    Gateway.getTransactionId(intent, orderConfig).then((value) => _onUserConnected(value));
+    // Map data = {
+    //   'id': _userIdText,
+    //   'intent': intent,
+    //   'orderConfig': orderConfig
+    // };
+    //
+    // String bodyData = json.encode(data);
+    //
+    // final http.Response response = await http.post(
+    //   _baseUrl + 'transaction/new',
+    //
+    //   headers: <String, String>{
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+    //     'Accept': 'application/json',
+    //     'content-type':'application/json'
+    //   },
+    //
+    //   body: bodyData,
+    // );
+    //
+    // print(response.body);
+    //
+    // if (response.statusCode == 200) {
+    //   var connectData = jsonDecode(response.body);
+    //
+    //   var txnId = connectData["transactionId"] as String;
+    //
+    //   print("connect data: " + connectData.toString());
+    //
+    //   setState(() {
+    //     _transactionId = txnId;
+    //   });
+    //
+    //   // _showAlertDialog(connectData.toString());
+    //
+    //   ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId).then((value) => _onUserConnected(value));
+    //
+    //   // ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId).then((value) => _showAlertDialog(value));
+    //   // return txnId;
+    //
+    // } else {
+    //   throw Exception('Failed to get session token.');
+    // }
+  }
+
+   Future<void> _onUserConnected(String smallcaseAuthToken) async {
+
+      if(Gateway.transactionId.isNotEmpty) {
+        setState((){
+          this._transactionId = Gateway.transactionId;
+        });
+      }
+
+     _showAlertDialog(smallcaseAuthToken);
+
+    Map data = {
+      'id': _userIdText,
+      'smallcaseAuthToken': smallcaseAuthToken
+    };
+
+    String bodyData = json.encode(data);
+
+    final http.Response response = await http.post(
+        _baseUrl + 'user/connect',
+
+        headers: <String, String>{
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+          'Accept': 'application/json',
+          'content-type':'application/json'
+        },
+
+        body: bodyData
+    );
+
+    print(response.body);
+
+    // return response.body;
   }
 
   Future<void> _showAlertDialog(String message) async {
@@ -205,7 +297,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   Widget connect() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
       onPressed: () {
-        triggerTransaction("connect", null);
+        startConnect("connect", null);
       },
       child: const Text('Connect', style: TextStyle(fontSize: 20)),
     ));

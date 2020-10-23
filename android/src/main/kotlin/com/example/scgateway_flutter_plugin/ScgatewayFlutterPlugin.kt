@@ -72,7 +72,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         result.error("UNAVAILABLE", "Gateway not initialized.", null)
       }
     }
-    if (call.method == "getTransactionId") {
+    else if (call.method == "getTransactionId") {
 
       var intent: String? = call.argument("intent")
 
@@ -85,7 +85,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
     }
 
-    if(call.method == "connectToBroker") {
+    else if(call.method == "connectToBroker") {
 
       var transactionId: String? = call.argument("transactionId")
 
@@ -112,11 +112,11 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 //                        val toastString =
 //                                "authToken:${SmallcaseGatewaySdk.getSmallcaseAuthToken()}"
 
-                        Toast.makeText(
-                                context,
-                                transactionResult.toString(),
-                                Toast.LENGTH_LONG
-                        ).show()
+//                        Toast.makeText(
+//                                context,
+//                                transactionResult.toString(),
+//                                Toast.LENGTH_LONG
+//                        ).show()
 
                         Log.d(TAG, "onSuccess: " + transactionResult.data!!)
 
@@ -124,11 +124,11 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                         result.success(txnResult)
                       } else {
-                        Toast.makeText(
-                                context,
-                                transactionResult.error + " " + transactionResult.errorCode,
-                                Toast.LENGTH_LONG
-                        ).show()
+//                        Toast.makeText(
+//                                context,
+//                                transactionResult.error + " " + transactionResult.errorCode,
+//                                Toast.LENGTH_LONG
+//                        ).show()
 
                         txnResult = transactionResult.error + " " + transactionResult.errorCode
 
@@ -140,11 +140,11 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                   }
 
                   override fun onError(errorCode: Int, errorMessage: String) {
-                    Toast.makeText(
-                            context,
-                            "$errorCode $errorMessage",
-                            Toast.LENGTH_LONG
-                    ).show()
+//                    Toast.makeText(
+//                            context,
+//                            "$errorCode $errorMessage",
+//                            Toast.LENGTH_LONG
+//                    ).show()
                     errorCode.toString()
 
                     txnResult = errorMessage
@@ -155,7 +155,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
     }
 
-    if(call.method == "leadGen") {
+    else if(call.method == "leadGen") {
 
       val name: String? = call.argument("name")
       val email: String? = call.argument("email")

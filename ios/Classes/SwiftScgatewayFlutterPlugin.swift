@@ -30,10 +30,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    if(call.method == "getPlatformVersion") {
-        result("iOS " + UIDevice.current.systemVersion)
-    }
-    else if(call.method == "initializeGateway") {
+     if(call.method == "initializeGateway") {
         if let args = call.arguments as? Dictionary<String, Any>,
            
            let isLeprechaunActive = args["leprechaun"] as? Bool,
@@ -76,20 +73,23 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 switch response {
                                 case let .connect(authToken, _):
             //                        self?.connect(authToken: authToken)
-                                self?.showPopup(title: "Connect Complete", msg: "authToken: \(authToken)")
+//                                self?.showPopup(title: "Connect Complete", msg: "authToken: \(authToken)")
                                 
                                 self?.smallcaseAuthToken = authToken
                                 
                                 result(authToken)
                                     
                                 case let .transaction(authToken, transactionData):
-                                    self?.showPopup(title: "Transaction Response", msg: " authTOken : \(authToken), \n data: \(transactionData)")
+//                                    self?.showPopup(title: "Transaction Response", msg: " authTOken : \(authToken), \n data: \(transactionData)")
+                                    result("authTOken : \(authToken), \n data: \(transactionData)")
                                     return
                                 
                             
                                     //TODO: - Handle Later
                                 
                                 case .holdingsImport(let smallcaseAuthToken, let status, let transactionId):
+//                                    self?.showPopup(title: "Holdings Response", msg: "authToken: \(smallcaseAuthToken)")
+                                    result("authToken: \(smallcaseAuthToken)")
                                     return
                                     
                                 default:
@@ -101,8 +101,8 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                             case .failure(let error):
                                 
                                 print("CONNECT: ERROR :\(error)")
-                                self?.showPopup(title: "Error", msg: "\(error.message)  \(error.rawValue)")
-                                result(FlutterError.init(code: "bad args", message: "error at method connectToBroker", details: nil))
+//                                self?.showPopup(title: "Error", msg: "\(error.message)  \(error.rawValue)")
+                                result(FlutterError.init(code: "bad args", message: "\(error.message) \(error.rawValue)", details: nil))
                             }
                             print(gatewayResult)
                         }

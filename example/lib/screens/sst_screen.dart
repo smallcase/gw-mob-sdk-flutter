@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/gateway.dart';
 
 class SstScreen extends StatefulWidget {
 
@@ -17,8 +18,69 @@ class _SstScreenState extends State<SstScreen> {
 
   Future<void> _placeOrder() async {
 
-    ScgatewayFlutterPlugin.placeOrder(_securities);
+    // ScgatewayFlutterPlugin.placeOrder(_securities);
+    // Gateway.placeOrder(_securities);
 
+    if(_securities != "") {
+
+      var tickers = _securities.split(',');
+
+      print(tickers);
+
+      var tickersList = [];
+
+      for (var i = 0; i < tickers.length; i++) {
+        tickersList.add({
+          "ticker":tickers[i]
+        });
+      }
+
+      var res = {"securities":tickersList,"type":"SECURITIES"};
+
+      print(res);
+
+      // triggerTransaction("transaction", res);
+      ScgatewayFlutterPlugin.getGatewayIntent("transaction")
+          .then((value) =>
+
+          _startSst(value, res)
+      );
+
+    } else {
+      // triggerTransaction(transactionId);
+    }
+  }
+
+  Future<String> _startSst(String intent, Object orderConfig) async {
+
+    Gateway.getTransactionId(intent, orderConfig).then((value) => _showAlertDialog(value));
+  }
+
+  Future<void> _showAlertDialog(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Gateway'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   //----------------------------------  WIDGETS -------------------------------------- //

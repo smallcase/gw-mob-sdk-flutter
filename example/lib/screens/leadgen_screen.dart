@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/gateway.dart';
 
 class LeadGenScreen extends StatefulWidget {
 
@@ -15,7 +16,8 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
   String _name = "", _email = "", _contact = "", _pincode = "";
 
   Future<void> _executeLeadGen() async {
-    ScgatewayFlutterPlugin.leadGen(_name, _email, _contact, _pincode);
+    // ScgatewayFlutterPlugin.leadGen(_name, _email, _contact, _pincode);
+    Gateway.leadGen(_name, _email, _contact, _pincode);
   }
 
   Widget inputName() {

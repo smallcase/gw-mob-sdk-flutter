@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/gateway.dart';
 
 class HoldingsScreen extends StatefulWidget {
 
@@ -15,8 +16,46 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
 
   Future<void> _importHoldings() async {
 
-    ScgatewayFlutterPlugin.importHoldings();
+    // ScgatewayFlutterPlugin.importHoldings();
 
+    ScgatewayFlutterPlugin.getGatewayIntent("holdings")
+        .then((value) =>
+
+        _startImportHolding(value, null)
+    );
+
+    Gateway.importHoldings();
+  }
+
+  Future<String> _startImportHolding(String intent, Object orderConfig) async {
+    Gateway.getTransactionId(intent, orderConfig).then((value) => _showAlertDialog(value));
+  }
+
+  Future<void> _showAlertDialog(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Gateway'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget btnImportHoldings() {
