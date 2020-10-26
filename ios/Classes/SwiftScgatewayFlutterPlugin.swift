@@ -18,7 +18,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
     var smallcaseAuthToken: String? {
         didSet {
             if smallcaseAuthToken != nil {
-                gatewayInitialize()
+//                gatewayInitialize()
             }
         }
     }
@@ -34,11 +34,46 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         if let args = call.arguments as? Dictionary<String, Any>,
            
            let isLeprechaunActive = args["leprechaun"] as? Bool,
-           let gatewayName = args["gateway"] as? String,
+           let gateway = args["gateway"] as? String,
            let environment = args["env"] as? Int,
            let authToken = args["authToken"] as? String {
             
-            setupUser(gateway: gatewayName, environment: environment, leprechaun: isLeprechaunActive, authToken: authToken)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let brokerConfig: [String]? = []
+
+                let config = GatewayConfig(gatewayName: gateway,
+                                                  brokerConfig: brokerConfig ,
+                                                  apiEnvironment: self.getApiEnv(index: environment),
+                                                  isLeprechaunActive: isLeprechaunActive,
+                                                  isAmoEnabled: true)
+                
+                SCGateway.shared.setup(config: config)
+                
+                self.smallcaseAuthToken = authToken
+                
+                print("Initialize gateway")
+                //  gatewayName: "gatewaydemo"
+                SCGateway.shared.initializeGateway(sdkToken: self.smallcaseAuthToken!) { data, error in
+                    
+                    if !data {
+                        print(error)
+                        
+                        if let error = error as? TransactionError {
+//                            self.showPopup(title: "Error", msg: error.message)
+                            result(FlutterError.init(code: "Error", message: error.message, details: nil))
+                        }
+                        else {
+//                            self.showPopup(title: "Error", msg: error.debugDescription)
+                            result(FlutterError.init(code: "Error", message: error.debugDescription, details: nil))
+                        }
+                        return
+                    }
+                    print(data)
+                }
+            }
+            
+//            setupUser(gateway: gatewayName, environment: environment, leprechaun: isLeprechaunActive, authToken: authToken)
             
             result("success ios")
         } else {
@@ -47,7 +82,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
         }
         
-    else if (call.method == "getTransactionId") {
+    else if (call.method == "getGatewayIntent") {
         if let args = call.arguments as? Dictionary<String, Any>,
         
             let intent = args["intent"] as? String {
@@ -77,6 +112,23 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 
                                 self?.smallcaseAuthToken = authToken
                                 
+                                print("Initialize gateway")
+                                                //  gatewayName: "gatewaydemo"
+                                SCGateway.shared.initializeGateway(sdkToken: (self?.smallcaseAuthToken)!) { data, error in
+                                                    
+                                        if !data {
+                                                print(error)
+                                                    if let error = error as? TransactionError {
+                                //                            self.showPopup(title: "Error", msg: error.message)
+                                                        result(FlutterError.init(code: "Error", message: error.message, details: nil))
+                                                    } else {
+                                //                            self.showPopup(title: "Error", msg: error.debugDescription)
+                                                            result(FlutterError.init(code: "Error", message: error.debugDescription, details: nil))
+                                                        }
+                                                    return
+                                            }
+                                        print(data)
+                                    }
                                 result(authToken)
                                     
                                 case let .transaction(authToken, transactionData):
@@ -89,7 +141,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 
                                 case .holdingsImport(let smallcaseAuthToken, let status, let transactionId):
 //                                    self?.showPopup(title: "Holdings Response", msg: "authToken: \(smallcaseAuthToken)")
-                                    result("authToken: \(smallcaseAuthToken)")
+//                                    result("authToken: \(smallcaseAuthToken)")
                                     return
                                     
                                 default:
@@ -144,22 +196,22 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         }
     }
     
-    func setupUser(gateway: String, environment: Int, leprechaun: Bool, authToken: String) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            let brokerConfig: [String]? = []
-
-            let config = GatewayConfig(gatewayName: gateway,
-                                              brokerConfig: brokerConfig ,
-                                              apiEnvironment: self.getApiEnv(index: environment),
-                                              isLeprechaunActive: leprechaun,
-                                              isAmoEnabled: true)
-            
-            SCGateway.shared.setup(config: config)
-            
-            self.smallcaseAuthToken = authToken
-        }
-    }
+//    func setupUser(gateway: String, environment: Int, leprechaun: Bool, authToken: String) {
+//        DispatchQueue.main.async { [weak self] in
+//            guard let self = self else { return }
+//            let brokerConfig: [String]? = []
+//
+//            let config = GatewayConfig(gatewayName: gateway,
+//                                              brokerConfig: brokerConfig ,
+//                                              apiEnvironment: self.getApiEnv(index: environment),
+//                                              isLeprechaunActive: leprechaun,
+//                                              isAmoEnabled: true)
+//
+//            SCGateway.shared.setup(config: config)
+//
+//            self.smallcaseAuthToken = authToken
+//        }
+//    }
     
     func getApiEnv(index: Int) -> Environment {
         

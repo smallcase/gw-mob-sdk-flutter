@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7628e587-59d8-4a17-a6f6-b5f19324e39a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/example/lib/gateway.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/gateway.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/gateway.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/screens/connect_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/connect_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/leadgen_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/leadgen_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/sst_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/sst_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftScgatewayFlutterPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftScgatewayFlutterPlugin.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/scgateway_flutter_plugin_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/scgateway_flutter_plugin_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,30 +68,30 @@
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="1127" y="37" key="#xdebugger.evaluate/0.0.1792.1120@0.0.1792.1120" timestamp="1603453882963" />
-    <state width="1750" height="240" key="GridCell.Tab.0.bottom" timestamp="1603467423379">
+    <state width="1750" height="232" key="GridCell.Tab.0.bottom" timestamp="1603700042556">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="240" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1603467423379" />
+    <state width="1750" height="232" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1603700042556" />
     <state width="1750" height="464" key="GridCell.Tab.0.bottom/0.23.1792.1028@0.23.1792.1028" timestamp="1603461015829" />
-    <state width="1750" height="240" key="GridCell.Tab.0.center" timestamp="1603467423378">
+    <state width="1750" height="232" key="GridCell.Tab.0.center" timestamp="1603700042554">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="240" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1603467423378" />
+    <state width="1750" height="232" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1603700042554" />
     <state width="1750" height="464" key="GridCell.Tab.0.center/0.23.1792.1028@0.23.1792.1028" timestamp="1603461015828" />
-    <state width="1750" height="240" key="GridCell.Tab.0.left" timestamp="1603467423378">
+    <state width="1750" height="232" key="GridCell.Tab.0.left" timestamp="1603700042554">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="240" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1603467423378" />
+    <state width="1750" height="232" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1603700042554" />
     <state width="1750" height="464" key="GridCell.Tab.0.left/0.23.1792.1028@0.23.1792.1028" timestamp="1603461015828" />
-    <state width="1750" height="240" key="GridCell.Tab.0.right" timestamp="1603467423379">
+    <state width="1750" height="232" key="GridCell.Tab.0.right" timestamp="1603700042555">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="240" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1603467423379" />
+    <state width="1750" height="232" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1603700042555" />
     <state width="1750" height="464" key="GridCell.Tab.0.right/0.23.1792.1028@0.23.1792.1028" timestamp="1603461015829" />
-    <state x="548" y="392" key="com.intellij.ide.util.TipDialog" timestamp="1603460519959">
+    <state x="548" y="392" key="com.intellij.ide.util.TipDialog" timestamp="1603695583074">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="548" y="392" key="com.intellij.ide.util.TipDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1603460519959" />
+    <state x="548" y="392" key="com.intellij.ide.util.TipDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1603695583074" />
     <state x="548" y="383" key="com.intellij.ide.util.TipDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1602684854256" />
     <state x="548" y="384" key="com.intellij.ide.util.TipDialog/0.23.1792.1030@0.23.1792.1030" timestamp="1602751407032" />
     <state x="561" y="251" width="670" height="676" key="search.everywhere.popup" timestamp="1603460857677">

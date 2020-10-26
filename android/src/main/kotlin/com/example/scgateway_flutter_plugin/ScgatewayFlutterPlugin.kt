@@ -51,28 +51,66 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-//    if (call.method == "getPlatformVersion") {
-//      result.success("Android ${android.os.Build.VERSION.RELEASE}")
-//    }
     
     if (call.method == "initializeGateway") {
 
-      val environment: Int? = call.argument("env")
+      val env: Int? = call.argument("env")
       val userId: String? = call.argument("userId")
       val gateway: String? = call.argument("gateway")
       val leprechaun: Boolean? = call.argument("leprechaun")
       val amo: Boolean? = call.argument("amo")
       val authToken: String? = call.argument("authToken")
 
-      val res = setupGateway(environment, gateway, userId, leprechaun, amo, authToken)
+//      val res = setupGateway(environment, gateway, userId, leprechaun, amo, authToken)
 
-      if(!res.isEmpty()) {
-        result.success(res)
-      } else {
-        result.error("UNAVAILABLE", "Gateway not initialized.", null)
+      val environment = when (env) {
+        1 -> Environment.PROTOCOL.DEVELOPMENT
+        2 -> Environment.PROTOCOL.STAGING
+        else -> Environment.PROTOCOL.PRODUCTION
       }
+
+      val customBrokerConfig: List<String> = arrayListOf()
+
+      SmallcaseGatewaySdk.setConfigEnvironment(
+              Environment(environment, gateway!!, leprechaun!!, amo!!, customBrokerConfig),
+              object : SmallcaseGatewayListeners {
+                override fun onGatewaySetupSuccessfull() {
+
+                  SmallcaseGatewaySdk.init(
+                          InitRequest(
+                                  authToken!!
+                          ),
+
+                          object : DataListener<InitialisationResponse> {
+                            override fun onSuccess(authData: InitialisationResponse) {
+                                  
+                              result.success(authData.toString())
+                            }
+
+                            override fun onFailure(errorCode: Int, errorMessage: String) {
+                              errorMessage.toString()
+                              Log.d(TAG, "onFailure: " + errorMessage.toString())
+                              
+                              result.error(errorCode.toString(), errorMessage, null)
+                            }
+                          }
+                  )
+                }
+
+                override fun onGatewaySetupFailed(error: String) {
+                  result.error(null, error, null)
+                }
+
+              }
+      )
+      
+//      if(!res.isEmpty()) {
+//        result.success(res)
+//      } else {
+//        result.error("UNAVAILABLE", "Gateway not initialized.", null)
+//      }
     }
-    else if (call.method == "getTransactionId") {
+    else if (call.method == "getGatewayIntent") {
 
       var intent: String? = call.argument("intent")
 
@@ -89,19 +127,26 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       var transactionId: String? = call.argument("transactionId")
 
-      if(transactionId != null) {
+      if(transactionId == null) {
 
-      } else {
         // This means user is already connected and trying to reconnect again
         // hence pass the existing user and quit the transaction
+        
         SmallcaseGatewaySdk.setTransactionResult(TransactionResult(
                 true, SmallcaseGatewaySdk.Result.CONNECT,
                 SmallcaseGatewaySdk.getSmallcaseAuthToken(), null, null
         ))
-      }
+      } /*else {
+        
+        SmallcaseGatewaySdk.setTransactionResult(TransactionResult(
+                true, SmallcaseGatewaySdk.Result.CONNECT,
+                SmallcaseGatewaySdk.getSmallcaseAuthToken(), null, null
+        ))
+      }*/
 
       
-      if (transactionId != null) {
+//      if (transactionId != null) {
+      else {
         SmallcaseGatewaySdk.triggerTransaction(activity!!,
                 transactionId,
                 object : TransactionResponseListener {
@@ -122,7 +167,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                         txnResult = transactionResult.data!!
 
-                        result.success(txnResult)
+                        result.success(transactionResult.data!!)
                       } else {
 //                        Toast.makeText(
 //                                context,
@@ -132,7 +177,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                         txnResult = transactionResult.error + " " + transactionResult.errorCode
 
-                        result.error("error", txnResult, null)
+                        result.error(transactionResult.errorCode.toString(), transactionResult.error, null)
                       }
                     } catch (e: Exception) {
                       e.printStackTrace()
@@ -149,7 +194,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                     txnResult = errorMessage
 
-                    result.error("error", txnResult, null)
+                    result.error(errorCode.toString(), errorMessage, null)
                   }
                 })
       }
@@ -178,47 +223,47 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }
   }
 
-  private fun setupGateway(env: Int?, gateway: String?, userIdInput: String?, leprechaunMode: Boolean?, isAmoEnabled: Boolean?, smallcaseAuthToken: String?): String {
-
-    val environment = when (env) {
-      1 -> Environment.PROTOCOL.DEVELOPMENT
-      2 -> Environment.PROTOCOL.STAGING
-      else -> Environment.PROTOCOL.PRODUCTION
-    }
-
-    val customBrokerConfig: List<String> = arrayListOf<String>()
-
-    SmallcaseGatewaySdk.setConfigEnvironment(
-            Environment(environment, gateway!!, leprechaunMode!!, isAmoEnabled!!, customBrokerConfig),
-            object : SmallcaseGatewayListeners {
-              override fun onGatewaySetupSuccessfull() {
-
-                SmallcaseGatewaySdk.init(
-                        InitRequest(
-                                smallcaseAuthToken!!
-                        ),
-
-                        object : DataListener<InitialisationResponse> {
-                          override fun onSuccess(authData: InitialisationResponse) {
-                            
-                          }
-
-                          override fun onFailure(errorCode: Int, errorMessage: String) {
-                            errorMessage.toString()
-                            Log.d(TAG, "onFailure: " + errorMessage.toString())
-                          }
-                        }
-                )
-              }
-
-              override fun onGatewaySetupFailed(error: String) {
-              }
-
-            }
-    )
-
-    return "Setup is Complete .. $env $gateway $userIdInput $leprechaunMode $isAmoEnabled $smallcaseAuthToken";
-  }
+//  private fun setupGateway(env: Int?, gateway: String?, userIdInput: String?, leprechaunMode: Boolean?, isAmoEnabled: Boolean?, smallcaseAuthToken: String?): String {
+//
+//    val environment = when (env) {
+//      1 -> Environment.PROTOCOL.DEVELOPMENT
+//      2 -> Environment.PROTOCOL.STAGING
+//      else -> Environment.PROTOCOL.PRODUCTION
+//    }
+//
+//    val customBrokerConfig: List<String> = arrayListOf<String>()
+//
+//    SmallcaseGatewaySdk.setConfigEnvironment(
+//            Environment(environment, gateway!!, leprechaunMode!!, isAmoEnabled!!, customBrokerConfig),
+//            object : SmallcaseGatewayListeners {
+//              override fun onGatewaySetupSuccessfull() {
+//
+//                SmallcaseGatewaySdk.init(
+//                        InitRequest(
+//                                smallcaseAuthToken!!
+//                        ),
+//
+//                        object : DataListener<InitialisationResponse> {
+//                          override fun onSuccess(authData: InitialisationResponse) {
+//
+//                          }
+//
+//                          override fun onFailure(errorCode: Int, errorMessage: String) {
+//                            errorMessage.toString()
+//                            Log.d(TAG, "onFailure: " + errorMessage.toString())
+//                          }
+//                        }
+//                )
+//              }
+//
+//              override fun onGatewaySetupFailed(error: String) {
+//              }
+//
+//            }
+//    )
+//
+//    return "Setup is Complete .. $env $gateway $userIdInput $leprechaunMode $isAmoEnabled $smallcaseAuthToken";
+//  }
 
   private fun getGatewayIntent(gatewayIntent: String?): String{
     return when (gatewayIntent) {

@@ -10,6 +10,8 @@ class Gateway {
 
   static var _baseUrl = "";
 
+  // static var transactionId = "";
+
   static var transactionId = "";
 
   static Future<String> setGatewayEnvironment(String baseUrl, String idText, int env, bool leprechaun, bool amo) async {
@@ -32,6 +34,8 @@ class Gateway {
         'id': idText,
       }),
     );
+
+    print("init response = " + response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -82,7 +86,7 @@ class Gateway {
       body: bodyData,
     );
 
-    print(response.body);
+    // print(response.body);
 
     if (response.statusCode == 200) {
       var connectData = jsonDecode(response.body);
@@ -101,61 +105,6 @@ class Gateway {
     } else {
       throw Exception('Failed to get session token.');
     }
-  }
-
-  static Future<String> _onUserConnected(String smallcaseAuthToken) async {
-
-    Map data = {
-      'id': _userId,
-      'smallcaseAuthToken': smallcaseAuthToken
-    };
-
-    String bodyData = json.encode(data);
-
-    final http.Response response = await http.post(
-        _baseUrl + 'user/connect',
-
-        headers: <String, String>{
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-          'Accept': 'application/json',
-          'content-type':'application/json'
-        },
-
-        body: bodyData
-    );
-
-    print(response.body);
-
-    return response.body;
-  }
-
-  static Future<void> placeOrder(String tickerList) {
-
-    if(tickerList != "") {
-
-      var tickers = tickerList.split(',');
-
-      print(tickers);
-
-      var tickersList = [];
-
-      for (var i = 0; i < tickers.length; i++) {
-        tickersList.add({
-          "ticker":tickers[i]
-        });
-      }
-
-      var res = {"securities":tickersList,"type":"SECURITIES"};
-
-      print(res);
-
-      triggerTransaction("transaction", res);
-
-    } else {
-      // triggerTransaction(transactionId);
-    }
-
   }
 
   static Future<void> importHoldings() {

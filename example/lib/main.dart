@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Smartinvesting Flutter Demo',
-      home: MyHomePage(),
+      home: BottomNavigationBarController(),
+      // home: MyHomePage(),
     );
   }
 }
@@ -95,6 +96,85 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.library_books),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class BottomNavigationBarController extends StatefulWidget {
+  @override
+  _BottomNavigationBarControllerState createState() =>
+      _BottomNavigationBarControllerState();
+}
+
+class _BottomNavigationBarControllerState
+    extends State<BottomNavigationBarController> {
+  final List<Widget> pages = [
+    ConnectScreen(
+      key: PageStorageKey('Page1'),
+    ),
+    SstScreen(
+      key: PageStorageKey('Page2'),
+    ),
+    SmtScreen(
+      key: PageStorageKey('Page3'),
+    ),
+    HoldingsScreen(
+      key: PageStorageKey('Page4'),
+    ),
+    LeadGenScreen(
+      key: PageStorageKey('Page5'),
+    )
+  ];
+
+  final PageStorageBucket bucket = PageStorageBucket();
+
+  int _selectedIndex = 0;
+
+
+  Widget _bottomNavigationBar(int selectedIndex) => BottomNavigationBar(
+    backgroundColor: Colors.black,
+    selectedItemColor: Colors.black,
+    unselectedItemColor: Colors.grey,
+    // selectedLabelStyle: textTheme.caption,
+    // unselectedLabelStyle: textTheme.caption,
+    onTap: (int index) => setState(() => _selectedIndex = index),
+    currentIndex: selectedIndex,
+    items: const <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+        label: 'Connect',
+        icon: Icon(Icons.favorite),
+      ),
+      BottomNavigationBarItem(
+        label: 'SST',
+        icon: Icon(Icons.music_note),
+      ),
+      BottomNavigationBarItem(
+        label: 'SMT',
+        icon: Icon(Icons.library_books),
+      ),
+      BottomNavigationBarItem(
+        label: 'Holdings',
+        icon: Icon(Icons.location_on),
+      ),
+      BottomNavigationBarItem(
+        label: 'Lead Gen',
+        icon: Icon(Icons.library_books),
+      ),
+    ],
+  );
+
+  @override
+  Widget build(BuildContext context) {
+
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Scaffold(
+      bottomNavigationBar: _bottomNavigationBar(_selectedIndex),
+      body: PageStorage(
+        child: pages[_selectedIndex],
+        bucket: bucket,
       ),
     );
   }

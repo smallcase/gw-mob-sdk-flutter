@@ -16,7 +16,7 @@ class ScgatewayFlutterPlugin {
       const MethodChannel('scgateway_flutter_plugin');
 
   static Future<void> initGateway(int environmentSelected, String gateway, String idText, bool leprechaunMode, bool isAmoenabled, String authToken) async {
-    String initGatewayResult;
+    Object initGatewayResult;
 
     try{
       initGatewayResult = await _channel.invokeMethod(
@@ -34,7 +34,7 @@ class ScgatewayFlutterPlugin {
 
     try {
       gatewayIntent = await _channel.invokeMethod(
-          'getTransactionId', <String, dynamic>{"intent": intent}
+          'getGatewayIntent', <String, dynamic>{"intent": intent}
       );
       print(gatewayIntent);
     } on PlatformException catch (e) {

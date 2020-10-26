@@ -22,7 +22,7 @@ class ConnectScreen extends StatefulWidget {
 
 class _ConnectScreenState extends State<ConnectScreen> {
 
-  TextEditingController _c;
+  TextEditingController _textEditingController;
 
   int _environmentSelected = 0;
 
@@ -33,7 +33,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   String _userIdText = "";
 
-  String _authToken = "";
+  // String _authToken = "";
 
   String _transactionId = "";
 
@@ -45,8 +45,17 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   @override
   initState(){
-    _c = new TextEditingController();
     super.initState();
+    _userIdText = PageStorage
+        .of(context)
+        ?.readState(context, identifier: ValueKey('test'));
+    _textEditingController = new TextEditingController(text: _userIdText);
+    _environmentSelected = PageStorage
+        .of(context)
+        ?.readState(context, identifier: ValueKey('selectedEnv'));
+    _transactionId = PageStorage
+        .of(context)
+        ?.readState(context, identifier: ValueKey('txnId'));
   }
 
   Future<void> _initSession() async {
@@ -70,7 +79,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
       Gateway.setGatewayEnvironment(_baseUrl, _userIdText, _environmentSelected, _leprechaunMode, _isAmoEnabled)
           .then((String setupResult) =>
-          _showAlertDialog(setupResult.toString()));
+          _showAlertDialog(setupResult));
   }
 
   Future<void> startConnect(String intent, Object orderConfig) async {
@@ -91,50 +100,6 @@ class _ConnectScreenState extends State<ConnectScreen> {
   Future<void> _getTransactionId(String intent, Object orderConfig) async {
 
     Gateway.getTransactionId(intent, orderConfig).then((value) => _onUserConnected(value));
-    // Map data = {
-    //   'id': _userIdText,
-    //   'intent': intent,
-    //   'orderConfig': orderConfig
-    // };
-    //
-    // String bodyData = json.encode(data);
-    //
-    // final http.Response response = await http.post(
-    //   _baseUrl + 'transaction/new',
-    //
-    //   headers: <String, String>{
-    //     'Access-Control-Allow-Origin': '*',
-    //     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-    //     'Accept': 'application/json',
-    //     'content-type':'application/json'
-    //   },
-    //
-    //   body: bodyData,
-    // );
-    //
-    // print(response.body);
-    //
-    // if (response.statusCode == 200) {
-    //   var connectData = jsonDecode(response.body);
-    //
-    //   var txnId = connectData["transactionId"] as String;
-    //
-    //   print("connect data: " + connectData.toString());
-    //
-    //   setState(() {
-    //     _transactionId = txnId;
-    //   });
-    //
-    //   // _showAlertDialog(connectData.toString());
-    //
-    //   ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId).then((value) => _onUserConnected(value));
-    //
-    //   // ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId).then((value) => _showAlertDialog(value));
-    //   // return txnId;
-    //
-    // } else {
-    //   throw Exception('Failed to get session token.');
-    // }
   }
 
    Future<void> _onUserConnected(String smallcaseAuthToken) async {
@@ -142,6 +107,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
       if(Gateway.transactionId.isNotEmpty) {
         setState((){
           this._transactionId = Gateway.transactionId;
+          PageStorage.of(context)?.writeState(
+              context, this._transactionId,
+              identifier: ValueKey('txnId'));
         });
       }
 
@@ -210,6 +178,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
           onValueChanged: (value) {
             setState(() {
               _environmentSelected = value;
+              PageStorage.of(context)?.writeState(
+                  context, value,
+                  identifier: ValueKey('selectedEnv'));
             });
           }
       ),
@@ -248,11 +219,14 @@ class _ConnectScreenState extends State<ConnectScreen> {
         Text('Id '),
         SizedBox(width: 200, height: 30, child: TextField(decoration: InputDecoration(
           filled: true,
-          labelText: '',
+          labelText: _userIdText,
         ),
           onChanged: (id) {
             setState(() {
               _userIdText = id;
+              PageStorage.of(context)?.writeState(
+                  context, id,
+                  identifier: ValueKey('test'));
             });
           },
         ),
@@ -315,13 +289,13 @@ class _ConnectScreenState extends State<ConnectScreen> {
                         children: <Widget>[
                           new TextField(
                             decoration: new InputDecoration(hintText: "Enter Transaction Id"),
-                            controller: _c,
+                            controller: _textEditingController,
                           ),
                           new FlatButton(
                             child: new Text("Save"),
                               onPressed: () {
                                 setState((){
-                                  this._transactionId = _c.text;
+                                  this._transactionId = _textEditingController.text;
                                 });
                                 Navigator.pop(context);
                               },
