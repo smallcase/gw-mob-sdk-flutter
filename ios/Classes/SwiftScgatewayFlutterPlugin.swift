@@ -15,13 +15,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
     
   let currentViewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
     
-    var smallcaseAuthToken: String? {
-        didSet {
-            if smallcaseAuthToken != nil {
-//                gatewayInitialize()
-            }
-        }
-    }
+    var smallcaseAuthToken: String?
     
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "scgateway_flutter_plugin", binaryMessenger: registrar.messenger())
@@ -35,7 +29,8 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
            
            let isLeprechaunActive = args["leprechaun"] as? Bool,
            let gateway = args["gateway"] as? String,
-           let environment = args["env"] as? Int,
+//           let environment = args["env"] as? Int,
+            let environment = args["env"] as? String,
            let authToken = args["authToken"] as? String {
             
             DispatchQueue.main.async { [weak self] in
@@ -60,11 +55,9 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                         print(error)
                         
                         if let error = error as? TransactionError {
-//                            self.showPopup(title: "Error", msg: error.message)
                             result(FlutterError.init(code: "Error", message: error.message, details: nil))
                         }
                         else {
-//                            self.showPopup(title: "Error", msg: error.debugDescription)
                             result(FlutterError.init(code: "Error", message: error.debugDescription, details: nil))
                         }
                         return
@@ -72,8 +65,6 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                     print(data)
                 }
             }
-            
-//            setupUser(gateway: gatewayName, environment: environment, leprechaun: isLeprechaunActive, authToken: authToken)
             
             result("success ios")
         } else {
@@ -108,21 +99,17 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 switch response {
                                 case let .connect(authToken, _):
             //                        self?.connect(authToken: authToken)
-//                                self?.showPopup(title: "Connect Complete", msg: "authToken: \(authToken)")
                                 
                                 self?.smallcaseAuthToken = authToken
                                 
                                 print("Initialize gateway")
-                                                //  gatewayName: "gatewaydemo"
                                 SCGateway.shared.initializeGateway(sdkToken: (self?.smallcaseAuthToken)!) { data, error in
                                                     
                                         if !data {
                                                 print(error)
                                                     if let error = error as? TransactionError {
-                                //                            self.showPopup(title: "Error", msg: error.message)
                                                         result(FlutterError.init(code: "Error", message: error.message, details: nil))
                                                     } else {
-                                //                            self.showPopup(title: "Error", msg: error.debugDescription)
                                                             result(FlutterError.init(code: "Error", message: error.debugDescription, details: nil))
                                                         }
                                                     return
@@ -141,7 +128,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 
                                 case .holdingsImport(let smallcaseAuthToken, let status, let transactionId):
 //                                    self?.showPopup(title: "Holdings Response", msg: "authToken: \(smallcaseAuthToken)")
-//                                    result("authToken: \(smallcaseAuthToken)")
+                                    result("authToken: \(smallcaseAuthToken)")
                                     return
                                     
                                 default:
@@ -154,7 +141,9 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 
                                 print("CONNECT: ERROR :\(error)")
 //                                self?.showPopup(title: "Error", msg: "\(error.message)  \(error.rawValue)")
-                                result(FlutterError.init(code: "bad args", message: "\(error.message) \(error.rawValue)", details: nil))
+                                result(FlutterError.init(code: "", message: "\(error.message) \(error.rawValue)", details: nil))
+                                
+                                return
                             }
                             print(gatewayResult)
                         }
@@ -195,32 +184,16 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             result("Flutter method not implemented on iOS")
         }
     }
+
     
-//    func setupUser(gateway: String, environment: Int, leprechaun: Bool, authToken: String) {
-//        DispatchQueue.main.async { [weak self] in
-//            guard let self = self else { return }
-//            let brokerConfig: [String]? = []
-//
-//            let config = GatewayConfig(gatewayName: gateway,
-//                                              brokerConfig: brokerConfig ,
-//                                              apiEnvironment: self.getApiEnv(index: environment),
-//                                              isLeprechaunActive: leprechaun,
-//                                              isAmoEnabled: true)
-//
-//            SCGateway.shared.setup(config: config)
-//
-//            self.smallcaseAuthToken = authToken
-//        }
-//    }
-    
-    func getApiEnv(index: Int) -> Environment {
+    func getApiEnv(index: String) -> Environment {
         
         switch index {
-        case 0:
+        case "GatewayEnvironment.PRODUCTION":
             return .production
-        case 1:
+        case "GatewayEnvironment.DEVELOPMENT":
             return .development
-        case 2:
+        case "GatewayEnvironment.STAGING":
             return .staging
         default:
             return .production
@@ -236,38 +209,6 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             return IntentType.transaction.rawValue
         default:
             return IntentType.holding.rawValue
-        }
-    }
-    
-    func gatewayInitialize() {
-        
-        print("Initialize gateway")
-        //  gatewayName: "gatewaydemo"
-        SCGateway.shared.initializeGateway(sdkToken: smallcaseAuthToken!) { data, error in
-            
-            if !data {
-                print(error)
-                
-                if let error = error as? TransactionError {
-                    self.showPopup(title: "Error", msg: error.message)
-                }
-                else {
-                    self.showPopup(title: "Error", msg: error.debugDescription)
-                }
-                return
-            }
-            print(data)
-        }
-        
-    }
-    
-    func showPopup(title: String? , msg: String?) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-//                   let popupDialog = PopupDialog(title: title, message: msg)
-//                   self?.present(popupDialog, animated: true, completion: nil)
-            let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-            self?.currentViewController.present(alert, animated: true, completion: nil)
         }
     }
         

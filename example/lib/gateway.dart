@@ -14,7 +14,7 @@ class Gateway {
 
   static var transactionId = "";
 
-  static Future<String> setGatewayEnvironment(String baseUrl, String idText, int env, bool leprechaun, bool amo) async {
+  static Future<String> setGatewayEnvironment(String baseUrl, String idText, GatewayEnvironment env, bool leprechaun, bool amo) async {
 
     _userId = idText;
 
@@ -40,10 +40,11 @@ class Gateway {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
-      var connected = data["connected"] as bool;
       var token = data["smallcaseAuthToken"] as String;
 
-      ScgatewayFlutterPlugin.initGateway(env, "gatewaydemo", idText, leprechaun, amo, token);
+      // ScgatewayFlutterPlugin.initGateway(env, "gatewaydemo", idText, leprechaun, amo, token);
+
+      ScgatewayFlutterPlugin.initGateway(token);
 
       return response.body;
 
@@ -52,17 +53,17 @@ class Gateway {
     }
   }
 
-  static Future<String> triggerTransaction(String intent, Object orderConfig) async {
-
-    String _txnID;
-
-    return ScgatewayFlutterPlugin.getGatewayIntent(intent)
-        .then((value) =>
-
-         // _getTransactionId(value, orderConfig).then((id) => _txnID = id)
-        getTransactionId(value, orderConfig).then((data) => _txnID = data)
-    );
-  }
+  // static Future<String> triggerTransaction(String intent, Object orderConfig) async {
+  //
+  //   String _txnID;
+  //
+  //   return ScgatewayFlutterPlugin.getGatewayIntent(intent)
+  //       .then((value) =>
+  //
+  //        // _getTransactionId(value, orderConfig).then((id) => _txnID = id)
+  //       getTransactionId(value, orderConfig).then((data) => _txnID = data)
+  //   );
+  // }
 
   static Future<String> getTransactionId(String intent, Object orderConfig) async {
     Map data = {
@@ -107,11 +108,11 @@ class Gateway {
     }
   }
 
-  static Future<void> importHoldings() {
-
-    triggerTransaction("holdings",null);
-
-  }
+  // static Future<void> importHoldings() {
+  //
+  //   triggerTransaction("holdings",null);
+  //
+  // }
 
   static Future<void> leadGen(String name, String email, String contact, String pincode) async {
 

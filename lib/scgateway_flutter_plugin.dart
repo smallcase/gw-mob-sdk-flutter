@@ -1,48 +1,62 @@
 
 import 'dart:async';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
+ enum GatewayEnvironment {
+  PRODUCTION,
+  DEVELOPMENT,
+  STAGING
+}
+
+class ScgatewayIntent {
+     static const CONNECT = "CONNECT";
+     static const TRANSACTION = "TRANSACTION";
+     static const HOLDINGS = "HOLDINGS_IMPORT";
+     static const AUTHORISE_HOLDINGS = "AUTHORISE_HOLDINGS";
+     static const FETCH_FUNDS = "FETCH_FUNDS";
+     static const SIP_SETUP = "SIP_SETUP";
+}
+
 class ScgatewayFlutterPlugin {
-
-  static var _userId = "";
-
-  static var _baseUrl = "";
-
-  static var _transactionId = "";
 
   static const MethodChannel _channel =
       const MethodChannel('scgateway_flutter_plugin');
 
-  static Future<void> initGateway(int environmentSelected, String gateway, String idText, bool leprechaunMode, bool isAmoenabled, String authToken) async {
-    Object initGatewayResult;
+  static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, String idText, bool leprechaunMode, {bool isAmoenabled = true}) async {
+
+    Object setConfigResult;
+
+    try{
+      setConfigResult = await _channel.invokeMethod(
+          'setConfigEnvironment',
+          <String, dynamic>{"env": environmentSelected.toString(), "gateway": gateway, "userId": idText, "leprechaun": leprechaunMode, "amo": isAmoenabled});
+
+    } on PlatformException catch (e) {
+      setConfigResult = "Failed to set config :' ${e.message}'";
+    }
+    return setConfigResult;
+
+  }
+
+  static Future<String> initGateway(String authToken) async {
+
+    String initGatewayResult;
 
     try{
       initGatewayResult = await _channel.invokeMethod(
           'initializeGateway',
-          <String, dynamic>{"env": environmentSelected, "gateway": gateway, "userId": idText, "leprechaun": leprechaunMode, "amo": isAmoenabled, "authToken": authToken});
+          <String, dynamic>{"authToken": authToken});
       print(initGatewayResult);
     } on PlatformException catch (e) {
       initGatewayResult = "Failed to get result: ' ${e.message}'";
     }
+
+    return initGatewayResult;
   }
 
-  static Future<String> getGatewayIntent(String intent) async {
-
-    String gatewayIntent;
-
-    try {
-      gatewayIntent = await _channel.invokeMethod(
-          'getGatewayIntent', <String, dynamic>{"intent": intent}
-      );
-      print(gatewayIntent);
-    } on PlatformException catch (e) {
-      gatewayIntent = "Failed to get result: ' ${e.message}'";
-    }
-
-    return gatewayIntent;
-  }
 
   static Future<String> triggerGatewayTransaction(String txnId) async{
 
@@ -50,12 +64,14 @@ class ScgatewayFlutterPlugin {
 
     try {
       triggerTxnRes = await _channel.invokeMethod(
-          'connectToBroker', <String, dynamic>{"transactionId": txnId}
+          'triggerTransaction', <String, dynamic>{"transactionId": txnId}
       );
-
     } on PlatformException catch (e) {
-      triggerTxnRes = "Failed to get result: ' ${e.message}'";
+      triggerTxnRes = e.code;
     }
+    // } on PlatformException catch (e) {
+    //   triggerTxnRes = "Failed to get result: ' ${e}'";
+    // }
 
     print("transaction res: " + triggerTxnRes);
 
@@ -63,7 +79,7 @@ class ScgatewayFlutterPlugin {
 
   }
 
-  static Future<void> leadGen(String name, String email, String contact, String pincode) async {
+  static void leadGen(String name, String email, String contact, String pincode) async {
 
     String leadGenRes;
 

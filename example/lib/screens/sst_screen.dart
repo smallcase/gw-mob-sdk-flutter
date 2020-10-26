@@ -40,11 +40,13 @@ class _SstScreenState extends State<SstScreen> {
       print(res);
 
       // triggerTransaction("transaction", res);
-      ScgatewayFlutterPlugin.getGatewayIntent("transaction")
-          .then((value) =>
+      // ScgatewayFlutterPlugin.getGatewayIntent("transaction")
+      //     .then((value) =>
+      //
+      //     _startSst(value, res)
+      // );
 
-          _startSst(value, res)
-      );
+      _startSst(ScgatewayIntent.TRANSACTION, res);
 
     } else {
       // triggerTransaction(transactionId);

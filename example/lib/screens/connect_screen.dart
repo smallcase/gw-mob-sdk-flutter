@@ -59,42 +59,34 @@ class _ConnectScreenState extends State<ConnectScreen> {
   }
 
   Future<void> _initSession() async {
+    
+    GatewayEnvironment enviroment;
 
       switch(_environmentSelected) {
         case 1: {
           _baseUrl = "https://api.dev.smartinvesting.io/";
+          enviroment = GatewayEnvironment.DEVELOPMENT;
         }
         break;
 
         case 2: {
           _baseUrl = "https://api.stag.smartinvesting.io/";
+          enviroment = GatewayEnvironment.STAGING;
         }
         break;
 
         default: {
           _baseUrl = "https://api.smartinvesting.io/";
+          enviroment = GatewayEnvironment.PRODUCTION;
         }
         break;
       }
 
-      Gateway.setGatewayEnvironment(_baseUrl, _userIdText, _environmentSelected, _leprechaunMode, _isAmoEnabled)
+    ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _userIdText, _leprechaunMode, isAmoenabled: _isAmoEnabled);
+      
+      Gateway.setGatewayEnvironment(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled)
           .then((String setupResult) =>
           _showAlertDialog(setupResult));
-  }
-
-  Future<void> startConnect(String intent, Object orderConfig) async {
-
-    // Gateway.triggerTransaction(gatewayIntent, orderConfig).then((txnId) => setState((){
-    //   this._transactionId = txnId;
-    // }));
-
-    ScgatewayFlutterPlugin.getGatewayIntent(intent)
-        .then((value) =>
-      
-        _getTransactionId(value, orderConfig)
-    );
-
-    // Gateway.triggerTransaction(gatewayIntent, orderConfig).then((result) => _showAlertDialog(result));
   }
   
   Future<void> _getTransactionId(String intent, Object orderConfig) async {
@@ -136,8 +128,6 @@ class _ConnectScreenState extends State<ConnectScreen> {
     );
 
     print(response.body);
-
-    // return response.body;
   }
 
   Future<void> _showAlertDialog(String message) async {
@@ -212,6 +202,14 @@ class _ConnectScreenState extends State<ConnectScreen> {
     );
   }
 
+  String getUserIdText() {
+    if(_userIdText != null) {
+      return _userIdText;
+    } else {
+      return '';
+    }
+  }
+
   Widget userId() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -219,7 +217,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
         Text('Id '),
         SizedBox(width: 200, height: 30, child: TextField(decoration: InputDecoration(
           filled: true,
-          labelText: _userIdText,
+          labelText: getUserIdText(),
         ),
           onChanged: (id) {
             setState(() {
@@ -271,7 +269,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   Widget connect() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
       onPressed: () {
-        startConnect("connect", null);
+        _getTransactionId(ScgatewayIntent.CONNECT, null);
       },
       child: const Text('Connect', style: TextStyle(fontSize: 20)),
     ));
