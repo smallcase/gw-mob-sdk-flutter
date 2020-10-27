@@ -10,8 +10,6 @@ class Gateway {
 
   static var _baseUrl = "";
 
-  // static var transactionId = "";
-
   static var transactionId = "";
 
   static Future<String> setGatewayEnvironment(String baseUrl, String idText, GatewayEnvironment env, bool leprechaun, bool amo) async {
@@ -53,18 +51,6 @@ class Gateway {
     }
   }
 
-  // static Future<String> triggerTransaction(String intent, Object orderConfig) async {
-  //
-  //   String _txnID;
-  //
-  //   return ScgatewayFlutterPlugin.getGatewayIntent(intent)
-  //       .then((value) =>
-  //
-  //        // _getTransactionId(value, orderConfig).then((id) => _txnID = id)
-  //       getTransactionId(value, orderConfig).then((data) => _txnID = data)
-  //   );
-  // }
-
   static Future<String> getTransactionId(String intent, Object orderConfig) async {
     Map data = {
       'id': _userId,
@@ -87,8 +73,6 @@ class Gateway {
       body: bodyData,
     );
 
-    // print(response.body);
-
     if (response.statusCode == 200) {
       var connectData = jsonDecode(response.body);
 
@@ -98,21 +82,13 @@ class Gateway {
 
       transactionId = txnId;
 
-      // return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId).then((value) => _onUserConnected(value));
-
       return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId);
-      // return txnId;
 
     } else {
       throw Exception('Failed to get session token.');
     }
   }
 
-  // static Future<void> importHoldings() {
-  //
-  //   triggerTransaction("holdings",null);
-  //
-  // }
 
   static Future<void> leadGen(String name, String email, String contact, String pincode) async {
 

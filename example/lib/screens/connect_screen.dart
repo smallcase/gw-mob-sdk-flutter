@@ -82,11 +82,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
         break;
       }
 
-    ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _userIdText, _leprechaunMode, isAmoenabled: _isAmoEnabled);
-      
-      Gateway.setGatewayEnvironment(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled)
-          .then((String setupResult) =>
-          _showAlertDialog(setupResult));
+      ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _leprechaunMode, isAmoenabled: _isAmoEnabled).then((value) => _showAlertDialog(value));
+
+      Gateway.setGatewayEnvironment(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled);
   }
   
   Future<void> _getTransactionId(String intent, Object orderConfig) async {
@@ -95,6 +93,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
   }
 
    Future<void> _onUserConnected(String smallcaseAuthToken) async {
+
+    print("transaction auth token: $smallcaseAuthToken");
 
       if(Gateway.transactionId.isNotEmpty) {
         setState((){

@@ -25,17 +25,16 @@ class ScgatewayFlutterPlugin {
   static const MethodChannel _channel =
       const MethodChannel('scgateway_flutter_plugin');
 
-  static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, String idText, bool leprechaunMode, {bool isAmoenabled = true}) async {
+  static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, bool leprechaunMode, {bool isAmoenabled = true}) async {
 
     Object setConfigResult;
 
     try{
       setConfigResult = await _channel.invokeMethod(
           'setConfigEnvironment',
-          <String, dynamic>{"env": environmentSelected.toString(), "gateway": gateway, "userId": idText, "leprechaun": leprechaunMode, "amo": isAmoenabled});
-
+          <String, dynamic>{"env": environmentSelected.toString(), "gateway": gateway, "leprechaun": leprechaunMode, "amo": isAmoenabled});
     } on PlatformException catch (e) {
-      setConfigResult = "Failed to set config :' ${e.message}'";
+      setConfigResult = e.code;
     }
     return setConfigResult;
 
@@ -51,7 +50,7 @@ class ScgatewayFlutterPlugin {
           <String, dynamic>{"authToken": authToken});
       print(initGatewayResult);
     } on PlatformException catch (e) {
-      initGatewayResult = "Failed to get result: ' ${e.message}'";
+      initGatewayResult = e.code;
     }
 
     return initGatewayResult;
@@ -69,9 +68,6 @@ class ScgatewayFlutterPlugin {
     } on PlatformException catch (e) {
       triggerTxnRes = e.code;
     }
-    // } on PlatformException catch (e) {
-    //   triggerTxnRes = "Failed to get result: ' ${e}'";
-    // }
 
     print("transaction res: " + triggerTxnRes);
 
@@ -87,10 +83,11 @@ class ScgatewayFlutterPlugin {
       leadGenRes = await _channel.invokeMethod(
           'leadGen',
           <String, dynamic>{"name": name, "email": email, "contact": contact, "pincode": pincode});
-      print(leadGenRes);
     } on PlatformException catch (e) {
-      leadGenRes = "Failed to get result: ' ${e.message}'";
+      leadGenRes = e.code;
     }
+
+    print(leadGenRes);
 
   }
 }

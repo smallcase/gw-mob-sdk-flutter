@@ -16,17 +16,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
 
   Future<void> _importHoldings() async {
 
-    // ScgatewayFlutterPlugin.importHoldings();
-
-    // ScgatewayFlutterPlugin.getGatewayIntent("holdings")
-    //     .then((value) =>
-    //
-    //     _startImportHolding(value, null)
-    // );
-
     _startImportHolding(ScgatewayIntent.HOLDINGS, null);
-
-    // Gateway.importHoldings();
   }
 
   Future<String> _startImportHolding(String intent, Object orderConfig) async {

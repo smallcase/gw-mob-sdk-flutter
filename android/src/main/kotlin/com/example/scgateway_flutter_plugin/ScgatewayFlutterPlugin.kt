@@ -55,6 +55,8 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     
     if (call.method == "initializeGateway") {
 
+      val res = JSONObject()
+      
       val authToken: String? = call.argument("authToken")
       
       SmallcaseGatewaySdk.init(
@@ -65,13 +67,20 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
               object : DataListener<InitialisationResponse> {
                 override fun onSuccess(authData: InitialisationResponse) {
 
-                  result.success(authData.toString())
+                  res.put("success", true)
+                  res.put("errorCode", null)
+                  res.put("errorMessage", null)
+//                  result.success(authData.toString())
+                  result.success(res.toString())
                 }
 
                 override fun onFailure(errorCode: Int, errorMessage: String) {
                   Log.d(TAG, "onFailure: $errorMessage")
 
-                  result.error(errorCode.toString(), errorMessage, null)
+                  
+                  res.put("errorCode", errorCode)
+                  res.put("errorMessage", errorMessage)
+                  result.error(res.toString(), null, null)
                 }
               }
       )
@@ -86,7 +95,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       Log.d(TAG, "onMethodCall: Environment = $env")
 
-      val userId: String? = call.argument("userId")
+//      val userId: String? = call.argument("userId")
       val gateway: String? = call.argument("gateway")
       val leprechaun: Boolean? = call.argument("leprechaun")
       val amo: Boolean? = call.argument("amo")
@@ -112,25 +121,12 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                   res.put("success", false)
                   res.put("error", error)
                   
-                  result.error(null, null, res)
+                  result.error(res.toString(), null, null)
                 }
 
               }
       )
     }
-    
-//    else if (call.method == "getGatewayIntent") {
-//
-//      var intent: String? = call.argument("intent")
-//
-//      val res = getGatewayIntent(intent)
-//
-//      if(!res.isEmpty()) {
-//        result.success(res)
-//      } else {
-//        result.error("UNAVAILABLE", "Broker not Connected.", null)
-//      }
-//    }
 
     else if(call.method == "triggerTransaction") {
 
@@ -144,26 +140,35 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                     try {
                       if (transactionResult.success) {
-//                        val toastString =
-//                                "authToken:${SmallcaseGatewaySdk.getSmallcaseAuthToken()}"
-
-//                        Toast.makeText(
-//                                context,
-//                                transactionResult.toString(),
-//                                Toast.LENGTH_LONG
-//                        ).show()
 
                         Log.d(TAG, "onSuccess: " + transactionResult.data!!)
 
-                        txnResult = transactionResult.data!!
+                        if(transactionResult.transaction == SmallcaseGatewaySdk.Result.HOLDING_IMPORT) {
+//                          Gson().toJson(transactionResult)
+                          val holdingRes = JSONObject(transactionResult.data!!)
 
-                        result.success(Gson().toJson(transactionResult).toString())
+                          val smallcaseAuthToken = holdingRes.getString("smallcaseAuthToken")
+
+                          val res = JSONObject()
+
+                          res.put("data", smallcaseAuthToken)
+                          res.put("success", true)
+                          res.put("transaction", "HOLDINGS_IMPORT")
+
+                          result.success(res.toString())
+                        } else if(transactionResult.transaction == SmallcaseGatewaySdk.Result.TRANSACTION){
+
+                          val transRes = JSONObject(transactionResult.data!!)
+                          transRes.put("success", true)
+                          transRes.put("transaction", "TRANSACTION")
+
+                          result.success(transRes.toString())
+                        } else {
+                          txnResult = transactionResult.data!!
+
+                          result.success(Gson().toJson(transactionResult).toString())
+                        }
                       } else {
-//                        Toast.makeText(
-//                                context,
-//                                transactionResult.error + " " + transactionResult.errorCode,
-//                                Toast.LENGTH_LONG
-//                        ).show()
 
                         txnResult = transactionResult.error + " " + transactionResult.errorCode
 
@@ -176,11 +181,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                   }
 
                   override fun onError(errorCode: Int, errorMessage: String) {
-//                    Toast.makeText(
-//                            context,
-//                            "$errorCode $errorMessage",
-//                            Toast.LENGTH_LONG
-//                    ).show()
+
                     errorCode.toString()
 
                     txnResult = errorMessage
@@ -217,56 +218,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       result.notImplemented()
     }
   }
-
-//  private fun setupGateway(env: Int?, gateway: String?, userIdInput: String?, leprechaunMode: Boolean?, isAmoEnabled: Boolean?, smallcaseAuthToken: String?): String {
-//
-//    val environment = when (env) {
-//      1 -> Environment.PROTOCOL.DEVELOPMENT
-//      2 -> Environment.PROTOCOL.STAGING
-//      else -> Environment.PROTOCOL.PRODUCTION
-//    }
-//
-//    val customBrokerConfig: List<String> = arrayListOf<String>()
-//
-//    SmallcaseGatewaySdk.setConfigEnvironment(
-//            Environment(environment, gateway!!, leprechaunMode!!, isAmoEnabled!!, customBrokerConfig),
-//            object : SmallcaseGatewayListeners {
-//              override fun onGatewaySetupSuccessfull() {
-//
-//                SmallcaseGatewaySdk.init(
-//                        InitRequest(
-//                                smallcaseAuthToken!!
-//                        ),
-//
-//                        object : DataListener<InitialisationResponse> {
-//                          override fun onSuccess(authData: InitialisationResponse) {
-//
-//                          }
-//
-//                          override fun onFailure(errorCode: Int, errorMessage: String) {
-//                            errorMessage.toString()
-//                            Log.d(TAG, "onFailure: " + errorMessage.toString())
-//                          }
-//                        }
-//                )
-//              }
-//
-//              override fun onGatewaySetupFailed(error: String) {
-//              }
-//
-//            }
-//    )
-//
-//    return "Setup is Complete .. $env $gateway $userIdInput $leprechaunMode $isAmoEnabled $smallcaseAuthToken";
-//  }
-
-//  private fun getGatewayIntent(gatewayIntent: String?): String{
-//    return when (gatewayIntent) {
-//      "connect" -> SdkConstants.TransactionIntent.CONNECT
-//      "transaction" -> SdkConstants.TransactionIntent.TRANSACTION
-//      else -> SdkConstants.TransactionIntent.HOLDINGS_IMPORT
-//    }
-//  }
 
   private fun generateLead(name: String?, email: String?, contact: String?, pincode: String?) : String? {
     
