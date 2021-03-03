@@ -212,6 +212,29 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             result(FlutterError.init(code: "bad args", message: "error at method leadGen", details: nil))
         }
     }
+        
+     else if(call.method == "getAllSmallcases") {
+        
+        SCGateway.shared.getSmallcases(params: nil) { [weak self] (data, error) in
+            
+            
+            guard let response = data else {
+                
+                print(error ?? "No error object")
+                return
+                
+            }
+         
+            let smallcasesJson = try? JSONSerialization.jsonObject(with: response, options: [])
+            
+            let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
+            
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            
+            result(jsonString)
+        }
+        
+     }
     
     
     else {
@@ -250,3 +273,4 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
     }
         
 }
+

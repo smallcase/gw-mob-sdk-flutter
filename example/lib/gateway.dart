@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 
 class Gateway {
@@ -93,6 +92,20 @@ class Gateway {
   static Future<void> leadGen(String name, String email, String contact, String pincode) async {
 
     ScgatewayFlutterPlugin.leadGen(name, email, contact, pincode);
+
+  }
+
+  static Future<String> getAllSmallcases() async {
+
+    // var result = ScgatewayFlutterPlugin.getAllSmallcases();
+
+    return ScgatewayFlutterPlugin.getAllSmallcases();
+
+  }
+
+  static Future<String> getSmallcaseNews(String scid) async {
+
+    return ScgatewayFlutterPlugin.getSmallcaseNews(scid);
 
   }
 }

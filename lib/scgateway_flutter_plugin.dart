@@ -36,7 +36,7 @@ class ScgatewayFlutterPlugin {
     } on PlatformException catch (e) {
       setConfigResult = e.code;
     }
-    return setConfigResult;
+    return setConfigResult.toString();
 
   }
 
@@ -90,4 +90,41 @@ class ScgatewayFlutterPlugin {
     print(leadGenRes);
 
   }
+
+  static Future<String> getAllSmallcases() async {
+
+    String fetchSmallcasesRes;
+
+    try{
+      fetchSmallcasesRes = await _channel.invokeMethod(
+          'getAllSmallcases',
+        null
+      );
+    } on PlatformException catch (e) {
+      fetchSmallcasesRes = e.code;
+    }
+
+    // print("Flutter: allSmallcases: $fetchSmallcasesRes");
+
+    return fetchSmallcasesRes;
+  }
+
+  static Future<String> getSmallcaseNews(String scid) async {
+
+    String smallcaseNews;
+
+    try{
+      smallcaseNews = await _channel.invokeMethod(
+          'getSmallcaseNews',
+          <String, dynamic>{"scid": scid}
+          );
+    } on PlatformException catch (e) {
+      smallcaseNews = e.code;
+    }
+
+    print("Smallcase News: $smallcaseNews");
+
+    return smallcaseNews;
+  }
+
 }

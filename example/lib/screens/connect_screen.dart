@@ -263,7 +263,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
           onPressed: _initSession,
           child: const Text('Setup', style: TextStyle(fontSize: 20)),
-        ));
+        )
+    );
   }
 
   Widget connect() {

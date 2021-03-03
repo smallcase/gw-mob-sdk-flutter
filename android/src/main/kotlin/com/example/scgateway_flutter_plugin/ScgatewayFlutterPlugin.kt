@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.annotation.NonNull
+import com.example.scgateway_flutter_plugin.models.AllSmallcasesDTO
 import com.google.gson.Gson
 import com.smallcase.gateway.data.SdkConstants
 import com.smallcase.gateway.data.SmallcaseGatewayListeners
@@ -11,6 +12,7 @@ import com.smallcase.gateway.data.listeners.DataListener
 import com.smallcase.gateway.data.listeners.TransactionResponseListener
 import com.smallcase.gateway.data.models.Environment
 import com.smallcase.gateway.data.models.InitialisationResponse
+import com.smallcase.gateway.data.models.SmallcaseGatewayDataResponse
 import com.smallcase.gateway.data.models.TransactionResult
 import com.smallcase.gateway.data.requests.InitRequest
 import com.smallcase.gateway.portal.SmallcaseGatewaySdk
@@ -214,10 +216,73 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
 
     }
+    
+    else if(call.method == "getAllSmallcases") {
+
+      val res = JSONObject()
+      
+      SmallcaseGatewaySdk.getSmallcases(null, null, object : DataListener<SmallcaseGatewayDataResponse> {
+        override fun onFailure(errorCode: Int, errorMessage: String) {
+
+          res.put("success", false)
+          res.put("error", errorMessage)
+
+          result.error(res.toString(), null, null)
+
+        }
+
+        override fun onSuccess(response: SmallcaseGatewayDataResponse) {
+          val gson = Gson()
+
+          gson.fromJson<AllSmallcasesDTO>(response.getValue(gson), AllSmallcasesDTO::class.java)?.smallcases.let {
+            Log.d(TAG, "onSuccess: all smallcases: $it")
+
+//            res.put("smallcases", it)
+            result.success(Gson().toJson(response).toString())
+          }
+        }
+
+      })
+      
+//      result.success("gotSmallcases")
+    }
+
+    else if(call.method == "getSmallcaseNews") {
+
+      val scid: String? = call.argument("scid")
+
+      val res = JSONObject()
+
+      SmallcaseGatewaySdk.getSmallcaseNews(scid, null, 200, 2, object : DataListener<SmallcaseGatewayDataResponse> {
+        override fun onFailure(errorCode: Int, errorMessage: String) {
+
+          res.put("success", false)
+          res.put("error", errorMessage)
+
+          result.error(res.toString(), null, null)
+
+        }
+
+        override fun onSuccess(response: SmallcaseGatewayDataResponse) {
+          
+//            res.put("smallcases", it)
+          result.success(Gson().toJson(response).toString())
+
+        }
+
+
+      })
+
+
+
+    }
+    
     else {
       result.notImplemented()
     }
   }
+  
+  
 
   private fun generateLead(name: String?, email: String?, contact: String?, pincode: String?) : String? {
     
