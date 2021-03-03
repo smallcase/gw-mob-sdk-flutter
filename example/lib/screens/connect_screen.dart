@@ -131,6 +131,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
   }
 
   Future<void> _showAlertDialog(String message) async {
+
+    ClipboardManager.copyToClipBoard(message);
+
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!

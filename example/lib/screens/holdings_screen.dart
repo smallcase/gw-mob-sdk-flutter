@@ -1,3 +1,4 @@
+import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -24,6 +25,9 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
   }
 
   Future<void> _showAlertDialog(String message) async {
+
+    ClipboardManager.copyToClipBoard(message);
+
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!

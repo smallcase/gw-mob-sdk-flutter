@@ -1,3 +1,4 @@
+import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -59,6 +60,9 @@ class _SstScreenState extends State<SstScreen> {
   }
 
   Future<void> _showAlertDialog(String message) async {
+
+    ClipboardManager.copyToClipBoard(message);
+
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!

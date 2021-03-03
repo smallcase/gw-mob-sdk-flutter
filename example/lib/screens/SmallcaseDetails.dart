@@ -8,6 +8,7 @@ import 'package:scgateway_flutter_plugin_example/models/NewsDataDTO.dart';
 import 'package:scgateway_flutter_plugin_example/models/SmallcasesDTO.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
 import 'package:scgateway_flutter_plugin_example/screens/smallcase_news.dart';
+import 'package:clipboard_manager/clipboard_manager.dart';
 import '../Styles.dart';
 
 class SmallcaseDetails extends StatelessWidget {
@@ -54,6 +55,8 @@ class SmallcaseDetails extends StatelessWidget {
   }
 
   Future<void> _showAlertDialog(String message, BuildContext context) async {
+
+    ClipboardManager.copyToClipBoard(message);
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
