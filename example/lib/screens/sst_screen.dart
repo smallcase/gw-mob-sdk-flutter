@@ -61,7 +61,7 @@ class _SstScreenState extends State<SstScreen> {
 
   Future<void> _showAlertDialog(String message) async {
 
-    ClipboardManager.copyToClipBoard(message);
+    // ClipboardManager.copyToClipBoard(message);
 
     return showDialog<void>(
       context: context,
@@ -83,6 +83,10 @@ class _SstScreenState extends State<SstScreen> {
                 Navigator.of(context).pop();
               },
             ),
+            TextButton(onPressed: () {
+              ClipboardManager.copyToClipBoard(message);
+            }, child: Text('Copy')
+            )
           ],
         );
       },

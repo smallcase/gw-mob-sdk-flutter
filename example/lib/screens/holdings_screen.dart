@@ -26,7 +26,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
 
   Future<void> _showAlertDialog(String message) async {
 
-    ClipboardManager.copyToClipBoard(message);
+    // ClipboardManager.copyToClipBoard(message);
 
     return showDialog<void>(
       context: context,
@@ -48,6 +48,10 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
                 Navigator.of(context).pop();
               },
             ),
+            TextButton(onPressed: () {
+              ClipboardManager.copyToClipBoard(message);
+            }, child: Text('Copy')
+            )
           ],
         );
       },

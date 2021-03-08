@@ -2,10 +2,10 @@ PODS:
   - clipboard_manager (0.0.3):
     - Flutter
   - Flutter (1.0.0)
-  - SCGateway (2.1.2)
+  - SCGateway (2.7.0)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (~> 2.1.2)
+    - SCGateway (~> 2.7.0)
 
 DEPENDENCIES:
   - clipboard_manager (from `.symlinks/plugins/clipboard_manager/ios`)
@@ -13,7 +13,7 @@ DEPENDENCIES:
   - scgateway_flutter_plugin (from `.symlinks/plugins/scgateway_flutter_plugin/ios`)
 
 SPEC REPOS:
-  https://gitlab.com/smallcase/mobile/gateway/cocoapodspecs.git:
+  https://gitlab.com/scGatewayOS/cocoapodspecs.git:
     - SCGateway
 
 EXTERNAL SOURCES:
@@ -27,9 +27,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   clipboard_manager: f4800834e62cc26b1cc4e0a92a35cd452dd8b827
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  SCGateway: 35bee072a00cc51fea32f576091f21f64896e521
-  scgateway_flutter_plugin: 4369bb23b21b9ac0d1a02fea2a4eb1622464fb40
+  SCGateway: a807c237461194f8667a055a636878252c40ca26
+  scgateway_flutter_plugin: fe4493d2075cd7f0a39c7ab987d3e383f1727d16
 
-PODFILE CHECKSUM: 6f1883976492aada8c30093d2662a029b48f81ee
+PODFILE CHECKSUM: bc2dba1d8b4d5481a24e3df5b3ef843aa36f380a
 
 COCOAPODS: 1.9.3

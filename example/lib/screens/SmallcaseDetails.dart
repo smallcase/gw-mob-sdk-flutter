@@ -56,7 +56,7 @@ class SmallcaseDetails extends StatelessWidget {
 
   Future<void> _showAlertDialog(String message, BuildContext context) async {
 
-    ClipboardManager.copyToClipBoard(message);
+    // ClipboardManager.copyToClipBoard(message);
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -77,6 +77,10 @@ class SmallcaseDetails extends StatelessWidget {
                 Navigator.of(context).pop();
               },
             ),
+            TextButton(onPressed: () {
+              ClipboardManager.copyToClipBoard(message);
+            }, child: Text('Copy')
+            )
           ],
         );
       },

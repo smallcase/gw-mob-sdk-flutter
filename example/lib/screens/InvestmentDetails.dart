@@ -66,6 +66,10 @@ class InvestmentDetails extends StatelessWidget {
                 Navigator.of(context).pop();
               },
             ),
+            TextButton(onPressed: () {
+              ClipboardManager.copyToClipBoard(message);
+            }, child: Text('Copy')
+            )
           ],
         );
       },
@@ -109,7 +113,7 @@ class InvestmentDetails extends StatelessWidget {
   // }
 
   Widget investmentActions(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         RaisedButton(

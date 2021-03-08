@@ -3,9 +3,9 @@ class ConstituentsDTO {
 
   final dynamic averagePrice;
 
-  final double shares;
+  final dynamic shares;
 
-  final double weight;
+  final dynamic weight;
 
   final dynamic returns;
 

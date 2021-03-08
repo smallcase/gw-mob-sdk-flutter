@@ -139,7 +139,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   Future<void> _showAlertDialog(String message) async {
 
-    ClipboardManager.copyToClipBoard(message);
+    // ClipboardManager.copyToClipBoard(message);
 
     return showDialog<void>(
       context: context,
@@ -161,6 +161,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
                 Navigator.of(context).pop();
               },
             ),
+            TextButton(onPressed: () {
+              ClipboardManager.copyToClipBoard(message);
+            },
+                child: Text('Copy')
+            )
           ],
         );
       },

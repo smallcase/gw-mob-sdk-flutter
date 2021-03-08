@@ -235,12 +235,59 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         }
         
      }
+        
+    else if(call.method == "getUserInvestments") {
+            
+        SCGateway.shared.getUserInvestments(iscids: nil) { [weak self] (data, error) in
+            
+            guard let response = data else {
+                
+                print(error ?? "No error object")
+                return
+                
+            }
+            
+            let smallcasesJson = try? JSONSerialization.jsonObject(with: response, options: [])
+            
+            let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
+            
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            
+            result(jsonString)
+            
+        }
+        
+    }
+        
+     else if(call.method == "getExitedSmallcases") {
+        
+        SCGateway.shared.getExitedSmallcases{ [weak self] (data, error) in
+            
+            guard let response = data else {
+                           
+                           print(error ?? "No error object")
+                           return
+                           
+                       }
+                       
+                       let smallcasesJson = try? JSONSerialization.jsonObject(with: response, options: [])
+                       
+                       let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
+                       
+                       let jsonString = String(data: jsonData, encoding: .utf8)
+                       
+                       result(jsonString)
+            
+        }
+        
+     }
     
     
     else {
             result("Flutter method not implemented on iOS")
         }
     }
+
 
     func getJsonStringResult(success: Bool, data: String?, errorCode: Int?, errorMessage: String?, transaction: String?) -> String {
         

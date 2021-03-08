@@ -1,25 +1,25 @@
 
 class InvestedSmallcaseReturnsDTO {
 
-  final double realizedInvestment;
+  final dynamic realizedInvestment;
 
-  final double realizedReturns;
+  final dynamic realizedReturns;
 
-  final double unrealizedInvestment;
+  final dynamic unrealizedInvestment;
 
-  final double otherReturns;
+  final dynamic otherReturns;
 
-  final double accruedDivReturns;
+  final dynamic accruedDivReturns;
 
-  final double networth;
+  final dynamic networth;
 
-  final double monthly;
+  final dynamic monthly;
 
-  final double divReturns;
+  final dynamic divReturns;
 
-  final double creditedDivReturns;
+  final dynamic creditedDivReturns;
 
-  final double weekly;
+  final dynamic weekly;
 
   InvestedSmallcaseReturnsDTO({
     this.realizedInvestment,

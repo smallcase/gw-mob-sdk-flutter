@@ -5,13 +5,13 @@ class ReturnsDTO {
 
   final dynamic realizedReturns;
 
-  final double otherReturns;
+  final dynamic otherReturns;
 
-  final double divReturns;
+  final dynamic divReturns;
 
-  final double accruedDivReturns;
+  final dynamic accruedDivReturns;
 
-  final double creditedDivReturns;
+  final dynamic creditedDivReturns;
 
   ReturnsDTO({this.realizedInvestment, this.realizedReturns, this.otherReturns, this.divReturns, this.accruedDivReturns, this.creditedDivReturns});
 

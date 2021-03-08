@@ -9,56 +9,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7628e587-59d8-4a17-a6f6-b5f19324e39a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/ActionsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/ConstituentsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/CurrentConfigDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/ExitedSmallcaseDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/InvestedSmallcaseReturnsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/InvestmentFixDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/InvestmentItemDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/InvestmentsDataDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/ReturnsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/StatsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/ExitedSmallcasesDetails.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/ExitedSmallcasesList.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/InvestmentDetails.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/InvestmentsList.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/ActionsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/ConstituentsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/CurrentConfigDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/ExitedSmallcaseDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/InvestedSmallcaseReturnsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/InvestmentFixDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/InvestmentItemDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/InvestmentsDataDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/ReturnsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/StatsDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/screens/ExitedSmallcasesDetails.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/screens/ExitedSmallcasesList.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/screens/InvestmentDetails.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/screens/InvestmentsList.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Flutter/AppFrameworkInfo.plist" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Flutter/AppFrameworkInfo.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/gateway.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/gateway.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/connect_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/connect_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/smt_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/smt_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/lib/scgateway_flutter_plugin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Flutter/AppFrameworkInfo.plist" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/AppFrameworkInfo.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Podfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/ios/scgateway_flutter_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/ios/scgateway_flutter_plugin.podspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/gateway.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/gateway.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/models/ConstituentsDTO.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/models/ConstituentsDTO.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/models/InvestedSmallcaseReturnsDTO.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/models/InvestedSmallcaseReturnsDTO.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/models/ReturnsDTO.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/models/ReturnsDTO.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/screens/InvestmentDetails.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/InvestmentDetails.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/screens/SmallcaseDetails.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/SmallcaseDetails.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/screens/connect_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/connect_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/smt_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/smt_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/screens/sst_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/sst_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftScgatewayFlutterPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftScgatewayFlutterPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/scgateway_flutter_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/scgateway_flutter_plugin.podspec" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +54,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DEBUGGABLE_DEVICE" value="Pixel_4_XL_API_30_6.3inch [emulator-5554]" />
     <property name="DEBUGGABLE_PROCESS" value="com.example.scgateway_flutter_plugin_example" />
     <property name="DEBUGGER_ID" value="Java" />
@@ -120,6 +89,9 @@
     </task>
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="659" y="157" key="#xdebugger.evaluate" timestamp="1614665662606">
       <screen x="0" y="25" width="1792" height="1023" />
@@ -132,44 +104,44 @@
     <state x="665" y="275" key="AndroidProcessChooserDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1614666841237" />
     <state x="665" y="276" key="AndroidProcessChooserDialog/0.25.1792.1021@0.25.1792.1021" timestamp="1614877386335" />
     <state x="665" y="276" key="AndroidProcessChooserDialog/0.25.1792.1023@0.25.1792.1023" timestamp="1614665532494" />
-    <state width="1750" height="461" key="GridCell.Tab.0.bottom" timestamp="1615191603573">
+    <state width="1750" height="461" key="GridCell.Tab.0.bottom" timestamp="1615200403354">
       <screen x="0" y="25" width="1792" height="1021" />
     </state>
     <state width="1750" height="387" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1614859804277" />
     <state width="1750" height="334" key="GridCell.Tab.0.bottom/0.25.1792.1015@0.25.1792.1015" timestamp="1614769231961" />
     <state width="1750" height="461" key="GridCell.Tab.0.bottom/0.25.1792.1017@0.25.1792.1017" timestamp="1615190229610" />
     <state width="1750" height="461" key="GridCell.Tab.0.bottom/0.25.1792.1019@0.25.1792.1019" timestamp="1615190977281" />
-    <state width="1750" height="461" key="GridCell.Tab.0.bottom/0.25.1792.1021@0.25.1792.1021" timestamp="1615191603573" />
+    <state width="1750" height="461" key="GridCell.Tab.0.bottom/0.25.1792.1021@0.25.1792.1021" timestamp="1615200403354" />
     <state width="1750" height="462" key="GridCell.Tab.0.bottom/0.25.1792.1023@0.25.1792.1023" timestamp="1614952139252" />
     <state width="1750" height="641" key="GridCell.Tab.0.bottom/0.25.1792.1024@0.25.1792.1024" timestamp="1614604460754" />
-    <state width="1750" height="461" key="GridCell.Tab.0.center" timestamp="1615191603573">
+    <state width="1750" height="461" key="GridCell.Tab.0.center" timestamp="1615200403354">
       <screen x="0" y="25" width="1792" height="1021" />
     </state>
     <state width="1750" height="387" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1614859804276" />
     <state width="1750" height="334" key="GridCell.Tab.0.center/0.25.1792.1015@0.25.1792.1015" timestamp="1614769231961" />
     <state width="1750" height="461" key="GridCell.Tab.0.center/0.25.1792.1017@0.25.1792.1017" timestamp="1615190229609" />
     <state width="1750" height="461" key="GridCell.Tab.0.center/0.25.1792.1019@0.25.1792.1019" timestamp="1615190977280" />
-    <state width="1750" height="461" key="GridCell.Tab.0.center/0.25.1792.1021@0.25.1792.1021" timestamp="1615191603573" />
+    <state width="1750" height="461" key="GridCell.Tab.0.center/0.25.1792.1021@0.25.1792.1021" timestamp="1615200403354" />
     <state width="1750" height="462" key="GridCell.Tab.0.center/0.25.1792.1023@0.25.1792.1023" timestamp="1614952139251" />
     <state width="1750" height="641" key="GridCell.Tab.0.center/0.25.1792.1024@0.25.1792.1024" timestamp="1614604460753" />
-    <state width="1750" height="461" key="GridCell.Tab.0.left" timestamp="1615191603572">
+    <state width="1750" height="461" key="GridCell.Tab.0.left" timestamp="1615200403353">
       <screen x="0" y="25" width="1792" height="1021" />
     </state>
     <state width="1750" height="387" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1614859804275" />
     <state width="1750" height="334" key="GridCell.Tab.0.left/0.25.1792.1015@0.25.1792.1015" timestamp="1614769231960" />
     <state width="1750" height="461" key="GridCell.Tab.0.left/0.25.1792.1017@0.25.1792.1017" timestamp="1615190229608" />
     <state width="1750" height="461" key="GridCell.Tab.0.left/0.25.1792.1019@0.25.1792.1019" timestamp="1615190977280" />
-    <state width="1750" height="461" key="GridCell.Tab.0.left/0.25.1792.1021@0.25.1792.1021" timestamp="1615191603572" />
+    <state width="1750" height="461" key="GridCell.Tab.0.left/0.25.1792.1021@0.25.1792.1021" timestamp="1615200403353" />
     <state width="1750" height="462" key="GridCell.Tab.0.left/0.25.1792.1023@0.25.1792.1023" timestamp="1614952139250" />
     <state width="1750" height="641" key="GridCell.Tab.0.left/0.25.1792.1024@0.25.1792.1024" timestamp="1614604460752" />
-    <state width="1750" height="461" key="GridCell.Tab.0.right" timestamp="1615191603573">
+    <state width="1750" height="461" key="GridCell.Tab.0.right" timestamp="1615200403354">
       <screen x="0" y="25" width="1792" height="1021" />
     </state>
     <state width="1750" height="387" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1614859804276" />
     <state width="1750" height="334" key="GridCell.Tab.0.right/0.25.1792.1015@0.25.1792.1015" timestamp="1614769231961" />
     <state width="1750" height="461" key="GridCell.Tab.0.right/0.25.1792.1017@0.25.1792.1017" timestamp="1615190229609" />
     <state width="1750" height="461" key="GridCell.Tab.0.right/0.25.1792.1019@0.25.1792.1019" timestamp="1615190977280" />
-    <state width="1750" height="461" key="GridCell.Tab.0.right/0.25.1792.1021@0.25.1792.1021" timestamp="1615191603573" />
+    <state width="1750" height="461" key="GridCell.Tab.0.right/0.25.1792.1021@0.25.1792.1021" timestamp="1615200403354" />
     <state width="1750" height="462" key="GridCell.Tab.0.right/0.25.1792.1023@0.25.1792.1023" timestamp="1614952139251" />
     <state width="1750" height="641" key="GridCell.Tab.0.right/0.25.1792.1024@0.25.1792.1024" timestamp="1614604460753" />
     <state width="896" height="510" key="XDebugger.FullValuePopup" timestamp="1614604602276">
