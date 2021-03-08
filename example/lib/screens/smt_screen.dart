@@ -2,7 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scgateway_flutter_plugin_example/models/ExitedSmallcaseDTO.dart';
+import 'package:scgateway_flutter_plugin_example/models/InvestmentsDataDTO.dart';
 import 'package:scgateway_flutter_plugin_example/models/SmallcasesDTO.dart';
+import 'package:scgateway_flutter_plugin_example/screens/ExitedSmallcasesList.dart';
+import 'package:scgateway_flutter_plugin_example/screens/InvestmentsList.dart';
 import 'package:scgateway_flutter_plugin_example/screens/SmallcasesList.dart';
 
 import '../Styles.dart';
@@ -61,6 +65,54 @@ class _SmtScreenState extends State<SmtScreen> {
 
   }
 
+  void _getUserInvestments(BuildContext context) async {
+    Gateway.getAllUserInvestments().then((value) => _showUserInvestments(context, value));
+  }
+
+  void _showUserInvestments(BuildContext context, String data) {
+
+    final Map<String, dynamic> responseData = jsonDecode(data);
+
+    var investments = responseData['data'] as List;
+    // print("List runtime type = $investments.runtimeType");
+
+    List<InvestmentsDataDTO> investmentsList = investments.map((i) =>
+
+        InvestmentsDataDTO.fromJson(i)
+
+    ).toList();
+
+    print("decoded investments: $investmentsList");
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => InvestmentsList(investments: investmentsList),
+        ));
+  }
+
+  void _getExitedSmallcases(BuildContext context) async {
+    Gateway.getAllExitedSmallcases().then((value) => _showExitedSmallcases(context, value));
+  }
+
+  void _showExitedSmallcases(BuildContext context, String data) {
+
+    final Map<String, dynamic> responseData = jsonDecode(data);
+
+    print("Exited Smallcases: $responseData");
+
+    var exits = responseData['data'] as List;
+
+    List<ExitedSmallcaseDTO> exitedInvestments = exits.map((e) =>
+      ExitedSmallcaseDTO.fromJson(e)
+    ).toList();
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ExitedSmallcasesList(exitedSmallcases: exitedInvestments),
+        ));
+  }
 
   //----------------------------------  WIDGETS -------------------------------------- //
 
@@ -73,14 +125,14 @@ class _SmtScreenState extends State<SmtScreen> {
 
   Widget userInvestments() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () => _showSmallcases(context),
+      onPressed: () => _getUserInvestments(context),
       child: const Text('USER INVESTMENTS', style: TextStyle(fontSize: 20)),
     ));
   }
 
   Widget exitedSmallcases() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () => _showSmallcases(context),
+      onPressed: () => _getExitedSmallcases(context),
       child: const Text('EXITED SMALLCASES', style: TextStyle(fontSize: 20)),
     ));
   }

@@ -59,6 +59,8 @@ class Gateway {
 
     String bodyData = json.encode(data);
 
+    print(bodyData);
+
     final http.Response response = await http.post(
       _baseUrl + 'transaction/new',
 
@@ -77,14 +79,15 @@ class Gateway {
 
       var txnId = connectData["transactionId"] as String;
 
-      print("connect data: " + connectData.toString());
+      print("data: " + connectData.toString());
 
       transactionId = txnId;
 
       return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId);
 
     } else {
-      throw Exception('Failed to get session token.');
+      print(response.body);
+      throw Exception('Failed to get session token');
     }
   }
 
@@ -100,6 +103,18 @@ class Gateway {
     // var result = ScgatewayFlutterPlugin.getAllSmallcases();
 
     return ScgatewayFlutterPlugin.getAllSmallcases();
+
+  }
+
+  static Future<String> getAllUserInvestments() async {
+
+    return ScgatewayFlutterPlugin.getAllUserInvestments();
+
+  }
+
+  static Future<String> getAllExitedSmallcases() async {
+
+    return ScgatewayFlutterPlugin.getAllExitedSmallcases();
 
   }
 

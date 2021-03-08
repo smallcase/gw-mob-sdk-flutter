@@ -109,6 +109,43 @@ class ScgatewayFlutterPlugin {
     return fetchSmallcasesRes;
   }
 
+  static Future<String> getAllUserInvestments() async {
+
+    String fetchUserInvestmentsRes;
+
+    try {
+      fetchUserInvestmentsRes = await _channel.invokeMethod(
+        "getUserInvestments",
+        null
+      );
+    } on PlatformException catch (e) {
+      fetchUserInvestmentsRes = e.code;
+    }
+
+    // print("user investments: $fetchUserInvestmentsRes");
+
+    return fetchUserInvestmentsRes;
+
+  }
+
+  static Future<String> getAllExitedSmallcases() async {
+
+    String fetchExitedSmallcases;
+
+    try {
+      fetchExitedSmallcases = await _channel.invokeMethod(
+          "getExitedSmallcases",
+          null
+      );
+    } on PlatformException catch (e) {
+      fetchExitedSmallcases = e.code;
+    }
+
+    print("Exited Smallcases: $fetchExitedSmallcases");
+
+    return fetchExitedSmallcases;
+  }
+
   static Future<String> getSmallcaseNews(String scid) async {
 
     String smallcaseNews;

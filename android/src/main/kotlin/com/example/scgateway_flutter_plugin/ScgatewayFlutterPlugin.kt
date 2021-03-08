@@ -246,6 +246,28 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       
 //      result.success("gotSmallcases")
     }
+    
+    else if(call.method == "getUserInvestments") {
+      
+      val res = JSONObject()
+      
+      SmallcaseGatewaySdk.getUserInvestments(null, object : DataListener<SmallcaseGatewayDataResponse> {
+        override fun onFailure(errorCode: Int, errorMessage: String) {
+          res.put("success", false)
+          res.put("error", errorMessage)
+
+          result.error(res.toString(), null, null)
+        }
+
+        override fun onSuccess(response: SmallcaseGatewayDataResponse) {
+
+          Log.d(TAG, "onSuccess: user investments: $response")
+          result.success(Gson().toJson(response).toString())
+        }
+
+      })
+      
+    }
 
     else if(call.method == "getSmallcaseNews") {
 
@@ -255,26 +277,36 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       SmallcaseGatewaySdk.getSmallcaseNews(scid, null, 200, 2, object : DataListener<SmallcaseGatewayDataResponse> {
         override fun onFailure(errorCode: Int, errorMessage: String) {
-
           res.put("success", false)
           res.put("error", errorMessage)
 
           result.error(res.toString(), null, null)
-
         }
 
         override fun onSuccess(response: SmallcaseGatewayDataResponse) {
-          
-//            res.put("smallcases", it)
           result.success(Gson().toJson(response).toString())
+        }
+      })
+    }
 
+    else if(call.method == "getExitedSmallcases") {
+
+      val res = JSONObject()
+      
+      SmallcaseGatewaySdk.getExitedSmallcases(object : DataListener<SmallcaseGatewayDataResponse> {
+        override fun onFailure(errorCode: Int, errorMessage: String) {
+          res.put("success", false)
+          res.put("error", errorMessage)
+
+          result.error(res.toString(), null, null)
         }
 
+        override fun onSuccess(response: SmallcaseGatewayDataResponse) {
+          result.success(Gson().toJson(response).toString())
+        }
 
       })
-
-
-
+      
     }
     
     else {

@@ -92,9 +92,15 @@ class _ConnectScreenState extends State<ConnectScreen> {
     Gateway.getTransactionId(intent, orderConfig).then((value) => _onUserConnected(value));
   }
 
-   Future<void> _onUserConnected(String smallcaseAuthToken) async {
+   Future<void> _onUserConnected(String initResponse) async {
 
-    print("transaction auth token: $smallcaseAuthToken");
+    print("transaction auth token: $initResponse");
+
+    final Map<String, dynamic> responseData = jsonDecode(initResponse);
+
+    print("ResponseData = $responseData");
+
+    var authToken = responseData['data'] as String;
 
       if(Gateway.transactionId.isNotEmpty) {
         setState((){
@@ -105,11 +111,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
         });
       }
 
-     _showAlertDialog(smallcaseAuthToken);
+     _showAlertDialog(initResponse);
 
     Map data = {
       'id': _userIdText,
-      'smallcaseAuthToken': smallcaseAuthToken
+      'smallcaseAuthToken': authToken
     };
 
     String bodyData = json.encode(data);
@@ -127,6 +133,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
         body: bodyData
     );
 
+    print("On user Connect: ");
     print(response.body);
   }
 
