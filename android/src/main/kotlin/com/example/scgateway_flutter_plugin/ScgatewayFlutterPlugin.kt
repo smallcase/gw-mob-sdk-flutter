@@ -168,14 +168,26 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                           result.success(transRes.toString())
                         } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.CONNECT) {
-
-                          val connectRes = JSONObject(transactionResult.data!!)
-
-                          val smallcaseAuthToken = connectRes.getString("smallcaseAuthToken")
-
                           val res = JSONObject()
 
-                          res.put("data", smallcaseAuthToken)
+                          try {
+                            val connectRes = JSONObject(transactionResult.data!!)
+
+                            val smallcaseAuthToken = connectRes.getString("smallcaseAuthToken")
+
+                            res.put("data", smallcaseAuthToken)
+                          } catch (e: Exception) {
+                            val smallcaseAuthToken = transactionResult.data!!
+
+                            res.put("data", smallcaseAuthToken)
+                          }
+//                          val connectRes = JSONObject(transactionResult.data!!)
+
+//                          val smallcaseAuthToken = connectRes.getString("smallcaseAuthToken")
+
+
+
+//                          res.put("data", smallcaseAuthToken)
                           res.put("success", true)
                           res.put("transaction", "CONNECT")
 
