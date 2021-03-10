@@ -163,6 +163,11 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                     result(self?.getJsonStringResult(success: true, data: "\(smallcaseAuthToken)" , errorCode: nil, errorMessage: nil, transaction: "HOLDINGS_IMPORT"))
                                     return
                                     
+                                case .sipSetup(let smallcaseAuthToken, let sipDetails, let transactionId):
+                                    
+                                    result(self?.getJsonStringResult(success: true, data: "\(sipDetails)" , errorCode: nil, errorMessage: nil, transaction: "SIP_SETUP"))
+                                    return
+                                    
                                 default:
                                     return
                                 }

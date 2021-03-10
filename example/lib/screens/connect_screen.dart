@@ -102,6 +102,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
     var authToken = responseData['data'] as String;
 
+    print("auth token = $authToken");
+
       if(Gateway.transactionId.isNotEmpty) {
         setState((){
           this._transactionId = Gateway.transactionId;

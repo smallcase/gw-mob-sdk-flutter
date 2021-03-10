@@ -13,13 +13,21 @@ class InvestmentDetails extends StatelessWidget {
 
   InvestmentDetails({Key key, @required this.investmentsDataDTO}) : super(key: key);
 
-  Future<void> _investMore(BuildContext context) async {
+  void _triggerInvestmentAction(String type, BuildContext context) {
 
-    var orderConfig = {"type" : "INVESTMORE", "iscid" : investmentsDataDTO.investmentItem.iscid};
+    var orderConfig = {"type" : type, "iscid" : investmentsDataDTO.investmentItem.iscid};
 
-    // _investMoreInSmallcase(ScgatewayIntent.TRANSACTION, orderConfig, context);
     Gateway.getTransactionId(ScgatewayIntent.TRANSACTION, orderConfig).then((value) => _showAlertDialog(value, context));
+
   }
+
+  // Future<void> _investMore(BuildContext context) async {
+  //
+  //   var orderConfig = {"type" : "INVESTMORE", "iscid" : investmentsDataDTO.investmentItem.iscid};
+  //
+  //   // _investMoreInSmallcase(ScgatewayIntent.TRANSACTION, orderConfig, context);
+  //   Gateway.getTransactionId(ScgatewayIntent.TRANSACTION, orderConfig).then((value) => _showAlertDialog(value, context));
+  // }
 
   // Future<void> _investMoreInSmallcase(String intent, Object orderConfig, BuildContext context) async {
   //
@@ -36,12 +44,12 @@ class InvestmentDetails extends StatelessWidget {
     Gateway.getTransactionId(ScgatewayIntent.SIP_SETUP, orderConfig).then((value) => _showAlertDialog(value, context));
   }
 
-  Future<void> _exitSmallcase(BuildContext context) async {
-
-    var orderConfig = {"type" : "exit", "iscid" : investmentsDataDTO.investmentItem.iscid};
-
-    Gateway.getTransactionId(ScgatewayIntent.TRANSACTION, orderConfig).then((value) => _showAlertDialog(value, context));
-  }
+  // Future<void> _exitSmallcase(BuildContext context) async {
+  //
+  //   var orderConfig = {"type" : "exit", "iscid" : investmentsDataDTO.investmentItem.iscid};
+  //
+  //   Gateway.getTransactionId(ScgatewayIntent.TRANSACTION, orderConfig).then((value) => _showAlertDialog(value, context));
+  // }
 
   Future<void> _showAlertDialog(String message, BuildContext context) async {
 
@@ -103,23 +111,24 @@ class InvestmentDetails extends StatelessWidget {
       );
   }
 
-  // Widget news(BuildContext context) {
-  //   return SizedBox(width: 300, height: 35, child: RaisedButton(
-  //     onPressed: () => _getSmallcaseNews(context),
-  //     color: Colors.green,
-  //     child: const Text('NEWS', style: TextStyle(fontSize: 20)),
-  //   )
-  //   );
-  // }
-
   Widget investmentActions(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         RaisedButton(
           color: Colors.green,
-          onPressed: () => _investMore(context),
+          onPressed: () => _triggerInvestmentAction("repair", context),
+          child: const Text('Repair', style: TextStyle(fontSize: 20)),
+        ),
+        RaisedButton(
+          color: Colors.green,
+          onPressed: () => _triggerInvestmentAction("investmore".toUpperCase(), context),
           child: const Text('INVEST MORE', style: TextStyle(fontSize: 20)),
+        ),
+        RaisedButton(
+          color: Colors.green,
+          onPressed: () => _triggerInvestmentAction("manage", context),
+          child: const Text('Manage', style: TextStyle(fontSize: 20)),
         ),
         RaisedButton(
           color: Colors.green,
@@ -128,7 +137,17 @@ class InvestmentDetails extends StatelessWidget {
         ),
         RaisedButton(
           color: Colors.green,
-          onPressed: () => _exitSmallcase(context),
+          onPressed: () => _triggerInvestmentAction("rebalance", context),
+          child: const Text('Rebalance', style: TextStyle(fontSize: 20)),
+        ),
+        RaisedButton(
+          color: Colors.green,
+          onPressed: () => _triggerInvestmentAction("sip", context),
+          child: const Text('SIP Order', style: TextStyle(fontSize: 20)),
+        ),
+        RaisedButton(
+          color: Colors.green,
+          onPressed: () => _triggerInvestmentAction("exit", context),
           child: const Text('Exit', style: TextStyle(fontSize: 20)),
         ),
       ],
@@ -147,7 +166,7 @@ class InvestmentDetails extends StatelessWidget {
           children: <Widget>[
             investmentInfo(),
 
-            SizedBox(height: MediaQuery.of(context).size.height/ 3),
+            SizedBox(height: 30),
 
             Align(
               alignment: Alignment.bottomCenter,

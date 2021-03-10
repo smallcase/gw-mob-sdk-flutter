@@ -134,6 +134,8 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       var transactionId: String? = call.argument("transactionId")
 
+      Log.d(TAG, "onMethodCall: TransactionId = $transactionId")
+
       if (transactionId != null) {
         SmallcaseGatewaySdk.triggerTransaction(activity!!,
                 transactionId,
@@ -165,7 +167,21 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                           transRes.put("transaction", "TRANSACTION")
 
                           result.success(transRes.toString())
-                        } else {
+                        } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.CONNECT) {
+
+                          val connectRes = JSONObject(transactionResult.data!!)
+
+                          val smallcaseAuthToken = connectRes.getString("smallcaseAuthToken")
+
+                          val res = JSONObject()
+
+                          res.put("data", smallcaseAuthToken)
+                          res.put("success", true)
+                          res.put("transaction", "CONNECT")
+
+                          result.success(res.toString())
+                        }
+                        else {
                           txnResult = transactionResult.data!!
 
                           result.success(Gson().toJson(transactionResult).toString())
