@@ -36,6 +36,7 @@ class ScgatewayFlutterPlugin {
     } on PlatformException catch (e) {
       setConfigResult = e.code;
     }
+
     return setConfigResult.toString();
 
   }
@@ -52,6 +53,8 @@ class ScgatewayFlutterPlugin {
     } on PlatformException catch (e) {
       initGatewayResult = e.code;
     }
+
+    print("Init response: $initGatewayResult");
 
     return initGatewayResult;
   }

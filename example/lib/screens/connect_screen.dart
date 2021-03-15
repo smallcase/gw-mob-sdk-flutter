@@ -82,9 +82,12 @@ class _ConnectScreenState extends State<ConnectScreen> {
         break;
       }
 
-      ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _leprechaunMode, isAmoenabled: _isAmoEnabled).then((value) => _showAlertDialog(value));
+      ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _leprechaunMode, isAmoenabled: _isAmoEnabled).then((setupResponse) =>
 
-      Gateway.setGatewayEnvironment(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled);
+          Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
+      );
+
+      // Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value));
   }
   
   Future<void> _getTransactionId(String intent, Object orderConfig) async {
@@ -121,6 +124,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
     };
 
     String bodyData = json.encode(data);
+
+    print("On User connected body: $data");
 
     final http.Response response = await http.post(
         _baseUrl + 'user/connect',

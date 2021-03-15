@@ -68,6 +68,8 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 override fun onSuccess(authData: InitialisationResponse) {
 
                   res.put("success", true)
+                  res.put("user connected", SmallcaseGatewaySdk.isUserConnected())
+                  res.put("authToken", SmallcaseGatewaySdk.getSmallcaseAuthToken())
                   res.put("errorCode", null)
                   res.put("errorMessage", null)
 //                  result.success(authData.toString())
@@ -158,14 +160,16 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                           res.put("transaction", "HOLDINGS_IMPORT")
 
                           result.success(res.toString())
-                        } else if(transactionResult.transaction == SmallcaseGatewaySdk.Result.TRANSACTION){
+                        } 
+                        else if(transactionResult.transaction == SmallcaseGatewaySdk.Result.TRANSACTION){
 
                           val transRes = JSONObject(transactionResult.data!!)
                           transRes.put("success", true)
                           transRes.put("transaction", "TRANSACTION")
 
                           result.success(transRes.toString())
-                        } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.CONNECT) {
+                        }
+                        else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.CONNECT) {
                           val res = JSONObject()
 
                           try {

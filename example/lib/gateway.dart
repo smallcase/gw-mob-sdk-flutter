@@ -11,11 +11,25 @@ class Gateway {
 
   static var transactionId = "";
 
-  static Future<String> setGatewayEnvironment(String baseUrl, String idText, GatewayEnvironment env, bool leprechaun, bool amo) async {
+  static Future<String> getSessionToken(String baseUrl, String idText, GatewayEnvironment env, bool leprechaun, bool amo) async {
 
     _userId = idText;
 
     _baseUrl = baseUrl;
+
+    print("userId: $_userId baseUrl: $_baseUrl");
+
+    // Map data = {'id': idText};
+    // String bodyData = json.encode(data);
+    // print(bodyData);
+
+    // var body = jsonEncode(<String, String>{
+    //   'id': idText,
+    // });
+
+    var body = {'id':_userId};
+
+    print("requestBody = $body");
 
     final http.Response response = await http.post(
       baseUrl + 'user/login',
@@ -27,9 +41,10 @@ class Gateway {
         'content-type': 'application/x-www-form-urlencoded'
       },
 
-      body: jsonEncode(<String, String>{
-        'id': idText,
-      }),
+      // body: jsonEncode(<String, String>{
+      //   'id': idText,
+      // }),
+      body: body
     );
 
     print("init response = " + response.body);
@@ -41,9 +56,11 @@ class Gateway {
 
       // ScgatewayFlutterPlugin.initGateway(env, "gatewaydemo", idText, leprechaun, amo, token);
 
-      ScgatewayFlutterPlugin.initGateway(token);
+      // print("SmallcaseAuthToken from api response: $token");
 
-      return response.body;
+      return ScgatewayFlutterPlugin.initGateway(token);
+
+      // return response.body;
 
     } else {
       throw Exception('Failed to get session token.');
@@ -61,6 +78,14 @@ class Gateway {
 
     print(bodyData);
 
+    // var bodyData = {'id':_userId, 'intent': intent};
+    //
+    // if(orderConfig != null) {
+    //   bodyData = {'id':_userId, 'intent': intent, 'orderConfig': orderConfig};
+    // }
+
+    print("requestBody = $bodyData");
+
     final http.Response response = await http.post(
       _baseUrl + 'transaction/new',
 
@@ -69,6 +94,7 @@ class Gateway {
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
         'Accept': 'application/json',
         'content-type':'application/json'
+        // 'content-type': 'application/x-www-form-urlencoded'
       },
 
       body: bodyData,
@@ -86,6 +112,7 @@ class Gateway {
       return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId);
 
     } else {
+      print("response status code: ${response.statusCode}");
       print(response.body);
       throw Exception('Failed to get session token');
     }
