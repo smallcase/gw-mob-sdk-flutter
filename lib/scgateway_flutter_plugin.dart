@@ -164,4 +164,22 @@ class ScgatewayFlutterPlugin {
     return smallcaseNews;
   }
 
+  static Future<String> markSmallcaseArchive(String iscid) async {
+
+    String archiveResponse;
+
+    try {
+      archiveResponse = await _channel.invokeMethod(
+          "markArchive",
+          <String, dynamic>{"iscid": iscid}
+      );
+    } on PlatformException catch (e) {
+      archiveResponse = e.code;
+    }
+
+    print("Investment archive response: $archiveResponse");
+
+    return archiveResponse;
+  }
+
 }

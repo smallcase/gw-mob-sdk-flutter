@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.annotation.NonNull
-import com.example.scgateway_flutter_plugin.models.AllSmallcasesDTO
 import com.google.gson.Gson
-import com.smallcase.gateway.data.SdkConstants
 import com.smallcase.gateway.data.SmallcaseGatewayListeners
 import com.smallcase.gateway.data.listeners.DataListener
 import com.smallcase.gateway.data.listeners.TransactionResponseListener
@@ -181,11 +179,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                             res.put("data", smallcaseAuthToken)
                           }
-//                          val connectRes = JSONObject(transactionResult.data!!)
-
-//                          val smallcaseAuthToken = connectRes.getString("smallcaseAuthToken")
-
-
 
 //                          res.put("data", smallcaseAuthToken)
                           res.put("success", true)
@@ -260,14 +253,16 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         }
 
         override fun onSuccess(response: SmallcaseGatewayDataResponse) {
-          val gson = Gson()
+//          val gson = Gson()
 
-          gson.fromJson<AllSmallcasesDTO>(response.getValue(gson), AllSmallcasesDTO::class.java)?.smallcases.let {
-            Log.d(TAG, "onSuccess: all smallcases: $it")
+          result.success(Gson().toJson(response).toString())
 
-//            res.put("smallcases", it)
-            result.success(Gson().toJson(response).toString())
-          }
+//          gson.fromJson<AllSmallcasesDTO>(response.getValue(gson), AllSmallcasesDTO::class.java)?.smallcases.let {
+//            Log.d(TAG, "onSuccess: all smallcases: $it")
+//
+////            res.put("smallcases", it)
+//            result.success(Gson().toJson(response).toString())
+//          }
         }
 
       })
@@ -315,6 +310,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           result.success(Gson().toJson(response).toString())
         }
       })
+
     }
 
     else if(call.method == "getExitedSmallcases") {
@@ -335,6 +331,26 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       })
       
+    }
+
+    else if(call.method == "markArchive") {
+      val res = JSONObject()
+
+      val iscid: String? = call.argument("iscid")
+
+      SmallcaseGatewaySdk.markSmallcaseArchived(iscid!!, object : DataListener<SmallcaseGatewayDataResponse> {
+        override fun onFailure(errorCode: Int, errorMessage: String) {
+          res.put("success", false)
+          res.put("error", errorMessage)
+
+          result.error(res.toString(), null, null)
+        }
+
+        override fun onSuccess(response: SmallcaseGatewayDataResponse) {
+          result.success(Gson().toJson(response).toString())
+        }
+
+      })
     }
     
     else {

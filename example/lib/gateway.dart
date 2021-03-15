@@ -123,4 +123,10 @@ class Gateway {
     return ScgatewayFlutterPlugin.getSmallcaseNews(scid);
 
   }
+
+  static Future<String> markArchive(String iscid) async {
+
+    return ScgatewayFlutterPlugin.markSmallcaseArchive(iscid);
+
+  }
 }

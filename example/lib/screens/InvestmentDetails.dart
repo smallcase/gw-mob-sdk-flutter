@@ -51,6 +51,14 @@ class InvestmentDetails extends StatelessWidget {
   //   Gateway.getTransactionId(ScgatewayIntent.TRANSACTION, orderConfig).then((value) => _showAlertDialog(value, context));
   // }
 
+  void _markSmallcaseArchive(BuildContext context) {
+
+    // var body = {"iscid" : investmentsDataDTO.investmentItem.iscid};
+
+    Gateway.markArchive(investmentsDataDTO.investmentItem.iscid).then((value) => _showAlertDialog(value, context));
+
+  }
+
   Future<void> _showAlertDialog(String message, BuildContext context) async {
 
     // ClipboardManager.copyToClipBoard(message);
@@ -149,6 +157,11 @@ class InvestmentDetails extends StatelessWidget {
           color: Colors.green,
           onPressed: () => _triggerInvestmentAction("exit", context),
           child: const Text('Exit', style: TextStyle(fontSize: 20)),
+        ),
+        RaisedButton(
+          color: Colors.green,
+          onPressed: () => _markSmallcaseArchive(context),
+          child: const Text('Archive', style: TextStyle(fontSize: 20)),
         ),
       ],
     );
