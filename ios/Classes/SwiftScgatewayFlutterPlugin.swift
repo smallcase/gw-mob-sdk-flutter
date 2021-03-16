@@ -92,11 +92,10 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                         try SCGateway.shared.triggerTransactionFlow(transactionId: transactionId , presentingController: currentViewController) { [weak self]  gatewayResult in
                             switch gatewayResult {
                             case .success(let response):
-                                print("CONNECT: RESPONSE: \(response)")
+                                print("Transaction: RESPONSE: \(response)")
                                 switch response {
                                 case let .connect(authToken, _):
-                                
-//                                print("Initialize gateway")
+
                                     SCGateway.shared.initializeGateway(sdkToken: (authToken)) { data, error in
 
                                         if !data {
@@ -116,17 +115,12 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 result(self?.getJsonStringResult(success: true, data: "\(authToken)", errorCode: nil, errorMessage: nil, transaction: "CONNECT"))
                                     
                                 case let .transaction(authToken, transactionData):
-//                                    result("authTOken : \(authToken), \n data: \(transactionData)")
                                     
                                     var transData: [String: Any]
                                     do {
                                         let jsonEncoder = JSONEncoder()
                                         
                                         let jsonData = try jsonEncoder.encode(transactionData)
-                                        
-                                        print(jsonData)
-                                        
-//                                        json = String(data: jsonData, encoding: String.Encoding.utf8)
                                         
                                         let data = try? JSONSerialization.jsonObject(with: jsonData, options: [])
                                         
@@ -158,16 +152,43 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                     //TODO: - Handle Later
                                 
                                 case .holdingsImport(let smallcaseAuthToken, let status, let transactionId):
-//                                    self?.showPopup(title: "Holdings Response", msg: "authToken: \(smallcaseAuthToken)")
-//                                    result("authToken: \(smallcaseAuthToken)")
+
                                     result(self?.getJsonStringResult(success: true, data: "\(smallcaseAuthToken)" , errorCode: nil, errorMessage: nil, transaction: "HOLDINGS_IMPORT"))
                                     return
-                                    
-//                                case .sipSetup(smallcaseAuthToken: String, sipAction: SipDetail, transactionId: String)
+
                                 case .sipSetup(let smallcaseAuthToken, let sipDetails, let transactionId):
 
-                                    result(self?.getJsonStringResult(success: true, data: "\(sipDetails)" , errorCode: nil, errorMessage: nil, transaction: "SIP_SETUP"))
-                                    return
+                                    var sipResponse: [String: Any]
+                                    do{
+                                        let jsonEncoder = JSONEncoder()
+                                        let jsonData = try jsonEncoder.encode(sipDetails)
+                                        
+                                        let data = try? JSONSerialization.jsonObject(with: jsonData, options: [])
+                                        
+                                        if let dictionary = data as? [String: Any] {
+                                            sipResponse = dictionary as! [String: Any]
+                                            
+                                            print("Sip response: \(sipResponse)")
+                                            
+                                            var resDict: [String: Any] = [:]
+                                            
+                                            resDict["success"] = true
+                                            resDict["data"] = sipResponse
+                                            resDict["smallcaseAuthToken"] = smallcaseAuthToken
+                                            resDict["transaction"] = "SIP_SETUP"
+                                            
+                                            let jsonData = try! JSONSerialization.data(withJSONObject: resDict, options: [])
+                                            let jsonString = String(data: jsonData, encoding: .utf8)
+                                            
+                                            result(jsonString)
+                                            return
+                                        }
+                                        
+                                    } catch {
+                                        //TODO: catch json exception
+                                    }
+//                                    result(self?.getJsonStringResult(success: true, data: "\(sipDetails)" , errorCode: nil, errorMessage: nil, transaction: "SIP_SETUP"))
+//                                    return
                                     
                                 default:
                                     return
