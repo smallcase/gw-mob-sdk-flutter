@@ -163,8 +163,9 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                     result(self?.getJsonStringResult(success: true, data: "\(smallcaseAuthToken)" , errorCode: nil, errorMessage: nil, transaction: "HOLDINGS_IMPORT"))
                                     return
                                     
+//                                case .sipSetup(smallcaseAuthToken: String, sipAction: SipDetail, transactionId: String)
                                 case .sipSetup(let smallcaseAuthToken, let sipDetails, let transactionId):
-                                    
+
                                     result(self?.getJsonStringResult(success: true, data: "\(sipDetails)" , errorCode: nil, errorMessage: nil, transaction: "SIP_SETUP"))
                                     return
                                     
@@ -286,6 +287,37 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         }
         
      }
+        
+     else if(call.method == "markArchive") {
+        
+        if let args = call.arguments as? Dictionary<String, Any>,
+            
+            let iscid = args["iscid"] as? String {
+                
+            
+            SCGateway.shared.markSmallcaseArchive(iscid: iscid) { [weak self] (data, error) in
+                
+                guard let response = data else {
+                                   
+                                   print(error ?? "No error object")
+                                   return
+                                   
+                               }
+                               
+                               let smallcasesJson = try? JSONSerialization.jsonObject(with: response, options: [])
+                               
+                               let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
+                               
+                               let jsonString = String(data: jsonData, encoding: .utf8)
+                               
+                               result(jsonString)
+                    
+                }
+                
+            } else {
+                result(FlutterError.init(code: "bad args", message: "error at method markArchive", details: nil))
+            }
+        }
     
     
     else {

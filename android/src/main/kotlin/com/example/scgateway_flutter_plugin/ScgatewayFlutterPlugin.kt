@@ -190,6 +190,16 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                           result.success(res.toString())
                         }
+
+                        else if(transactionResult.transaction == SmallcaseGatewaySdk.Result.SIP_SETUP) {
+
+                          val transRes = JSONObject(transactionResult.data!!)
+                          transRes.put("success", true)
+                          transRes.put("transaction", "SIP_SETUP")
+
+                          result.success(transRes.toString())
+
+                        }
                         else {
                           txnResult = transactionResult.data!!
 

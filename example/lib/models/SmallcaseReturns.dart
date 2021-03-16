@@ -3,13 +3,13 @@ import 'dart:ffi';
 
 class SmallcaseReturns {
 
-  final double daily;
+  final dynamic daily;
 
-  final double weekly;
+  final dynamic weekly;
 
-  final double monthly;
+  final dynamic monthly;
 
-  final double yearly;
+  final dynamic yearly;
 
   SmallcaseReturns({this.daily, this.weekly, this.monthly, this.yearly});
 
