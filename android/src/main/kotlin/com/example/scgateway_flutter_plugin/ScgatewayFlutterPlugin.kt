@@ -2,6 +2,8 @@ package com.example.scgateway_flutter_plugin
 
 import android.app.Activity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.annotation.NonNull
 import com.google.gson.Gson
@@ -14,7 +16,6 @@ import com.smallcase.gateway.data.models.SmallcaseGatewayDataResponse
 import com.smallcase.gateway.data.models.TransactionResult
 import com.smallcase.gateway.data.requests.InitRequest
 import com.smallcase.gateway.portal.SmallcaseGatewaySdk
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -23,12 +24,13 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import org.json.JSONObject
-import kotlin.collections.HashMap
 
 /** ScgatewayFlutterPlugin */
 class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   private val TAG: String = "Android_Native_Scgateway"
+
+  private val uiThreadHandler: Handler = Handler(Looper.getMainLooper())
 
   private lateinit var context: Context
   private lateinit var activity: Activity
@@ -36,7 +38,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private var txnResult: String? = ""
 
   private val leadGenMap by lazy {
-    HashMap<String,String>()
+    HashMap<String, String>()
   }
   
   /// The MethodChannel that will the communication between Flutter and native Android
@@ -79,7 +81,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 override fun onFailure(errorCode: Int, errorMessage: String) {
                   Log.d(TAG, "onFailure: $errorMessage")
 
-                  
+
                   res.put("errorCode", errorCode)
                   res.put("errorMessage", errorMessage)
                   result.error(res.toString(), null, null)
@@ -114,7 +116,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
               Environment(environment, gateway!!, leprechaun!!, amo!!, customBrokerConfig),
               object : SmallcaseGatewayListeners {
                 override fun onGatewaySetupSuccessfull() {
-                  res.put("success",true)
+                  res.put("success", true)
                   res.put("error", null)
                   result.success(res.toString())
                 }
@@ -122,7 +124,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 override fun onGatewaySetupFailed(error: String) {
                   res.put("success", false)
                   res.put("error", error)
-                  
+
                   result.error(res.toString(), null, null)
                 }
 
@@ -147,7 +149,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                         Log.d(TAG, "onSuccess: " + transactionResult.data!!)
 
-                        if(transactionResult.transaction == SmallcaseGatewaySdk.Result.HOLDING_IMPORT) {
+                        if (transactionResult.transaction == SmallcaseGatewaySdk.Result.HOLDING_IMPORT) {
 //                          Gson().toJson(transactionResult)
                           val holdingRes = JSONObject(transactionResult.data!!)
 
@@ -160,16 +162,14 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                           res.put("transaction", "HOLDINGS_IMPORT")
 
                           result.success(res.toString())
-                        } 
-                        else if(transactionResult.transaction == SmallcaseGatewaySdk.Result.TRANSACTION){
+                        } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.TRANSACTION) {
 
                           val transRes = JSONObject(transactionResult.data!!)
                           transRes.put("success", true)
                           transRes.put("transaction", "TRANSACTION")
 
                           result.success(transRes.toString())
-                        }
-                        else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.CONNECT) {
+                        } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.CONNECT) {
                           val res = JSONObject()
 
                           try {
@@ -189,9 +189,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                           res.put("transaction", "CONNECT")
 
                           result.success(res.toString())
-                        }
-
-                        else if(transactionResult.transaction == SmallcaseGatewaySdk.Result.SIP_SETUP) {
+                        } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.SIP_SETUP) {
 
                           val transRes = JSONObject(transactionResult.data!!)
                           transRes.put("success", true)
@@ -199,8 +197,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
                           result.success(transRes.toString())
 
-                        }
-                        else {
+                        } else {
                           txnResult = transactionResult.data!!
 
                           result.success(Gson().toJson(transactionResult).toString())
@@ -208,9 +205,10 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                       } else {
 
                         txnResult = transactionResult.error + " " + transactionResult.errorCode
+//
+//                        result.error(Gson().toJson(transactionResult).toString(), null, null)
 
-                        result.error(Gson().toJson(transactionResult).toString(), null, null)
-//                        result.error(transactionResult.errorCode.toString(), transactionResult.error, null)
+                        uiThreadHandler.post{ result.error(Gson().toJson(transactionResult).toString(), null, null) }
                       }
                     } catch (e: Exception) {
                       e.printStackTrace()
@@ -267,16 +265,9 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         }
 
         override fun onSuccess(response: SmallcaseGatewayDataResponse) {
-//          val gson = Gson()
 
           result.success(Gson().toJson(response).toString())
 
-//          gson.fromJson<AllSmallcasesDTO>(response.getValue(gson), AllSmallcasesDTO::class.java)?.smallcases.let {
-//            Log.d(TAG, "onSuccess: all smallcases: $it")
-//
-////            res.put("smallcases", it)
-//            result.success(Gson().toJson(response).toString())
-//          }
         }
 
       })
@@ -392,7 +383,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       leadGenMap.put("pinCode", pincode)
     }
 
-    SmallcaseGatewaySdk.triggerLeadGen(activity!!,leadGenMap)
+    SmallcaseGatewaySdk.triggerLeadGen(activity!!, leadGenMap)
     
     return "Lead Gen Success"
   }
@@ -416,4 +407,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   override fun onDetachedFromActivity() {
     TODO("Not yet implemented")
   }
+
+
 }

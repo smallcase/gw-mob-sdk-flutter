@@ -126,7 +126,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                         
                                         if let dictionary = data as? [String: Any] {
 //                                            transData = dictionary["data"]! as? String
-                                            transData = dictionary["data"] as! [String : Any]
+                                            transData = dictionary as! [String : Any]
 
                                             
                                             print(transData)
@@ -135,7 +135,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                             
                                             resDict["success"] = true
                                             resDict["data"] = transData
-                                            resDict["smallcaseAuthToken"] = authToken
+//                                            resDict["smallcaseAuthToken"] = authToken
                                             resDict["transaction"] = "TRANSACTION"
                                             
                                             let jsonData = try! JSONSerialization.data(withJSONObject: resDict, options: [])
@@ -155,7 +155,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
 
                                     result(self?.getJsonStringResult(success: true, data: "\(smallcaseAuthToken)" , errorCode: nil, errorMessage: nil, transaction: "HOLDINGS_IMPORT"))
                                     return
-
+                                    
                                 case .sipSetup(let smallcaseAuthToken, let sipDetails, let transactionId):
 
                                     var sipResponse: [String: Any]
