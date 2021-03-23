@@ -1,8 +1,5 @@
 
 import 'dart:async';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:flutter/services.dart';
 
  enum GatewayEnvironment {
@@ -25,14 +22,14 @@ class ScgatewayFlutterPlugin {
   static const MethodChannel _channel =
       const MethodChannel('scgateway_flutter_plugin');
 
-  static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, bool leprechaunMode, {bool isAmoenabled = true}) async {
+  static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, bool leprechaunMode, List<String> brokers, {bool isAmoenabled = true}) async {
 
     Object setConfigResult;
 
     try{
       setConfigResult = await _channel.invokeMethod(
           'setConfigEnvironment',
-          <String, dynamic>{"env": environmentSelected.toString(), "gateway": gateway, "leprechaun": leprechaunMode, "amo": isAmoenabled});
+          <String, dynamic>{"env": environmentSelected.toString(), "gateway": gateway, "leprechaun": leprechaunMode, "brokers": brokers, "amo": isAmoenabled});
     } on PlatformException catch (e) {
       setConfigResult = e.code;
     }

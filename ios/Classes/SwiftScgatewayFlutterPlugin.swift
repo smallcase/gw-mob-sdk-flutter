@@ -61,13 +61,14 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
      else if (call.method == "setConfigEnvironment") {
         if let args = call.arguments as? Dictionary<String, Any>,
                    
-                   let isLeprechaunActive = args["leprechaun"] as? Bool,
-                   let gateway = args["gateway"] as? String,
-                    let environment = args["env"] as? String {
+                    let isLeprechaunActive = args["leprechaun"] as? Bool,
+                    let gateway = args["gateway"] as? String,
+                    let environment = args["env"] as? String,
+                    let brokerConfig = args["brokers"] as? [String]{
             
                     DispatchQueue.main.async { [weak self] in
                         guard let self = self else { return }
-                        let brokerConfig: [String]? = []
+//                        let brokerConfig: [String]? = []
 
                         let config = GatewayConfig(gatewayName: gateway,
                                                           brokerConfig: brokerConfig ,

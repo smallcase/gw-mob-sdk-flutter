@@ -110,10 +110,10 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         else -> Environment.PROTOCOL.PRODUCTION
       }
 
-      val customBrokerConfig: List<String> = arrayListOf()
+      val customBrokerConfig: List<String>? = call.argument("brokers")
 
       SmallcaseGatewaySdk.setConfigEnvironment(
-              Environment(environment, gateway!!, leprechaun!!, amo!!, customBrokerConfig),
+              Environment(environment, gateway!!, leprechaun!!, amo!!, customBrokerConfig!!),
               object : SmallcaseGatewayListeners {
                 override fun onGatewaySetupSuccessfull() {
                   res.put("success", true)

@@ -1,8 +1,12 @@
 name: scgateway_flutter_plugin
 description: Scgateway Flutter plugin.
 version: 1.0.0
-author:
-homepage:
+#author: ankit.deshmukh@smallcase.com
+homepage: https://gitlab.com/smallcase/mobile/gateway/scgateway-flutter_plugin
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+#publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
