@@ -9,48 +9,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7628e587-59d8-4a17-a6f6-b5f19324e39a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileChanges/last-build.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/6.1.1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.flutter-plugins" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.flutter-plugins-dependencies" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.gradle/6.1.1/fileChanges/last-build.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.gradle/6.1.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.gradle/6.1.1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.gradle/vcs-1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/local.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/android/src/main/kotlin/com/example/scgateway_flutter_plugin/ScgatewayFlutterPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/connect_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/connect_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/ios/Classes/SwiftScgatewayFlutterPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/ios/Classes/SwiftScgatewayFlutterPlugin.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/lib/scgateway_flutter_plugin.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/screens/connect_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/connect_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftScgatewayFlutterPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftScgatewayFlutterPlugin.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +27,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_4_XL_API_30_6.3inch]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -142,44 +111,44 @@
     <state x="665" y="275" key="AndroidProcessChooserDialog/0.25.1792.1017@0.25.1792.1017" timestamp="1615803858087" />
     <state x="665" y="276" key="AndroidProcessChooserDialog/0.25.1792.1021@0.25.1792.1021" timestamp="1614877386335" />
     <state x="665" y="276" key="AndroidProcessChooserDialog/0.25.1792.1023@0.25.1792.1023" timestamp="1614665532494" />
-    <state width="1750" height="318" key="GridCell.Tab.0.bottom" timestamp="1616500428655">
-      <screen x="0" y="25" width="1792" height="1023" />
+    <state width="1750" height="318" key="GridCell.Tab.0.bottom" timestamp="1616568847170">
+      <screen x="0" y="25" width="1792" height="1019" />
     </state>
     <state width="1750" height="369" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1616159299147" />
     <state width="1750" height="334" key="GridCell.Tab.0.bottom/0.25.1792.1015@0.25.1792.1015" timestamp="1614769231961" />
     <state width="1750" height="318" key="GridCell.Tab.0.bottom/0.25.1792.1017@0.25.1792.1017" timestamp="1616499231301" />
-    <state width="1750" height="369" key="GridCell.Tab.0.bottom/0.25.1792.1019@0.25.1792.1019" timestamp="1615886839283" />
-    <state width="1750" height="318" key="GridCell.Tab.0.bottom/0.25.1792.1021@0.25.1792.1021" timestamp="1616500237977" />
+    <state width="1750" height="318" key="GridCell.Tab.0.bottom/0.25.1792.1019@0.25.1792.1019" timestamp="1616568847170" />
+    <state width="1750" height="318" key="GridCell.Tab.0.bottom/0.25.1792.1021@0.25.1792.1021" timestamp="1616501168803" />
     <state width="1750" height="318" key="GridCell.Tab.0.bottom/0.25.1792.1023@0.25.1792.1023" timestamp="1616500428655" />
     <state width="1750" height="641" key="GridCell.Tab.0.bottom/0.25.1792.1024@0.25.1792.1024" timestamp="1614604460754" />
-    <state width="1750" height="318" key="GridCell.Tab.0.center" timestamp="1616500428654">
-      <screen x="0" y="25" width="1792" height="1023" />
+    <state width="1750" height="318" key="GridCell.Tab.0.center" timestamp="1616568847169">
+      <screen x="0" y="25" width="1792" height="1019" />
     </state>
     <state width="1750" height="369" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1616159299146" />
     <state width="1750" height="334" key="GridCell.Tab.0.center/0.25.1792.1015@0.25.1792.1015" timestamp="1614769231961" />
     <state width="1750" height="318" key="GridCell.Tab.0.center/0.25.1792.1017@0.25.1792.1017" timestamp="1616499231301" />
-    <state width="1750" height="369" key="GridCell.Tab.0.center/0.25.1792.1019@0.25.1792.1019" timestamp="1615886839282" />
-    <state width="1750" height="318" key="GridCell.Tab.0.center/0.25.1792.1021@0.25.1792.1021" timestamp="1616500237976" />
+    <state width="1750" height="318" key="GridCell.Tab.0.center/0.25.1792.1019@0.25.1792.1019" timestamp="1616568847169" />
+    <state width="1750" height="318" key="GridCell.Tab.0.center/0.25.1792.1021@0.25.1792.1021" timestamp="1616501168803" />
     <state width="1750" height="318" key="GridCell.Tab.0.center/0.25.1792.1023@0.25.1792.1023" timestamp="1616500428654" />
     <state width="1750" height="641" key="GridCell.Tab.0.center/0.25.1792.1024@0.25.1792.1024" timestamp="1614604460753" />
-    <state width="1750" height="318" key="GridCell.Tab.0.left" timestamp="1616500428654">
-      <screen x="0" y="25" width="1792" height="1023" />
+    <state width="1750" height="318" key="GridCell.Tab.0.left" timestamp="1616568847169">
+      <screen x="0" y="25" width="1792" height="1019" />
     </state>
     <state width="1750" height="369" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1616159299146" />
     <state width="1750" height="334" key="GridCell.Tab.0.left/0.25.1792.1015@0.25.1792.1015" timestamp="1614769231960" />
     <state width="1750" height="318" key="GridCell.Tab.0.left/0.25.1792.1017@0.25.1792.1017" timestamp="1616499231301" />
-    <state width="1750" height="369" key="GridCell.Tab.0.left/0.25.1792.1019@0.25.1792.1019" timestamp="1615886839282" />
-    <state width="1750" height="318" key="GridCell.Tab.0.left/0.25.1792.1021@0.25.1792.1021" timestamp="1616500237975" />
+    <state width="1750" height="318" key="GridCell.Tab.0.left/0.25.1792.1019@0.25.1792.1019" timestamp="1616568847169" />
+    <state width="1750" height="318" key="GridCell.Tab.0.left/0.25.1792.1021@0.25.1792.1021" timestamp="1616501168803" />
     <state width="1750" height="318" key="GridCell.Tab.0.left/0.25.1792.1023@0.25.1792.1023" timestamp="1616500428654" />
     <state width="1750" height="641" key="GridCell.Tab.0.left/0.25.1792.1024@0.25.1792.1024" timestamp="1614604460752" />
-    <state width="1750" height="318" key="GridCell.Tab.0.right" timestamp="1616500428655">
-      <screen x="0" y="25" width="1792" height="1023" />
+    <state width="1750" height="318" key="GridCell.Tab.0.right" timestamp="1616568847169">
+      <screen x="0" y="25" width="1792" height="1019" />
     </state>
     <state width="1750" height="369" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1616159299147" />
     <state width="1750" height="334" key="GridCell.Tab.0.right/0.25.1792.1015@0.25.1792.1015" timestamp="1614769231961" />
     <state width="1750" height="318" key="GridCell.Tab.0.right/0.25.1792.1017@0.25.1792.1017" timestamp="1616499231301" />
-    <state width="1750" height="369" key="GridCell.Tab.0.right/0.25.1792.1019@0.25.1792.1019" timestamp="1615886839282" />
-    <state width="1750" height="318" key="GridCell.Tab.0.right/0.25.1792.1021@0.25.1792.1021" timestamp="1616500237977" />
+    <state width="1750" height="318" key="GridCell.Tab.0.right/0.25.1792.1019@0.25.1792.1019" timestamp="1616568847169" />
+    <state width="1750" height="318" key="GridCell.Tab.0.right/0.25.1792.1021@0.25.1792.1021" timestamp="1616501168803" />
     <state width="1750" height="318" key="GridCell.Tab.0.right/0.25.1792.1023@0.25.1792.1023" timestamp="1616500428655" />
     <state width="1750" height="641" key="GridCell.Tab.0.right/0.25.1792.1024@0.25.1792.1024" timestamp="1614604460753" />
     <state x="397" y="169" key="SettingsEditor" timestamp="1616154457707">

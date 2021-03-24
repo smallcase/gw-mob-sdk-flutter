@@ -82,7 +82,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
         break;
       }
 
-      List<String> brokers = [];
+      List<String> brokers = ['kite','hdfc','iifl'];
 
       ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _leprechaunMode, brokers, isAmoenabled: _isAmoEnabled).then((setupResponse) =>
 
