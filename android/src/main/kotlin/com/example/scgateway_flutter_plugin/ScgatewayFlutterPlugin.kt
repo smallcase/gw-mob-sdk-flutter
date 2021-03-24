@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.annotation.NonNull
 import com.google.gson.Gson
 import com.smallcase.gateway.data.SmallcaseGatewayListeners
+import com.smallcase.gateway.data.SmallcaseLogoutListener
 import com.smallcase.gateway.data.listeners.DataListener
 import com.smallcase.gateway.data.listeners.TransactionResponseListener
 import com.smallcase.gateway.data.models.Environment
@@ -356,6 +357,29 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         }
 
       })
+    }
+
+    else if(call.method == "logoutUser") {
+
+      val res = JSONObject()
+
+      SmallcaseGatewaySdk.logoutUser(activity!!, object : SmallcaseLogoutListener {
+
+        override fun onLogoutSuccessfull() {
+          result.success("Logout successful")
+        }
+
+        override fun onLogoutFailed(errorCode: Int, error: String) {
+
+          res.put("success", false)
+          res.put("error", error)
+
+          result.error(res.toString(), null, null)
+
+        }
+
+      })
+
     }
     
     else {

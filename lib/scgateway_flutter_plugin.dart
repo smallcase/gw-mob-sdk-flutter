@@ -19,8 +19,7 @@ class ScgatewayIntent {
 
 class ScgatewayFlutterPlugin {
 
-  static const MethodChannel _channel =
-      const MethodChannel('scgateway_flutter_plugin');
+  static const MethodChannel _channel = const MethodChannel('scgateway_flutter_plugin');
 
   static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, bool leprechaunMode, List<String> brokers, {bool isAmoenabled = true}) async {
 
@@ -180,6 +179,21 @@ class ScgatewayFlutterPlugin {
     print("Investment archive response: $archiveResponse");
 
     return archiveResponse;
+  }
+
+  static Future<String> logoutUser() async {
+
+    String logoutResponse;
+
+    try {
+      logoutResponse = await _channel.invokeMethod("logoutUser", null);
+    } on PlatformException catch (e) {
+      logoutResponse = e.code;
+    }
+
+    print("Logout user reponse: $logoutResponse");
+
+    return logoutResponse;
   }
 
 }

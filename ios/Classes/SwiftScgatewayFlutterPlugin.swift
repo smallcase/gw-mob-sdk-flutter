@@ -340,6 +340,20 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                 result(FlutterError.init(code: "bad args", message: "error at method markArchive", details: nil))
             }
         }
+        
+     else if(call.method == "logoutUser") {
+        
+        SCGateway.shared.logoutUser(presentingController: currentViewController) { success, error in
+            
+            if(success) {
+                result("Logout successful")
+            } else {
+                result(FlutterError.init(code: "bad args", message: "error at method logout user", details: nil))
+            }
+            
+        }
+        
+     }
     
     
     else {

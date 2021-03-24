@@ -130,7 +130,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     print("On User connected body: $data");
 
     final http.Response response = await http.post(
-        _baseUrl + 'user/connect',
+        Gateway.baseURL + 'user/connect',
 
         headers: <String, String>{
           'Access-Control-Allow-Origin': '*',

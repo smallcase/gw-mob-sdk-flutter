@@ -1,3 +1,4 @@
+import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
@@ -18,6 +19,43 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
   Future<void> _executeLeadGen() async {
     // ScgatewayFlutterPlugin.leadGen(_name, _email, _contact, _pincode);
     Gateway.leadGen(_name, _email, _contact, _pincode);
+  }
+
+  Future<void> _logout() async {
+    Gateway.logout().then((value) => _showAlertDialog(value));
+  }
+
+  Future<void> _showAlertDialog(String message) async {
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Gateway'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(onPressed: () {
+              ClipboardManager.copyToClipBoard(message);
+            },
+                child: Text('Copy')
+            )
+          ],
+        );
+      },
+    );
   }
 
   Widget inputName() {
@@ -107,6 +145,13 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
     ));
   }
 
+  Widget btnLogoutUser() {
+    return SizedBox(width: 300, height: 35, child: RaisedButton(
+      onPressed: _logout,
+      child: const Text('Logout User', style: TextStyle(fontSize: 20)),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,6 +193,14 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
                 child: btnStarteLeadGen(),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: FittedBox(
+                alignment: Alignment.center,
+                fit: BoxFit.none,
+                child: btnLogoutUser(),
+              ),
+            )
           ],
         ),
       ),

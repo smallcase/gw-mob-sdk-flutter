@@ -5,19 +5,19 @@ import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 
 class Gateway {
 
-  static var _userId = "";
+  static var userId = "";
 
-  static var _baseUrl = "";
+  static var baseURL = "";
 
   static var transactionId = "";
 
   static Future<String> getSessionToken(String baseUrl, String idText, GatewayEnvironment env, bool leprechaun, bool amo) async {
 
-    _userId = idText;
+    userId = idText;
 
-    _baseUrl = baseUrl;
+    baseURL = baseUrl;
 
-    print("userId: $_userId baseUrl: $_baseUrl");
+    print("userId: $userId baseUrl: $baseURL");
 
     // Map data = {'id': idText};
     // String bodyData = json.encode(data);
@@ -27,7 +27,7 @@ class Gateway {
     //   'id': idText,
     // });
 
-    var body = {'id':_userId};
+    var body = {'id':userId};
 
     print("requestBody = $body");
 
@@ -69,7 +69,7 @@ class Gateway {
 
   static Future<String> getTransactionId(String intent, Object orderConfig) async {
     Map data = {
-      'id': _userId,
+      'id': userId,
       'intent': intent,
       'orderConfig': orderConfig
     };
@@ -87,7 +87,7 @@ class Gateway {
     print("requestBody = $bodyData");
 
     final http.Response response = await http.post(
-      _baseUrl + 'transaction/new',
+      baseURL + 'transaction/new',
 
       headers: <String, String>{
         'Access-Control-Allow-Origin': '*',
@@ -154,6 +154,12 @@ class Gateway {
   static Future<String> markArchive(String iscid) async {
 
     return ScgatewayFlutterPlugin.markSmallcaseArchive(iscid);
+
+  }
+
+  static Future<String> logout() async {
+
+    return ScgatewayFlutterPlugin.logoutUser();
 
   }
 }
