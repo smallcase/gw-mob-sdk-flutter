@@ -9,8 +9,6 @@ import 'package:scgateway_flutter_plugin_example/models/SmallcasesDTO.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
 import 'package:scgateway_flutter_plugin_example/screens/smallcase_news.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
-import 'package:http/http.dart' as http;
-import '../Styles.dart';
 
 class SmallcaseDetails extends StatelessWidget {
 
@@ -59,42 +57,6 @@ class SmallcaseDetails extends StatelessWidget {
 
   Future<void> _showAlertDialog(String message, BuildContext context) async {
 
-    final Map<String, dynamic> responseData = jsonDecode(message);
-
-    var transactionSignup = responseData['signup'] as bool;
-
-    var smallcaseAuthToken = responseData['smallcaseAuthToken'] as String;
-
-    // if(transactionSignup) {
-    //
-    //   Map data = {
-    //     'id': Gateway.userId,
-    //     'smallcaseAuthToken': smallcaseAuthToken
-    //   };
-    //
-    //   String bodyData = json.encode(data);
-    //
-    //   print("On User connected body: $data");
-    //
-    //   final http.Response response = await http.post(
-    //       Gateway.baseURL + 'user/connect',
-    //
-    //       headers: <String, String>{
-    //         'Access-Control-Allow-Origin': '*',
-    //         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-    //         'Accept': 'application/json',
-    //         'content-type':'application/json'
-    //       },
-    //
-    //       body: bodyData
-    //   );
-    //
-    //   print("On user Connect: ");
-    //   print(response.body);
-    //
-    // }
-
-    // ClipboardManager.copyToClipBoard(message);
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
