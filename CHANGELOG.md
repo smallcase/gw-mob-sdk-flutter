@@ -1,3 +1,7 @@
 ## 1.0.2
 
-Custom broker list can be passed during gateway setup
+Logout user session from browser.
+
+## 1.0.3
+
+ios bug-fixes.
