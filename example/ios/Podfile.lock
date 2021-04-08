@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/scgateway_flutter_plugin/ios"
 
 SPEC CHECKSUMS:
-  clipboard_manager: f4800834e62cc26b1cc4e0a92a35cd452dd8b827
+  clipboard_manager: 8cf8665095a6bb01545b4e381c798d40aa5e0fe5
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   sc-gateway: a33827dce3a74dc39b7a4920418e270461af481e
   scgateway_flutter_plugin: 6b695303bc6072d916f6dd475e40c8b5458576d6
