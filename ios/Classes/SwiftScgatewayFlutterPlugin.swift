@@ -76,7 +76,15 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                                           isLeprechaunActive: isLeprechaunActive,
                                                           isAmoEnabled: true)
                         
-                        SCGateway.shared.setup(config: config)
+                        SCGateway.shared.setup(config: config) { (success, error) in
+                            
+                            if(success) {
+                                print("")
+                            } else {
+                                print("")
+                            }
+                            
+                        }
                         
                         result(self.getJsonStringResult(success: true, data: nil, errorCode: nil, errorMessage: nil, transaction: nil))
                 }
@@ -100,7 +108,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                     SCGateway.shared.initializeGateway(sdkToken: (authToken)) { data, error in
 
                                         if !data {
-                                                print(error)
+                                            print(error ?? "")
                                                     if let error = error as? TransactionError {
                                                         result(FlutterError.init(code: (self?.getJsonStringResult(success: false, data: nil, errorCode: error.rawValue, errorMessage: error.message, transaction: "ERROR"))!, message: nil, details: nil))
                                                     } else {
@@ -150,7 +158,6 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                     } catch {
                                     
                                     }
-                                    //TODO: - Handle Later
                                 
                                 case .holdingsImport(let smallcaseAuthToken, let status, let transactionId):
 
