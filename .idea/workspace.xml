@@ -15,11 +15,11 @@
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/lib/scgateway_flutter_plugin.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,7 +27,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_2_API_30_5inch]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -90,49 +90,33 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1750" height="347" key="GridCell.Tab.0.bottom" timestamp="1627898897558">
+    <state width="1750" height="637" key="GridCell.Tab.0.bottom" timestamp="1627902573257">
       <screen x="0" y="25" width="1792" height="1021" />
     </state>
     <state width="1750" height="524" key="GridCell.Tab.0.bottom/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884648" />
-    <state width="1750" height="347" key="GridCell.Tab.0.bottom/0.25.1792.1021@0.25.1792.1021" timestamp="1627898897558" />
+    <state width="1750" height="637" key="GridCell.Tab.0.bottom/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
     <state width="1750" height="347" key="GridCell.Tab.0.bottom/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307457" />
     <state width="1750" height="527" key="GridCell.Tab.0.bottom/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063006" />
-    <state width="1750" height="347" key="GridCell.Tab.0.center" timestamp="1627898897558">
+    <state width="1750" height="637" key="GridCell.Tab.0.center" timestamp="1627902573257">
       <screen x="0" y="25" width="1792" height="1021" />
     </state>
     <state width="1750" height="524" key="GridCell.Tab.0.center/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884647" />
-    <state width="1750" height="347" key="GridCell.Tab.0.center/0.25.1792.1021@0.25.1792.1021" timestamp="1627898897558" />
+    <state width="1750" height="637" key="GridCell.Tab.0.center/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
     <state width="1750" height="347" key="GridCell.Tab.0.center/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307456" />
     <state width="1750" height="527" key="GridCell.Tab.0.center/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063005" />
-    <state width="1750" height="347" key="GridCell.Tab.0.left" timestamp="1627898897558">
+    <state width="1750" height="637" key="GridCell.Tab.0.left" timestamp="1627902573256">
       <screen x="0" y="25" width="1792" height="1021" />
     </state>
     <state width="1750" height="524" key="GridCell.Tab.0.left/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884647" />
-    <state width="1750" height="347" key="GridCell.Tab.0.left/0.25.1792.1021@0.25.1792.1021" timestamp="1627898897558" />
+    <state width="1750" height="637" key="GridCell.Tab.0.left/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573256" />
     <state width="1750" height="347" key="GridCell.Tab.0.left/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307456" />
     <state width="1750" height="527" key="GridCell.Tab.0.left/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063004" />
-    <state width="1750" height="347" key="GridCell.Tab.0.right" timestamp="1627898897558">
+    <state width="1750" height="637" key="GridCell.Tab.0.right" timestamp="1627902573257">
       <screen x="0" y="25" width="1792" height="1021" />
     </state>
     <state width="1750" height="524" key="GridCell.Tab.0.right/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884648" />
-    <state width="1750" height="347" key="GridCell.Tab.0.right/0.25.1792.1021@0.25.1792.1021" timestamp="1627898897558" />
+    <state width="1750" height="637" key="GridCell.Tab.0.right/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
     <state width="1750" height="347" key="GridCell.Tab.0.right/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307457" />
     <state width="1750" height="527" key="GridCell.Tab.0.right/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063006" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart</url>
-          <line>125</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart</url>
-          <line>120</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

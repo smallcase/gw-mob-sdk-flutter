@@ -20,4 +20,7 @@ feature: smallplug integration
 feature: Broker chooser rejig
 
 ## 1.1.1
+feature: migrated dependencies to null safety
+
+## 1.1.2
 feature: migrated plugin to null safety

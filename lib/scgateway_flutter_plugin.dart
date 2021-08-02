@@ -23,7 +23,7 @@ class ScgatewayFlutterPlugin {
 
   static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, bool leprechaunMode, List<String> brokers, {bool isAmoenabled = true}) async {
 
-    Object setConfigResult;
+    Object? setConfigResult;
 
     try{
       setConfigResult = await _channel.invokeMethod(
@@ -37,9 +37,9 @@ class ScgatewayFlutterPlugin {
 
   }
 
-  static Future<String> initGateway(String authToken) async {
+  static Future<String?> initGateway(String authToken) async {
 
-    String initGatewayResult;
+    String? initGatewayResult;
 
     try{
       initGatewayResult = await _channel.invokeMethod(
@@ -56,9 +56,9 @@ class ScgatewayFlutterPlugin {
   }
 
 
-  static Future<String> triggerGatewayTransaction(String txnId) async{
+  static Future<String?> triggerGatewayTransaction(String txnId) async{
 
-    String triggerTxnRes;
+    String? triggerTxnRes;
 
     try {
       triggerTxnRes = await _channel.invokeMethod(
@@ -68,7 +68,7 @@ class ScgatewayFlutterPlugin {
       triggerTxnRes = e.code;
     }
 
-    print("transaction res: " + triggerTxnRes);
+    print("transaction res: " + triggerTxnRes!);
 
     return triggerTxnRes;
 
@@ -76,7 +76,7 @@ class ScgatewayFlutterPlugin {
 
   static void leadGen(String name, String email, String contact, String pincode) async {
 
-    String leadGenRes;
+    String? leadGenRes;
 
     try{
       leadGenRes = await _channel.invokeMethod(
@@ -90,9 +90,9 @@ class ScgatewayFlutterPlugin {
 
   }
 
-  static Future<String> getAllSmallcases() async {
+  static Future<String?> getAllSmallcases() async {
 
-    String fetchSmallcasesRes;
+    String? fetchSmallcasesRes;
 
     try{
       fetchSmallcasesRes = await _channel.invokeMethod(
@@ -108,9 +108,9 @@ class ScgatewayFlutterPlugin {
     return fetchSmallcasesRes;
   }
 
-  static Future<String> getAllUserInvestments() async {
+  static Future<String?> getAllUserInvestments() async {
 
-    String fetchUserInvestmentsRes;
+    String? fetchUserInvestmentsRes;
 
     try {
       fetchUserInvestmentsRes = await _channel.invokeMethod(
@@ -127,9 +127,9 @@ class ScgatewayFlutterPlugin {
 
   }
 
-  static Future<String> getAllExitedSmallcases() async {
+  static Future<String?> getAllExitedSmallcases() async {
 
-    String fetchExitedSmallcases;
+    String? fetchExitedSmallcases;
 
     try {
       fetchExitedSmallcases = await _channel.invokeMethod(
@@ -145,9 +145,9 @@ class ScgatewayFlutterPlugin {
     return fetchExitedSmallcases;
   }
 
-  static Future<String> getSmallcaseNews(String scid) async {
+  static Future<String?> getSmallcaseNews(String scid) async {
 
-    String smallcaseNews;
+    String? smallcaseNews;
 
     try{
       smallcaseNews = await _channel.invokeMethod(
@@ -163,9 +163,9 @@ class ScgatewayFlutterPlugin {
     return smallcaseNews;
   }
 
-  static Future<String> markSmallcaseArchive(String iscid) async {
+  static Future<String?> markSmallcaseArchive(String iscid) async {
 
-    String archiveResponse;
+    String? archiveResponse;
 
     try {
       archiveResponse = await _channel.invokeMethod(
@@ -181,9 +181,9 @@ class ScgatewayFlutterPlugin {
     return archiveResponse;
   }
 
-  static Future<String> logoutUser() async {
+  static Future<String?> logoutUser() async {
 
-    String logoutResponse;
+    String? logoutResponse;
 
     try {
       logoutResponse = await _channel.invokeMethod("logoutUser", null);
@@ -196,9 +196,9 @@ class ScgatewayFlutterPlugin {
     return logoutResponse;
   }
 
-  static Future<String> launchSmallplug() async {
+  static Future<String?> launchSmallplug() async {
 
-    String smallplugResponse;
+    String? smallplugResponse;
 
     try {
       smallplugResponse = await _channel.invokeMethod("launchSmallplug", null);
