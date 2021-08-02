@@ -18,3 +18,6 @@ Fixed an issue which caused build failure for ios_simulator
 
 feature: smallplug integration
 feature: Broker chooser rejig
+
+## 1.1.1
+feature: migrated plugin to null safety
