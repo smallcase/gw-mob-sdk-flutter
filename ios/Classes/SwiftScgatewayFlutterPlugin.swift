@@ -361,6 +361,19 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         }
         
      }
+     
+     else if(call.method == "launchSmallplug") {
+        
+        SCGateway.shared.launchSmallPlug(presentingController: currentViewController, completion: {
+            response, error in
+            
+            if let smallplugResponse = response {
+                
+                result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                
+            }
+        })
+     }
     
     
     else {

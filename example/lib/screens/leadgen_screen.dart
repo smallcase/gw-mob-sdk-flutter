@@ -117,25 +117,25 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
     );
   }
 
-  Widget inputPincode() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text('Pin Code '),
-        SizedBox(width: 250, height: 30, child: TextField(decoration: InputDecoration(
-          filled: true,
-          labelText: '',
-        ),
-          onChanged: (value) {
-            setState(() {
-              _pincode = value;
-            });
-          },
-        ),
-        )
-      ],
-    );
-  }
+  // Widget inputPincode() {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //     children: <Widget>[
+  //       Text('Pin Code '),
+  //       SizedBox(width: 250, height: 30, child: TextField(decoration: InputDecoration(
+  //         filled: true,
+  //         labelText: '',
+  //       ),
+  //         onChanged: (value) {
+  //           setState(() {
+  //             _pincode = value;
+  //           });
+  //         },
+  //       ),
+  //       )
+  //     ],
+  //   );
+  // }
 
   Widget btnStarteLeadGen() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
@@ -179,11 +179,11 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
               fit: BoxFit.none,
               child: inputContact(),
             ),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: inputPincode(),
-            ),
+            // FittedBox(
+            //   alignment: Alignment.centerLeft,
+            //   fit: BoxFit.none,
+            //   child: inputPincode(),
+            // ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: FittedBox(

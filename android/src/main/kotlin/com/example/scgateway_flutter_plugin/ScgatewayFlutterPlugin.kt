@@ -10,11 +10,9 @@ import com.google.gson.Gson
 import com.smallcase.gateway.data.SmallcaseGatewayListeners
 import com.smallcase.gateway.data.SmallcaseLogoutListener
 import com.smallcase.gateway.data.listeners.DataListener
+import com.smallcase.gateway.data.listeners.SmallPlugResponseListener
 import com.smallcase.gateway.data.listeners.TransactionResponseListener
-import com.smallcase.gateway.data.models.Environment
-import com.smallcase.gateway.data.models.InitialisationResponse
-import com.smallcase.gateway.data.models.SmallcaseGatewayDataResponse
-import com.smallcase.gateway.data.models.TransactionResult
+import com.smallcase.gateway.data.models.*
 import com.smallcase.gateway.data.requests.InitRequest
 import com.smallcase.gateway.portal.SmallcaseGatewaySdk
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -363,7 +361,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       val res = JSONObject()
 
-      SmallcaseGatewaySdk.logoutUser(activity!!, object : SmallcaseLogoutListener {
+      SmallcaseGatewaySdk.logoutUser(activity, object : SmallcaseLogoutListener {
 
         override fun onLogoutSuccessfull() {
           result.success("Logout successful")
@@ -380,6 +378,29 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       })
 
+    }
+
+    else if(call.method == "launchSmallplug") {
+
+      val res = JSONObject()
+
+      SmallcaseGatewaySdk.launchSmallPlug(activity, object : SmallPlugResponseListener {
+
+        override fun onFailure(errorCode: Int, errorMessage: String) {
+          res.put("success", false)
+          res.put("error", errorMessage)
+
+          result.error(res.toString(), null, null)
+        }
+
+        override fun onSuccess(smallPlugResult: SmallPlugResult) {
+
+          Log.d(TAG, "onSuccess: smallplug: $smallPlugResult")
+          result.success(Gson().toJson(smallPlugResult).toString())
+
+        }
+
+      })
     }
     
     else {
@@ -407,7 +428,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       leadGenMap.put("pinCode", pincode)
     }
 
-    SmallcaseGatewaySdk.triggerLeadGen(activity!!, leadGenMap)
+    SmallcaseGatewaySdk.triggerLeadGen(activity, leadGenMap)
     
     return "Lead Gen Success"
   }

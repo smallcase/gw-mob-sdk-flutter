@@ -196,4 +196,19 @@ class ScgatewayFlutterPlugin {
     return logoutResponse;
   }
 
+  static Future<String> launchSmallplug() async {
+
+    String smallplugResponse;
+
+    try {
+      smallplugResponse = await _channel.invokeMethod("launchSmallplug", null);
+    } on PlatformException catch (e) {
+      smallplugResponse = e.code;
+    }
+
+    print("Smallplug response: $smallplugResponse");
+
+    return smallplugResponse;
+  }
+
 }

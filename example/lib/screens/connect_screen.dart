@@ -96,6 +96,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
     Gateway.getTransactionId(intent, orderConfig).then((value) => _onUserConnected(value));
   }
 
+  Future<void> _triggerTransactionFromTxnId(String txnId) async {
+
+    Gateway.triggerTransactionWithTransactionId(txnId).then((value) => _showAlertDialog(value));
+  }
+
    Future<void> _onUserConnected(String initResponse) async {
 
     print("transaction auth token: $initResponse");
@@ -128,8 +133,10 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
     print("On User connected body: $data");
 
+    var url = Uri.parse(Gateway.baseURL + 'user/connect');
+
     final http.Response response = await http.post(
-        Gateway.baseURL + 'user/connect',
+        url,
 
         headers: <String, String>{
           'Access-Control-Allow-Origin': '*',
@@ -301,13 +308,15 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   Widget enterTransactionId() {
     return SizedBox(width: 300, height: 35, child:
-    RaisedButton(
+    ElevatedButton(
       onPressed: () {
         showDialog(
-            child: new Dialog(
+          context: context,
+            builder: (BuildContext context) {
+              return new Dialog(
                   child: SizedBox(
-                    width: 300, height: 96,
-                    child: new Column(
+                      width: 300, height: 96,
+                      child: new Column(
                         children: <Widget>[
                           new TextField(
                             decoration: new InputDecoration(hintText: "Enter Transaction Id"),
@@ -315,17 +324,19 @@ class _ConnectScreenState extends State<ConnectScreen> {
                           ),
                           new FlatButton(
                             child: new Text("Save"),
-                              onPressed: () {
-                                setState((){
-                                  this._transactionId = _textEditingController.text;
-                                });
-                                Navigator.pop(context);
-                              },
+                            onPressed: () {
+                              setState((){
+                                this._transactionId = _textEditingController.text;
+                              });
+                              _triggerTransactionFromTxnId(this._transactionId);
+                              Navigator.pop(context);
+                            },
                           )
                         ],
-                    )
+                      )
                   )
-            ), context: context);
+              );
+            });
       },
       child: const Text('Enter Transaction Id', style: TextStyle(fontSize: 20)),
     ));

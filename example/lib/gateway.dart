@@ -31,8 +31,10 @@ class Gateway {
 
     print("requestBody = $body");
 
+    var url = Uri.parse(baseUrl + 'user/login');
+
     final http.Response response = await http.post(
-      baseUrl + 'user/login',
+      url,
 
       headers: <String, String>{
         'Access-Control-Allow-Origin': '*',
@@ -86,8 +88,10 @@ class Gateway {
 
     print("requestBody = $bodyData");
 
+    var url = Uri.parse(baseURL + 'transaction/new');
+
     final http.Response response = await http.post(
-      baseURL + 'transaction/new',
+      url,
 
       headers: <String, String>{
         'Access-Control-Allow-Origin': '*',
@@ -116,6 +120,10 @@ class Gateway {
       print(response.body);
       throw Exception('Failed to get session token');
     }
+  }
+
+  static Future<String> triggerTransactionWithTransactionId(String txnId) async {
+    return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId);
   }
 
 
@@ -161,5 +169,10 @@ class Gateway {
 
     return ScgatewayFlutterPlugin.logoutUser();
 
+  }
+
+  static Future<String> openSmallplug() async {
+
+    return ScgatewayFlutterPlugin.launchSmallplug();
   }
 }

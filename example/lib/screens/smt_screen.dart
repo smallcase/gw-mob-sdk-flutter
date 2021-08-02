@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin_example/models/ExitedSmallcaseDTO.dart';
@@ -95,6 +96,44 @@ class _SmtScreenState extends State<SmtScreen> {
     Gateway.getAllExitedSmallcases().then((value) => _showExitedSmallcases(context, value));
   }
 
+  void _launchSmallplug() async {
+    Gateway.openSmallplug().then((value) => _showAlertDialog(value));
+  }
+
+  Future<void> _showAlertDialog(String message) async {
+
+    // ClipboardManager.copyToClipBoard(message);
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Gateway'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(onPressed: () {
+              ClipboardManager.copyToClipBoard(message);
+            },
+                child: Text('Copy')
+            )
+          ],
+        );
+      },
+    );
+  }
   void _showExitedSmallcases(BuildContext context, String data) {
 
     final Map<String, dynamic> responseData = jsonDecode(data);
@@ -134,6 +173,13 @@ class _SmtScreenState extends State<SmtScreen> {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
       onPressed: () => _getExitedSmallcases(context),
       child: const Text('EXITED SMALLCASES', style: TextStyle(fontSize: 20)),
+    ));
+  }
+
+  Widget smallplug() {
+    return SizedBox(width: 300, height: 35, child: RaisedButton(
+      onPressed: () => _launchSmallplug(),
+      child: const Text('SMALLPLUG', style: TextStyle(fontSize: 20)),
     ));
   }
 
@@ -184,6 +230,11 @@ class _SmtScreenState extends State<SmtScreen> {
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,
               child: exitedSmallcases(),
+            ),
+            FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.none,
+              child: smallplug(),
             )
           ],
         ),
