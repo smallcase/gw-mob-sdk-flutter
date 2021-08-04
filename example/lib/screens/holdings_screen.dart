@@ -32,7 +32,8 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
   }
 
   Future<void> _getUserHoldings() async {
-    Gateway.getUserHoldings().then((value) => _showAlertDialog(value));
+
+    Gateway.getUserHoldings().then((value) => _showAlertDialog(value.data.data.securities.holdings[0].ticker));
   }
 
   Future<void> _showAlertDialog(String message) async {

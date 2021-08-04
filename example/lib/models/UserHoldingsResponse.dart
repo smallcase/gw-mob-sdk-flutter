@@ -1,10 +1,11 @@
 
+import 'package:scgateway_flutter_plugin_example/models/HoldingsDataWrapper.dart';
+
 class UserHoldingsResponse {
 
   final int statusCode;
 
-  //TODO: change dynamic to HoldingsDataWrapper
-  final dynamic data;
+  final HoldingsDataWrapper data;
 
   UserHoldingsResponse({
     this.statusCode,
@@ -13,7 +14,7 @@ class UserHoldingsResponse {
 
   factory UserHoldingsResponse.fromJson(Map<String, dynamic> parsedJson) {
 
-    var dataJson = parsedJson['data'];
+    var dataJson = HoldingsDataWrapper.fromJson(parsedJson['data']);
     var status = parsedJson['statusCode'];
 
     return UserHoldingsResponse(

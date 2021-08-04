@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/models/UserHoldingsResponse.dart';
 
 class Gateway {
 
@@ -120,7 +121,7 @@ class Gateway {
     }
   }
 
-  static Future<String> getUserHoldings() async {
+  static Future<UserHoldingsResponse> getUserHoldings() async {
     Map data = {
       'id': userId
     };
@@ -147,13 +148,13 @@ class Gateway {
 
       print("user holdings data: $userHoldingsData");
 
-      return userHoldingsData.toString();
-
+      // return userHoldingsData;
+      return UserHoldingsResponse.fromJson(userHoldingsData);
     } else {
       print("response status code: ${response.statusCode}");
       print(response.body);
-      // throw Exception('Failed to get user holdings');
-      return response.body;
+      throw Exception('Failed to get user holdings');
+      // return response.body;
     }
 
   }

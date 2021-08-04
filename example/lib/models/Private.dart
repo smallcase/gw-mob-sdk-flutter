@@ -1,4 +1,6 @@
 
+import 'package:scgateway_flutter_plugin_example/models/Stats.dart';
+
 class Private {
 
   final String scid;
@@ -10,9 +12,8 @@ class Private {
   final String shortDes;
   
   final String imageUrl;
-  
-  //TODO: change dynamic
-  final dynamic stats;
+
+  final Stats stats;
 
   Private({
     this.scid,
@@ -23,14 +24,14 @@ class Private {
     this.stats
 });
 
-  factory Private.fromJson(Map<String, dynamic> parsedJson) {
+  factory Private.fromJson(Map<dynamic, dynamic> parsedJson) {
 
     var scid = parsedJson['scid'];
     var name = parsedJson['name'];
     var investmentDetailsUrl = parsedJson['investmentDetailsUrl'];
     var shortDes = parsedJson['shortDes'];
     var imageUrl = parsedJson['imageUrl'];
-    var stats = parsedJson['stats'];
+    var stats = Stats.fromJson(parsedJson['stats']);
 
     return Private(
       scid: scid,

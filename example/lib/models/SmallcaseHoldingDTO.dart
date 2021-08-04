@@ -1,7 +1,10 @@
 
+import 'package:scgateway_flutter_plugin_example/models/ConstituentsItem.dart';
+import 'package:scgateway_flutter_plugin_example/models/Stats.dart';
+
 class SmallcaseHoldingDTO {
 
-  final dynamic stats;
+  final Stats stats;
   
   final String imageUrl;
   
@@ -9,7 +12,7 @@ class SmallcaseHoldingDTO {
   
   final String shortDescription;
   
-  final dynamic constituents;
+  final List<ConstituentsItem> constituents;
   
   final String scid;
 
@@ -24,11 +27,13 @@ class SmallcaseHoldingDTO {
 
   factory SmallcaseHoldingDTO.fromJson(Map<String, dynamic> parsedJson) {
 
-    var stats = parsedJson['stats'];
+    var stats = Stats.fromJson(parsedJson['stats']);
     var imageUrl = parsedJson['imageUrl'];
     var name = parsedJson['name'];
     var shortDescription = parsedJson['shortDescription'];
-    var constituents = parsedJson['constituents'];
+    var constituentsJson = parsedJson['constituents'] as List;
+    List<ConstituentsItem> constituents = constituentsJson.map((i) => ConstituentsItem.fromJson(i)).toList();
+
     var scid = parsedJson['scid'];
 
     return SmallcaseHoldingDTO(
