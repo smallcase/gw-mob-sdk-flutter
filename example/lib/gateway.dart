@@ -78,8 +78,6 @@ class Gateway {
 
     String bodyData = json.encode(data);
 
-    print(bodyData);
-
     // var bodyData = {'id':_userId, 'intent': intent};
     //
     // if(orderConfig != null) {
@@ -118,8 +116,46 @@ class Gateway {
     } else {
       print("response status code: ${response.statusCode}");
       print(response.body);
-      throw Exception('Failed to get session token');
+      throw Exception('Failed to get transactionId');
     }
+  }
+
+  static Future<String> getUserHoldings() async {
+    Map data = {
+      'id': userId
+    };
+
+    String bodyData = json.encode(data);
+
+    print("requestBody = $bodyData");
+    
+    var url = Uri.parse(baseURL + 'holdings/fetch' + '?id=$userId');
+
+    final http.Response response = await http.get(url,
+
+      headers: <String, String>{
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+        'Accept': 'application/json',
+        'content-type':'application/json'
+        // 'content-type': 'application/x-www-form-urlencoded'
+      },
+    );
+
+    if(response.statusCode == 200) {
+      var userHoldingsData = jsonDecode(response.body);
+
+      print("user holdings data: $userHoldingsData");
+
+      return userHoldingsData.toString();
+
+    } else {
+      print("response status code: ${response.statusCode}");
+      print(response.body);
+      // throw Exception('Failed to get user holdings');
+      return response.body;
+    }
+
   }
 
   static Future<String> triggerTransactionWithTransactionId(String txnId) async {

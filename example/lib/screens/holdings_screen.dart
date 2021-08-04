@@ -16,12 +16,23 @@ class HoldingsScreen extends StatefulWidget {
 class _HoldingsScreenState extends State<HoldingsScreen> {
 
   Future<void> _importHoldings() async {
-
-    _startImportHolding(ScgatewayIntent.HOLDINGS, null);
+    _startHoldingsTransactionFor(ScgatewayIntent.HOLDINGS, null);
   }
 
-  Future<String> _startImportHolding(String intent, Object orderConfig) async {
+  Future<void> _fetchFunds() async {
+    _startHoldingsTransactionFor(ScgatewayIntent.FETCH_FUNDS, null);
+  }
+
+  Future<void> _authoriseHoldings() async {
+    _startHoldingsTransactionFor(ScgatewayIntent.AUTHORISE_HOLDINGS, null);
+  }
+
+  Future<void> _startHoldingsTransactionFor(String intent, Object orderConfig) async {
     Gateway.getTransactionId(intent, orderConfig).then((value) => _showAlertDialog(value));
+  }
+
+  Future<void> _getUserHoldings() async {
+    Gateway.getUserHoldings().then((value) => _showAlertDialog(value));
   }
 
   Future<void> _showAlertDialog(String message) async {
@@ -65,6 +76,27 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
     ));
   }
 
+  Widget btnFetchFunds() {
+    return SizedBox(width: 300, height: 35, child: RaisedButton(
+      onPressed: _fetchFunds,
+      child: const Text('Fetch Funds', style: TextStyle(fontSize: 20)),
+    ));
+  }
+
+  Widget btnAuthorizeHoldings() {
+    return SizedBox(width: 300, height: 35, child: RaisedButton(
+      onPressed: _authoriseHoldings,
+      child: const Text('Authorize Holdings', style: TextStyle(fontSize: 20)),
+    ));
+  }
+
+  Widget btnShowUserHoldings() {
+    return SizedBox(width: 300, height: 35, child: RaisedButton(
+      onPressed: _getUserHoldings,
+      child: const Text('Show Holdings', style: TextStyle(fontSize: 20)),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +114,21 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,
               child: btnImportHoldings(),
+            ),
+            FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.none,
+              child: btnFetchFunds(),
+            ),
+            FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.none,
+              child: btnAuthorizeHoldings(),
+            ),
+            FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.none,
+              child: btnShowUserHoldings(),
             ),
           ],
         ),

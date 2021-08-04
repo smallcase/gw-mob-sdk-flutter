@@ -9,18 +9,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7628e587-59d8-4a17-a6f6-b5f19324e39a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/ankitdeshmukh.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/dictionaries/ankitdeshmukh.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/Holding.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/HoldingsData.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/HoldingsDataWrapper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/Private.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/Securities.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/SmallcaseHoldingDTO.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/Smallcases.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/UserHoldingsResponse.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/lib/models/Holding.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/lib/models/HoldingsData.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/lib/models/HoldingsDataWrapper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/lib/models/Private.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/lib/models/Securities.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/lib/models/SmallcaseHoldingDTO.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/lib/models/Smallcases.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/lib/models/UserHoldingsResponse.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/lib/scgateway_flutter_plugin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/scgateway_flutter_plugin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/gateway.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/gateway.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/holdings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/holdings_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/gateway.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/gateway.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,33 +102,45 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1750" height="637" key="GridCell.Tab.0.bottom" timestamp="1627902573257">
-      <screen x="0" y="25" width="1792" height="1021" />
+    <state width="1878" height="393" key="GridCell.Tab.0.bottom" timestamp="1627983973352">
+      <screen x="0" y="25" width="1920" height="979" />
     </state>
     <state width="1750" height="524" key="GridCell.Tab.0.bottom/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884648" />
     <state width="1750" height="637" key="GridCell.Tab.0.bottom/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
     <state width="1750" height="347" key="GridCell.Tab.0.bottom/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307457" />
     <state width="1750" height="527" key="GridCell.Tab.0.bottom/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063006" />
-    <state width="1750" height="637" key="GridCell.Tab.0.center" timestamp="1627902573257">
-      <screen x="0" y="25" width="1792" height="1021" />
+    <state width="1878" height="393" key="GridCell.Tab.0.bottom/0.25.1920.979@0.25.1920.979" timestamp="1627983973352" />
+    <state width="1878" height="262" key="GridCell.Tab.0.bottom/0.25.1920.981@0.25.1920.981" timestamp="1627977268478" />
+    <state width="1878" height="393" key="GridCell.Tab.0.center" timestamp="1627983973351">
+      <screen x="0" y="25" width="1920" height="979" />
     </state>
     <state width="1750" height="524" key="GridCell.Tab.0.center/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884647" />
     <state width="1750" height="637" key="GridCell.Tab.0.center/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
     <state width="1750" height="347" key="GridCell.Tab.0.center/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307456" />
     <state width="1750" height="527" key="GridCell.Tab.0.center/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063005" />
-    <state width="1750" height="637" key="GridCell.Tab.0.left" timestamp="1627902573256">
-      <screen x="0" y="25" width="1792" height="1021" />
+    <state width="1878" height="393" key="GridCell.Tab.0.center/0.25.1920.979@0.25.1920.979" timestamp="1627983973351" />
+    <state width="1878" height="262" key="GridCell.Tab.0.center/0.25.1920.981@0.25.1920.981" timestamp="1627977268478" />
+    <state width="1878" height="393" key="GridCell.Tab.0.left" timestamp="1627983973351">
+      <screen x="0" y="25" width="1920" height="979" />
     </state>
     <state width="1750" height="524" key="GridCell.Tab.0.left/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884647" />
     <state width="1750" height="637" key="GridCell.Tab.0.left/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573256" />
     <state width="1750" height="347" key="GridCell.Tab.0.left/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307456" />
     <state width="1750" height="527" key="GridCell.Tab.0.left/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063004" />
-    <state width="1750" height="637" key="GridCell.Tab.0.right" timestamp="1627902573257">
-      <screen x="0" y="25" width="1792" height="1021" />
+    <state width="1878" height="393" key="GridCell.Tab.0.left/0.25.1920.979@0.25.1920.979" timestamp="1627983973351" />
+    <state width="1878" height="262" key="GridCell.Tab.0.left/0.25.1920.981@0.25.1920.981" timestamp="1627977268477" />
+    <state width="1878" height="393" key="GridCell.Tab.0.right" timestamp="1627983973351">
+      <screen x="0" y="25" width="1920" height="979" />
     </state>
     <state width="1750" height="524" key="GridCell.Tab.0.right/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884648" />
     <state width="1750" height="637" key="GridCell.Tab.0.right/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
     <state width="1750" height="347" key="GridCell.Tab.0.right/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307457" />
     <state width="1750" height="527" key="GridCell.Tab.0.right/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063006" />
+    <state width="1878" height="393" key="GridCell.Tab.0.right/0.25.1920.979@0.25.1920.979" timestamp="1627983973351" />
+    <state width="1878" height="262" key="GridCell.Tab.0.right/0.25.1920.981@0.25.1920.981" timestamp="1627977268478" />
+    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1628000923580">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1628000923580" />
   </component>
 </project>
