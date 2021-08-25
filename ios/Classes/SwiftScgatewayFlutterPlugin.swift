@@ -32,7 +32,9 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                 
                 print("Initialize gateway")
                 
-                SCGateway.shared.initializeGateway(sdkToken: authToken) { data, error in
+                let tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzbWFsbGNhc2VBdXRoSWQiOiI2MTEyNmM2Yjc1YmFlMzVjNWQzNmVjMjMiLCJpYXQiOjE2Mjg1OTczNTYsImV4cCI6MTcyODYwMDk1Nn0.NoSszSUDz-XWcA4Z2ONboGoBjodpiOqQX8bUNHjP4VY"
+                
+                SCGateway.shared.initializeGateway(sdkToken: tempToken) { data, error in
                     
                     if !data {
                         print(error as Any)

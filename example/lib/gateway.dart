@@ -62,7 +62,6 @@ class Gateway {
       // print("SmallcaseAuthToken from api response: $token");
 
       return ScgatewayFlutterPlugin.initGateway(token);
-
       // return response.body;
 
     } else {
