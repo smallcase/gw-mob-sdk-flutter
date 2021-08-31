@@ -101,17 +101,50 @@ class _ConnectScreenState extends State<ConnectScreen> {
     Gateway.triggerTransactionWithTransactionId(txnId).then((value) => _showAlertDialog(value));
   }
 
-   Future<void> _onUserConnected(String initResponse) async {
+   Future<void> _onUserConnected(String connectResponse) async {
 
-    print("transaction auth token: $initResponse");
+    print("Connect Transaction response: $connectResponse");
 
-    final Map<String, dynamic> responseData = jsonDecode(initResponse);
+    final Map<String, dynamic> responseData = jsonDecode(connectResponse);
 
-    print("ResponseData = $responseData");
+    // print("ResponseData = $responseData");
+    var connectTxnSuccess = responseData['success'] as bool;
+    print("Connect Transaction success: $connectTxnSuccess");
 
-    var authToken = responseData['data'] as String;
+    if(connectTxnSuccess) {
+      final Map<String, dynamic> connectJsonData = jsonDecode(responseData['data'] as String);
 
-    print("auth token = $authToken");
+      var authToken = connectJsonData['smallcaseAuthToken'] as String;
+
+      print("auth token = $authToken");
+
+      Map data = {
+        'id': _userIdText,
+        'smallcaseAuthToken': authToken
+      };
+
+      String bodyData = json.encode(data);
+
+      print("On User connected body: $data");
+
+      var url = Uri.parse(Gateway.baseURL + 'user/connect');
+
+      final http.Response response = await http.post(
+          url,
+
+          headers: <String, String>{
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+            'Accept': 'application/json',
+            'content-type':'application/json'
+          },
+
+          body: bodyData
+      );
+
+      print("On user Connect: ");
+      print(response.body);
+    }
 
       if(Gateway.transactionId.isNotEmpty) {
         setState((){
@@ -122,34 +155,34 @@ class _ConnectScreenState extends State<ConnectScreen> {
         });
       }
 
-     _showAlertDialog(initResponse);
+     _showAlertDialog(connectResponse);
 
-    Map data = {
-      'id': _userIdText,
-      'smallcaseAuthToken': authToken
-    };
-
-    String bodyData = json.encode(data);
-
-    print("On User connected body: $data");
-
-    var url = Uri.parse(Gateway.baseURL + 'user/connect');
-
-    final http.Response response = await http.post(
-        url,
-
-        headers: <String, String>{
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-          'Accept': 'application/json',
-          'content-type':'application/json'
-        },
-
-        body: bodyData
-    );
-
-    print("On user Connect: ");
-    print(response.body);
+    // Map data = {
+    //   'id': _userIdText,
+    //   'smallcaseAuthToken': authToken
+    // };
+    //
+    // String bodyData = json.encode(data);
+    //
+    // print("On User connected body: $data");
+    //
+    // var url = Uri.parse(Gateway.baseURL + 'user/connect');
+    //
+    // final http.Response response = await http.post(
+    //     url,
+    //
+    //     headers: <String, String>{
+    //       'Access-Control-Allow-Origin': '*',
+    //       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+    //       'Accept': 'application/json',
+    //       'content-type':'application/json'
+    //     },
+    //
+    //     body: bodyData
+    // );
+    //
+    // print("On user Connect: ");
+    // print(response.body);
   }
 
   Future<void> _showAlertDialog(String message) async {

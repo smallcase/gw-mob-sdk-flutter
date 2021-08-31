@@ -133,12 +133,12 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     else if(call.method == "triggerTransaction") {
 
-      var transactionId: String? = call.argument("transactionId")
+      val transactionId: String? = call.argument("transactionId")
 
       Log.d(TAG, "onMethodCall: TransactionId = $transactionId")
 
       if (transactionId != null) {
-        SmallcaseGatewaySdk.triggerTransaction(activity!!,
+        SmallcaseGatewaySdk.triggerTransaction(activity,
                 transactionId,
                 object : TransactionResponseListener {
                   override fun onSuccess(transactionResult: TransactionResult) {
@@ -149,14 +149,15 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                         Log.d(TAG, "onSuccess: " + transactionResult.data!!)
 
                         if (transactionResult.transaction == SmallcaseGatewaySdk.Result.HOLDING_IMPORT) {
-//                          Gson().toJson(transactionResult)
                           val holdingRes = JSONObject(transactionResult.data!!)
 
                           val smallcaseAuthToken = holdingRes.getString("smallcaseAuthToken")
+                          val broker = holdingRes.getString("broker")
 
                           val res = JSONObject()
 
                           res.put("data", smallcaseAuthToken)
+                          res.put("broker", broker)
                           res.put("success", true)
                           res.put("transaction", "HOLDINGS_IMPORT")
 
@@ -172,11 +173,11 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                           val res = JSONObject()
 
                           try {
-                            val connectRes = JSONObject(transactionResult.data!!)
+//                            val connectRes = JSONObject(transactionResult.data!!)
 
-                            val smallcaseAuthToken = connectRes.getString("smallcaseAuthToken")
+//                            val smallcaseAuthToken = connectRes.getString("smallcaseAuthToken")
 
-                            res.put("data", smallcaseAuthToken)
+                            res.put("data", transactionResult.data!!)
                           } catch (e: Exception) {
                             val smallcaseAuthToken = transactionResult.data!!
 
@@ -237,16 +238,37 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       val contact: String? = call.argument("contact")
       val pincode: String? = call.argument("pincode")
 
-      val res = generateLead(name, email, contact, pincode)
+      SmallcaseGatewaySdk.triggerLeadGen(activity, generateMapForLead(name, email, contact, pincode))
 
-      if (res != null) {
-        if(!res.isEmpty()) {
-          result.success(res)
-        } else {
-          result.error("UNAVAILABLE", "Broker not Connected.", null)
+      result.success("Lead Gen Success")
+    }
+
+    else if (call.method == "leadGenWithStatus") {
+
+      val name: String? = call.argument("name")
+      val email: String? = call.argument("email")
+      val contact: String? = call.argument("contact")
+      val pincode: String? = call.argument("pincode")
+
+      SmallcaseGatewaySdk.triggerLeadGen(activity, generateMapForLead(name, email, contact, pincode), object : TransactionResponseListener {
+        override fun onError(errorCode: Int, errorMessage: String) {
+          errorCode.toString()
+
+          txnResult = errorMessage
+
+          val res = JSONObject()
+          res.put("errorCode", errorCode)
+          res.put("errorMessage", errorMessage)
+
+          result.error(res.toString(), null, null)
         }
-      }
 
+        override fun onSuccess(transactionResult: TransactionResult) {
+          uiThreadHandler.post{
+            result.success(transactionResult.data)
+          }
+        }
+      })
     }
     
     else if(call.method == "getAllSmallcases") {
@@ -408,30 +430,52 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }
   }
   
-  
-
-  private fun generateLead(name: String?, email: String?, contact: String?, pincode: String?) : String? {
-    
+  private fun generateMapForLead(name: String?, email: String?, contact: String?, pincode: String?) : HashMap<String, String> {
     if(name != null && name.isNotEmpty()) {
-      leadGenMap.put("name", name)
-    }
-    
-    if(email != null && email.isNotEmpty()) {
-      leadGenMap.put("email", email)
-    }
-    
-    if(contact != null && contact.isNotEmpty()) {
-      leadGenMap.put("contact", contact)
-    }
-    
-    if(pincode != null && pincode.isNotEmpty()) {
-      leadGenMap.put("pinCode", pincode)
+      leadGenMap["name"] = name
     }
 
-    SmallcaseGatewaySdk.triggerLeadGen(activity, leadGenMap)
-    
-    return "Lead Gen Success"
+    if(email != null && email.isNotEmpty()) {
+      leadGenMap["email"] = email
+    }
+
+    if(contact != null && contact.isNotEmpty()) {
+      leadGenMap["contact"] = contact
+    }
+
+    if(pincode != null && pincode.isNotEmpty()) {
+      leadGenMap["pinCode"] = pincode
+    }
+
+    return if (leadGenMap.isNullOrEmpty()) {
+      hashMapOf()
+    } else {
+      leadGenMap
+    }
   }
+
+//  private fun generateLead(name: String?, email: String?, contact: String?, pincode: String?) : String? {
+//
+////    if(name != null && name.isNotEmpty()) {
+////      leadGenMap.put("name", name)
+////    }
+////
+////    if(email != null && email.isNotEmpty()) {
+////      leadGenMap.put("email", email)
+////    }
+////
+////    if(contact != null && contact.isNotEmpty()) {
+////      leadGenMap.put("contact", contact)
+////    }
+////
+////    if(pincode != null && pincode.isNotEmpty()) {
+////      leadGenMap.put("pinCode", pincode)
+////    }
+//
+//    SmallcaseGatewaySdk.triggerLeadGen(activity, leadGenMap)
+//
+//    return "Lead Gen Success"
+//  }
   
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)

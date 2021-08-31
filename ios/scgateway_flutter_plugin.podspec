@@ -9,13 +9,13 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 Scgateway Flutter plugin.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/smallcase/gw-mob-sdk-flutter'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.authors          = { "smallcase" => "mobile@smallcase.com" }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'SCGateway', '3.0.1'
+  s.dependency 'SCGateway', '3.0.5'
   s.xcconfig = {'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'}
   s.vendored_frameworks = 'SCGateway.framework'
   s.platform = :ios, '11.0'

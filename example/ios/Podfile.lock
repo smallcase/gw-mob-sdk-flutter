@@ -2,10 +2,10 @@ PODS:
   - clipboard_manager (0.0.3):
     - Flutter
   - Flutter (1.0.0)
-  - SCGateway (3.0.1)
+  - SCGateway (3.0.5)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 3.0.1)
+    - SCGateway (= 3.0.5)
 
 DEPENDENCIES:
   - clipboard_manager (from `.symlinks/plugins/clipboard_manager/ios`)
@@ -27,8 +27,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   clipboard_manager: 8cf8665095a6bb01545b4e381c798d40aa5e0fe5
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  SCGateway: 7a23bbf88a95da6cb121816938272515ff647e59
-  scgateway_flutter_plugin: 38efae61cf9cc8b481ba38e4e719dbc49c4c3465
+  SCGateway: 08e3523422c36c51027d118816ee19a2765aeeb9
+  scgateway_flutter_plugin: e68d4706863259b445168265d2564d706687d0ed
 
 PODFILE CHECKSUM: 8e2cf39e4882e05c000ca961fa4de7d4f0ea4e44
 

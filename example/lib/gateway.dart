@@ -163,9 +163,15 @@ class Gateway {
   }
 
 
-  static Future<void> leadGen(String name, String email, String contact, String pincode) async {
+  static void leadGen(String name, String email, String contact, String pincode) async {
 
-    ScgatewayFlutterPlugin.leadGen(name, email, contact, pincode);
+     ScgatewayFlutterPlugin.leadGen(name, email, contact, pincode);
+
+  }
+
+  static Future<String> leadGenWithStatus(String name, String email, String contact) async {
+
+    return ScgatewayFlutterPlugin.leadGenWithStatus(name, email, contact);
 
   }
 

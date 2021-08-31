@@ -24,3 +24,6 @@ feature: migrated dependencies to null safety
 
 ## 1.1.2
 feature: migrated plugin to null safety
+
+## 1.1.3
+fix: smallplug gateway authentication

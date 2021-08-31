@@ -16,8 +16,8 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
   String _name = "", _email = "", _contact = "", _pincode = "";
 
   Future<void> _executeLeadGen() async {
-    // ScgatewayFlutterPlugin.leadGen(_name, _email, _contact, _pincode);
-    Gateway.leadGen(_name, _email, _contact, _pincode);
+    // Gateway.leadGen(_name, _email, _contact, _pincode);
+    Gateway.leadGenWithStatus(_name, _email, _contact).then((value) => _showAlertDialog(value));
   }
 
   Future<void> _logout() async {
@@ -116,26 +116,6 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
       ],
     );
   }
-
-  // Widget inputPincode() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: <Widget>[
-  //       Text('Pin Code '),
-  //       SizedBox(width: 250, height: 30, child: TextField(decoration: InputDecoration(
-  //         filled: true,
-  //         labelText: '',
-  //       ),
-  //         onChanged: (value) {
-  //           setState(() {
-  //             _pincode = value;
-  //           });
-  //         },
-  //       ),
-  //       )
-  //     ],
-  //   );
-  // }
 
   Widget btnStarteLeadGen() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(

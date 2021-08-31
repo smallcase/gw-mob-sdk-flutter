@@ -87,7 +87,22 @@ class ScgatewayFlutterPlugin {
     }
 
     print(leadGenRes);
+  }
 
+  static Future<String?> leadGenWithStatus(String name, String email, String contact) async {
+
+    String? leadGenRes;
+
+    try {
+      leadGenRes = await _channel.invokeMethod(
+          'leadGenWithStatus',
+          <String, dynamic>{"name": name, "email": email, "contact": contact});
+      } on PlatformException catch (e) {
+      leadGenRes = e.code;
+    }
+
+    print(leadGenRes);
+    return leadGenRes;
   }
 
   static Future<String?> getAllSmallcases() async {
