@@ -86,12 +86,13 @@ class UserHoldingsScreen extends StatelessWidget {
 
     return ListTile(
       contentPadding: EdgeInsets.all(10.0),
-      title: privateSmallcase.name == null ? Text('') : Text(privateSmallcase.name),
+      leading: _itemThumbnail(privateSmallcase[index].imageUrl),
+      title: privateSmallcase[index].name == null ? Text('') : Text(privateSmallcase[index].name),
       subtitle: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text('Current Value: ' + privateSmallcase.stats.currentValue.toString()),
-          Text('Total Returns: ' + privateSmallcase.stats.totalReturns.toString())
+          Text('Current Value: ' + privateSmallcase[index].stats.currentValue.toString()),
+          Text('Total Returns: ' + privateSmallcase[index].stats.totalReturns.toString())
         ],
       ),
       onTap: () {},
@@ -168,7 +169,7 @@ class UserHoldingsScreen extends StatelessWidget {
           ),
           Expanded(child: ListView.builder(
             shrinkWrap: true,
-            itemCount: 1,
+            itemCount: this.holdings.data.data.smallcases.private.length,
             itemBuilder: _privateSmallcaseListViewBuilder,
           ))
         ],

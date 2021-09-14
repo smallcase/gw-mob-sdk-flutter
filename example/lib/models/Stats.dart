@@ -1,9 +1,11 @@
 
+import 'dart:ffi';
+
 class Stats {
 
-  final dynamic totalReturns;
+  final double totalReturns;
 
-  final dynamic currentValue;
+  final double currentValue;
 
   Stats({
     this.totalReturns,

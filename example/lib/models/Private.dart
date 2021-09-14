@@ -24,12 +24,12 @@ class Private {
     this.stats
 });
 
-  factory Private.fromJson(Map<dynamic, dynamic> parsedJson) {
+  factory Private.fromJson(Map<String, dynamic> parsedJson) {
 
     var scid = parsedJson['scid'];
     var name = parsedJson['name'];
-    var investmentDetailsUrl = parsedJson['investmentDetailsUrl'];
-    var shortDes = parsedJson['shortDes'];
+    var investmentDetailsUrl = parsedJson['investmentDetailsURL'];
+    var shortDes = parsedJson['shortDescription'];
     var imageUrl = parsedJson['imageUrl'];
     var stats = Stats.fromJson(parsedJson['stats']);
 
