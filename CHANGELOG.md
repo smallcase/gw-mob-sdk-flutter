@@ -27,3 +27,9 @@ feature: migrated plugin to null safety
 
 ## 1.1.3
 fix: smallplug gateway authentication
+
+## 1.1.4-alpha
+feat: added custom routes and params while launching smallplug
+
+## 1.1.4-alpha02
+feat: custom smallplug header text added for consumer

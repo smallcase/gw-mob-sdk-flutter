@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
@@ -213,8 +214,13 @@ class Gateway {
 
   }
 
-  static Future<String> openSmallplug() async {
+  static Future<String> openSmallplug(String smallplugHeaderText) async {
 
-    return ScgatewayFlutterPlugin.launchSmallplug();
+    return ScgatewayFlutterPlugin.launchSmallplug(smallplugHeaderText);
+  }
+
+  static Future<String> openSmallplugWithEndpoint() async {
+
+    return ScgatewayFlutterPlugin.launchSmallplugWithTargetEndpoint("test", "discover", new HashMap());
   }
 }

@@ -404,9 +404,38 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     else if(call.method == "launchSmallplug") {
 
+      val smallplugHeaderText: String? = call.argument("smallplugHeaderText")
+
       val res = JSONObject()
 
-      SmallcaseGatewaySdk.launchSmallPlug(activity, object : SmallPlugResponseListener {
+      SmallcaseGatewaySdk.launchSmallPlug(activity, smallplugHeaderText, object : SmallPlugResponseListener {
+
+        override fun onFailure(errorCode: Int, errorMessage: String) {
+          res.put("success", false)
+          res.put("error", errorMessage)
+
+          result.error(res.toString(), null, null)
+        }
+
+        override fun onSuccess(smallPlugResult: SmallPlugResult) {
+
+          Log.d(TAG, "onSuccess: smallplug: $smallPlugResult")
+          result.success(Gson().toJson(smallPlugResult).toString())
+
+        }
+
+      })
+    }
+
+    else if(call.method == "launchSmallplugWithTargetEndpoint") {
+
+      val targetEndpoint: String? = call.argument("targetEndpoint")
+      val params: HashMap<String, String>? = call.argument("params")
+      val smallplugHeaderText: String? = call.argument("smallplugHeaderText")
+
+      val res = JSONObject()
+
+      SmallcaseGatewaySdk.launchSmallPlug(activity, smallplugHeaderText, targetEndpoint!!, params, object : SmallPlugResponseListener {
 
         override fun onFailure(errorCode: Int, errorMessage: String) {
           res.put("success", false)
@@ -453,29 +482,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       leadGenMap
     }
   }
-
-//  private fun generateLead(name: String?, email: String?, contact: String?, pincode: String?) : String? {
-//
-////    if(name != null && name.isNotEmpty()) {
-////      leadGenMap.put("name", name)
-////    }
-////
-////    if(email != null && email.isNotEmpty()) {
-////      leadGenMap.put("email", email)
-////    }
-////
-////    if(contact != null && contact.isNotEmpty()) {
-////      leadGenMap.put("contact", contact)
-////    }
-////
-////    if(pincode != null && pincode.isNotEmpty()) {
-////      leadGenMap.put("pinCode", pincode)
-////    }
-//
-//    SmallcaseGatewaySdk.triggerLeadGen(activity, leadGenMap)
-//
-//    return "Lead Gen Success"
-//  }
   
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)

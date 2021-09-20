@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:collection';
 import 'package:flutter/services.dart';
 
  enum GatewayEnvironment {
@@ -211,12 +212,12 @@ class ScgatewayFlutterPlugin {
     return logoutResponse;
   }
 
-  static Future<String?> launchSmallplug() async {
+  static Future<String?> launchSmallplug(String smallplugHeaderText) async {
 
     String? smallplugResponse;
 
     try {
-      smallplugResponse = await _channel.invokeMethod("launchSmallplug", null);
+      smallplugResponse = await _channel.invokeMethod("launchSmallplug", <String, dynamic>{"smallplugHeaderText": smallplugHeaderText});
     } on PlatformException catch (e) {
       smallplugResponse = e.code;
     }
@@ -226,4 +227,24 @@ class ScgatewayFlutterPlugin {
     return smallplugResponse;
   }
 
+  static Future<String?> launchSmallplugWithTargetEndpoint(String smallplugHeaderText, String targetEndpoint, HashMap<String, String> params) async {
+
+    String? smallplugResponse;
+
+    try {
+      smallplugResponse = await _channel.invokeMethod("launchSmallplugWithTargetEndpoint",
+          <String, dynamic>{
+        "smallplugHeaderText": smallplugHeaderText,
+            "targetEndpoint": targetEndpoint,
+            "params": params
+      }
+      );
+    } on PlatformException catch (e) {
+      smallplugResponse = e.code;
+    }
+
+    print("Smallplug response: $smallplugResponse");
+
+    return smallplugResponse;
+  }
 }

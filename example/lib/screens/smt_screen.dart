@@ -97,7 +97,11 @@ class _SmtScreenState extends State<SmtScreen> {
   }
 
   void _launchSmallplug() async {
-    Gateway.openSmallplug().then((value) => _showAlertDialog(value));
+    Gateway.openSmallplug("test!").then((value) => _showAlertDialog(value));
+  }
+
+  void _launchSmallplugWithEndpoint() async {
+    Gateway.openSmallplugWithEndpoint().then((value) => _showAlertDialog(value));
   }
 
   Future<void> _showAlertDialog(String message) async {
@@ -183,6 +187,12 @@ class _SmtScreenState extends State<SmtScreen> {
     ));
   }
 
+  Widget smallplugWithTargetEndpoint() {
+    return SizedBox(width: 300, height: 35, child: RaisedButton(
+      onPressed: () => _launchSmallplugWithEndpoint(),
+      child: const Text('SMALLPLUG + Endpoint', style: TextStyle(fontSize: 20)),
+    ));
+  }
   // Widget _listViewItemBuilder(BuildContext context, int index){
   //   var smallcase = this.items[index];
   //   return ListTile(
@@ -235,6 +245,11 @@ class _SmtScreenState extends State<SmtScreen> {
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,
               child: smallplug(),
+            ),
+            FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.none,
+              child: smallplugWithTargetEndpoint(),
             )
           ],
         ),
