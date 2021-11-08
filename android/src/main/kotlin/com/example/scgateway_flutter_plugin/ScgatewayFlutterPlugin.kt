@@ -33,7 +33,9 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   private lateinit var context: Context
   private lateinit var activity: Activity
-  
+
+  private var replySubmitted = false
+
   private var txnResult: String? = ""
 
   private val leadGenMap by lazy {
@@ -53,7 +55,9 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    
+
+    replySubmitted = false
+
     if (call.method == "initializeGateway") {
 
       val res = JSONObject()
@@ -292,8 +296,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         }
 
       })
-      
-//      result.success("gotSmallcases")
     }
     
     else if(call.method == "getUserInvestments") {
@@ -386,7 +388,13 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       SmallcaseGatewaySdk.logoutUser(activity, object : SmallcaseLogoutListener {
 
         override fun onLogoutSuccessfull() {
-          result.success("Logout successful")
+
+          if (!replySubmitted) {
+            result.success("Logout Successful")
+
+            replySubmitted = true
+          }
+
         }
 
         override fun onLogoutFailed(errorCode: Int, error: String) {
@@ -404,38 +412,15 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     else if(call.method == "launchSmallplug") {
 
-      val smallplugHeaderText: String? = call.argument("smallplugHeaderText")
-
-      val res = JSONObject()
-
-      SmallcaseGatewaySdk.launchSmallPlug(activity, smallplugHeaderText, object : SmallPlugResponseListener {
-
-        override fun onFailure(errorCode: Int, errorMessage: String) {
-          res.put("success", false)
-          res.put("error", errorMessage)
-
-          result.error(res.toString(), null, null)
-        }
-
-        override fun onSuccess(smallPlugResult: SmallPlugResult) {
-
-          Log.d(TAG, "onSuccess: smallplug: $smallPlugResult")
-          result.success(Gson().toJson(smallPlugResult).toString())
-
-        }
-
-      })
-    }
-
-    else if(call.method == "launchSmallplugWithTargetEndpoint") {
-
       val targetEndpoint: String? = call.argument("targetEndpoint")
-      val params: HashMap<String, String>? = call.argument("params")
-      val smallplugHeaderText: String? = call.argument("smallplugHeaderText")
+      val params: String? = call.argument("params")
 
       val res = JSONObject()
 
-      SmallcaseGatewaySdk.launchSmallPlug(activity, smallplugHeaderText, targetEndpoint!!, params, object : SmallPlugResponseListener {
+      SmallcaseGatewaySdk.launchSmallPlug(activity, SmallplugData(
+              targetEndpoint,
+              params
+      ), object : SmallPlugResponseListener {
 
         override fun onFailure(errorCode: Int, errorMessage: String) {
           res.put("success", false)
@@ -447,12 +432,14 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         override fun onSuccess(smallPlugResult: SmallPlugResult) {
 
           Log.d(TAG, "onSuccess: smallplug: $smallPlugResult")
-          result.success(Gson().toJson(smallPlugResult).toString())
 
+          uiThreadHandler.post{
+            result.success(Gson().toJson(smallPlugResult).toString())
+          }
         }
-
       })
     }
+
     
     else {
       result.notImplemented()

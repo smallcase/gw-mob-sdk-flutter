@@ -26,35 +26,38 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
 
   Future<void> _showAlertDialog(String message) async {
 
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Gateway'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(message)
-              ],
+    if(message != null && message.isNotEmpty) {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Gateway'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(message)
+                ],
+              ),
             ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(onPressed: () {
+                ClipboardManager.copyToClipBoard(message);
               },
-            ),
-            TextButton(onPressed: () {
-              ClipboardManager.copyToClipBoard(message);
-            },
-                child: Text('Copy')
-            )
-          ],
-        );
-      },
-    );
+                  child: Text('Copy')
+              )
+            ],
+          );
+        },
+      );
+    }
+
   }
 
   Widget inputName() {
@@ -117,7 +120,7 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
     );
   }
 
-  Widget btnStarteLeadGen() {
+  Widget btnStartLeadGen() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
       onPressed: _executeLeadGen,
       child: const Text('LEAD GEN', style: TextStyle(fontSize: 20)),
@@ -169,7 +172,7 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
               child: FittedBox(
                 alignment: Alignment.center,
                 fit: BoxFit.none,
-                child: btnStarteLeadGen(),
+                child: btnStartLeadGen(),
               ),
             ),
             Padding(

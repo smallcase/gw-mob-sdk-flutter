@@ -18,6 +18,11 @@ class ScgatewayIntent {
      static const SIP_SETUP = "SIP_SETUP";
 }
 
+class SmallplugData {
+   String? targetEndpoint;
+   String? params;
+}
+
 class ScgatewayFlutterPlugin {
 
   static const MethodChannel _channel = const MethodChannel('scgateway_flutter_plugin');
@@ -212,33 +217,15 @@ class ScgatewayFlutterPlugin {
     return logoutResponse;
   }
 
-  static Future<String?> launchSmallplug(String smallplugHeaderText) async {
+  static Future<String?> launchSmallplug(SmallplugData smallplugData) async {
 
     String? smallplugResponse;
 
     try {
-      smallplugResponse = await _channel.invokeMethod("launchSmallplug", <String, dynamic>{"smallplugHeaderText": smallplugHeaderText});
-    } on PlatformException catch (e) {
-      smallplugResponse = e.code;
-    }
-
-    print("Smallplug response: $smallplugResponse");
-
-    return smallplugResponse;
-  }
-
-  static Future<String?> launchSmallplugWithTargetEndpoint(String smallplugHeaderText, String targetEndpoint, HashMap<String, String> params) async {
-
-    String? smallplugResponse;
-
-    try {
-      smallplugResponse = await _channel.invokeMethod("launchSmallplugWithTargetEndpoint",
-          <String, dynamic>{
-        "smallplugHeaderText": smallplugHeaderText,
-            "targetEndpoint": targetEndpoint,
-            "params": params
-      }
-      );
+      smallplugResponse = await _channel.invokeMethod("launchSmallplug", <String, dynamic>{
+        "targetEndpoint": smallplugData.targetEndpoint,
+        "params": smallplugData.params
+      });
     } on PlatformException catch (e) {
       smallplugResponse = e.code;
     }

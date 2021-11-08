@@ -543,10 +543,11 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
      //MARK:- Launch smallplug
      else if(call.method == "launchSmallplug") {
         
-        if let args = call.arguments as? Dictionary<String, Any>,
-           let smallplugHeaderText = args["smallplugHeaderText"] as? String {
+        if let args = call.arguments as? Dictionary<String, Any> {
+            let target = args["targetEndpoint"] as? String
+            let params = args["params"] as? String
                 
-            SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugHeaderText: smallplugHeaderText, completion: {
+            SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugData: SmallplugData(target, params), completion: {
                 response, error in
                 
                 if let smallplugResponse = response {
@@ -558,7 +559,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             
         } else {
             
-            SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugHeaderText: nil, completion: {
+            SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugData: nil, completion: {
                 response, error in
                 
                 if let smallplugResponse = response {
@@ -569,28 +570,6 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             })
             
         }
-     }
-    
-     //MARK:- Launch smallplug with target
-     else if(call.method == "launchSmallplugWithTargetEndpoint") {
-        
-        if let args = call.arguments as? Dictionary<String, Any>,
-           
-           let target = args["targetEndpoint"] as? String,
-           let smallplugHeaderText = args["smallplugHeaderText"] as? String,
-           let params = args["params"] as? Dictionary<String, String> {
-            
-            SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugHeaderText: smallplugHeaderText, targetEndpoint: target, smallplugUrlParams: params, completion: {
-                response, error in
-                
-                if let smallplugResponse = response {
-                    
-                    result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
-                }
-            })
-            
-        }
-
      }
      
     else {

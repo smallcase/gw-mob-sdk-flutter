@@ -44,26 +44,18 @@ class Gateway {
         'Accept': 'application/json',
         'content-type': 'application/x-www-form-urlencoded'
       },
-
-      // body: jsonEncode(<String, String>{
-      //   'id': idText,
-      // }),
       body: body
     );
 
-    print("init response = " + response.body);
+    print("get session token response = " + response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
       var token = data["smallcaseAuthToken"] as String;
 
-      // ScgatewayFlutterPlugin.initGateway(env, "gatewaydemo", idText, leprechaun, amo, token);
-
-      // print("SmallcaseAuthToken from api response: $token");
-
       return ScgatewayFlutterPlugin.initGateway(token);
-      // return response.body;
+      return response.body;
 
     } else {
       throw Exception('Failed to get session token.');
@@ -214,13 +206,17 @@ class Gateway {
 
   }
 
-  static Future<String> openSmallplug(String smallplugHeaderText) async {
+  static Future<String> openSmallplug(String smallplugEndpoint) async {
 
-    return ScgatewayFlutterPlugin.launchSmallplug(smallplugHeaderText);
+    SmallplugData smallplugData = new SmallplugData();
+
+    if(smallplugEndpoint != null && smallplugEndpoint.isNotEmpty) {
+      smallplugData.targetEndpoint = smallplugEndpoint;
+    }
+
+    // smallplugData.params = "test=abc";
+
+    return ScgatewayFlutterPlugin.launchSmallplug(smallplugData);
   }
 
-  static Future<String> openSmallplugWithEndpoint() async {
-
-    return ScgatewayFlutterPlugin.launchSmallplugWithTargetEndpoint("test", "discover", new HashMap());
-  }
 }

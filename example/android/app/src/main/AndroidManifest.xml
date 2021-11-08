@@ -51,6 +51,15 @@
                 <data
                     android:host="gatewaydemo"
                     android:scheme="scgateway" />
+
+                <data
+                    android:host="gatewaydemo-dev"
+                    android:scheme="scgateway" />
+
+                <data
+                    android:host="gatewaydemo-stag"
+                    android:scheme="scgateway" />
+
             </intent-filter>
         </activity>
 
@@ -63,6 +72,16 @@
 
                 <data
                     android:host="gatewaydemo"
+                    android:scheme="scgatewayredirect"
+                    />
+
+                <data
+                    android:host="gatewaydemo-dev"
+                    android:scheme="scgatewayredirect"
+                    />
+
+                <data
+                    android:host="gatewaydemo-stag"
                     android:scheme="scgatewayredirect"
                     />
             </intent-filter>

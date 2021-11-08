@@ -29,6 +29,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   String _baseUrl = "";
 
+  String _gateway = "gatewaydemo";
+
   String _userIdText = "";
 
   // String _authToken = "";
@@ -63,18 +65,21 @@ class _ConnectScreenState extends State<ConnectScreen> {
       switch(_environmentSelected) {
         case 1: {
           _baseUrl = "https://api.dev.smartinvesting.io/";
+          _gateway = "gatewaydemo-dev";
           enviroment = GatewayEnvironment.DEVELOPMENT;
         }
         break;
 
         case 2: {
           _baseUrl = "https://api.stag.smartinvesting.io/";
+          _gateway = "gatewaydemo-stag";
           enviroment = GatewayEnvironment.STAGING;
         }
         break;
 
         default: {
           _baseUrl = "https://api.smartinvesting.io/";
+          _gateway = "gatewaydemo";
           enviroment = GatewayEnvironment.PRODUCTION;
         }
         break;
@@ -83,12 +88,17 @@ class _ConnectScreenState extends State<ConnectScreen> {
       // List<String> brokers = ['kite','hdfc','iifl'];
 
     List<String> brokers = [];
-      ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _leprechaunMode, brokers, isAmoenabled: _isAmoEnabled).then((setupResponse) =>
+      ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, _gateway, _leprechaunMode, brokers, isAmoenabled: _isAmoEnabled).then((setupResponse) =>
 
-          Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
+          Gateway.getSessionToken(_baseUrl, _userIdText ?? "", enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
       );
 
-      // Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value));
+    // ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "upworthapp", _leprechaunMode, brokers).then((setupResponse) =>
+    //
+    //     // Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
+    // ScgatewayFlutterPlugin.initGateway("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzIzNjc1ODUsImV4cCI6MTYzNTQ1Mzk4NSwiZ3Vlc3QiOnRydWV9.SeCRgU9iHF1lWiYfPFbipb8NAxYfDoX43vPQX-tEMBA")
+    // );
+
   }
   
   Future<void> _getTransactionId(String intent, Object orderConfig) async {
