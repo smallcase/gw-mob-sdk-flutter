@@ -93,12 +93,6 @@ class _ConnectScreenState extends State<ConnectScreen> {
           Gateway.getSessionToken(_baseUrl, _userIdText ?? "", enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
       );
 
-    // ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "upworthapp", _leprechaunMode, brokers).then((setupResponse) =>
-    //
-    //     // Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
-    // ScgatewayFlutterPlugin.initGateway("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzIzNjc1ODUsImV4cCI6MTYzNTQ1Mzk4NSwiZ3Vlc3QiOnRydWV9.SeCRgU9iHF1lWiYfPFbipb8NAxYfDoX43vPQX-tEMBA")
-    // );
-
   }
   
   Future<void> _getTransactionId(String intent, Object orderConfig) async {
