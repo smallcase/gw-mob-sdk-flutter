@@ -378,9 +378,9 @@ packages:
   scgateway_flutter_plugin:
     dependency: "direct main"
     description:
-      name: scgateway_flutter_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: ".."
+      relative: true
+    source: path
     version: "1.1.6"
   shelf:
     dependency: transitive
