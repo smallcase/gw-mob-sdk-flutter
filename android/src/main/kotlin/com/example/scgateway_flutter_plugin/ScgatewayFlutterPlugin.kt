@@ -34,7 +34,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var context: Context
   private lateinit var activity: Activity
 
-  private var replySubmitted = false
+//  private var replySubmitted = false
 
   private var txnResult: String? = ""
 
@@ -56,7 +56,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
 
-    replySubmitted = false
+//    replySubmitted = false
 
     if (call.method == "initializeGateway") {
 
@@ -389,12 +389,13 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
         override fun onLogoutSuccessfull() {
 
-          if (!replySubmitted) {
-            result.success("Logout Successful")
+//          if (!replySubmitted) {
+//            result.success("Logout Successful")
+//
+//            replySubmitted = true
+//          }
 
-            replySubmitted = true
-          }
-
+          result.success("Logout Successful")
         }
 
         override fun onLogoutFailed(errorCode: Int, error: String) {
