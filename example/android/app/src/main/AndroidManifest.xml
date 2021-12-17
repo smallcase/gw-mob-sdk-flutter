@@ -49,7 +49,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="threedotsconnect"
+                    android:host="gatewaydemo"
                     android:scheme="scgateway" />
 
                 <data
@@ -71,7 +71,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="threedotsconnect"
+                    android:host="gatewaydemo"
                     android:scheme="scgatewayredirect"
                     />
 
