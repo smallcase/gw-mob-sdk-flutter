@@ -58,6 +58,8 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     replySubmitted = false
 
+    SmallcaseGatewaySdk.setSDKType("Flutter")
+
     if (call.method == "initializeGateway") {
 
       val res = JSONObject()
