@@ -12,9 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-#  scgateway_flutter_plugin: ^1.1.6
+#  scgateway_flutter_plugin: 1.1.7-alpha03
   scgateway_flutter_plugin:
-##    git: https://gitlab.com/ankit.deshmukh/scgatewayflutter.git
 #    # When depending on this package from a real application you should use:
 #    #   scgateway_flutter_plugin: ^x.y.z
 #    # See https://dart.dev/tools/pub/dependencies#version-constraints

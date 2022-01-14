@@ -1,6 +1,6 @@
 name: scgateway_flutter_plugin
 description: Scgateway Flutter plugin.
-version: 1.1.7-alpha02
+version: 1.1.7-alpha04
 #author: ankit.deshmukh@smallcase.com
 homepage: https://github.com/smallcase/gw-mob-sdk-flutter
 
@@ -16,15 +16,15 @@ dependencies:
   flutter:
     sdk: flutter
 
-  chopper: ^4.0.1
-  provider: ^5.0.0
-  json_annotation: ^4.0.1
-  logging: ^1.0.1
+#  chopper: ^4.0.1
+#  provider: ^5.0.0
+#  json_annotation: ^4.0.1
+#  logging: ^1.0.1
 #  http: ^0.12.0+1
-  http: ^0.13.3
-  build_runner: ^2.0.6
-  chopper_generator: ^4.0.1
-  json_serializable: ^4.1.4
+#  http: ^0.13.3
+#  build_runner: ^2.0.6
+#  chopper_generator: ^4.0.1
+#  json_serializable: ^4.1.4
 
 dev_dependencies:
   flutter_test:
