@@ -219,4 +219,10 @@ class Gateway {
     return ScgatewayFlutterPlugin.launchSmallplug(smallplugData);
   }
 
+  static Future<String> showOrders() async {
+
+    return ScgatewayFlutterPlugin.showOrders();
+    // return "";
+  }
+
 }

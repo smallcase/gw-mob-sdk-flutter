@@ -212,7 +212,7 @@ class ScgatewayFlutterPlugin {
       logoutResponse = e.code;
     }
 
-    print("Logout user reponse: $logoutResponse");
+    print("Logout user response: $logoutResponse");
 
     return logoutResponse;
   }
@@ -234,4 +234,20 @@ class ScgatewayFlutterPlugin {
 
     return smallplugResponse;
   }
+
+  static Future<String?> showOrders() async {
+
+    String? showOrdersResponse;
+
+    try {
+      showOrdersResponse = await _channel.invokeMethod("showOrders");
+    } on PlatformException catch (e) {
+      showOrdersResponse = e.code;
+    }
+
+    print('show orders response: $showOrdersResponse');
+
+    return showOrdersResponse;
+  }
+
 }

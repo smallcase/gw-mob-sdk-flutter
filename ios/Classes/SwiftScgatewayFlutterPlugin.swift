@@ -571,6 +571,18 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             
         }
      }
+      
+      else if (call.method == "showOrders") {
+          
+          SCGateway.shared.showOrders(presentingController: currentViewController) { success, error in
+              
+              if success {
+                  result(self.getJsonStringResult(success: true, data: nil, errorCode: nil, errorMessage: nil, transaction: nil))
+              } else {
+                  result(self.getJsonStringResult(success: false, data: nil, errorCode: nil, errorMessage: nil, transaction: nil))
+              }
+          }
+      }
      
     else {
             result("Flutter method not implemented on iOS")
