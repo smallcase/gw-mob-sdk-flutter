@@ -16,6 +16,7 @@ class ScgatewayIntent {
      static const AUTHORISE_HOLDINGS = "AUTHORISE_HOLDINGS";
      static const FETCH_FUNDS = "FETCH_FUNDS";
      static const SIP_SETUP = "SIP_SETUP";
+     static const CANCEL_AMO = "CANCEL_AMO";
 }
 
 class SmallplugData {
