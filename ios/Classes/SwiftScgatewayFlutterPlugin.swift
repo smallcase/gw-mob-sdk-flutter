@@ -23,7 +23,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     
-    //MARK:- Initialize Gateway SDK
+    //MARK: Initialize Gateway SDK
      if(call.method == "initializeGateway") {
         if let args = call.arguments as? Dictionary<String, Any>,
  
@@ -93,9 +93,12 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
     }
         
-     //MARK:- Set Config Environment
+     //MARK: Set Config Environment
      else if (call.method == "setConfigEnvironment") {
         
+         SCGateway.shared.setSDKType(type: "flutter")
+         SCGateway.shared.setHybridSDKVersion(version: "1.1.7")
+         
         if let args = call.arguments as? Dictionary<String, Any>,
                    
                     let isLeprechaunActive = args["leprechaun"] as? Bool,

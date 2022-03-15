@@ -35,7 +35,13 @@ class ScgatewayFlutterPlugin {
     try{
       setConfigResult = await _channel.invokeMethod(
           'setConfigEnvironment',
-          <String, dynamic>{"env": environmentSelected.toString(), "gateway": gateway, "leprechaun": leprechaunMode, "brokers": brokers, "amo": isAmoenabled});
+          <String, dynamic>{
+            "env": environmentSelected.toString(),
+            "gateway": gateway,
+            "leprechaun": leprechaunMode,
+            "brokers": brokers,
+            "amo": isAmoenabled
+          });
     } on PlatformException catch (e) {
       setConfigResult = e.code;
     }

@@ -58,9 +58,50 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     replySubmitted = false
 
-    SmallcaseGatewaySdk.setSDKType("Flutter")
+    SmallcaseGatewaySdk.setSDKType("flutter")
+    SmallcaseGatewaySdk.setHybridSDKVersion("1.1.7")
 
     when (call.method) {
+      "setConfigEnvironment" -> {
+
+        val res = JSONObject()
+
+        val env: String? = call.argument("env")
+
+        Log.d(TAG, "onMethodCall: Environment = $env")
+
+//      val userId: String? = call.argument("userId")
+        val gateway: String? = call.argument("gateway")
+        val leprechaun: Boolean? = call.argument("leprechaun")
+        val amo: Boolean? = call.argument("amo")
+
+        val environment = when (env) {
+          "GatewayEnvironment.DEVELOPMENT" -> Environment.PROTOCOL.DEVELOPMENT
+          "GatewayEnvironment.STAGING" -> Environment.PROTOCOL.STAGING
+          else -> Environment.PROTOCOL.PRODUCTION
+        }
+
+        val customBrokerConfig: List<String>? = call.argument("brokers")
+
+        SmallcaseGatewaySdk.setConfigEnvironment(
+          Environment(environment, gateway!!, leprechaun!!, amo!!, customBrokerConfig!!),
+          object : SmallcaseGatewayListeners {
+            override fun onGatewaySetupSuccessfull() {
+              res.put("success", true)
+              res.put("error", null)
+              result.success(res.toString())
+            }
+
+            override fun onGatewaySetupFailed(error: String) {
+              res.put("success", false)
+              res.put("error", error)
+
+              result.error(res.toString(), null, null)
+            }
+
+          }
+        )
+      }
         "initializeGateway" -> {
 
           val res = JSONObject()
@@ -95,46 +136,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                   }
           )
 
-        }
-        "setConfigEnvironment" -> {
-
-          val res = JSONObject()
-
-          val env: String? = call.argument("env")
-
-          Log.d(TAG, "onMethodCall: Environment = $env")
-
-//      val userId: String? = call.argument("userId")
-          val gateway: String? = call.argument("gateway")
-          val leprechaun: Boolean? = call.argument("leprechaun")
-          val amo: Boolean? = call.argument("amo")
-
-          val environment = when (env) {
-            "GatewayEnvironment.DEVELOPMENT" -> Environment.PROTOCOL.DEVELOPMENT
-            "GatewayEnvironment.STAGING" -> Environment.PROTOCOL.STAGING
-            else -> Environment.PROTOCOL.PRODUCTION
-          }
-
-          val customBrokerConfig: List<String>? = call.argument("brokers")
-
-          SmallcaseGatewaySdk.setConfigEnvironment(
-                  Environment(environment, gateway!!, leprechaun!!, amo!!, customBrokerConfig!!),
-                  object : SmallcaseGatewayListeners {
-                    override fun onGatewaySetupSuccessfull() {
-                      res.put("success", true)
-                      res.put("error", null)
-                      result.success(res.toString())
-                    }
-
-                    override fun onGatewaySetupFailed(error: String) {
-                      res.put("success", false)
-                      res.put("error", error)
-
-                      result.error(res.toString(), null, null)
-                    }
-
-                  }
-          )
         }
         "triggerTransaction" -> {
 
