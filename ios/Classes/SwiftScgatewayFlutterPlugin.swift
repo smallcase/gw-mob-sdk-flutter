@@ -152,7 +152,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                 }
         }
         
-     //MARK:- Trigger Transaction
+     //MARK: Trigger Transaction
     else if (call.method == "triggerTransaction") {
         if let args = call.arguments as? Dictionary<String, Any>,
         
@@ -381,7 +381,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             }
     }
         
-    //MARK:- Lead Gen
+    //MARK: Lead Gen
     else if(call.method == "leadGen") {
         
         if let args = call.arguments as? Dictionary<String, Any>,
@@ -400,7 +400,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         }
     }
     
-    //MARK:- Lead Gen with Status
+    //MARK: Lead Gen with Status
     else if(call.method == "leadGenWithStatus") {
         
         if let args = call.arguments as? Dictionary<String, Any>,
@@ -422,7 +422,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
     }
         
-    //MARK:- Get All Smallcases
+    //MARK: Get All Smallcases
     else if(call.method == "getAllSmallcases") {
         
         SCGateway.shared.getSmallcases(params: nil) { (data, error) in
@@ -447,7 +447,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
      }
         
-    //MARK:- Get User Investments
+    //MARK: Get User Investments
     else if(call.method == "getUserInvestments") {
             
         SCGateway.shared.getUserInvestments(iscids: nil) { (data, error) in
@@ -472,7 +472,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
     }
      
-    //MARK:- Get Exited Smallcases
+    //MARK: Get Exited Smallcases
      else if(call.method == "getExitedSmallcases") {
         
         SCGateway.shared.getExitedSmallcases{ (data, error) in
@@ -495,7 +495,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
      }
       
-     //MARK:- Mark smallcase archive
+     //MARK: Mark smallcase archive
      else if(call.method == "markArchive") {
         
         if let args = call.arguments as? Dictionary<String, Any>,
@@ -528,7 +528,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             }
         }
         
-     //MARK:- Logout User
+     //MARK: Logout User
      else if(call.method == "logoutUser") {
         
         SCGateway.shared.logoutUser(presentingController: currentViewController) { success, error in
@@ -543,7 +543,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
      }
      
-     //MARK:- Launch smallplug
+     //MARK: Launch smallplug
      else if(call.method == "launchSmallplug") {
         
         if let args = call.arguments as? Dictionary<String, Any> {
@@ -575,6 +575,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         }
      }
       
+      //MARK: Show orders
       else if (call.method == "showOrders") {
           
           SCGateway.shared.showOrders(presentingController: currentViewController) { success, error in
@@ -582,7 +583,20 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
               if success {
                   result(self.getJsonStringResult(success: true, data: nil, errorCode: nil, errorMessage: nil, transaction: nil))
               } else {
-                  result(self.getJsonStringResult(success: false, data: nil, errorCode: nil, errorMessage: nil, transaction: nil))
+                  
+                  if let showOrdersError = error as? ObjcTransactionError {
+                      result(
+                        self.getJsonStringResult(
+                            success: false,
+                            data: nil,
+                            errorCode: showOrdersError.code,
+                            errorMessage: showOrdersError.domain,
+                            transaction: nil
+                        )
+                      )
+//                      self.showPopup(title: "Error", msg: "\(errorPopupString.domain) \(errorPopupString.code)")
+                  }
+                  
               }
           }
       }
