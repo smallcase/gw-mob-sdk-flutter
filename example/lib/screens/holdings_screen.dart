@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
+import 'package:scgateway_flutter_plugin_example/models/UserHoldingsResponse.dart';
+import 'package:scgateway_flutter_plugin_example/screens/UserHoldingsScreen.dart';
 
 class HoldingsScreen extends StatefulWidget {
 
@@ -32,7 +34,18 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
   }
 
   Future<void> _getUserHoldings() async {
-    Gateway.getUserHoldings().then((value) => _showAlertDialog(value));
+
+    // Gateway.getUserHoldings().then((value) => _showAlertDialog(value.data.data.securities.holdings[0].ticker));
+    Gateway.getUserHoldings().then((value) => _showUserHoldings(context, value));
+  }
+
+  void _showUserHoldings(BuildContext context, UserHoldingsResponse holdings) {
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserHoldingsScreen(holdings: holdings),
+    ));
   }
 
   Future<void> _showAlertDialog(String message) async {
@@ -97,6 +110,23 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
     ));
   }
 
+  // final List<String> entries = <String>['A', 'B', 'C','A', 'B', 'C','A', 'B', 'C','A', 'B', 'C','A', 'B', 'C','A', 'B', 'C'];
+  // final List<int> colorCodes = <int>[600, 500, 100];
+  //
+  // Widget listUserHoldings() {
+  //   return ListView.builder(
+  //       padding: const EdgeInsets.all(8),
+  //       itemCount: entries.length,
+  //       itemBuilder: (BuildContext context, int index) {
+  //         return Container(
+  //           height: 50,
+  //           color: Colors.amber[colorCodes[index]],
+  //           child: Center(child: Text('Entry ${entries[index]}')),
+  //         );
+  //       }
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,7 +161,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
               child: btnShowUserHoldings(),
             ),
           ],
-        ),
+        )
       ),
     );
   }

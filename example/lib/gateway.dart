@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:collection';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/models/UserHoldingsResponse.dart';
 
 class Gateway {
 
@@ -42,27 +44,18 @@ class Gateway {
         'Accept': 'application/json',
         'content-type': 'application/x-www-form-urlencoded'
       },
-
-      // body: jsonEncode(<String, String>{
-      //   'id': idText,
-      // }),
       body: body
     );
 
-    print("init response = " + response.body);
+    print("get session token response = " + response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
       var token = data["smallcaseAuthToken"] as String;
 
-      // ScgatewayFlutterPlugin.initGateway(env, "gatewaydemo", idText, leprechaun, amo, token);
-
-      // print("SmallcaseAuthToken from api response: $token");
-
       return ScgatewayFlutterPlugin.initGateway(token);
-
-      // return response.body;
+      return response.body;
 
     } else {
       throw Exception('Failed to get session token.');
@@ -120,7 +113,7 @@ class Gateway {
     }
   }
 
-  static Future<String> getUserHoldings() async {
+  static Future<UserHoldingsResponse> getUserHoldings() async {
     Map data = {
       'id': userId
     };
@@ -147,13 +140,13 @@ class Gateway {
 
       print("user holdings data: $userHoldingsData");
 
-      return userHoldingsData.toString();
-
+      // return userHoldingsData;
+      return UserHoldingsResponse.fromJson(userHoldingsData);
     } else {
       print("response status code: ${response.statusCode}");
       print(response.body);
-      // throw Exception('Failed to get user holdings');
-      return response.body;
+      throw Exception('Failed to get user holdings');
+      // return response.body;
     }
 
   }
@@ -163,9 +156,15 @@ class Gateway {
   }
 
 
-  static Future<void> leadGen(String name, String email, String contact, String pincode) async {
+  static void leadGen(String name, String email, String contact, String pincode) async {
 
-    ScgatewayFlutterPlugin.leadGen(name, email, contact, pincode);
+     ScgatewayFlutterPlugin.leadGen(name, email, contact, pincode);
+
+  }
+
+  static Future<String> leadGenWithStatus(String name, String email, String contact) async {
+
+    return ScgatewayFlutterPlugin.leadGenWithStatus(name, email, contact);
 
   }
 
@@ -207,8 +206,23 @@ class Gateway {
 
   }
 
-  static Future<String> openSmallplug() async {
+  static Future<String> openSmallplug(String smallplugEndpoint) async {
 
-    return ScgatewayFlutterPlugin.launchSmallplug();
+    SmallplugData smallplugData = new SmallplugData();
+
+    if(smallplugEndpoint != null && smallplugEndpoint.isNotEmpty) {
+      smallplugData.targetEndpoint = smallplugEndpoint;
+    }
+
+    // smallplugData.params = "test=abc";
+
+    return ScgatewayFlutterPlugin.launchSmallplug(smallplugData);
   }
+
+  static Future<String> showOrders() async {
+
+    return ScgatewayFlutterPlugin.showOrders();
+    // return "";
+  }
+
 }

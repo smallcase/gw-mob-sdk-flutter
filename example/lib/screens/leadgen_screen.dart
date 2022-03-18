@@ -16,8 +16,8 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
   String _name = "", _email = "", _contact = "", _pincode = "";
 
   Future<void> _executeLeadGen() async {
-    // ScgatewayFlutterPlugin.leadGen(_name, _email, _contact, _pincode);
-    Gateway.leadGen(_name, _email, _contact, _pincode);
+    // Gateway.leadGen(_name, _email, _contact, _pincode);
+    Gateway.leadGenWithStatus(_name, _email, _contact).then((value) => _showAlertDialog(value));
   }
 
   Future<void> _logout() async {
@@ -26,35 +26,38 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
 
   Future<void> _showAlertDialog(String message) async {
 
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Gateway'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(message)
-              ],
+    if(message != null && message.isNotEmpty) {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Gateway'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(message)
+                ],
+              ),
             ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(onPressed: () {
+                ClipboardManager.copyToClipBoard(message);
               },
-            ),
-            TextButton(onPressed: () {
-              ClipboardManager.copyToClipBoard(message);
-            },
-                child: Text('Copy')
-            )
-          ],
-        );
-      },
-    );
+                  child: Text('Copy')
+              )
+            ],
+          );
+        },
+      );
+    }
+
   }
 
   Widget inputName() {
@@ -117,27 +120,7 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
     );
   }
 
-  // Widget inputPincode() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: <Widget>[
-  //       Text('Pin Code '),
-  //       SizedBox(width: 250, height: 30, child: TextField(decoration: InputDecoration(
-  //         filled: true,
-  //         labelText: '',
-  //       ),
-  //         onChanged: (value) {
-  //           setState(() {
-  //             _pincode = value;
-  //           });
-  //         },
-  //       ),
-  //       )
-  //     ],
-  //   );
-  // }
-
-  Widget btnStarteLeadGen() {
+  Widget btnStartLeadGen() {
     return SizedBox(width: 300, height: 35, child: RaisedButton(
       onPressed: _executeLeadGen,
       child: const Text('LEAD GEN', style: TextStyle(fontSize: 20)),
@@ -189,7 +172,7 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
               child: FittedBox(
                 alignment: Alignment.center,
                 fit: BoxFit.none,
-                child: btnStarteLeadGen(),
+                child: btnStartLeadGen(),
               ),
             ),
             Padding(

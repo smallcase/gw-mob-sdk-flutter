@@ -1,13 +1,14 @@
 
+import 'package:scgateway_flutter_plugin_example/models/Securities.dart';
+import 'package:scgateway_flutter_plugin_example/models/Smallcases.dart';
+
 class HoldingsData {
 
   final String lastUpdate;
 
-  //TODO: change dynamic
-  final dynamic securities;
+  final Securities securities;
 
-  //TODO: change dynamic
-  final dynamic smallcases;
+  final Smallcases smallcases;
 
   final String snapshotDate;
 
@@ -24,8 +25,8 @@ class HoldingsData {
   factory HoldingsData.fromJson(Map<String, dynamic> parsedJson) {
 
     var lastUpdate = parsedJson['lastUpdate'];
-    var securities = parsedJson['securities'];
-    var smallcases = parsedJson['smallcases'];
+    var securities = Securities.fromJson(parsedJson['securities']);
+    var smallcases = Smallcases.fromJson(parsedJson['smallcases']);
     var snapshotDate = parsedJson['snapshotDate'];
     var updating = parsedJson['updating'];
 

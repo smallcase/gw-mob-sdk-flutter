@@ -23,9 +23,20 @@ class SmtScreen extends StatefulWidget {
 
 class _SmtScreenState extends State<SmtScreen> {
 
+  TextEditingController _textEditingController;
+
+  String _smallplugEndpoint = "";
+  
   @override
   void initState() {
     super.initState();
+
+    _smallplugEndpoint = PageStorage
+        .of(context)
+        ?.readState(context, identifier: ValueKey('smallplugEndpoint'));
+    
+    _textEditingController = new TextEditingController(text: _smallplugEndpoint);
+    
     Gateway.getAllSmallcases().then((value) => _populateSmallCases(value));
   }
 
@@ -97,7 +108,12 @@ class _SmtScreenState extends State<SmtScreen> {
   }
 
   void _launchSmallplug() async {
-    Gateway.openSmallplug().then((value) => _showAlertDialog(value));
+    Gateway.openSmallplug("test!").then((value) => _showAlertDialog(value));
+  }
+
+  void _launchSmallplugWithEndpoint(String endpointVal) async {
+
+    Gateway.openSmallplug(endpointVal).then((value) => _showAlertDialog(value));
   }
 
   Future<void> _showAlertDialog(String message) async {
@@ -183,29 +199,51 @@ class _SmtScreenState extends State<SmtScreen> {
     ));
   }
 
-  // Widget _listViewItemBuilder(BuildContext context, int index){
-  //   var smallcase = this.items[index];
-  //   return ListTile(
-  //     contentPadding: EdgeInsets.all(10.0),
-  //     leading: _itemThumbnail(smallcase),
-  //     title: _itemTitle(smallcase),
-  //   );
-  // }
-  //
-  // Widget _itemThumbnail(SmallcasesDTO smallcasesDTO){
-  //   return Container(
-  //     constraints: BoxConstraints.tightFor(width: 100.0),
-  //     child: Image.network("https://assets.smallcase.com/images/smallcases/200/${smallcasesDTO.scid}.png", fit: BoxFit.fitWidth),
-  //   );
-  // }
-  //
-  // Widget _itemTitle(SmallcasesDTO smallcasesDTO){
-  //   return Text(smallcasesDTO.info.name, style: Styles.textDefault);
-  // }
+  Widget smallplugWithTargetEndpoint() {
+    // return SizedBox(width: 300, height: 35, child: RaisedButton(
+    //   onPressed: () => _launchSmallplugWithEndpoint(),
+    //   child: const Text('SMALLPLUG + Endpoint', style: TextStyle(fontSize: 20)),
+    // ));
+
+    return SizedBox(width: 300, height: 35, child:
+    ElevatedButton(
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return new Dialog(
+                  child: SizedBox(
+                      width: 300, height: 96,
+                      child: new Column(
+                        children: <Widget>[
+                          new TextField(
+                            decoration: new InputDecoration(hintText: "Enter Target Endpoint"),
+                            controller: _textEditingController,
+                          ),
+                          new FlatButton(
+                            child: new Text("Go"),
+                            onPressed: () {
+                              setState((){
+                                this._smallplugEndpoint = _textEditingController.text;
+                              });
+                              _launchSmallplugWithEndpoint(this._smallplugEndpoint);
+                              Navigator.pop(context);
+                            },
+                          )
+                        ],
+                      )
+                  )
+              );
+            });
+      },
+      child: const Text('Smallplug + Endpoint', style: TextStyle(fontSize: 20)),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('SMT'),
       ),
@@ -235,7 +273,12 @@ class _SmtScreenState extends State<SmtScreen> {
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,
               child: smallplug(),
-            )
+            ),
+            FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.none,
+              child: smallplugWithTargetEndpoint(),
+            ),
           ],
         ),
       ),

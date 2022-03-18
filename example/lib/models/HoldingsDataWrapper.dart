@@ -1,12 +1,13 @@
 
+import 'package:scgateway_flutter_plugin_example/models/HoldingsData.dart';
+
 class HoldingsDataWrapper {
 
   final bool success;
 
   final String error;
 
-  //TODO: change dynamic to relevant type
-  final dynamic data;
+  final HoldingsData data;
 
   final String snapshotDate;
 
@@ -24,7 +25,7 @@ class HoldingsDataWrapper {
 
     var success = parsedJson['success'];
     var error = parsedJson['error'];
-    var data = parsedJson['data'];
+    var data = HoldingsData.fromJson(parsedJson['data']);
     var snapshotDate = parsedJson['snapshotDate'];
     var updating = parsedJson['updating'];
 

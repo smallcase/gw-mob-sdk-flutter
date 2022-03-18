@@ -1,7 +1,7 @@
 
 class Holding {
 
-  final double averagePrice;
+  final dynamic averagePrice;
 
   final String name;
 

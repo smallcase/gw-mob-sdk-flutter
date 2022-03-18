@@ -9,37 +9,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7628e587-59d8-4a17-a6f6-b5f19324e39a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/ankitdeshmukh.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/dictionaries/ankitdeshmukh.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/Holding.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/HoldingsData.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/HoldingsDataWrapper.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/Private.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/Securities.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/SmallcaseHoldingDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/Smallcases.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/models/UserHoldingsResponse.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/Holding.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/HoldingsData.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/HoldingsDataWrapper.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/Private.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/Securities.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/SmallcaseHoldingDTO.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/Smallcases.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/lib/models/UserHoldingsResponse.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/gateway.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/gateway.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/holdings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/lib/screens/holdings_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/gateway.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/gateway.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/screens/holdings_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/example/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/ios/Classes/SwiftScgatewayFlutterPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/ios/Classes/SwiftScgatewayFlutterPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/ios/scgateway_flutter_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/ios/scgateway_flutter_plugin.podspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/scgateway_flutter_plugin/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftScgatewayFlutterPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftScgatewayFlutterPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/scgateway_flutter_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/scgateway_flutter_plugin.podspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -49,7 +42,14 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_COMMON_BRANCH" value="dev" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="ProjectId" id="1irif5YnVu2j2GWbfhfZds1uGBT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -61,11 +61,15 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DEBUGGABLE_DEVICE" value="Pixel_4_XL_API_30_6.3inch [emulator-5554]" />
+    <property name="DEBUGGABLE_DEVICE" value="Pixel_2_API_30_5inch [emulator-5554]" />
     <property name="DEBUGGABLE_PROCESS" value="com.example.scgateway_flutter_plugin_example" />
     <property name="DEBUGGER_ID" value="Java" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="com.developerphil.adbidea.ui.ModuleChooserDialogHelper-SELECTED_MODULE" value="scgateway_flutter_plugin_android" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
@@ -73,7 +77,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2956853" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -85,6 +89,7 @@
       <recent name="$PROJECT_DIR$/example/lib/models" />
     </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -100,47 +105,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1878" height="393" key="GridCell.Tab.0.bottom" timestamp="1627983973352">
-      <screen x="0" y="25" width="1920" height="979" />
-    </state>
-    <state width="1750" height="524" key="GridCell.Tab.0.bottom/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884648" />
-    <state width="1750" height="637" key="GridCell.Tab.0.bottom/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
-    <state width="1750" height="347" key="GridCell.Tab.0.bottom/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307457" />
-    <state width="1750" height="527" key="GridCell.Tab.0.bottom/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063006" />
-    <state width="1878" height="393" key="GridCell.Tab.0.bottom/0.25.1920.979@0.25.1920.979" timestamp="1627983973352" />
-    <state width="1878" height="262" key="GridCell.Tab.0.bottom/0.25.1920.981@0.25.1920.981" timestamp="1627977268478" />
-    <state width="1878" height="393" key="GridCell.Tab.0.center" timestamp="1627983973351">
-      <screen x="0" y="25" width="1920" height="979" />
-    </state>
-    <state width="1750" height="524" key="GridCell.Tab.0.center/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884647" />
-    <state width="1750" height="637" key="GridCell.Tab.0.center/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
-    <state width="1750" height="347" key="GridCell.Tab.0.center/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307456" />
-    <state width="1750" height="527" key="GridCell.Tab.0.center/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063005" />
-    <state width="1878" height="393" key="GridCell.Tab.0.center/0.25.1920.979@0.25.1920.979" timestamp="1627983973351" />
-    <state width="1878" height="262" key="GridCell.Tab.0.center/0.25.1920.981@0.25.1920.981" timestamp="1627977268478" />
-    <state width="1878" height="393" key="GridCell.Tab.0.left" timestamp="1627983973351">
-      <screen x="0" y="25" width="1920" height="979" />
-    </state>
-    <state width="1750" height="524" key="GridCell.Tab.0.left/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884647" />
-    <state width="1750" height="637" key="GridCell.Tab.0.left/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573256" />
-    <state width="1750" height="347" key="GridCell.Tab.0.left/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307456" />
-    <state width="1750" height="527" key="GridCell.Tab.0.left/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063004" />
-    <state width="1878" height="393" key="GridCell.Tab.0.left/0.25.1920.979@0.25.1920.979" timestamp="1627983973351" />
-    <state width="1878" height="262" key="GridCell.Tab.0.left/0.25.1920.981@0.25.1920.981" timestamp="1627977268477" />
-    <state width="1878" height="393" key="GridCell.Tab.0.right" timestamp="1627983973351">
-      <screen x="0" y="25" width="1920" height="979" />
-    </state>
-    <state width="1750" height="524" key="GridCell.Tab.0.right/0.25.1792.1019@0.25.1792.1019" timestamp="1624864884648" />
-    <state width="1750" height="637" key="GridCell.Tab.0.right/0.25.1792.1021@0.25.1792.1021" timestamp="1627902573257" />
-    <state width="1750" height="347" key="GridCell.Tab.0.right/0.25.1792.1023@0.25.1792.1023" timestamp="1627895307457" />
-    <state width="1750" height="527" key="GridCell.Tab.0.right/0.25.1792.1024@0.25.1792.1024" timestamp="1622032063006" />
-    <state width="1878" height="393" key="GridCell.Tab.0.right/0.25.1920.979@0.25.1920.979" timestamp="1627983973351" />
-    <state width="1878" height="262" key="GridCell.Tab.0.right/0.25.1920.981@0.25.1920.981" timestamp="1627977268478" />
-    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1628000923580">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1628000923580" />
   </component>
 </project>

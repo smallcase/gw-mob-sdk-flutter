@@ -29,6 +29,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
   String _baseUrl = "";
 
+  String _gateway = "gatewaydemo";
+
   String _userIdText = "";
 
   // String _authToken = "";
@@ -63,18 +65,21 @@ class _ConnectScreenState extends State<ConnectScreen> {
       switch(_environmentSelected) {
         case 1: {
           _baseUrl = "https://api.dev.smartinvesting.io/";
+          _gateway = "gatewaydemo-dev";
           enviroment = GatewayEnvironment.DEVELOPMENT;
         }
         break;
 
         case 2: {
           _baseUrl = "https://api.stag.smartinvesting.io/";
+          _gateway = "gatewaydemo-stag";
           enviroment = GatewayEnvironment.STAGING;
         }
         break;
 
         default: {
           _baseUrl = "https://api.smartinvesting.io/";
+          _gateway = "gatewaydemo";
           enviroment = GatewayEnvironment.PRODUCTION;
         }
         break;
@@ -83,12 +88,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
       // List<String> brokers = ['kite','hdfc','iifl'];
 
     List<String> brokers = [];
-      ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _leprechaunMode, brokers, isAmoenabled: _isAmoEnabled).then((setupResponse) =>
+      ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, _gateway, _leprechaunMode, brokers, isAmoenabled: _isAmoEnabled).then((setupResponse) =>
 
-          Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
+          Gateway.getSessionToken(_baseUrl, _userIdText ?? "", enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
       );
 
-      // Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value));
   }
   
   Future<void> _getTransactionId(String intent, Object orderConfig) async {
@@ -101,17 +105,50 @@ class _ConnectScreenState extends State<ConnectScreen> {
     Gateway.triggerTransactionWithTransactionId(txnId).then((value) => _showAlertDialog(value));
   }
 
-   Future<void> _onUserConnected(String initResponse) async {
+   Future<void> _onUserConnected(String connectResponse) async {
 
-    print("transaction auth token: $initResponse");
+    print("Connect Transaction response: $connectResponse");
 
-    final Map<String, dynamic> responseData = jsonDecode(initResponse);
+    final Map<String, dynamic> responseData = jsonDecode(connectResponse);
 
-    print("ResponseData = $responseData");
+    // print("ResponseData = $responseData");
+    var connectTxnSuccess = responseData['success'] as bool;
+    print("Connect Transaction success: $connectTxnSuccess");
 
-    var authToken = responseData['data'] as String;
+    if(connectTxnSuccess) {
+      final Map<String, dynamic> connectJsonData = jsonDecode(responseData['data'] as String);
 
-    print("auth token = $authToken");
+      var authToken = connectJsonData['smallcaseAuthToken'] as String;
+
+      print("auth token = $authToken");
+
+      Map data = {
+        'id': _userIdText,
+        'smallcaseAuthToken': authToken
+      };
+
+      String bodyData = json.encode(data);
+
+      print("On User connected body: $data");
+
+      var url = Uri.parse(Gateway.baseURL + 'user/connect');
+
+      final http.Response response = await http.post(
+          url,
+
+          headers: <String, String>{
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+            'Accept': 'application/json',
+            'content-type':'application/json'
+          },
+
+          body: bodyData
+      );
+
+      print("On user Connect: ");
+      print(response.body);
+    }
 
       if(Gateway.transactionId.isNotEmpty) {
         setState((){
@@ -122,34 +159,34 @@ class _ConnectScreenState extends State<ConnectScreen> {
         });
       }
 
-     _showAlertDialog(initResponse);
+     _showAlertDialog(connectResponse);
 
-    Map data = {
-      'id': _userIdText,
-      'smallcaseAuthToken': authToken
-    };
-
-    String bodyData = json.encode(data);
-
-    print("On User connected body: $data");
-
-    var url = Uri.parse(Gateway.baseURL + 'user/connect');
-
-    final http.Response response = await http.post(
-        url,
-
-        headers: <String, String>{
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-          'Accept': 'application/json',
-          'content-type':'application/json'
-        },
-
-        body: bodyData
-    );
-
-    print("On user Connect: ");
-    print(response.body);
+    // Map data = {
+    //   'id': _userIdText,
+    //   'smallcaseAuthToken': authToken
+    // };
+    //
+    // String bodyData = json.encode(data);
+    //
+    // print("On User connected body: $data");
+    //
+    // var url = Uri.parse(Gateway.baseURL + 'user/connect');
+    //
+    // final http.Response response = await http.post(
+    //     url,
+    //
+    //     headers: <String, String>{
+    //       'Access-Control-Allow-Origin': '*',
+    //       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+    //       'Accept': 'application/json',
+    //       'content-type':'application/json'
+    //     },
+    //
+    //     body: bodyData
+    // );
+    //
+    // print("On user Connect: ");
+    // print(response.body);
   }
 
   Future<void> _showAlertDialog(String message) async {

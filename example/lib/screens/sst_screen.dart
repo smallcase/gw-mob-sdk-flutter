@@ -40,13 +40,6 @@ class _SstScreenState extends State<SstScreen> {
 
       print(res);
 
-      // triggerTransaction("transaction", res);
-      // ScgatewayFlutterPlugin.getGatewayIntent("transaction")
-      //     .then((value) =>
-      //
-      //     _startSst(value, res)
-      // );
-
       _startSst(ScgatewayIntent.TRANSACTION, res);
 
     } else {
@@ -120,6 +113,20 @@ class _SstScreenState extends State<SstScreen> {
       child: const Text('Place Order', style: TextStyle(fontSize: 20)),
     ));    
   }
+  
+  Widget _btnShowOrders() {
+    return SizedBox(
+      width: 300,
+      child: ElevatedButton(
+          onPressed: () {
+            Gateway.showOrders().then((value) => _showAlertDialog(value));
+          },
+          child: Text(
+              'Show Orders'
+          )
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,23 +135,27 @@ class _SstScreenState extends State<SstScreen> {
         title: Text('SST'),
       ),
       body: SafeArea(
-
-        child: ListView(
-
-          padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-
-          children: <Widget>[
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: inputSecurities(),
-            ),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: btnPlaceOrder(),
-            ),
-          ],
+        child: Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              inputSecurities(),
+              SizedBox(
+                height: 20,
+              ),
+              btnPlaceOrder(),
+              SizedBox(
+                height: 20,
+              ),
+              _btnShowOrders()
+            ],
+          ),
         ),
       ),
     );
