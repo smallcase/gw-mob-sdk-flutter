@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.smallcase.gateway.data.SmallcaseGatewayListeners
 import com.smallcase.gateway.data.SmallcaseLogoutListener
 import com.smallcase.gateway.data.listeners.DataListener
+import com.smallcase.gateway.data.listeners.LeadGenResponseListener
 import com.smallcase.gateway.data.listeners.SmallPlugResponseListener
 import com.smallcase.gateway.data.listeners.TransactionResponseListener
 import com.smallcase.gateway.data.models.*
@@ -58,19 +59,25 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     replySubmitted = false
 
-    SmallcaseGatewaySdk.setSDKType("flutter")
-    SmallcaseGatewaySdk.setHybridSDKVersion("1.1.7")
-
     when (call.method) {
+
+      "setFlutterSdkVersion" -> {
+        SmallcaseGatewaySdk.setSDKType("flutter")
+        SmallcaseGatewaySdk.setHybridSDKVersion(call.argument("flutterSdkVersion")!!)
+        result.success(true)
+      }
+
+      "getSdkVersion" -> {
+        val flutterSdkVersion: String = ",flutter:" + call.argument("flutterSdkVersion")
+        val nativeSdkVersion = "android:${SmallcaseGatewaySdk.getSdkVersion()}"
+        result.success(nativeSdkVersion+flutterSdkVersion)
+      }
+
       "setConfigEnvironment" -> {
 
         val res = JSONObject()
 
         val env: String? = call.argument("env")
-
-        Log.d(TAG, "onMethodCall: Environment = $env")
-
-//      val userId: String? = call.argument("userId")
         val gateway: String? = call.argument("gateway")
         val leprechaun: Boolean? = call.argument("leprechaun")
         val amo: Boolean? = call.argument("amo")
@@ -121,13 +128,10 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                       res.put("authToken", SmallcaseGatewaySdk.getSmallcaseAuthToken())
                       res.put("errorCode", null)
                       res.put("errorMessage", null)
-//                  result.success(authData.toString())
                       result.success(res.toString())
                     }
 
                     override fun onFailure(errorCode: Int, errorMessage: String) {
-                      Log.d(TAG, "onFailure: $errorMessage")
-
 
                       res.put("errorCode", errorCode)
                       res.put("errorMessage", errorMessage)
@@ -141,8 +145,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
           val transactionId: String? = call.argument("transactionId")
 
-          Log.d(TAG, "onMethodCall: TransactionId = $transactionId")
-
           if (transactionId != null) {
             SmallcaseGatewaySdk.triggerTransaction(activity,
                     transactionId,
@@ -150,78 +152,70 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                       override fun onSuccess(transactionResult: TransactionResult) {
 
                         try {
-                          if (transactionResult.success) {
+                          when (transactionResult.transaction) {
+                              SmallcaseGatewaySdk.Result.HOLDING_IMPORT -> {
+                                val holdingRes = JSONObject(transactionResult.data!!)
 
-                            Log.d(TAG, "onSuccess: " + transactionResult.data!!)
+                                val smallcaseAuthToken = holdingRes.getString("smallcaseAuthToken")
+                                val broker = holdingRes.getString("broker")
 
-                            if (transactionResult.transaction == SmallcaseGatewaySdk.Result.HOLDING_IMPORT) {
-                              val holdingRes = JSONObject(transactionResult.data!!)
-
-                              val smallcaseAuthToken = holdingRes.getString("smallcaseAuthToken")
-                              val broker = holdingRes.getString("broker")
-
-                              val res = JSONObject()
-
-                              res.put("data", smallcaseAuthToken)
-                              res.put("broker", broker)
-                              res.put("success", true)
-                              res.put("transaction", "HOLDINGS_IMPORT")
-
-                              result.success(res.toString())
-                            } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.TRANSACTION) {
-
-                              val transRes = JSONObject(transactionResult.data!!)
-                              transRes.put("success", true)
-                              transRes.put("transaction", "TRANSACTION")
-
-                              result.success(transRes.toString())
-                            } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.CONNECT) {
-                              val res = JSONObject()
-
-                              try {
-//                            val connectRes = JSONObject(transactionResult.data!!)
-
-//                            val smallcaseAuthToken = connectRes.getString("smallcaseAuthToken")
-
-                                res.put("data", transactionResult.data!!)
-                              } catch (e: Exception) {
-                                val smallcaseAuthToken = transactionResult.data!!
+                                val res = JSONObject()
 
                                 res.put("data", smallcaseAuthToken)
+                                res.put("broker", broker)
+                                res.put("success", true)
+                                res.put("transaction", "HOLDINGS_IMPORT")
+
+                                result.success(res.toString())
                               }
+                              SmallcaseGatewaySdk.Result.TRANSACTION -> {
 
-//                          res.put("data", smallcaseAuthToken)
-                              res.put("success", true)
-                              res.put("transaction", "CONNECT")
+                                val transRes = JSONObject(transactionResult.data!!)
+                                transRes.put("success", true)
+                                transRes.put("transaction", "TRANSACTION")
 
-                              result.success(res.toString())
-                            } else if (transactionResult.transaction == SmallcaseGatewaySdk.Result.SIP_SETUP) {
+                                result.success(transRes.toString())
+                              }
+                              SmallcaseGatewaySdk.Result.CONNECT -> {
+                                val res = JSONObject()
 
-                              val transRes = JSONObject(transactionResult.data!!)
-                              transRes.put("success", true)
-                              transRes.put("transaction", "SIP_SETUP")
+                                try {
 
-                              result.success(transRes.toString())
+                                  res.put("data", transactionResult.data!!)
+                                } catch (e: Exception) {
+                                  val smallcaseAuthToken = transactionResult.data!!
 
-                            } else {
-                              txnResult = transactionResult.data!!
+                                  res.put("data", smallcaseAuthToken)
+                                }
 
-                              result.success(Gson().toJson(transactionResult).toString())
-                            }
-                          } else {
+                                res.put("success", true)
+                                res.put("transaction", "CONNECT")
 
-                            txnResult = transactionResult.error + " " + transactionResult.errorCode
-//
-//                        result.error(Gson().toJson(transactionResult).toString(), null, null)
+                                result.success(res.toString())
+                              }
+                              SmallcaseGatewaySdk.Result.SIP_SETUP -> {
 
-                            uiThreadHandler.post{ result.error(Gson().toJson(transactionResult).toString(), null, null) }
+                                val transRes = JSONObject(transactionResult.data!!)
+                                transRes.put("success", true)
+                                transRes.put("transaction", "SIP_SETUP")
+
+                                result.success(transRes.toString())
+
+                              }
+                              else -> {
+                                txnResult = transactionResult.data!!
+
+                                result.success(Gson().toJson(transactionResult).toString())
+                              }
                           }
+
                         } catch (e: Exception) {
                           e.printStackTrace()
                         }
+
                       }
 
-                      override fun onError(errorCode: Int, errorMessage: String) {
+                      override fun onError(errorCode: Int, errorMessage: String, data: String?) {
 
                         errorCode.toString()
 
@@ -241,9 +235,8 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           val name: String? = call.argument("name")
           val email: String? = call.argument("email")
           val contact: String? = call.argument("contact")
-          val pincode: String? = call.argument("pincode")
 
-          SmallcaseGatewaySdk.triggerLeadGen(activity, generateMapForLead(name, email, contact, pincode))
+          SmallcaseGatewaySdk.triggerLeadGen(activity, generateMapForLead(name, email, contact))
 
           result.success("Lead Gen Success")
         }
@@ -252,24 +245,11 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           val name: String? = call.argument("name")
           val email: String? = call.argument("email")
           val contact: String? = call.argument("contact")
-          val pincode: String? = call.argument("pincode")
 
-          SmallcaseGatewaySdk.triggerLeadGen(activity, generateMapForLead(name, email, contact, pincode), object : TransactionResponseListener {
-            override fun onError(errorCode: Int, errorMessage: String) {
-              errorCode.toString()
-
-              txnResult = errorMessage
-
-              val res = JSONObject()
-              res.put("errorCode", errorCode)
-              res.put("errorMessage", errorMessage)
-
-              result.error(res.toString(), null, null)
-            }
-
-            override fun onSuccess(transactionResult: TransactionResult) {
+          SmallcaseGatewaySdk.triggerLeadGen(activity, generateMapForLead(name, email, contact), object : LeadGenResponseListener {
+            override fun onSuccess(leadResponse: String) {
               uiThreadHandler.post{
-                result.success(transactionResult.data)
+                result.success(leadResponse)
               }
             }
           })
@@ -309,8 +289,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
             }
 
             override fun onSuccess(response: SmallcaseGatewayDataResponse) {
-
-              Log.d(TAG, "onSuccess: user investments: $response")
               result.success(Gson().toJson(response).toString())
             }
 
@@ -410,10 +388,10 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
           val res = JSONObject()
 
-          SmallcaseGatewaySdk.launchSmallPlug(activity, SmallplugData(
-                  targetEndpoint,
-                  params
-          ), object : SmallPlugResponseListener {
+          SmallcaseGatewaySdk.launchSmallPlug(
+            activity,
+            SmallplugData(targetEndpoint, params),
+            object : SmallPlugResponseListener {
 
             override fun onFailure(errorCode: Int, errorMessage: String) {
               res.put("success", false)
@@ -423,13 +401,11 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
             }
 
             override fun onSuccess(smallPlugResult: SmallPlugResult) {
-
-              Log.d(TAG, "onSuccess: smallplug: $smallPlugResult")
-
               uiThreadHandler.post{
                 result.success(Gson().toJson(smallPlugResult).toString())
               }
             }
+
           })
         }
       "showOrders" -> {
@@ -463,7 +439,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }
   }
   
-  private fun generateMapForLead(name: String?, email: String?, contact: String?, pincode: String?) : HashMap<String, String> {
+  private fun generateMapForLead(name: String?, email: String?, contact: String?) : HashMap<String, String> {
     if(name != null && name.isNotEmpty()) {
       leadGenMap["name"] = name
     }
@@ -474,10 +450,6 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     if(contact != null && contact.isNotEmpty()) {
       leadGenMap["contact"] = contact
-    }
-
-    if(pincode != null && pincode.isNotEmpty()) {
-      leadGenMap["pinCode"] = pincode
     }
 
     return if (leadGenMap.isNullOrEmpty()) {

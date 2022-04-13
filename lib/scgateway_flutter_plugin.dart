@@ -1,7 +1,7 @@
 
 import 'dart:async';
-import 'dart:collection';
 import 'package:flutter/services.dart';
+// import './src/constants/pubspec.yaml.g.dart' as plugin_yaml;
 
  enum GatewayEnvironment {
   PRODUCTION,
@@ -28,9 +28,33 @@ class ScgatewayFlutterPlugin {
 
   static const MethodChannel _channel = const MethodChannel('scgateway_flutter_plugin');
 
+  static const String _flutterPluginVersion = "1.2.0";
+
+  static Future<String?> getSdkVersion() async {
+
+    String? sdkVersion;
+
+    try {
+      sdkVersion = await _channel.invokeMethod(
+          'getSdkVersion',
+          <String, dynamic>{"flutterSdkVersion": _flutterPluginVersion}
+      );
+    } on PlatformException catch (e) {
+      print(e);
+    }
+
+    return sdkVersion;
+  }
+
   static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, bool leprechaunMode, List<String> brokers, {bool isAmoenabled = true}) async {
 
     Object? setConfigResult;
+
+    try {
+      var setFlutterSdkVersion = await _channel.invokeMethod('setFlutterSdkVersion', <String, dynamic>{"flutterSdkVersion": _flutterPluginVersion});
+    } on PlatformException catch (e) {
+      print(e.stacktrace);
+    }
 
     try{
       setConfigResult = await _channel.invokeMethod(
