@@ -36,6 +36,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   // String _authToken = "";
 
   String _transactionId = "";
+  String _sdkVersion = "";
 
   Map<int, Widget> _environments = {
     0: Text('Prod'),
@@ -44,8 +45,13 @@ class _ConnectScreenState extends State<ConnectScreen> {
   };
 
   @override
-  initState(){
+  initState() {
     super.initState();
+
+    ScgatewayFlutterPlugin.getSdkVersion().then((value) => setState(() {
+      this._sdkVersion = value;
+    }));
+
     _userIdText = PageStorage
         .of(context)
         ?.readState(context, identifier: ValueKey('test'));
@@ -410,6 +416,10 @@ class _ConnectScreenState extends State<ConnectScreen> {
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
 
           children: <Widget>[
+            Text(
+              _sdkVersion,
+              textAlign: TextAlign.center,
+            ),
             FittedBox(
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,

@@ -22,9 +22,24 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    
+            
+    if(call.method == "setFlutterSdkVersion") {
+          if let args = call.arguments as? Dictionary<String, Any> {
+              SCGateway.shared.setSDKType(type: "flutter")
+              SCGateway.shared.setHybridSDKVersion(version: args["flutterSdkVersion"] as! String)
+              result("success")
+          }
+      }
+      
+      else if(call.method == "getSdkVersion") {
+          if let args = call.arguments as? Dictionary<String, Any> {
+              let scgatewayFlutterPluginVersion = "ios:\(SCGateway.shared.getSdkVersion()),flutter:\(args["flutterSdkVersion"] as! String)"
+              result(scgatewayFlutterPluginVersion)
+          }
+      }
+      
     //MARK: Initialize Gateway SDK
-     if(call.method == "initializeGateway") {
+     else if(call.method == "initializeGateway") {
         if let args = call.arguments as? Dictionary<String, Any>,
  
            let authToken = args["authToken"] as? String {
@@ -95,9 +110,6 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
      //MARK: Set Config Environment
      else if (call.method == "setConfigEnvironment") {
-        
-         SCGateway.shared.setSDKType(type: "flutter")
-         SCGateway.shared.setHybridSDKVersion(version: "1.1.7")
          
         if let args = call.arguments as? Dictionary<String, Any>,
                    
