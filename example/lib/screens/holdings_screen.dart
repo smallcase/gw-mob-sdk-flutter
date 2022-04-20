@@ -8,7 +8,6 @@ import 'package:scgateway_flutter_plugin_example/models/UserHoldingsResponse.dar
 import 'package:scgateway_flutter_plugin_example/screens/UserHoldingsScreen.dart';
 
 class HoldingsScreen extends StatefulWidget {
-
   HoldingsScreen({Key key}) : super(key: key);
 
   @override
@@ -16,6 +15,7 @@ class HoldingsScreen extends StatefulWidget {
 }
 
 class _HoldingsScreenState extends State<HoldingsScreen> {
+  bool v2 = false;
 
   Future<void> _importHoldings() async {
     _startHoldingsTransactionFor(ScgatewayIntent.HOLDINGS, null);
@@ -29,27 +29,32 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
     _startHoldingsTransactionFor(ScgatewayIntent.AUTHORISE_HOLDINGS, null);
   }
 
-  Future<void> _startHoldingsTransactionFor(String intent, Object orderConfig) async {
-    Gateway.getTransactionId(intent, orderConfig).then((value) => _showAlertDialog(value));
+  Future<void> _startHoldingsTransactionFor(
+      String intent, Object orderConfig) async {
+    Gateway.getTransactionId(intent, orderConfig)
+        .then((value) => _showAlertDialog(value));
   }
 
   Future<void> _getUserHoldings() async {
-
     // Gateway.getUserHoldings().then((value) => _showAlertDialog(value.data.data.securities.holdings[0].ticker));
-    Gateway.getUserHoldings().then((value) => _showUserHoldings(context, value));
+    Gateway.getUserHoldings(version: v2 ? 2 : 1)
+        .then((value) => _showUserHoldings(context, value));
   }
 
-  void _showUserHoldings(BuildContext context, UserHoldingsResponse holdings) {
+  void _showUserHoldings(
+      BuildContext context, UserHoldingsResponse holdings) async {
+    print("holdings : $holdings");
+
+    await _showAlertDialog(holdings.toString());
 
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => UserHoldingsScreen(holdings: holdings),
-    ));
+        ));
   }
 
   Future<void> _showAlertDialog(String message) async {
-
     // ClipboardManager.copyToClipBoard(message);
 
     return showDialog<void>(
@@ -60,9 +65,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
           title: Text('Gateway'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
-                Text(message)
-              ],
+              children: <Widget>[Text(message)],
             ),
           ),
           actions: <Widget>[
@@ -72,10 +75,11 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(onPressed: () {
-              ClipboardManager.copyToClipBoard(message);
-            }, child: Text('Copy')
-            )
+            TextButton(
+                onPressed: () {
+                  ClipboardManager.copyToClipBoard(message);
+                },
+                child: Text('Copy'))
           ],
         );
       },
@@ -83,49 +87,45 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
   }
 
   Widget btnImportHoldings() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: _importHoldings,
-      child: const Text('Import Holdings', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: _importHoldings,
+          child: const Text('Import Holdings', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget btnFetchFunds() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: _fetchFunds,
-      child: const Text('Fetch Funds', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: _fetchFunds,
+          child: const Text('Fetch Funds', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget btnAuthorizeHoldings() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: _authoriseHoldings,
-      child: const Text('Authorize Holdings', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: _authoriseHoldings,
+          child:
+              const Text('Authorize Holdings', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget btnShowUserHoldings() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: _getUserHoldings,
-      child: const Text('Show Holdings', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: _getUserHoldings,
+          child: const Text('Show Holdings', style: TextStyle(fontSize: 20)),
+        ));
   }
-
-  // final List<String> entries = <String>['A', 'B', 'C','A', 'B', 'C','A', 'B', 'C','A', 'B', 'C','A', 'B', 'C','A', 'B', 'C'];
-  // final List<int> colorCodes = <int>[600, 500, 100];
-  //
-  // Widget listUserHoldings() {
-  //   return ListView.builder(
-  //       padding: const EdgeInsets.all(8),
-  //       itemCount: entries.length,
-  //       itemBuilder: (BuildContext context, int index) {
-  //         return Container(
-  //           height: 50,
-  //           color: Colors.amber[colorCodes[index]],
-  //           child: Center(child: Text('Entry ${entries[index]}')),
-  //         );
-  //       }
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -134,35 +134,37 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
         title: Text('Holdings'),
       ),
       body: SafeArea(
-
-        child: ListView(
-
-          padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-
-          children: <Widget>[
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: btnImportHoldings(),
-            ),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: btnFetchFunds(),
-            ),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: btnAuthorizeHoldings(),
-            ),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: btnShowUserHoldings(),
-            ),
-          ],
-        )
-      ),
+          child: ListView(
+        padding: EdgeInsets.only(top: 10, left: 15, right: 10),
+        children: <Widget>[
+          Switch.adaptive(
+            value: v2,
+            onChanged: (value) => setState(() {
+              v2 = !v2;
+            }),
+          ),
+          FittedBox(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.none,
+            child: btnImportHoldings(),
+          ),
+          FittedBox(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.none,
+            child: btnFetchFunds(),
+          ),
+          FittedBox(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.none,
+            child: btnAuthorizeHoldings(),
+          ),
+          FittedBox(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.none,
+            child: btnShowUserHoldings(),
+          ),
+        ],
+      )),
     );
   }
 }

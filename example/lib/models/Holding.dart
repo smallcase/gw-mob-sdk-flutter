@@ -1,5 +1,7 @@
 
-class Holding {
+import 'package:scgateway_flutter_plugin_example/screens/UserHoldingsScreen.dart';
+
+class Holding implements SecuritiesI {
 
   final dynamic averagePrice;
 
