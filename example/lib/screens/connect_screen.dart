@@ -77,7 +77,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
     List<String> brokers = [];
     ScgatewayFlutterPlugin.setConfigEnvironment(
-            environment.gatewayEnvironment, _gateway, _leprechaunMode, brokers,
+            environment.gatewayEnvironment, environment.gatewayName, _leprechaunMode, brokers,
             isAmoenabled: _isAmoEnabled)
         .then((setupResponse) => Gateway.getSessionToken( environment,
                 _userIdText ?? "", _leprechaunMode, _isAmoEnabled)
@@ -103,7 +103,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     var connectTxnSuccess = responseData['success'] as bool;
     print("Connect Transaction success: $connectTxnSuccess");
 
-    if (connectTxnSuccess) {
+    if (connectTxnSuccess == true) {
       final Map<String, dynamic> connectJsonData =
           jsonDecode(responseData['data'] as String);
 

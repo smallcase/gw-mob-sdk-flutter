@@ -9,19 +9,21 @@ class SmartInvesting {
   const SmartInvesting.prod() : baseUrl = "https://api.smartinvesting.io/";
 
   factory SmartInvesting.fromEnvironment(Environment environment) {
-    switch (environment) {
-      case Environment.dev():
+    switch (environment.envIndex) {
+      case 1:
         return SmartInvesting.dev();
-      case Environment.staging():
+      case 2:
         return SmartInvesting.staging();
       default:
         return SmartInvesting.prod();
     }
   }
 
-  Future<String> getUserHoldings(String userId, int version,{bool mfEnabled = false}) async {
-    var url =
-        Uri.parse(baseUrl + 'holdings/fetch' + '?id=$userId&version=v$version&mfHoldings=$mfEnabled');
+  Future<String> getUserHoldings(String userId, int version,
+      {bool mfEnabled = false}) async {
+    var url = Uri.parse(baseUrl +
+        'holdings/fetch' +
+        '?id=$userId&version=v$version&mfHoldings=$mfEnabled');
 
     final http.Response response = await http.get(
       url,
@@ -41,5 +43,10 @@ class SmartInvesting {
       print(response.body);
       throw Exception('Failed to get user holdings');
     }
+  }
+
+  @override
+  String toString() {
+    return "SmartInvesting(baseUrl: $baseUrl)";
   }
 }

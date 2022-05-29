@@ -26,12 +26,12 @@ class Environment {
   })  : this.envIndex = 0,
         this.gatewayEnvironment = GatewayEnvironment.PRODUCTION;
   const Environment.dev({
-    this.gatewayName = "gatewaydemo",
-  })  : this.envIndex = 0,
+    this.gatewayName = "gatewaydemo-dev",
+  })  : this.envIndex = 1,
         this.gatewayEnvironment = GatewayEnvironment.DEVELOPMENT;
   const Environment.staging({
-    this.gatewayName = "gatewaydemo",
-  })  : this.envIndex = 0,
+    this.gatewayName = "gatewaydemo-stag",
+  })  : this.envIndex = 2,
         this.gatewayEnvironment = GatewayEnvironment.STAGING;
 
   String get envName {
@@ -44,6 +44,9 @@ class Environment {
         return "Prod";
     }
   }
+
+  @override
+  String toString() => 'Environment(gatewayName: $gatewayName, gatewayEnvironment: $gatewayEnvironment, envIndex: $envIndex)';
 }
 
 class Gateway {
@@ -58,7 +61,9 @@ class Gateway {
   static Future<String> getSessionToken(
       Environment environment, String idText, bool leprechaun, bool amo) async {
     env = environment;
+    print("getSessionToken env ${env}");
     smartInvesting = SmartInvesting.fromEnvironment(env);
+    print("smart inv ${smartInvesting}");
 
     userId = idText;
     print("userId: $userId baseUrl: $baseURL");
@@ -103,6 +108,7 @@ class Gateway {
     print("requestBody = $bodyData");
 
     var url = Uri.parse(baseURL + 'transaction/new');
+    print("getTransactionId url : ${url}");
 
     final http.Response response = await http.post(
       url,
@@ -133,9 +139,11 @@ class Gateway {
     }
   }
 
-  static Future<UserHoldingsResponse> getUserHoldings({int version = 1, bool mfEnabled = false}) async {
+  static Future<UserHoldingsResponse> getUserHoldings(
+      {int version = 1, bool mfEnabled = false}) async {
     try {
-      final response = await smartInvesting.getUserHoldings(userId, version, mfEnabled: mfEnabled);
+      final response = await smartInvesting.getUserHoldings(userId, version,
+          mfEnabled: mfEnabled);
       if (version == 2) {
         return UserHoldingsResponse.fromJsonV2(response);
       }
