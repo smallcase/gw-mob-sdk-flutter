@@ -7,3 +7,10 @@
 .idea/**
 
 build/
+
+.fvm/flutter_sdk
+.fvm
+.vscode
+
+.flutter-plugins
+.flutter-plugins-dependencies

@@ -133,9 +133,9 @@ class Gateway {
     }
   }
 
-  static Future<UserHoldingsResponse> getUserHoldings({int version = 1}) async {
+  static Future<UserHoldingsResponse> getUserHoldings({int version = 1, bool mfEnabled = false}) async {
     try {
-      final response = await smartInvesting.getUserHoldings(userId, version);
+      final response = await smartInvesting.getUserHoldings(userId, version, mfEnabled: mfEnabled);
       if (version == 2) {
         return UserHoldingsResponse.fromJsonV2(response);
       }

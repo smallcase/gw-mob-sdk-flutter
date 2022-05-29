@@ -9,6 +9,7 @@ class HoldingsDataWrapper {
   final HoldingsDataV2 dataV2;
 
   bool get isV2 => dataV2 != null;
+  bool get hasMfData => isV2 ? dataV2.mutualFunds !=null : data.mutualFunds !=null;
 
   final String snapshotDate;
 

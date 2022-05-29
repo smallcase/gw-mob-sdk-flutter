@@ -19,9 +19,9 @@ class SmartInvesting {
     }
   }
 
-  Future<String> getUserHoldings(String userId, int version) async {
+  Future<String> getUserHoldings(String userId, int version,{bool mfEnabled = false}) async {
     var url =
-        Uri.parse(baseUrl + 'holdings/fetch' + '?id=$userId&version=v$version');
+        Uri.parse(baseUrl + 'holdings/fetch' + '?id=$userId&version=v$version&mfHoldings=$mfEnabled');
 
     final http.Response response = await http.get(
       url,

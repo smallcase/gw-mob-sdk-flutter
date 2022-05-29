@@ -16,6 +16,7 @@ class HoldingsScreen extends StatefulWidget {
 
 class _HoldingsScreenState extends State<HoldingsScreen> {
   bool v2 = false;
+  bool mfEnabled = false;
 
   Future<void> _importHoldings() async {
     _startHoldingsTransactionFor(ScgatewayIntent.HOLDINGS, null);
@@ -37,7 +38,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
 
   Future<void> _getUserHoldings() async {
     // Gateway.getUserHoldings().then((value) => _showAlertDialog(value.data.data.securities.holdings[0].ticker));
-    Gateway.getUserHoldings(version: v2 ? 2 : 1)
+    Gateway.getUserHoldings(version: v2 ? 2 : 1, mfEnabled: mfEnabled)
         .then((value) => _showUserHoldings(context, value));
   }
 
@@ -137,11 +138,24 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
           child: ListView(
         padding: EdgeInsets.only(top: 10, left: 15, right: 10),
         children: <Widget>[
-          Switch.adaptive(
-            value: v2,
-            onChanged: (value) => setState(() {
-              v2 = !v2;
-            }),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ToggleBtn(
+                label: 'Enable v2',
+                value: v2,
+                onChanged: (value) => setState(() {
+                  v2 = !v2;
+                }),
+              ),
+              ToggleBtn(
+                label: 'Enable MF',
+                value: mfEnabled,
+                onChanged: (value) => setState(() {
+                  mfEnabled = !mfEnabled;
+                }),
+              ),
+            ],
           ),
           FittedBox(
             alignment: Alignment.centerLeft,
@@ -165,6 +179,28 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
           ),
         ],
       )),
+    );
+  }
+}
+
+class ToggleBtn extends StatelessWidget {
+  final String label;
+  final bool value;
+  final Function(bool value) onChanged;
+  const ToggleBtn({Key key, this.label, this.value, this.onChanged})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label),
+        Switch.adaptive(
+          value: value,
+          onChanged: onChanged,
+        ),
+      ],
     );
   }
 }
