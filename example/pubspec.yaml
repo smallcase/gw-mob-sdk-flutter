@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-#  scgateway_flutter_plugin: 1.1.6
+#  scgateway_flutter_plugin: 1.1.7
   scgateway_flutter_plugin:
     path: ../
 

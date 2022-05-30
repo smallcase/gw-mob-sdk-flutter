@@ -48,9 +48,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
   initState() {
     super.initState();
 
-    ScgatewayFlutterPlugin.getSdkVersion().then((value) => setState(() {
-      this._sdkVersion = value;
-    }));
+    // ScgatewayFlutterPlugin.getSdkVersion().then((value) => setState(() {
+    //   this._sdkVersion = value;
+    // }));
 
     _userIdText = PageStorage
         .of(context)
