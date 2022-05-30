@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'package:flutter/services.dart';
+// import './src/constants/pubspec.yaml.g.dart' as plugin_yaml;
 
  enum GatewayEnvironment {
   PRODUCTION,
@@ -15,20 +16,56 @@ class ScgatewayIntent {
      static const AUTHORISE_HOLDINGS = "AUTHORISE_HOLDINGS";
      static const FETCH_FUNDS = "FETCH_FUNDS";
      static const SIP_SETUP = "SIP_SETUP";
+     static const CANCEL_AMO = "CANCEL_AMO";
+}
+
+class SmallplugData {
+   String? targetEndpoint;
+   String? params;
 }
 
 class ScgatewayFlutterPlugin {
 
   static const MethodChannel _channel = const MethodChannel('scgateway_flutter_plugin');
 
+  static const String _flutterPluginVersion = "1.2.0";
+
+  static Future<String?> getSdkVersion() async {
+
+    String? sdkVersion;
+
+    try {
+      sdkVersion = await _channel.invokeMethod(
+          'getSdkVersion',
+          <String, dynamic>{"flutterSdkVersion": _flutterPluginVersion}
+      );
+    } on PlatformException catch (e) {
+      print(e);
+    }
+
+    return sdkVersion;
+  }
+
   static Future<String> setConfigEnvironment(GatewayEnvironment environmentSelected, String gateway, bool leprechaunMode, List<String> brokers, {bool isAmoenabled = true}) async {
 
-    Object setConfigResult;
+    Object? setConfigResult;
+
+    try {
+      var setFlutterSdkVersion = await _channel.invokeMethod('setFlutterSdkVersion', <String, dynamic>{"flutterSdkVersion": _flutterPluginVersion});
+    } on PlatformException catch (e) {
+      print(e.stacktrace);
+    }
 
     try{
       setConfigResult = await _channel.invokeMethod(
           'setConfigEnvironment',
-          <String, dynamic>{"env": environmentSelected.toString(), "gateway": gateway, "leprechaun": leprechaunMode, "brokers": brokers, "amo": isAmoenabled});
+          <String, dynamic>{
+            "env": environmentSelected.toString(),
+            "gateway": gateway,
+            "leprechaun": leprechaunMode,
+            "brokers": brokers,
+            "amo": isAmoenabled
+          });
     } on PlatformException catch (e) {
       setConfigResult = e.code;
     }
@@ -37,9 +74,9 @@ class ScgatewayFlutterPlugin {
 
   }
 
-  static Future<String> initGateway(String authToken) async {
+  static Future<String?> initGateway(String authToken) async {
 
-    String initGatewayResult;
+    String? initGatewayResult;
 
     try{
       initGatewayResult = await _channel.invokeMethod(
@@ -56,9 +93,9 @@ class ScgatewayFlutterPlugin {
   }
 
 
-  static Future<String> triggerGatewayTransaction(String txnId) async{
+  static Future<String?> triggerGatewayTransaction(String txnId) async{
 
-    String triggerTxnRes;
+    String? triggerTxnRes;
 
     try {
       triggerTxnRes = await _channel.invokeMethod(
@@ -68,7 +105,7 @@ class ScgatewayFlutterPlugin {
       triggerTxnRes = e.code;
     }
 
-    print("transaction res: " + triggerTxnRes);
+    print("transaction res: " + triggerTxnRes!);
 
     return triggerTxnRes;
 
@@ -76,7 +113,7 @@ class ScgatewayFlutterPlugin {
 
   static void leadGen(String name, String email, String contact, String pincode) async {
 
-    String leadGenRes;
+    String? leadGenRes;
 
     try{
       leadGenRes = await _channel.invokeMethod(
@@ -87,12 +124,27 @@ class ScgatewayFlutterPlugin {
     }
 
     print(leadGenRes);
-
   }
 
-  static Future<String> getAllSmallcases() async {
+  static Future<String?> leadGenWithStatus(String name, String email, String contact) async {
 
-    String fetchSmallcasesRes;
+    String? leadGenRes;
+
+    try {
+      leadGenRes = await _channel.invokeMethod(
+          'leadGenWithStatus',
+          <String, dynamic>{"name": name, "email": email, "contact": contact});
+      } on PlatformException catch (e) {
+      leadGenRes = e.code;
+    }
+
+    print(leadGenRes);
+    return leadGenRes;
+  }
+
+  static Future<String?> getAllSmallcases() async {
+
+    String? fetchSmallcasesRes;
 
     try{
       fetchSmallcasesRes = await _channel.invokeMethod(
@@ -108,9 +160,9 @@ class ScgatewayFlutterPlugin {
     return fetchSmallcasesRes;
   }
 
-  static Future<String> getAllUserInvestments() async {
+  static Future<String?> getAllUserInvestments() async {
 
-    String fetchUserInvestmentsRes;
+    String? fetchUserInvestmentsRes;
 
     try {
       fetchUserInvestmentsRes = await _channel.invokeMethod(
@@ -127,9 +179,9 @@ class ScgatewayFlutterPlugin {
 
   }
 
-  static Future<String> getAllExitedSmallcases() async {
+  static Future<String?> getAllExitedSmallcases() async {
 
-    String fetchExitedSmallcases;
+    String? fetchExitedSmallcases;
 
     try {
       fetchExitedSmallcases = await _channel.invokeMethod(
@@ -145,9 +197,9 @@ class ScgatewayFlutterPlugin {
     return fetchExitedSmallcases;
   }
 
-  static Future<String> getSmallcaseNews(String scid) async {
+  static Future<String?> getSmallcaseNews(String scid) async {
 
-    String smallcaseNews;
+    String? smallcaseNews;
 
     try{
       smallcaseNews = await _channel.invokeMethod(
@@ -163,9 +215,9 @@ class ScgatewayFlutterPlugin {
     return smallcaseNews;
   }
 
-  static Future<String> markSmallcaseArchive(String iscid) async {
+  static Future<String?> markSmallcaseArchive(String iscid) async {
 
-    String archiveResponse;
+    String? archiveResponse;
 
     try {
       archiveResponse = await _channel.invokeMethod(
@@ -181,9 +233,9 @@ class ScgatewayFlutterPlugin {
     return archiveResponse;
   }
 
-  static Future<String> logoutUser() async {
+  static Future<String?> logoutUser() async {
 
-    String logoutResponse;
+    String? logoutResponse;
 
     try {
       logoutResponse = await _channel.invokeMethod("logoutUser", null);
@@ -191,17 +243,20 @@ class ScgatewayFlutterPlugin {
       logoutResponse = e.code;
     }
 
-    print("Logout user reponse: $logoutResponse");
+    print("Logout user response: $logoutResponse");
 
     return logoutResponse;
   }
 
-  static Future<String> launchSmallplug() async {
+  static Future<String?> launchSmallplug(SmallplugData smallplugData) async {
 
-    String smallplugResponse;
+    String? smallplugResponse;
 
     try {
-      smallplugResponse = await _channel.invokeMethod("launchSmallplug", null);
+      smallplugResponse = await _channel.invokeMethod("launchSmallplug", <String, dynamic>{
+        "targetEndpoint": smallplugData.targetEndpoint,
+        "params": smallplugData.params
+      });
     } on PlatformException catch (e) {
       smallplugResponse = e.code;
     }
@@ -209,6 +264,21 @@ class ScgatewayFlutterPlugin {
     print("Smallplug response: $smallplugResponse");
 
     return smallplugResponse;
+  }
+
+  static Future<String?> showOrders() async {
+
+    String? showOrdersResponse;
+
+    try {
+      showOrdersResponse = await _channel.invokeMethod("showOrders");
+    } on PlatformException catch (e) {
+      showOrdersResponse = e.code;
+    }
+
+    print('show orders response: $showOrdersResponse');
+
+    return showOrdersResponse;
   }
 
 }

@@ -1,84 +1,103 @@
 import 'dart:async';
-import 'package:http/http.dart' as http;
+import 'dart:collection';
 import 'dart:convert';
+
+import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/models/UserHoldingsResponse.dart';
+import 'package:scgateway_flutter_plugin_example/smartinvesting.dart';
+
+class Environment {
+  final String gatewayName;
+  final GatewayEnvironment gatewayEnvironment;
+
+  /// ```0: Prod, 1: Dev, 2: Staging```
+  final int envIndex;
+  const Environment({
+    @required this.envIndex,
+    this.gatewayName = "gatewaydemo",
+    this.gatewayEnvironment,
+  });
+
+  const Environment.prod({
+    this.gatewayName = "gatewaydemo",
+  })  : this.envIndex = 0,
+        this.gatewayEnvironment = GatewayEnvironment.PRODUCTION;
+  const Environment.dev({
+    this.gatewayName = "gatewaydemo-dev",
+  })  : this.envIndex = 1,
+        this.gatewayEnvironment = GatewayEnvironment.DEVELOPMENT;
+  const Environment.staging({
+    this.gatewayName = "gatewaydemo-stag",
+  })  : this.envIndex = 2,
+        this.gatewayEnvironment = GatewayEnvironment.STAGING;
+
+  String get envName {
+    switch (envIndex) {
+      case 1:
+        return "Dev";
+      case 2:
+        return "Staging";
+      default:
+        return "Prod";
+    }
+  }
+
+  @override
+  String toString() => 'Environment(gatewayName: $gatewayName, gatewayEnvironment: $gatewayEnvironment, envIndex: $envIndex)';
+}
 
 class Gateway {
-
+  static Environment env;
+  static SmartInvesting smartInvesting;
   static var userId = "";
 
-  static var baseURL = "";
+  static String get baseURL => smartInvesting?.baseUrl ?? "";
 
   static var transactionId = "";
 
-  static Future<String> getSessionToken(String baseUrl, String idText, GatewayEnvironment env, bool leprechaun, bool amo) async {
+  static Future<String> getSessionToken(
+      Environment environment, String idText, bool leprechaun, bool amo) async {
+    env = environment;
+    print("getSessionToken env ${env}");
+    smartInvesting = SmartInvesting.fromEnvironment(env);
+    print("smart inv ${smartInvesting}");
 
     userId = idText;
-
-    baseURL = baseUrl;
-
     print("userId: $userId baseUrl: $baseURL");
 
-    // Map data = {'id': idText};
-    // String bodyData = json.encode(data);
-    // print(bodyData);
-
-    // var body = jsonEncode(<String, String>{
-    //   'id': idText,
-    // });
-
-    var body = {'id':userId};
-
+    var body = {'id': userId};
     print("requestBody = $body");
 
-    var url = Uri.parse(baseUrl + 'user/login');
+    var url = Uri.parse(baseURL + 'user/login');
+    final http.Response response = await http.post(url,
+        headers: <String, String>{
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+          'Accept': 'application/json',
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        body: body);
 
-    final http.Response response = await http.post(
-      url,
-
-      headers: <String, String>{
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-        'Accept': 'application/json',
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-
-      // body: jsonEncode(<String, String>{
-      //   'id': idText,
-      // }),
-      body: body
-    );
-
-    print("init response = " + response.body);
+    print("get session token response = " + response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-
       var token = data["smallcaseAuthToken"] as String;
 
-      // ScgatewayFlutterPlugin.initGateway(env, "gatewaydemo", idText, leprechaun, amo, token);
-
-      // print("SmallcaseAuthToken from api response: $token");
-
       return ScgatewayFlutterPlugin.initGateway(token);
-
-      // return response.body;
-
     } else {
       throw Exception('Failed to get session token.');
     }
   }
 
-  static Future<String> getTransactionId(String intent, Object orderConfig) async {
-    Map data = {
-      'id': userId,
-      'intent': intent,
-      'orderConfig': orderConfig
-    };
+  static Future<String> getTransactionId(
+      String intent, Object orderConfig) async {
+    Map data = {'id': userId, 'intent': intent, 'orderConfig': orderConfig};
 
     String bodyData = json.encode(data);
-
-    print(bodyData);
 
     // var bodyData = {'id':_userId, 'intent': intent};
     //
@@ -89,18 +108,17 @@ class Gateway {
     print("requestBody = $bodyData");
 
     var url = Uri.parse(baseURL + 'transaction/new');
+    print("getTransactionId url : ${url}");
 
     final http.Response response = await http.post(
       url,
-
       headers: <String, String>{
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
         'Accept': 'application/json',
-        'content-type':'application/json'
+        'content-type': 'application/json'
         // 'content-type': 'application/x-www-form-urlencoded'
       },
-
       body: bodyData,
     );
 
@@ -114,65 +132,83 @@ class Gateway {
       transactionId = txnId;
 
       return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId);
-
     } else {
       print("response status code: ${response.statusCode}");
       print(response.body);
-      throw Exception('Failed to get session token');
+      throw Exception('Failed to get transactionId');
     }
   }
 
-  static Future<String> triggerTransactionWithTransactionId(String txnId) async {
+  static Future<UserHoldingsResponse> getUserHoldings(
+      {int version = 1, bool mfEnabled = false}) async {
+    try {
+      final response = await smartInvesting.getUserHoldings(userId, version,
+          mfEnabled: mfEnabled);
+      if (version == 2) {
+        return UserHoldingsResponse.fromJsonV2(response);
+      }
+      return UserHoldingsResponse.fromJson(json.decode(response));
+    } on Exception catch (e) {
+      print("Gateway Exception!! getUserHoldings : $e");
+      return null;
+    }
+  }
+
+  static Future<String> triggerTransactionWithTransactionId(
+      String txnId) async {
     return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId);
   }
 
-
-  static Future<void> leadGen(String name, String email, String contact, String pincode) async {
-
+  static void leadGen(
+      String name, String email, String contact, String pincode) async {
     ScgatewayFlutterPlugin.leadGen(name, email, contact, pincode);
+  }
 
+  static Future<String> leadGenWithStatus(
+      String name, String email, String contact) async {
+    return ScgatewayFlutterPlugin.leadGenWithStatus(name, email, contact);
   }
 
   static Future<String> getAllSmallcases() async {
-
     // var result = ScgatewayFlutterPlugin.getAllSmallcases();
 
     return ScgatewayFlutterPlugin.getAllSmallcases();
-
   }
 
   static Future<String> getAllUserInvestments() async {
-
     return ScgatewayFlutterPlugin.getAllUserInvestments();
-
   }
 
   static Future<String> getAllExitedSmallcases() async {
-
     return ScgatewayFlutterPlugin.getAllExitedSmallcases();
-
   }
 
   static Future<String> getSmallcaseNews(String scid) async {
-
     return ScgatewayFlutterPlugin.getSmallcaseNews(scid);
-
   }
 
   static Future<String> markArchive(String iscid) async {
-
     return ScgatewayFlutterPlugin.markSmallcaseArchive(iscid);
-
   }
 
   static Future<String> logout() async {
-
     return ScgatewayFlutterPlugin.logoutUser();
-
   }
 
-  static Future<String> openSmallplug() async {
+  static Future<String> openSmallplug(String smallplugEndpoint) async {
+    SmallplugData smallplugData = new SmallplugData();
 
-    return ScgatewayFlutterPlugin.launchSmallplug();
+    if (smallplugEndpoint != null && smallplugEndpoint.isNotEmpty) {
+      smallplugData.targetEndpoint = smallplugEndpoint;
+    }
+
+    // smallplugData.params = "test=abc";
+
+    return ScgatewayFlutterPlugin.launchSmallplug(smallplugData);
+  }
+
+  static Future<String> showOrders() async {
+    return ScgatewayFlutterPlugin.showOrders();
+    // return "";
   }
 }

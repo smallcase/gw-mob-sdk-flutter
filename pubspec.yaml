@@ -1,30 +1,20 @@
 name: scgateway_flutter_plugin
 description: Scgateway Flutter plugin.
-version: 1.1.0
+version: 1.2.0-alpha01
 #author: ankit.deshmukh@smallcase.com
-homepage: https://github.com/smallcase/SCGateway-flutter-plugin
+homepage: https://github.com/smallcase/gw-mob-sdk-flutter
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
 #publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=2.2.2"
+  sdk: '>=2.12.0 <3.0.0'
+  # flutter: ">=2.2.2"
 
 dependencies:
   flutter:
     sdk: flutter
-
-  chopper: ^3.0.2
-  provider: ^4.0.5
-  json_annotation: ^3.0.1
-  logging: ^0.11.4
-#  http: ^0.12.0+1
-  http: ^0.13.3
-  build_runner: ^1.9.0
-  chopper_generator: ^3.0.4
-  json_serializable: ^3.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,20 +1,3 @@
-## 1.0.2
+We have moved our changelog to a more convenient address https://developers.gateway.smallcase.com/changelog/gateway-sdk-flutter.
 
-Logout user session from browser.
-
-## 1.0.3
-
-ios bug-fixes.
-
-## 1.0.4
-
-android bug-fixes.
-
-## 1.0.5
-
-Fixed an issue which caused build failure for ios_simulator
-
-## 1.1.0
-
-feature: smallplug integration
-feature: Broker chooser rejig
+Thanks.

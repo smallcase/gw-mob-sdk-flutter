@@ -39,9 +39,18 @@ class InvestmentDetails extends StatelessWidget {
 
     var orderConfig = {"iscid" : this.investmentsDataDTO.investmentItem.iscid};
 
-    print("Tapped SIP SETUP");
+    print("Initiating SIP SETUP");
 
     Gateway.getTransactionId(ScgatewayIntent.SIP_SETUP, orderConfig).then((value) => _showAlertDialog(value, context));
+  }
+
+  Future<void> _cancelAmo(BuildContext context) async {
+
+    var orderConfig = {"iscid" : this.investmentsDataDTO.investmentItem.iscid};
+
+    print("Initiating CANCEL AMO");
+
+    Gateway.getTransactionId(ScgatewayIntent.CANCEL_AMO, orderConfig).then((value) => _showAlertDialog(value, context));
   }
 
   // Future<void> _exitSmallcase(BuildContext context) async {
@@ -152,6 +161,11 @@ class InvestmentDetails extends StatelessWidget {
           color: Colors.green,
           onPressed: () => _triggerInvestmentAction("sip", context),
           child: const Text('SIP Order', style: TextStyle(fontSize: 20)),
+        ),
+        RaisedButton(
+            onPressed: () => _cancelAmo(context),
+          color: Colors.green,
+          child: const Text('Cancel AMO', style: TextStyle(fontSize: 20)),
         ),
         RaisedButton(
           color: Colors.green,

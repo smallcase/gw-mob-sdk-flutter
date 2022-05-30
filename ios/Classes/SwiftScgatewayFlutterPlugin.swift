@@ -22,7 +22,24 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-     if(call.method == "initializeGateway") {
+            
+    if(call.method == "setFlutterSdkVersion") {
+          if let args = call.arguments as? Dictionary<String, Any> {
+              SCGateway.shared.setSDKType(type: "flutter")
+              SCGateway.shared.setHybridSDKVersion(version: args["flutterSdkVersion"] as! String)
+              result("success")
+          }
+      }
+      
+      else if(call.method == "getSdkVersion") {
+          if let args = call.arguments as? Dictionary<String, Any> {
+              let scgatewayFlutterPluginVersion = "ios:\(SCGateway.shared.getSdkVersion()),flutter:\(args["flutterSdkVersion"] as! String)"
+              result(scgatewayFlutterPluginVersion)
+          }
+      }
+      
+    //MARK: Initialize Gateway SDK
+     else if(call.method == "initializeGateway") {
         if let args = call.arguments as? Dictionary<String, Any>,
  
            let authToken = args["authToken"] as? String {
@@ -30,67 +47,124 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
-                print("Initialize gateway")
+                print("Initializing gateway")
                 
-                SCGateway.shared.initializeGateway(sdkToken: authToken) { data, error in
+                SCGateway.shared.initializeGateway(sdkToken: authToken) { success, error in
                     
-                    if !data {
+                    if !success {
                         print(error as Any)
-                    
-                        
+
                         if let error = error as? TransactionError {
-                            
-//                            result(FlutterError.init(code: "Error", message: error.message, details: nil))
-                            result(FlutterError.init(code: (self.getJsonStringResult(success: false, data: nil, errorCode: error.rawValue, errorMessage: error.message, transaction: "ERROR")), message: nil, details: nil))
+                            result(
+                                FlutterError.init(
+                                    code: (
+                                        self.getJsonStringResult(
+                                            success: false,
+                                            data: nil,
+                                            errorCode: error.rawValue,
+                                            errorMessage: error.message,
+                                            transaction: "ERROR"
+                                        )
+                                    ),
+                                    message: nil,
+                                    details: nil
+                                )
+                            )
                         }
                         else {
-//                            result(FlutterError.init(code: "Error", message: error.debugDescription, details: nil))
-                            result(FlutterError.init(code: (self.getJsonStringResult(success: false, data: nil, errorCode: nil, errorMessage: error.debugDescription, transaction: "ERROR")), message: nil, details: nil))
+                            result(
+                                FlutterError.init(
+                                    code: (
+                                        self.getJsonStringResult(
+                                            success: false,
+                                            data: nil,
+                                            errorCode: nil,
+                                            errorMessage: error.debugDescription,
+                                            transaction: "ERROR"
+                                        )
+                                    ),
+                                    message: nil,
+                                    details: nil
+                                )
+                            )
                         }
                         return
                     }
-                    print(data)
+                    
+                    print(success)
                 }
                 
-                result(self.getJsonStringResult(success: true, data: nil, errorCode: nil, errorMessage: nil, transaction: nil))
+                result(
+                    self.getJsonStringResult(
+                        success: true,
+                        data: nil,
+                        errorCode: nil,
+                        errorMessage: nil,
+                        transaction: nil
+                    )
+                )
             }
         }
         
     }
         
+     //MARK: Set Config Environment
      else if (call.method == "setConfigEnvironment") {
+         
         if let args = call.arguments as? Dictionary<String, Any>,
                    
                     let isLeprechaunActive = args["leprechaun"] as? Bool,
                     let gateway = args["gateway"] as? String,
                     let environment = args["env"] as? String,
-                    let brokerConfig = args["brokers"] as? [String]{
+                    let amoEnabled = args["amo"] as? Bool,
+                    let brokerConfig = args["brokers"] as? [String] {
             
                     DispatchQueue.main.async { [weak self] in
                         guard let self = self else { return }
-//                        let brokerConfig: [String]? = []
-
+                        
                         let config = GatewayConfig(gatewayName: gateway,
-                                                          brokerConfig: brokerConfig ,
-                                                          apiEnvironment: self.getApiEnv(index: environment),
-                                                          isLeprechaunActive: isLeprechaunActive,
-                                                          isAmoEnabled: true)
+                                                   brokerConfig: brokerConfig ,
+                                                   apiEnvironment: self.getApiEnv(index: environment),
+                                                   isLeprechaunActive: isLeprechaunActive,
+                                                   isAmoEnabled: amoEnabled)
                         
                         SCGateway.shared.setup(config: config) { (success, error) in
                             
                             if(success) {
-                                print("")
+                                //SDK setup successfull
+                                print("SDK setup completed")
+                                
+                                result(
+                                    self.getJsonStringResult(
+                                        success: true,
+                                        data: nil,
+                                        errorCode: nil,
+                                        errorMessage: nil,
+                                        transaction: nil
+                                    )
+                                )
+                                
                             } else {
-                                print("")
+                                //SDK setup failure
+                                print("SDK setup failed: \(error.debugDescription)")
+                                
+                                result(
+                                    self.getJsonStringResult(
+                                        success: true,
+                                        data: nil,
+                                        errorCode: nil,
+                                        errorMessage: error.debugDescription,
+                                        transaction: nil
+                                    )
+                                )
                             }
                             
                         }
-                        
-                        result(self.getJsonStringResult(success: true, data: nil, errorCode: nil, errorMessage: nil, transaction: nil))
+                    }
                 }
         }
-     }
         
+     //MARK: Trigger Transaction
     else if (call.method == "triggerTransaction") {
         if let args = call.arguments as? Dictionary<String, Any>,
         
@@ -99,59 +173,125 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                     do {
                         
                         try SCGateway.shared.triggerTransactionFlow(transactionId: transactionId , presentingController: currentViewController) { [weak self]  gatewayResult in
+                            
+                            print(gatewayResult)
+                            
                             switch gatewayResult {
+                                
                             case .success(let response):
                                 print("Transaction: RESPONSE: \(response)")
                                 switch response {
-                                case let .connect(authToken, _):
-
-                                    SCGateway.shared.initializeGateway(sdkToken: (authToken)) { data, error in
-
-                                        if !data {
-                                            print(error ?? "")
-                                                    if let error = error as? TransactionError {
-                                                        result(FlutterError.init(code: (self?.getJsonStringResult(success: false, data: nil, errorCode: error.rawValue, errorMessage: error.message, transaction: "ERROR"))!, message: nil, details: nil))
-                                                    } else {
-//                                                        result(FlutterError.init(code: "Error", message: error.debugDescription, details: nil))
-                                                        result(FlutterError.init(code: (self?.getJsonStringResult(success: false, data: nil, errorCode: nil, errorMessage: error.debugDescription, transaction: "ERROR"))!, message: nil, details: nil))
-                                                        }
-                                                    return
-                                            }
-                                        print(data)
-                                    }
                                 
-//                                result(authToken)
-                                result(self?.getJsonStringResult(success: true, data: "\(authToken)", errorCode: nil, errorMessage: nil, transaction: "CONNECT"))
+                                    // MARK:- CONNECT
+                                    case let .connect(connectTxnResponse):
+
+                                    let connectData = Data(connectTxnResponse.utf8)
                                     
-                                case let .transaction(authToken, transactionData):
+                                    do {
+                                        
+                                        if let connectResponseJson = try JSONSerialization.jsonObject(with: connectData, options: []) as? [String: Any] {
+                                            
+                                            if let userAuthToken = connectResponseJson["smallcaseAuthToken"] as? String {
+                                                print("Initialising SDK with authToken = \(userAuthToken)")
+                                                
+                                                //Initialise gateway if CONNECT was successfull
+                                                SCGateway.shared.initializeGateway(sdkToken: (userAuthToken)) { success, error in
+                                                    
+                                                    print("SDK Initialised = \(success)")
+                                                    
+                                                    if !success {
+                                                        
+                                                        //Gateway initialisation failed
+                                                        
+                                                        print(error ?? "")
+                                                        
+                                                        if let error = error as? TransactionError {
+                                                            
+                                                            //Gateway initialisation failed with TransactionError
+                                                            
+                                                            result(
+                                                                FlutterError.init(
+                                                                    code: (
+                                                                        self?.getJsonStringResult(
+                                                                            success: false,
+                                                                            data: nil,
+                                                                            errorCode: error.rawValue,
+                                                                            errorMessage: error.message,
+                                                                            transaction: "ERROR"
+                                                                        )
+                                                                    )!,
+                                                                    message: nil,
+                                                                    details: nil
+                                                                )
+                                                            )
+                                                            
+                                                            return
+                                                            
+                                                        } else {
+                                                            
+                                                            //Gateway initialisation failed with generic error
+                                                            
+                                                            result(
+                                                                FlutterError.init(
+                                                                    code: (
+                                                                        self?.getJsonStringResult(
+                                                                            success: false,
+                                                                            data: nil,
+                                                                            errorCode: nil,
+                                                                            errorMessage: error.debugDescription,
+                                                                            transaction: "ERROR"
+                                                                        )
+                                                                    )!,
+                                                                    message: nil,
+                                                                    details: nil
+                                                                )
+                                                            )
+                                                        }
+                                                        return
+                                                    }
+                                                }
+
+                                                result(
+                                                    self?.getJsonStringResult(
+                                                        success: true,
+                                                        data: connectTxnResponse,
+                                                        errorCode: nil,
+                                                        errorMessage: nil,
+                                                        transaction: "CONNECT"
+                                                    )
+                                                )
+                                                
+                                            } else {
+                                                print("Failed to fetch smallcaseAuthToken from CONNECT response")
+                                            }
+                                        }
+                                    } catch let error as NSError {
+                                        print("Failed to convert CONNECT response to JSON: \(error.debugDescription)")
+                                    }
                                     
-                                    var transData: [String: Any]
+                                    // MARK:- TRANSACTION
+                                    case let .transaction(_, transactionData):
+
                                     do {
                                         let jsonEncoder = JSONEncoder()
                                         
                                         let jsonData = try jsonEncoder.encode(transactionData)
                                         
-                                        let data = try? JSONSerialization.jsonObject(with: jsonData, options: [])
+                                        let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: [])
                                         
-                                        if let dictionary = data as? [String: Any] {
-//                                            transData = dictionary["data"]! as? String
-                                            transData = dictionary as! [String : Any]
-
+                                        if let transactionSuccessData = jsonObject as? [String: Any] {
                                             
-                                            print(transData)
+                                            var response: [String: Any] = [:]
                                             
-                                            var resDict: [String: Any] = [:]
+                                            response["success"] = true
+                                            response["data"] = transactionSuccessData
+                                            response["transaction"] = "TRANSACTION"
                                             
-                                            resDict["success"] = true
-                                            resDict["data"] = transData
-//                                            resDict["smallcaseAuthToken"] = authToken
-                                            resDict["transaction"] = "TRANSACTION"
-                                            
-                                            let jsonData = try! JSONSerialization.data(withJSONObject: resDict, options: [])
+                                            let jsonData = try! JSONSerialization.data(withJSONObject: response, options: [])
                                             let jsonString = String(data: jsonData, encoding: .utf8)
                                             
-//                                            result(self?.getJsonStringResult(success: true, data: transData.description, errorCode: nil, errorMessage: nil, transaction: "TRANSACTION"))
                                             result(jsonString)
+                                            
                                             return
                                         }
                                         
@@ -159,24 +299,41 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                     
                                     }
                                 
-                                case .holdingsImport(let smallcaseAuthToken, let status, let transactionId):
+                                    // MARK:- HOLDINGS_IMPORT
+                                    case .holdingsImport(let smallcaseAuthToken, let broker, _, _):
 
-                                    result(self?.getJsonStringResult(success: true, data: "\(smallcaseAuthToken)" , errorCode: nil, errorMessage: nil, transaction: "HOLDINGS_IMPORT"))
+                                        var holdingsResponse : [String: Any] = [:]
+                                        
+                                        holdingsResponse["smallcaseAuthToken"] = smallcaseAuthToken
+                                        holdingsResponse["broker"] = broker
+                                        
+                                        let jsonData = try! JSONSerialization.data(withJSONObject: holdingsResponse, options: [])
+                                        let holdingsResponseJsonString = String(data: jsonData, encoding: .utf8)
+                                        
+                                        result(
+                                            self?.getJsonStringResult(
+                                                success: true,
+                                                data: holdingsResponseJsonString,
+                                                errorCode: nil,
+                                                errorMessage: nil,
+                                                transaction: "HOLDINGS_IMPORT"
+                                            )
+                                        )
+                                        
                                     return
                                     
-                                case .sipSetup(let smallcaseAuthToken, let sipDetails, let transactionId):
+                                    // MARK:- SIP_SETUP
+                                    case .sipSetup(let smallcaseAuthToken, let sipDetails, _):
 
-                                    var sipResponse: [String: Any]
                                     do{
                                         let jsonEncoder = JSONEncoder()
                                         let jsonData = try jsonEncoder.encode(sipDetails)
                                         
                                         let data = try? JSONSerialization.jsonObject(with: jsonData, options: [])
                                         
-                                        if let dictionary = data as? [String: Any] {
-                                            sipResponse = dictionary as! [String: Any]
+                                        if let sipResponse = data as? [String: Any] {
                                             
-                                            print("Sip response: \(sipResponse)")
+                                            print("SIP_SETUP response: \(sipResponse)")
                                             
                                             var resDict: [String: Any] = [:]
                                             
@@ -189,37 +346,46 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                             let jsonString = String(data: jsonData, encoding: .utf8)
                                             
                                             result(jsonString)
+                                            
                                             return
                                         }
                                         
                                     } catch {
                                         //TODO: catch json exception
                                     }
-//                                    result(self?.getJsonStringResult(success: true, data: "\(sipDetails)" , errorCode: nil, errorMessage: nil, transaction: "SIP_SETUP"))
-//                                    return
                                     
                                 default:
                                     return
                                 }
                             
                                 
-                                
+                            //MARK:- Transaction Error
                             case .failure(let error):
                                 
-                                print("CONNECT: ERROR :\(error)")
-//                                self?.showPopup(title: "Error", msg: "\(error.message)  \(error.rawValue)")
+                                print("TRANSACTION ERROR :\(error)")
                                 
-                                
-                                result(FlutterError.init(code: (self?.getJsonStringResult(success: false, data: nil, errorCode: error.rawValue, errorMessage: error.message, transaction: "ERROR"))!, message: nil, details: nil))
+                                result(
+                                    FlutterError.init(
+                                        code: (
+                                            self?.getJsonStringResult(
+                                                success: false,
+                                                data: nil,
+                                                errorCode: error.rawValue,
+                                                errorMessage: error.message,
+                                                transaction: "ERROR"
+                                            )
+                                        )!,
+                                        message: nil,
+                                        details: nil
+                                    )
+                                )
                                 
                                 return
                             }
-                            print(gatewayResult)
                         }
                     }
                     catch SCGatewayError.uninitialized {
                         print(SCGatewayError.uninitialized.message)
-                        //initialize gateway
                     }
                     catch let err {
                         print(err)
@@ -227,31 +393,51 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             }
     }
         
+    //MARK: Lead Gen
     else if(call.method == "leadGen") {
+        
         if let args = call.arguments as? Dictionary<String, Any>,
         
             let name = args["name"] as? String,
             let email = args["email"] as? String,
-            let contact = args["contact"] as? String,
-            let pinCode = args["pincode"] as? String {
+            let contact = args["contact"] as? String {
             
              var params:[String:String] = [:]
                    params["name"] = name
                    params["email"] = email
                    params["contact"] = contact
-                   params["pinCode"] = pinCode
-                   SCGateway.shared.triggerLeadGen(presentingController: currentViewController,params: params)
-            
-            result("Lead Gen Success")
+            SCGateway.shared.triggerLeadGen(presentingController: currentViewController, params: params)
         } else {
             result(FlutterError.init(code: "bad args", message: "error at method leadGen", details: nil))
         }
     }
+    
+    //MARK: Lead Gen with Status
+    else if(call.method == "leadGenWithStatus") {
         
-     else if(call.method == "getAllSmallcases") {
-        
-        SCGateway.shared.getSmallcases(params: nil) { [weak self] (data, error) in
+        if let args = call.arguments as? Dictionary<String, Any>,
+           
+           let name = args["name"] as? String,
+           let email = args["email"] as? String,
+           let contact = args["contact"] as? String {
             
+            var params:[String:String] = [:]
+            params["name"] = name
+            params["email"] = email
+            params["contact"] = contact
+            SCGateway.shared.triggerLeadGen(presentingController: currentViewController, params: params) { leadStatus in
+                result(leadStatus)
+            }
+        } else {
+            result(FlutterError.init(code: "bad args", message: "error at method leadGenWithStatus", details: nil))
+        }
+        
+    }
+        
+    //MARK: Get All Smallcases
+    else if(call.method == "getAllSmallcases") {
+        
+        SCGateway.shared.getSmallcases(params: nil) { (data, error) in
             
             guard let response = data else {
                 
@@ -260,20 +446,23 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                 
             }
          
-            let smallcasesJson = try? JSONSerialization.jsonObject(with: response, options: [])
+            let smallcasesJson = try! JSONSerialization.jsonObject(with: response, options: [])
             
             let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
             
             let jsonString = String(data: jsonData, encoding: .utf8)
             
             result(jsonString)
+            
+            return
         }
         
      }
         
+    //MARK: Get User Investments
     else if(call.method == "getUserInvestments") {
             
-        SCGateway.shared.getUserInvestments(iscids: nil) { [weak self] (data, error) in
+        SCGateway.shared.getUserInvestments(iscids: nil) { (data, error) in
             
             guard let response = data else {
                 
@@ -282,7 +471,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                 
             }
             
-            let smallcasesJson = try? JSONSerialization.jsonObject(with: response, options: [])
+            let smallcasesJson = try! JSONSerialization.jsonObject(with: response, options: [])
             
             let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
             
@@ -290,33 +479,35 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             
             result(jsonString)
             
+            return
         }
         
     }
-        
+     
+    //MARK: Get Exited Smallcases
      else if(call.method == "getExitedSmallcases") {
         
-        SCGateway.shared.getExitedSmallcases{ [weak self] (data, error) in
+        SCGateway.shared.getExitedSmallcases{ (data, error) in
             
             guard let response = data else {
-                           
-                           print(error ?? "No error object")
-                           return
-                           
-                       }
+                print(error ?? "No error object")
+                return
+            }
                        
-                       let smallcasesJson = try? JSONSerialization.jsonObject(with: response, options: [])
+           let smallcasesJson = try! JSONSerialization.jsonObject(with: response, options: [])
                        
-                       let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
+           let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
                        
-                       let jsonString = String(data: jsonData, encoding: .utf8)
+           let jsonString = String(data: jsonData, encoding: .utf8)
                        
-                       result(jsonString)
-            
+           result(jsonString)
+           
+           return
         }
         
      }
-        
+      
+     //MARK: Mark smallcase archive
      else if(call.method == "markArchive") {
         
         if let args = call.arguments as? Dictionary<String, Any>,
@@ -324,30 +515,32 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             let iscid = args["iscid"] as? String {
                 
             
-            SCGateway.shared.markSmallcaseArchive(iscid: iscid) { [weak self] (data, error) in
+            SCGateway.shared.markSmallcaseArchive(iscid: iscid) { (data, error) in
                 
                 guard let response = data else {
-                                   
-                                   print(error ?? "No error object")
-                                   return
-                                   
-                               }
-                               
-                               let smallcasesJson = try? JSONSerialization.jsonObject(with: response, options: [])
-                               
-                               let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
-                               
-                               let jsonString = String(data: jsonData, encoding: .utf8)
-                               
-                               result(jsonString)
                     
+                    print(error ?? "No error object")
+                                   
+                    return
                 }
+                               
+               let smallcasesJson = try! JSONSerialization.jsonObject(with: response, options: [])
+                               
+               let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
+                               
+               let jsonString = String(data: jsonData, encoding: .utf8)
+                               
+               result(jsonString)
                 
-            } else {
+                return
+            }
+                
+        } else {
                 result(FlutterError.init(code: "bad args", message: "error at method markArchive", details: nil))
             }
         }
         
+     //MARK: Logout User
      else if(call.method == "logoutUser") {
         
         SCGateway.shared.logoutUser(presentingController: currentViewController) { success, error in
@@ -362,26 +555,69 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
      }
      
+     //MARK: Launch smallplug
      else if(call.method == "launchSmallplug") {
         
-        SCGateway.shared.launchSmallPlug(presentingController: currentViewController, completion: {
-            response, error in
+        if let args = call.arguments as? Dictionary<String, Any> {
+            let target = args["targetEndpoint"] as? String
+            let params = args["params"] as? String
+                
+            SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugData: SmallplugData(target, params), completion: {
+                response, error in
+                
+                if let smallplugResponse = response {
+                    
+                    result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                    
+                }
+            })
             
-            if let smallplugResponse = response {
+        } else {
+            
+            SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugData: nil, completion: {
+                response, error in
                 
-                result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
-                
-            }
-        })
+                if let smallplugResponse = response {
+                    
+                    result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                    
+                }
+            })
+            
+        }
      }
-    
-    
+      
+      //MARK: Show orders
+      else if (call.method == "showOrders") {
+          
+          SCGateway.shared.showOrders(presentingController: currentViewController) { success, error in
+              
+              if success {
+                  result(self.getJsonStringResult(success: true, data: nil, errorCode: nil, errorMessage: nil, transaction: nil))
+              } else {
+                  
+                  if let showOrdersError = error as? ObjcTransactionError {
+                      result(
+                        self.getJsonStringResult(
+                            success: false,
+                            data: nil,
+                            errorCode: showOrdersError.code,
+                            errorMessage: showOrdersError.domain,
+                            transaction: nil
+                        )
+                      )
+//                      self.showPopup(title: "Error", msg: "\(errorPopupString.domain) \(errorPopupString.code)")
+                  }
+                  
+              }
+          }
+      }
+     
     else {
             result("Flutter method not implemented on iOS")
         }
     }
-
-
+    
     func getJsonStringResult(success: Bool, data: String?, errorCode: Int?, errorMessage: String?, transaction: String?) -> String {
         
         let res:NSMutableDictionary = NSMutableDictionary()

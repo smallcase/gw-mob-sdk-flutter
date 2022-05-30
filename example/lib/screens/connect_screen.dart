@@ -11,7 +11,6 @@ import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
 
 class ConnectScreen extends StatefulWidget {
-
   ConnectScreen({Key key}) : super(key: key);
 
   @override
@@ -19,7 +18,6 @@ class ConnectScreen extends StatefulWidget {
 }
 
 class _ConnectScreenState extends State<ConnectScreen> {
-
   TextEditingController _textEditingController;
 
   int _environmentSelected = 0;
@@ -27,13 +25,15 @@ class _ConnectScreenState extends State<ConnectScreen> {
   bool _leprechaunMode = true;
   bool _isAmoEnabled = true;
 
-  String _baseUrl = "";
+  String _gateway = "gatewaydemo";
 
   String _userIdText = "";
 
   // String _authToken = "";
 
   String _transactionId = "";
+  String _sdkVersion = "";
+  Environment environment;
 
   Map<int, Widget> _environments = {
     0: Text('Prod'),
@@ -42,118 +42,135 @@ class _ConnectScreenState extends State<ConnectScreen> {
   };
 
   @override
-  initState(){
+  initState() {
     super.initState();
-    _userIdText = PageStorage
-        .of(context)
+
+    ScgatewayFlutterPlugin.getSdkVersion().then((value) => setState(() {
+          this._sdkVersion = value;
+        }));
+
+    _userIdText = PageStorage.of(context)
         ?.readState(context, identifier: ValueKey('test'));
     _textEditingController = new TextEditingController(text: _userIdText);
-    _environmentSelected = PageStorage
-        .of(context)
+    _environmentSelected = PageStorage.of(context)
         ?.readState(context, identifier: ValueKey('selectedEnv'));
-    _transactionId = PageStorage
-        .of(context)
+    _transactionId = PageStorage.of(context)
         ?.readState(context, identifier: ValueKey('txnId'));
   }
 
   Future<void> _initSession() async {
-    
-    GatewayEnvironment enviroment;
-
-      switch(_environmentSelected) {
-        case 1: {
-          _baseUrl = "https://api.dev.smartinvesting.io/";
-          enviroment = GatewayEnvironment.DEVELOPMENT;
-        }
+    switch (_environmentSelected) {
+      case 1:
+        environment = Environment.dev();
         break;
 
-        case 2: {
-          _baseUrl = "https://api.stag.smartinvesting.io/";
-          enviroment = GatewayEnvironment.STAGING;
-        }
+      case 2:
+        environment = Environment.staging();
         break;
 
-        default: {
-          _baseUrl = "https://api.smartinvesting.io/";
-          enviroment = GatewayEnvironment.PRODUCTION;
-        }
+      default:
+        environment = Environment.prod();
         break;
-      }
+    }
 
-      // List<String> brokers = ['kite','hdfc','iifl'];
+    // List<String> brokers = ['kite','hdfc','iifl'];
 
     List<String> brokers = [];
-      ScgatewayFlutterPlugin.setConfigEnvironment(enviroment, "gatewaydemo", _leprechaunMode, brokers, isAmoenabled: _isAmoEnabled).then((setupResponse) =>
-
-          Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value))
-      );
-
-      // Gateway.getSessionToken(_baseUrl, _userIdText, enviroment, _leprechaunMode, _isAmoEnabled).then((value) => _showAlertDialog(value));
+    ScgatewayFlutterPlugin.setConfigEnvironment(
+            environment.gatewayEnvironment, environment.gatewayName, _leprechaunMode, brokers,
+            isAmoenabled: _isAmoEnabled)
+        .then((setupResponse) => Gateway.getSessionToken( environment,
+                _userIdText ?? "", _leprechaunMode, _isAmoEnabled)
+            .then((value) => _showAlertDialog(value)));
   }
-  
-  Future<void> _getTransactionId(String intent, Object orderConfig) async {
 
-    Gateway.getTransactionId(intent, orderConfig).then((value) => _onUserConnected(value));
+  Future<void> _getTransactionId(String intent, Object orderConfig) async {
+    Gateway.getTransactionId(intent, orderConfig)
+        .then((value) => _onUserConnected(value));
   }
 
   Future<void> _triggerTransactionFromTxnId(String txnId) async {
-
-    Gateway.triggerTransactionWithTransactionId(txnId).then((value) => _showAlertDialog(value));
+    Gateway.triggerTransactionWithTransactionId(txnId)
+        .then((value) => _showAlertDialog(value));
   }
 
-   Future<void> _onUserConnected(String initResponse) async {
+  Future<void> _onUserConnected(String connectResponse) async {
+    print("Connect Transaction response: $connectResponse");
 
-    print("transaction auth token: $initResponse");
+    final Map<String, dynamic> responseData = jsonDecode(connectResponse);
 
-    final Map<String, dynamic> responseData = jsonDecode(initResponse);
+    // print("ResponseData = $responseData");
+    var connectTxnSuccess = responseData['success'] as bool;
+    print("Connect Transaction success: $connectTxnSuccess");
 
-    print("ResponseData = $responseData");
+    if (connectTxnSuccess == true) {
+      final Map<String, dynamic> connectJsonData =
+          jsonDecode(responseData['data'] as String);
 
-    var authToken = responseData['data'] as String;
+      var authToken = connectJsonData['smallcaseAuthToken'] as String;
 
-    print("auth token = $authToken");
+      print("auth token = $authToken");
 
-      if(Gateway.transactionId.isNotEmpty) {
-        setState((){
-          this._transactionId = Gateway.transactionId;
-          PageStorage.of(context)?.writeState(
-              context, this._transactionId,
-              identifier: ValueKey('txnId'));
-        });
-      }
+      Map data = {'id': _userIdText, 'smallcaseAuthToken': authToken};
 
-     _showAlertDialog(initResponse);
+      String bodyData = json.encode(data);
 
-    Map data = {
-      'id': _userIdText,
-      'smallcaseAuthToken': authToken
-    };
+      print("On User connected body: $data");
 
-    String bodyData = json.encode(data);
+      var url = Uri.parse(Gateway.baseURL + 'user/connect');
 
-    print("On User connected body: $data");
+      final http.Response response = await http.post(url,
+          headers: <String, String>{
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+            'Accept': 'application/json',
+            'content-type': 'application/json'
+          },
+          body: bodyData);
 
-    var url = Uri.parse(Gateway.baseURL + 'user/connect');
+      print("On user Connect: ");
+      print(response.body);
+    }
 
-    final http.Response response = await http.post(
-        url,
+    if (Gateway.transactionId.isNotEmpty) {
+      setState(() {
+        this._transactionId = Gateway.transactionId;
+        PageStorage.of(context)?.writeState(context, this._transactionId,
+            identifier: ValueKey('txnId'));
+      });
+    }
 
-        headers: <String, String>{
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-          'Accept': 'application/json',
-          'content-type':'application/json'
-        },
+    _showAlertDialog(connectResponse);
 
-        body: bodyData
-    );
-
-    print("On user Connect: ");
-    print(response.body);
+    // Map data = {
+    //   'id': _userIdText,
+    //   'smallcaseAuthToken': authToken
+    // };
+    //
+    // String bodyData = json.encode(data);
+    //
+    // print("On User connected body: $data");
+    //
+    // var url = Uri.parse(Gateway.baseURL + 'user/connect');
+    //
+    // final http.Response response = await http.post(
+    //     url,
+    //
+    //     headers: <String, String>{
+    //       'Access-Control-Allow-Origin': '*',
+    //       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+    //       'Accept': 'application/json',
+    //       'content-type':'application/json'
+    //     },
+    //
+    //     body: bodyData
+    // );
+    //
+    // print("On user Connect: ");
+    // print(response.body);
   }
 
   Future<void> _showAlertDialog(String message) async {
-
     // ClipboardManager.copyToClipBoard(message);
 
     return showDialog<void>(
@@ -164,9 +181,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
           title: Text('Gateway'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
-                Text(message)
-              ],
+              children: <Widget>[Text(message)],
             ),
           ),
           actions: <Widget>[
@@ -176,11 +191,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(onPressed: () {
-              ClipboardManager.copyToClipBoard(message);
-            },
-                child: Text('Copy')
-            )
+            TextButton(
+                onPressed: () {
+                  ClipboardManager.copyToClipBoard(message);
+                },
+                child: Text('Copy'))
           ],
         );
       },
@@ -198,21 +213,16 @@ class _ConnectScreenState extends State<ConnectScreen> {
           onValueChanged: (value) {
             setState(() {
               _environmentSelected = value;
-              PageStorage.of(context)?.writeState(
-                  context, value,
+              PageStorage.of(context)?.writeState(context, value,
                   identifier: ValueKey('selectedEnv'));
             });
-          }
-      ),
+          }),
     );
   }
 
-  Widget environment() {
+  Widget environmentWidget() {
     return Row(
-      children: <Widget>[
-        Text('Environment'),
-        segmentedControl()
-      ],
+      children: <Widget>[Text('Environment'), segmentedControl()],
     );
   }
 
@@ -222,7 +232,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
       children: <Widget>[
         SizedBox(height: 50),
         Text('Gateway '),
-        SizedBox(width: 200, height: 30, child: TextField(decoration: InputDecoration(
+        SizedBox(
+          width: 200,
+          height: 30,
+          child: TextField(
+            decoration: InputDecoration(
               filled: true,
               labelText: 'gatewaydemo',
             ),
@@ -233,7 +247,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   }
 
   String getUserIdText() {
-    if(_userIdText != null) {
+    if (_userIdText != null) {
       return _userIdText;
     } else {
       return '';
@@ -245,19 +259,22 @@ class _ConnectScreenState extends State<ConnectScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text('Id '),
-        SizedBox(width: 200, height: 30, child: TextField(decoration: InputDecoration(
-          filled: true,
-          labelText: getUserIdText(),
-        ),
-          onChanged: (id) {
-            setState(() {
-              _userIdText = id;
-              PageStorage.of(context)?.writeState(
-                  context, id,
-                  identifier: ValueKey('test'));
-            });
-          },
-        ),
+        SizedBox(
+          width: 200,
+          height: 30,
+          child: TextField(
+            decoration: InputDecoration(
+              filled: true,
+              labelText: getUserIdText(),
+            ),
+            onChanged: (id) {
+              setState(() {
+                _userIdText = id;
+                PageStorage.of(context)
+                    ?.writeState(context, id, identifier: ValueKey('test'));
+              });
+            },
+          ),
         )
       ],
     );
@@ -267,11 +284,18 @@ class _ConnectScreenState extends State<ConnectScreen> {
     return Row(
       children: <Widget>[
         Text('Leprechaun Mode'),
-        SizedBox(width: 60, height: 20, child: Switch(activeTrackColor: Colors.green, activeColor: Colors.green, value: _leprechaunMode, onChanged: (value) {
-          setState(() {
-            _leprechaunMode = value;
-          });
-        }))
+        SizedBox(
+            width: 60,
+            height: 20,
+            child: Switch(
+                activeTrackColor: Colors.green,
+                activeColor: Colors.green,
+                value: _leprechaunMode,
+                onChanged: (value) {
+                  setState(() {
+                    _leprechaunMode = value;
+                  });
+                }))
       ],
     );
   }
@@ -280,84 +304,105 @@ class _ConnectScreenState extends State<ConnectScreen> {
     return Row(
       children: <Widget>[
         Text('AMO Mode'),
-        SizedBox(width: 60, height: 20, child: Switch(activeTrackColor: Colors.green, activeColor: Colors.green, value: _isAmoEnabled, onChanged: (value) {
-          setState(() {
-            _isAmoEnabled = value;
-          });
-        }))
+        SizedBox(
+            width: 60,
+            height: 20,
+            child: Switch(
+                activeTrackColor: Colors.green,
+                activeColor: Colors.green,
+                value: _isAmoEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    _isAmoEnabled = value;
+                  });
+                }))
       ],
     );
   }
 
   Widget setup() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
           onPressed: _initSession,
           child: const Text('Setup', style: TextStyle(fontSize: 20)),
-        )
-    );
+        ));
   }
 
   Widget connect() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () {
-        _getTransactionId(ScgatewayIntent.CONNECT, null);
-      },
-      child: const Text('Connect', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: () {
+            _getTransactionId(ScgatewayIntent.CONNECT, null);
+          },
+          child: const Text('Connect', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget enterTransactionId() {
-    return SizedBox(width: 300, height: 35, child:
-    ElevatedButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-            builder: (BuildContext context) {
-              return new Dialog(
-                  child: SizedBox(
-                      width: 300, height: 96,
-                      child: new Column(
-                        children: <Widget>[
-                          new TextField(
-                            decoration: new InputDecoration(hintText: "Enter Transaction Id"),
-                            controller: _textEditingController,
-                          ),
-                          new FlatButton(
-                            child: new Text("Save"),
-                            onPressed: () {
-                              setState((){
-                                this._transactionId = _textEditingController.text;
-                              });
-                              _triggerTransactionFromTxnId(this._transactionId);
-                              Navigator.pop(context);
-                            },
-                          )
-                        ],
-                      )
-                  )
-              );
-            });
-      },
-      child: const Text('Enter Transaction Id', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: ElevatedButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return new Dialog(
+                      child: SizedBox(
+                          width: 300,
+                          height: 96,
+                          child: new Column(
+                            children: <Widget>[
+                              new TextField(
+                                decoration: new InputDecoration(
+                                    hintText: "Enter Transaction Id"),
+                                controller: _textEditingController,
+                              ),
+                              new FlatButton(
+                                child: new Text("Save"),
+                                onPressed: () {
+                                  setState(() {
+                                    this._transactionId =
+                                        _textEditingController.text;
+                                  });
+                                  _triggerTransactionFromTxnId(
+                                      this._transactionId);
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                          )));
+                });
+          },
+          child: const Text('Enter Transaction Id',
+              style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget copyTransactionId() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () {
-        ClipboardManager.copyToClipBoard(_transactionId).then((result) {
-          final snackBar = SnackBar(
-            content: Text('Copied to Clipboard: ' + _transactionId),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {},
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
-        });
-      },
-      child: const Text('Copy Transaction Id', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: () {
+            ClipboardManager.copyToClipBoard(_transactionId).then((result) {
+              final snackBar = SnackBar(
+                content: Text('Copied to Clipboard: ' + _transactionId),
+                action: SnackBarAction(
+                  label: 'Undo',
+                  onPressed: () {},
+                ),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
+            });
+          },
+          child:
+              const Text('Copy Transaction Id', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   @override
@@ -367,16 +412,17 @@ class _ConnectScreenState extends State<ConnectScreen> {
         title: Text('Connect'),
       ),
       body: SafeArea(
-
         child: ListView(
-
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-
           children: <Widget>[
+            Text(
+              _sdkVersion,
+              textAlign: TextAlign.center,
+            ),
             FittedBox(
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,
-              child: environment(),
+              child: environmentWidget(),
             ),
             FittedBox(
               alignment: Alignment.centerLeft,
