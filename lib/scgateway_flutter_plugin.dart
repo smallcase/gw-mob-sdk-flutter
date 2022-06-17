@@ -1,6 +1,8 @@
 
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/services.dart';
+import './color_ext.dart';
 // import './src/constants/pubspec.yaml.g.dart' as plugin_yaml;
 
  enum GatewayEnvironment {
@@ -22,6 +24,31 @@ class ScgatewayIntent {
 class SmallplugData {
    String? targetEndpoint;
    String? params;
+}
+
+class SmallplugUiConfig {
+
+  final Color? headerColor;
+
+  final double headerOpacity;
+
+  final Color? backIconColor;
+
+  final double backIconOpacity;
+
+  const SmallplugUiConfig(
+      {this.headerColor,
+        this.headerOpacity = 1,
+        this.backIconColor,
+        this.backIconOpacity = 1});
+
+  Map<String, dynamic> toMap() => {
+    "headerColor": headerColor?.toHex(),
+    "headerOpacity": headerOpacity,
+    "backIconColor": backIconColor?.toHex(),
+    "backIconOpacity": backIconOpacity
+  };
+
 }
 
 class ScgatewayFlutterPlugin {
@@ -265,6 +292,47 @@ class ScgatewayFlutterPlugin {
 
     return smallplugResponse;
   }
+
+  static Future<String?> launchSmallplugWithBranding(SmallplugData smallplugData,
+      {SmallplugUiConfig? smallplugUiConfig}) async {
+    String? smallplugResponse;
+
+    try {
+      final args = <String, dynamic>{
+        "targetEndpoint": smallplugData.targetEndpoint,
+        "params": smallplugData.params,
+      }..addAll(smallplugUiConfig?.toMap() ?? {});
+      smallplugResponse = await _channel.invokeMethod("launchSmallplugWithBranding", args);
+    } on PlatformException catch (e) {
+      smallplugResponse = e.code;
+    }
+
+    print("Smallplug response: $smallplugResponse");
+
+    return smallplugResponse;
+  }
+
+  // static Future<String?> launchSmallplugWithBranding(SmallplugData smallplugData, SmallplugUiConfig smallplugUiConfig) async {
+  //
+  //   String? smallplugResponse;
+  //
+  //   try {
+  //     smallplugResponse = await _channel.invokeMethod("launchSmallplugWithBranding", <String, dynamic>{
+  //       "targetEndpoint": smallplugData.targetEndpoint,
+  //       "params": smallplugData.params,
+  //       "headerColor": smallplugUiConfig.headerColor,
+  //       "headerOpacity": smallplugUiConfig.headerOpacity,
+  //       "backIconColor": smallplugUiConfig.backIconColor,
+  //       "backIconOpacity": smallplugUiConfig.backIconOpacity
+  //     });
+  //   } on PlatformException catch (e) {
+  //     smallplugResponse = e.code;
+  //   }
+  //
+  //   print("Smallplug response: $smallplugResponse");
+  //
+  //   return smallplugResponse;
+  // }
 
   static Future<String?> showOrders() async {
 

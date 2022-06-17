@@ -16,6 +16,7 @@ import com.smallcase.gateway.data.listeners.TransactionResponseListener
 import com.smallcase.gateway.data.models.*
 import com.smallcase.gateway.data.requests.InitRequest
 import com.smallcase.gateway.portal.SmallcaseGatewaySdk
+import com.smallcase.gateway.portal.SmallplugPartnerProps
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -408,6 +409,37 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
           })
         }
+      "launchSmallplugWithBranding" -> {
+
+        val targetEndpoint: String? = call.argument("targetEndpoint")
+        val params: String? = call.argument("params")
+        val headerColor = call.argument<String>("headerColor")
+        val headerOpacity = call.argument<Double>("headerOpacity")
+        val backIconColor = call.argument<String>("backIconColor")
+        val backIconOpacity = call.argument<Double>("backIconOpacity")
+
+        val smallplugPartnerProps = SmallplugPartnerProps(headerColor ?: "", headerOpacity ?: 1.0, backIconColor ?: "", backIconOpacity ?: 1.0)
+
+        val res = JSONObject()
+
+        SmallcaseGatewaySdk.launchSmallPlug(activity, SmallplugData(targetEndpoint, params), object : SmallPlugResponseListener {
+
+          override fun onFailure(errorCode: Int, errorMessage: String) {
+            res.put("success", false)
+            res.put("error", errorMessage)
+
+            result.error(res.toString(), null, null)
+          }
+
+          override fun onSuccess(smallPlugResult: SmallPlugResult) {
+            uiThreadHandler.post {
+              result.success(Gson().toJson(smallPlugResult).toString())
+            }
+          }
+
+        }, smallplugPartnerProps = smallplugPartnerProps)
+      }
+
       "showOrders" -> {
 
         val res = JSONObject()

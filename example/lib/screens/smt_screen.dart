@@ -26,7 +26,12 @@ class _SmtScreenState extends State<SmtScreen> {
   TextEditingController _textEditingController;
 
   String _smallplugEndpoint = "";
-  
+
+  String _headerColor = "";
+  double _headerOpacity = 1.0;
+  String _backIconColor = "";
+  double _backIconOpacity = 1.0;
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +39,7 @@ class _SmtScreenState extends State<SmtScreen> {
     _smallplugEndpoint = PageStorage
         .of(context)
         ?.readState(context, identifier: ValueKey('smallplugEndpoint'));
-    
+
     _textEditingController = new TextEditingController(text: _smallplugEndpoint);
     
     Gateway.getAllSmallcases().then((value) => _populateSmallCases(value));
@@ -108,7 +113,7 @@ class _SmtScreenState extends State<SmtScreen> {
   }
 
   void _launchSmallplug() async {
-    Gateway.openSmallplug("test!").then((value) => _showAlertDialog(value));
+    Gateway.openSmallplugWithBranding('','',this._headerColor, this._headerOpacity, this._backIconColor, this._backIconOpacity).then((value) => _showAlertDialog(value));
   }
 
   void _launchSmallplugWithEndpoint(String endpointVal) async {
@@ -268,6 +273,62 @@ class _SmtScreenState extends State<SmtScreen> {
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,
               child: exitedSmallcases(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: TextFormField(
+                onChanged: (value) => {
+                  this.setState(() {
+                    _headerColor = value;
+                  })
+                },
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Header Color',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: TextFormField(
+                onChanged: (value) => {
+                  this.setState(() {
+                    _headerOpacity = value as double;
+                  })
+                },
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Header Color Opacity',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: TextFormField(
+                onChanged: (value) => {
+                  this.setState(() {
+                    _backIconColor = value;
+                  })
+                },
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'back icon Color',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: TextFormField(
+                onChanged: (value) => {
+                  this.setState(() {
+                    _backIconOpacity = value as double;
+                  })
+                },
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'back icon Color opacity',
+                ),
+              ),
             ),
             FittedBox(
               alignment: Alignment.centerLeft,

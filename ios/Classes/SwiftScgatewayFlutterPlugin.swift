@@ -385,7 +385,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                         }
                     }
                     catch SCGatewayError.uninitialized {
-                        print(SCGatewayError.uninitialized.message)
+                        print(SCGatewayError.uninitialized.errorMessage)
                     }
                     catch let err {
                         print(err)
@@ -586,6 +586,50 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
             
         }
      }
+      
+      //MARK: Launch smallplug branding
+      else if(call.method == "launchSmallplugWithBranding") {
+          
+          if let args = call.arguments as? Dictionary<String, Any> {
+              let target = args["targetEndpoint"] as? String
+              let params = args["params"] as? String
+              let headerColor = args["headerColor"] as? String
+              let headerColorOpacity = args["headerOpacity"] as? NSNumber
+              let backIconColor = args["backIconColor"] as? String
+              let backIconOpacity = args["backIconOpacity"] as? NSNumber
+              
+              SCGateway.shared.launchSmallPlug(
+                presentingController: currentViewController,
+                smallplugData: SmallplugData(target, params),
+                smallplugUiConfig: SmallplugUiConfig(
+                    smallplugHeaderColor: headerColor,
+                    headerColorOpacity: headerColorOpacity,
+                    backIconColor: backIconColor,
+                    backIconColorOpacity: backIconOpacity),
+                completion: {
+                  response, error in
+                  
+                  if let smallplugResponse = response {
+                      
+                      result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                      
+                  }
+              })
+              
+          } else {
+              
+              SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugData: nil, completion: {
+                  response, error in
+                  
+                  if let smallplugResponse = response {
+                      
+                      result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                      
+                  }
+              })
+              
+          }
+      }
       
       //MARK: Show orders
       else if (call.method == "showOrders") {

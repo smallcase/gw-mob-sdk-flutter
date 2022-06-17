@@ -207,6 +207,22 @@ class Gateway {
     return ScgatewayFlutterPlugin.launchSmallplug(smallplugData);
   }
 
+  static Future<String> openSmallplugWithBranding(String smallplugEndpoint, String params, String headerColor, double headerColorOpacity, String backIconColor, double backIconOpacity) async {
+    SmallplugData smallplugData = new SmallplugData();
+    SmallplugUiConfig smallplugUiConfig = new SmallplugUiConfig();
+
+    if (smallplugEndpoint != null && smallplugEndpoint.isNotEmpty) {
+      smallplugData.targetEndpoint = smallplugEndpoint;
+    }
+
+    smallplugUiConfig.headerColor = headerColor;
+    smallplugUiConfig.headerColorOpacity = headerColorOpacity;
+    smallplugUiConfig.backIconColor = backIconColor;
+    smallplugUiConfig.backIconOpacity = backIconOpacity;
+
+    return ScgatewayFlutterPlugin.launchSmallplugWithBranding(smallplugData, smallplugUiConfig);
+  }
+
   static Future<String> showOrders() async {
     return ScgatewayFlutterPlugin.showOrders();
     // return "";
