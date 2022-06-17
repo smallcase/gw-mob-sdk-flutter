@@ -5,11 +5,11 @@ PODS:
   - Mixpanel-swift (3.2.6):
     - Mixpanel-swift/Complete (= 3.2.6)
   - Mixpanel-swift/Complete (3.2.6)
-  - SCGateway (3.4.1):
+  - SCGateway (3.4.3):
     - Mixpanel-swift
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 3.4.1)
+    - SCGateway (= 3.4.3)
 
 DEPENDENCIES:
   - clipboard_manager (from `.symlinks/plugins/clipboard_manager/ios`)
@@ -34,8 +34,8 @@ SPEC CHECKSUMS:
   clipboard_manager: f4800834e62cc26b1cc4e0a92a35cd452dd8b827
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   Mixpanel-swift: ce120e0d51dcb0d0bf5a25e1ee232fe89ad1136b
-  SCGateway: a5626f51d9af10effa424507101f26c49ed8915c
-  scgateway_flutter_plugin: 9b3fa926507bb2f28735cc5844c12b4975f3a804
+  SCGateway: 19a144be4a895040c2393de3870846d514c37b23
+  scgateway_flutter_plugin: 1b329a99f747c57d76b04d043909e31d7691509e
 
 PODFILE CHECKSUM: 149ecff69199ac385f452fe049db751eae1736cf
 
