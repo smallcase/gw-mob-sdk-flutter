@@ -293,7 +293,7 @@ class _SmtScreenState extends State<SmtScreen> {
               child: TextFormField(
                 onChanged: (value) => {
                   this.setState(() {
-                    _headerOpacity = value as double;
+                    _headerOpacity = double.tryParse(value);
                   })
                 },
                 decoration: const InputDecoration(
@@ -321,7 +321,7 @@ class _SmtScreenState extends State<SmtScreen> {
               child: TextFormField(
                 onChanged: (value) => {
                   this.setState(() {
-                    _backIconOpacity = value as double;
+                    _backIconOpacity = double.tryParse(value);
                   })
                 },
                 decoration: const InputDecoration(

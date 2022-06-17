@@ -55,7 +55,7 @@ class ScgatewayFlutterPlugin {
 
   static const MethodChannel _channel = const MethodChannel('scgateway_flutter_plugin');
 
-  static const String _flutterPluginVersion = "1.2.0";
+  static const String _flutterPluginVersion = "1.3.0";
 
   static Future<String?> getSdkVersion() async {
 
@@ -311,28 +311,6 @@ class ScgatewayFlutterPlugin {
 
     return smallplugResponse;
   }
-
-  // static Future<String?> launchSmallplugWithBranding(SmallplugData smallplugData, SmallplugUiConfig smallplugUiConfig) async {
-  //
-  //   String? smallplugResponse;
-  //
-  //   try {
-  //     smallplugResponse = await _channel.invokeMethod("launchSmallplugWithBranding", <String, dynamic>{
-  //       "targetEndpoint": smallplugData.targetEndpoint,
-  //       "params": smallplugData.params,
-  //       "headerColor": smallplugUiConfig.headerColor,
-  //       "headerOpacity": smallplugUiConfig.headerOpacity,
-  //       "backIconColor": smallplugUiConfig.backIconColor,
-  //       "backIconOpacity": smallplugUiConfig.backIconOpacity
-  //     });
-  //   } on PlatformException catch (e) {
-  //     smallplugResponse = e.code;
-  //   }
-  //
-  //   print("Smallplug response: $smallplugResponse");
-  //
-  //   return smallplugResponse;
-  // }
 
   static Future<String?> showOrders() async {
 
