@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin_example/models/ExitedSmallcaseDTO.dart';
@@ -14,7 +14,6 @@ import '../Styles.dart';
 import '../gateway.dart';
 
 class SmtScreen extends StatefulWidget {
-
   SmtScreen({Key key}) : super(key: key);
 
   @override
@@ -22,7 +21,6 @@ class SmtScreen extends StatefulWidget {
 }
 
 class _SmtScreenState extends State<SmtScreen> {
-
   TextEditingController _textEditingController;
 
   String _smallplugEndpoint = "";
@@ -36,19 +34,18 @@ class _SmtScreenState extends State<SmtScreen> {
   void initState() {
     super.initState();
 
-    _smallplugEndpoint = PageStorage
-        .of(context)
+    _smallplugEndpoint = PageStorage.of(context)
         ?.readState(context, identifier: ValueKey('smallplugEndpoint'));
 
-    _textEditingController = new TextEditingController(text: _smallplugEndpoint);
-    
+    _textEditingController =
+        new TextEditingController(text: _smallplugEndpoint);
+
     Gateway.getAllSmallcases().then((value) => _populateSmallCases(value));
   }
 
   List<SmallcasesDTO> items = [];
 
   void _showSmallcases(BuildContext context) async {
-
     // Gateway.getAllSmallcases().then((value) => _populateSmallCases(value));
 
     Navigator.push(
@@ -56,11 +53,9 @@ class _SmtScreenState extends State<SmtScreen> {
         MaterialPageRoute(
           builder: (context) => SmallcasesList(items: items),
         ));
-
   }
 
   Future<void> _populateSmallCases(String jsonString) async {
-
     final Map<String, dynamic> responseData = jsonDecode(jsonString);
 
     print("ResponseData = $responseData");
@@ -69,35 +64,29 @@ class _SmtScreenState extends State<SmtScreen> {
     // var list = responseData['smallcases'] as List;
     // print("List runtime type = $list.runtimeType");
 
-
-    List<SmallcasesDTO> smallcases = list.map((i) =>
-      SmallcasesDTO.fromJson(i)
-    ).toList();
+    List<SmallcasesDTO> smallcases =
+        list.map((i) => SmallcasesDTO.fromJson(i)).toList();
 
     setState(() {
       items = smallcases;
     });
 
     print("items: $items");
-
   }
 
   void _getUserInvestments(BuildContext context) async {
-    Gateway.getAllUserInvestments().then((value) => _showUserInvestments(context, value));
+    Gateway.getAllUserInvestments()
+        .then((value) => _showUserInvestments(context, value));
   }
 
   void _showUserInvestments(BuildContext context, String data) {
-
     final Map<String, dynamic> responseData = jsonDecode(data);
 
     var investments = responseData['data'] as List;
     // print("List runtime type = $investments.runtimeType");
 
-    List<InvestmentsDataDTO> investmentsList = investments.map((i) =>
-
-        InvestmentsDataDTO.fromJson(i)
-
-    ).toList();
+    List<InvestmentsDataDTO> investmentsList =
+        investments.map((i) => InvestmentsDataDTO.fromJson(i)).toList();
 
     print("decoded investments: $investmentsList");
 
@@ -109,21 +98,22 @@ class _SmtScreenState extends State<SmtScreen> {
   }
 
   void _getExitedSmallcases(BuildContext context) async {
-    Gateway.getAllExitedSmallcases().then((value) => _showExitedSmallcases(context, value));
+    Gateway.getAllExitedSmallcases()
+        .then((value) => _showExitedSmallcases(context, value));
   }
 
   void _launchSmallplug() async {
-    Gateway.openSmallplugWithBranding('','',this._headerColor, this._headerOpacity, this._backIconColor, this._backIconOpacity).then((value) => _showAlertDialog(value));
+    Gateway.openSmallplugWithBranding('', '', this._headerColor,
+            this._headerOpacity, this._backIconColor, this._backIconOpacity)
+        .then((value) => _showAlertDialog(value));
   }
 
   void _launchSmallplugWithEndpoint(String endpointVal) async {
-
     Gateway.openSmallplug(endpointVal).then((value) => _showAlertDialog(value));
   }
 
   Future<void> _showAlertDialog(String message) async {
-
-    // ClipboardManager.copyToClipBoard(message);
+    // FlutterClipboard.copy(message);
 
     return showDialog<void>(
       context: context,
@@ -133,9 +123,7 @@ class _SmtScreenState extends State<SmtScreen> {
           title: Text('Gateway'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
-                Text(message)
-              ],
+              children: <Widget>[Text(message)],
             ),
           ),
           actions: <Widget>[
@@ -145,63 +133,76 @@ class _SmtScreenState extends State<SmtScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(onPressed: () {
-              ClipboardManager.copyToClipBoard(message);
-            },
-                child: Text('Copy')
-            )
+            TextButton(
+                onPressed: () {
+                  FlutterClipboard.copy(message);
+                },
+                child: Text('Copy'))
           ],
         );
       },
     );
   }
-  void _showExitedSmallcases(BuildContext context, String data) {
 
+  void _showExitedSmallcases(BuildContext context, String data) {
     final Map<String, dynamic> responseData = jsonDecode(data);
 
     print("Exited Smallcases: $responseData");
 
     var exits = responseData['data'] as List;
 
-    List<ExitedSmallcaseDTO> exitedInvestments = exits.map((e) =>
-      ExitedSmallcaseDTO.fromJson(e)
-    ).toList();
+    List<ExitedSmallcaseDTO> exitedInvestments =
+        exits.map((e) => ExitedSmallcaseDTO.fromJson(e)).toList();
 
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ExitedSmallcasesList(exitedSmallcases: exitedInvestments),
+          builder: (context) =>
+              ExitedSmallcasesList(exitedSmallcases: exitedInvestments),
         ));
   }
 
   //----------------------------------  WIDGETS -------------------------------------- //
 
   Widget smallcases(BuildContext context) {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () => _showSmallcases(context),
-      child: const Text('SMALLCASES', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: () => _showSmallcases(context),
+          child: const Text('SMALLCASES', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget userInvestments() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () => _getUserInvestments(context),
-      child: const Text('USER INVESTMENTS', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: () => _getUserInvestments(context),
+          child: const Text('USER INVESTMENTS', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget exitedSmallcases() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () => _getExitedSmallcases(context),
-      child: const Text('EXITED SMALLCASES', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: () => _getExitedSmallcases(context),
+          child:
+              const Text('EXITED SMALLCASES', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget smallplug() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () => _launchSmallplug(),
-      child: const Text('SMALLPLUG', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: () => _launchSmallplug(),
+          child: const Text('SMALLPLUG', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget smallplugWithTargetEndpoint() {
@@ -210,39 +211,44 @@ class _SmtScreenState extends State<SmtScreen> {
     //   child: const Text('SMALLPLUG + Endpoint', style: TextStyle(fontSize: 20)),
     // ));
 
-    return SizedBox(width: 300, height: 35, child:
-    ElevatedButton(
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return new Dialog(
-                  child: SizedBox(
-                      width: 300, height: 96,
-                      child: new Column(
-                        children: <Widget>[
-                          new TextField(
-                            decoration: new InputDecoration(hintText: "Enter Target Endpoint"),
-                            controller: _textEditingController,
-                          ),
-                          new FlatButton(
-                            child: new Text("Go"),
-                            onPressed: () {
-                              setState((){
-                                this._smallplugEndpoint = _textEditingController.text;
-                              });
-                              _launchSmallplugWithEndpoint(this._smallplugEndpoint);
-                              Navigator.pop(context);
-                            },
-                          )
-                        ],
-                      )
-                  )
-              );
-            });
-      },
-      child: const Text('Smallplug + Endpoint', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: ElevatedButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return new Dialog(
+                      child: SizedBox(
+                          width: 300,
+                          height: 96,
+                          child: new Column(
+                            children: <Widget>[
+                              new TextField(
+                                decoration: new InputDecoration(
+                                    hintText: "Enter Target Endpoint"),
+                                controller: _textEditingController,
+                              ),
+                              new FlatButton(
+                                child: new Text("Go"),
+                                onPressed: () {
+                                  setState(() {
+                                    this._smallplugEndpoint =
+                                        _textEditingController.text;
+                                  });
+                                  _launchSmallplugWithEndpoint(
+                                      this._smallplugEndpoint);
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                          )));
+                });
+          },
+          child: const Text('Smallplug + Endpoint',
+              style: TextStyle(fontSize: 20)),
+        ));
   }
 
   @override
@@ -253,11 +259,8 @@ class _SmtScreenState extends State<SmtScreen> {
         title: Text('SMT'),
       ),
       body: SafeArea(
-
         child: ListView(
-
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-
           children: <Widget>[
             FittedBox(
               alignment: Alignment.centerLeft,

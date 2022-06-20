@@ -1,10 +1,9 @@
-import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
 
 class LeadGenScreen extends StatefulWidget {
-
   LeadGenScreen({Key key}) : super(key: key);
 
   @override
@@ -12,12 +11,12 @@ class LeadGenScreen extends StatefulWidget {
 }
 
 class _LeadGenScreenState extends State<LeadGenScreen> {
-
   String _name = "", _email = "", _contact = "", _pincode = "";
 
   Future<void> _executeLeadGen() async {
     // Gateway.leadGen(_name, _email, _contact, _pincode);
-    Gateway.leadGenWithStatus(_name, _email, _contact).then((value) => _showAlertDialog(value));
+    Gateway.leadGenWithStatus(_name, _email, _contact)
+        .then((value) => _showAlertDialog(value));
   }
 
   Future<void> _logout() async {
@@ -25,8 +24,7 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
   }
 
   Future<void> _showAlertDialog(String message) async {
-
-    if(message != null && message.isNotEmpty) {
+    if (message != null && message.isNotEmpty) {
       return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
@@ -35,9 +33,7 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
             title: Text('Gateway'),
             content: SingleChildScrollView(
               child: ListBody(
-                children: <Widget>[
-                  Text(message)
-                ],
+                children: <Widget>[Text(message)],
               ),
             ),
             actions: <Widget>[
@@ -47,17 +43,16 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
                   Navigator.of(context).pop();
                 },
               ),
-              TextButton(onPressed: () {
-                ClipboardManager.copyToClipBoard(message);
-              },
-                  child: Text('Copy')
-              )
+              TextButton(
+                  onPressed: () {
+                    FlutterClipboard.copy(message);
+                  },
+                  child: Text('Copy'))
             ],
           );
         },
       );
     }
-
   }
 
   Widget inputName() {
@@ -65,16 +60,20 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text('Name '),
-        SizedBox(width: 250, height: 30, child: TextField(decoration: InputDecoration(
-          filled: true,
-          labelText: '',
-        ),
-          onChanged: (value) {
-            setState(() {
-              _name = value;
-            });
-          },
-        ),
+        SizedBox(
+          width: 250,
+          height: 30,
+          child: TextField(
+            decoration: InputDecoration(
+              filled: true,
+              labelText: '',
+            ),
+            onChanged: (value) {
+              setState(() {
+                _name = value;
+              });
+            },
+          ),
         )
       ],
     );
@@ -85,16 +84,20 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text('Email '),
-        SizedBox(width: 250, height: 30, child: TextField(decoration: InputDecoration(
-          filled: true,
-          labelText: '',
-        ),
-          onChanged: (value) {
-            setState(() {
-              _email = value;
-            });
-          },
-        ),
+        SizedBox(
+          width: 250,
+          height: 30,
+          child: TextField(
+            decoration: InputDecoration(
+              filled: true,
+              labelText: '',
+            ),
+            onChanged: (value) {
+              setState(() {
+                _email = value;
+              });
+            },
+          ),
         )
       ],
     );
@@ -105,33 +108,43 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text('Contact '),
-        SizedBox(width: 250, height: 30, child: TextField(decoration: InputDecoration(
-          filled: true,
-          labelText: '',
-        ),
-          onChanged: (value) {
-            setState(() {
-              _contact = value;
-            });
-          },
-        ),
+        SizedBox(
+          width: 250,
+          height: 30,
+          child: TextField(
+            decoration: InputDecoration(
+              filled: true,
+              labelText: '',
+            ),
+            onChanged: (value) {
+              setState(() {
+                _contact = value;
+              });
+            },
+          ),
         )
       ],
     );
   }
 
   Widget btnStartLeadGen() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: _executeLeadGen,
-      child: const Text('LEAD GEN', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: _executeLeadGen,
+          child: const Text('LEAD GEN', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget btnLogoutUser() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: _logout,
-      child: const Text('Logout User', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: _logout,
+          child: const Text('Logout User', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   @override
@@ -141,11 +154,8 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
         title: Text('Lead Gen'),
       ),
       body: SafeArea(
-
         child: ListView(
-
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-
           children: <Widget>[
             FittedBox(
               alignment: Alignment.centerLeft,

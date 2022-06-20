@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:clipboard/clipboard.dart';
 
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
@@ -76,11 +76,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
     // List<String> brokers = ['kite','hdfc','iifl'];
 
     List<String> brokers = [];
-    ScgatewayFlutterPlugin.setConfigEnvironment(
-            environment.gatewayEnvironment, environment.gatewayName, _leprechaunMode, brokers,
+    ScgatewayFlutterPlugin.setConfigEnvironment(environment.gatewayEnvironment,
+            environment.gatewayName, _leprechaunMode, brokers,
             isAmoenabled: _isAmoEnabled)
-        .then((setupResponse) => Gateway.getSessionToken( environment,
-                _userIdText ?? "", _leprechaunMode, _isAmoEnabled)
+        .then((setupResponse) => Gateway.getSessionToken(
+                environment, _userIdText ?? "", _leprechaunMode, _isAmoEnabled)
             .then((value) => _showAlertDialog(value)));
   }
 
@@ -171,7 +171,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   }
 
   Future<void> _showAlertDialog(String message) async {
-    // ClipboardManager.copyToClipBoard(message);
+    // FlutterClipboard.copy(message);
 
     return showDialog<void>(
       context: context,
@@ -193,7 +193,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
             ),
             TextButton(
                 onPressed: () {
-                  ClipboardManager.copyToClipBoard(message);
+                  FlutterClipboard.copy(message);
                 },
                 child: Text('Copy'))
           ],
@@ -389,7 +389,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
         height: 35,
         child: RaisedButton(
           onPressed: () {
-            ClipboardManager.copyToClipBoard(_transactionId).then((result) {
+            FlutterClipboard.copy(_transactionId).then((result) {
               final snackBar = SnackBar(
                 content: Text('Copied to Clipboard: ' + _transactionId),
                 action: SnackBarAction(
