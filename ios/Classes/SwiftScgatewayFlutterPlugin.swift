@@ -593,10 +593,26 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
           if let args = call.arguments as? Dictionary<String, Any> {
               let target = args["targetEndpoint"] as? String
               let params = args["params"] as? String
-              let headerColor = args["headerColor"] as? String
-              let headerColorOpacity = args["headerOpacity"] as? NSNumber
-              let backIconColor = args["backIconColor"] as? String
-              let backIconOpacity = args["backIconOpacity"] as? NSNumber
+              
+              var headerColor = "2F363F"
+              if let headerClr = args["headerColor"] as? String {
+                  headerColor = headerClr.deletingPrefix("#")
+              }
+              
+              var headerColorOpacity = 1 as NSNumber
+              if let headerClrAlpha = args["headerOpacity"] as? NSNumber {
+                  headerColorOpacity = headerClrAlpha
+              }
+              
+              var backIconColor = "FFFFFF"
+              if let bckIconClr = args["backIconColor"] as? String {
+                  backIconColor = bckIconClr.deletingPrefix("#")
+              }
+              
+              var backIconOpacity = 1 as NSNumber
+              if let bckIconAlpha = args["backIconOpacity"] as? NSNumber {
+                  backIconOpacity = bckIconAlpha
+              }
               
               SCGateway.shared.launchSmallPlug(
                 presentingController: currentViewController,
@@ -694,3 +710,9 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         
 }
 
+extension String {
+    func deletingPrefix(_ prefix: String) -> String {
+        guard self.hasPrefix(prefix) else { return self }
+        return String(self.dropFirst(prefix.count))
+    }
+}
