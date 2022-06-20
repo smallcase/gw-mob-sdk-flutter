@@ -418,7 +418,7 @@ class ScgatewayFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         val backIconColor = call.argument<String>("backIconColor")
         val backIconOpacity = call.argument<Double>("backIconOpacity")
 
-        val smallplugPartnerProps = SmallplugPartnerProps(headerColor ?: "", headerOpacity ?: 1.0, backIconColor ?: "", backIconOpacity ?: 1.0)
+        val smallplugPartnerProps = SmallplugPartnerProps(headerColor ?: "#2F363F", headerOpacity ?: 1.0, backIconColor ?: "#ffffff", backIconOpacity ?: 1.0)
 
         val res = JSONObject()
 
