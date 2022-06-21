@@ -1,6 +1,6 @@
 name: scgateway_flutter_plugin
 description: Scgateway Flutter plugin.
-version: 1.2.0-alpha01
+version: 1.3.0
 #author: ankit.deshmukh@smallcase.com
 homepage: https://github.com/smallcase/gw-mob-sdk-flutter
 
@@ -10,7 +10,7 @@ homepage: https://github.com/smallcase/gw-mob-sdk-flutter
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
-  # flutter: ">=2.2.2"
+  flutter: ">=2.2.2"
 
 dependencies:
   flutter:

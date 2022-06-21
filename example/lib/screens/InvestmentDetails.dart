@@ -1,5 +1,4 @@
-
-import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
@@ -8,17 +7,19 @@ import 'package:scgateway_flutter_plugin_example/models/InvestmentsDataDTO.dart'
 import '../gateway.dart';
 
 class InvestmentDetails extends StatelessWidget {
-
   InvestmentsDataDTO investmentsDataDTO;
 
-  InvestmentDetails({Key key, @required this.investmentsDataDTO}) : super(key: key);
+  InvestmentDetails({Key key, @required this.investmentsDataDTO})
+      : super(key: key);
 
   void _triggerInvestmentAction(String type, BuildContext context) {
+    var orderConfig = {
+      "type": type,
+      "iscid": investmentsDataDTO.investmentItem.iscid
+    };
 
-    var orderConfig = {"type" : type, "iscid" : investmentsDataDTO.investmentItem.iscid};
-
-    Gateway.getTransactionId(ScgatewayIntent.TRANSACTION, orderConfig).then((value) => _showAlertDialog(value, context));
-
+    Gateway.getTransactionId(ScgatewayIntent.TRANSACTION, orderConfig)
+        .then((value) => _showAlertDialog(value, context));
   }
 
   // Future<void> _investMore(BuildContext context) async {
@@ -36,21 +37,21 @@ class InvestmentDetails extends StatelessWidget {
   // }
 
   Future<void> _sipSetup(BuildContext context) async {
-
-    var orderConfig = {"iscid" : this.investmentsDataDTO.investmentItem.iscid};
+    var orderConfig = {"iscid": this.investmentsDataDTO.investmentItem.iscid};
 
     print("Initiating SIP SETUP");
 
-    Gateway.getTransactionId(ScgatewayIntent.SIP_SETUP, orderConfig).then((value) => _showAlertDialog(value, context));
+    Gateway.getTransactionId(ScgatewayIntent.SIP_SETUP, orderConfig)
+        .then((value) => _showAlertDialog(value, context));
   }
 
   Future<void> _cancelAmo(BuildContext context) async {
-
-    var orderConfig = {"iscid" : this.investmentsDataDTO.investmentItem.iscid};
+    var orderConfig = {"iscid": this.investmentsDataDTO.investmentItem.iscid};
 
     print("Initiating CANCEL AMO");
 
-    Gateway.getTransactionId(ScgatewayIntent.CANCEL_AMO, orderConfig).then((value) => _showAlertDialog(value, context));
+    Gateway.getTransactionId(ScgatewayIntent.CANCEL_AMO, orderConfig)
+        .then((value) => _showAlertDialog(value, context));
   }
 
   // Future<void> _exitSmallcase(BuildContext context) async {
@@ -61,16 +62,14 @@ class InvestmentDetails extends StatelessWidget {
   // }
 
   void _markSmallcaseArchive(BuildContext context) {
-
     // var body = {"iscid" : investmentsDataDTO.investmentItem.iscid};
 
-    Gateway.markArchive(investmentsDataDTO.investmentItem.iscid).then((value) => _showAlertDialog(value, context));
-
+    Gateway.markArchive(investmentsDataDTO.investmentItem.iscid)
+        .then((value) => _showAlertDialog(value, context));
   }
 
   Future<void> _showAlertDialog(String message, BuildContext context) async {
-
-    // ClipboardManager.copyToClipBoard(message);
+    // FlutterClipboard.copy(message);
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -79,9 +78,7 @@ class InvestmentDetails extends StatelessWidget {
           title: Text('Gateway'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
-                Text(message)
-              ],
+              children: <Widget>[Text(message)],
             ),
           ),
           actions: <Widget>[
@@ -91,10 +88,11 @@ class InvestmentDetails extends StatelessWidget {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(onPressed: () {
-              ClipboardManager.copyToClipBoard(message);
-            }, child: Text('Copy')
-            )
+            TextButton(
+                onPressed: () {
+                  FlutterClipboard.copy(message);
+                },
+                child: Text('Copy'))
           ],
         );
       },
@@ -102,30 +100,31 @@ class InvestmentDetails extends StatelessWidget {
   }
 
   Widget investmentInfo() {
-    return
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            constraints: BoxConstraints.tightFor(width: 60.0),
-            child: Image.network("https://assets.smallcase.com/images/smallcases/200/${investmentsDataDTO.investmentItem.scid}.png", fit: BoxFit.fitWidth),
-          ),
-          const SizedBox(width : 10),
-          Expanded(child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(this.investmentsDataDTO.investmentItem.name),
-              Text(
-                this.investmentsDataDTO.investmentItem.shortDescription,
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
-              )
-            ],
-          )
-          ),
-        ],
-      );
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Container(
+          constraints: BoxConstraints.tightFor(width: 60.0),
+          child: Image.network(
+              "https://assets.smallcase.com/images/smallcases/200/${investmentsDataDTO.investmentItem.scid}.png",
+              fit: BoxFit.fitWidth),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(this.investmentsDataDTO.investmentItem.name),
+            Text(
+              this.investmentsDataDTO.investmentItem.shortDescription,
+              maxLines: 5,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            )
+          ],
+        )),
+      ],
+    );
   }
 
   Widget investmentActions(BuildContext context) {
@@ -139,7 +138,8 @@ class InvestmentDetails extends StatelessWidget {
         ),
         RaisedButton(
           color: Colors.green,
-          onPressed: () => _triggerInvestmentAction("investmore".toUpperCase(), context),
+          onPressed: () =>
+              _triggerInvestmentAction("investmore".toUpperCase(), context),
           child: const Text('INVEST MORE', style: TextStyle(fontSize: 20)),
         ),
         RaisedButton(
@@ -163,7 +163,7 @@ class InvestmentDetails extends StatelessWidget {
           child: const Text('SIP Order', style: TextStyle(fontSize: 20)),
         ),
         RaisedButton(
-            onPressed: () => _cancelAmo(context),
+          onPressed: () => _cancelAmo(context),
           color: Colors.green,
           child: const Text('Cancel AMO', style: TextStyle(fontSize: 20)),
         ),
@@ -183,25 +183,19 @@ class InvestmentDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(title: Text(investmentsDataDTO.investmentItem.name)),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-
           children: <Widget>[
             investmentInfo(),
-
             SizedBox(height: 30),
-
             Align(
               alignment: Alignment.bottomCenter,
               child: ListView(
                 shrinkWrap: true,
-                children: <Widget>[
-                  investmentActions(context)
-                ],
+                children: <Widget>[investmentActions(context)],
               ),
             ),
           ],
@@ -209,5 +203,4 @@ class InvestmentDetails extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -9,6 +9,19 @@ import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/models/UserHoldingsResponse.dart';
 import 'package:scgateway_flutter_plugin_example/smartinvesting.dart';
 
+extension ColorExt on Color {
+  static Color fromHex(String hexString) {
+    try {
+      final buffer = StringBuffer();
+      if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+      buffer.write(hexString.replaceFirst('#', ''));
+      return Color(int.parse(buffer.toString(), radix: 16));
+    } on Exception catch (e) {
+      return null;
+    }
+  }
+}
+
 class Environment {
   final String gatewayName;
   final GatewayEnvironment gatewayEnvironment;
@@ -46,7 +59,8 @@ class Environment {
   }
 
   @override
-  String toString() => 'Environment(gatewayName: $gatewayName, gatewayEnvironment: $gatewayEnvironment, envIndex: $envIndex)';
+  String toString() =>
+      'Environment(gatewayName: $gatewayName, gatewayEnvironment: $gatewayEnvironment, envIndex: $envIndex)';
 }
 
 class Gateway {
@@ -205,6 +219,31 @@ class Gateway {
     // smallplugData.params = "test=abc";
 
     return ScgatewayFlutterPlugin.launchSmallplug(smallplugData);
+  }
+
+  static Future<String> openSmallplugWithBranding(
+      String smallplugEndpoint,
+      String params,
+      String headerColor,
+      double headerColorOpacity,
+      String backIconColor,
+      double backIconOpacity) async {
+    SmallplugData smallplugData = new SmallplugData();
+    final hc = headerColor == null ? null : ColorExt.fromHex(headerColor);
+    final bc = headerColor == null ? null : ColorExt.fromHex(backIconColor);
+    debugPrint("hc: $hc");
+    SmallplugUiConfig smallplugUiConfig = new SmallplugUiConfig(
+        headerColor: hc,
+        backIconColor: bc,
+        headerOpacity: headerColorOpacity,
+        backIconOpacity: backIconOpacity);
+
+    if (smallplugEndpoint != null && smallplugEndpoint.isNotEmpty) {
+      smallplugData.targetEndpoint = smallplugEndpoint;
+    }
+
+    return ScgatewayFlutterPlugin.launchSmallplugWithBranding(smallplugData,
+        smallplugUiConfig: smallplugUiConfig);
   }
 
   static Future<String> showOrders() async {

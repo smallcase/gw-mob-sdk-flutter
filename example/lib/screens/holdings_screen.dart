@@ -1,4 +1,4 @@
-import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -56,7 +56,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
   }
 
   Future<void> _showAlertDialog(String message) async {
-    // ClipboardManager.copyToClipBoard(message);
+    // FlutterClipboard.copy(message);
 
     return showDialog<void>(
       context: context,
@@ -78,7 +78,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
             ),
             TextButton(
                 onPressed: () {
-                  ClipboardManager.copyToClipBoard(message);
+                  FlutterClipboard.copy(message);
                 },
                 child: Text('Copy'))
           ],

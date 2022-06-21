@@ -1,35 +1,36 @@
 PODS:
-  - clipboard_manager (0.0.3):
-    - Flutter
   - Flutter (1.0.0)
-  - SCGateway (3.1.19)
+  - Mixpanel-swift (3.2.6):
+    - Mixpanel-swift/Complete (= 3.2.6)
+  - Mixpanel-swift/Complete (3.2.6)
+  - SCGateway (3.4.3):
+    - Mixpanel-swift
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 3.1.19)
+    - SCGateway (= 3.4.3)
 
 DEPENDENCIES:
-  - clipboard_manager (from `.symlinks/plugins/clipboard_manager/ios`)
   - Flutter (from `Flutter`)
   - scgateway_flutter_plugin (from `.symlinks/plugins/scgateway_flutter_plugin/ios`)
 
 SPEC REPOS:
   https://github.com/smallcase/cocoapodspecs.git:
     - SCGateway
+  trunk:
+    - Mixpanel-swift
 
 EXTERNAL SOURCES:
-  clipboard_manager:
-    :path: ".symlinks/plugins/clipboard_manager/ios"
   Flutter:
     :path: Flutter
   scgateway_flutter_plugin:
     :path: ".symlinks/plugins/scgateway_flutter_plugin/ios"
 
 SPEC CHECKSUMS:
-  clipboard_manager: f4800834e62cc26b1cc4e0a92a35cd452dd8b827
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  SCGateway: 5c8631d23695a7fc5b9282e4a0ddd8f3d3681494
-  scgateway_flutter_plugin: 63e7e9da69715062c6cda07ecd4ffcad0363438d
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  Mixpanel-swift: ce120e0d51dcb0d0bf5a25e1ee232fe89ad1136b
+  SCGateway: 19a144be4a895040c2393de3870846d514c37b23
+  scgateway_flutter_plugin: 1b329a99f747c57d76b04d043909e31d7691509e
 
-PODFILE CHECKSUM: a069f26c7bf85f69b8dab6c8262e0791fc625bd0
+PODFILE CHECKSUM: 149ecff69199ac385f452fe049db751eae1736cf
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -8,45 +7,39 @@ import 'package:scgateway_flutter_plugin_example/models/NewsDataDTO.dart';
 import 'package:scgateway_flutter_plugin_example/models/SmallcasesDTO.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
 import 'package:scgateway_flutter_plugin_example/screens/smallcase_news.dart';
-import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:clipboard/clipboard.dart';
 
 class SmallcaseDetails extends StatelessWidget {
-
   SmallcasesDTO smallcase;
 
   SmallcaseDetails({Key key, @required this.smallcase}) : super(key: key);
 
   Future<void> _buySmallcase(BuildContext context) async {
-
-    var orderConfig = {"type": "BUY", "scid" : smallcase.scid};
+    var orderConfig = {"type": "BUY", "scid": smallcase.scid};
 
     _placeSmtOrder(ScgatewayIntent.TRANSACTION, orderConfig, context);
-
   }
 
-  Future<void> _placeSmtOrder(String intent, Object orderConfig, BuildContext context) async {
-
-    Gateway.getTransactionId(intent, orderConfig).then((value) =>
-        _showAlertDialog(value, context)
-    );
+  Future<void> _placeSmtOrder(
+      String intent, Object orderConfig, BuildContext context) async {
+    Gateway.getTransactionId(intent, orderConfig)
+        .then((value) => _showAlertDialog(value, context));
   }
 
   Future<void> _getSmallcaseNews(BuildContext context) async {
-
-    Gateway.getSmallcaseNews(smallcase.scid).then((value) => _populateSmallcaseNews(value, context));
+    Gateway.getSmallcaseNews(smallcase.scid)
+        .then((value) => _populateSmallcaseNews(value, context));
   }
 
   void _populateSmallcaseNews(String jsonString, BuildContext context) {
-
     final Map<String, dynamic> responseData = jsonDecode(jsonString);
 
     print("News Response Data: $responseData");
 
     var newsList = responseData['data']['news'] as List;
 
-    List<NewsDataDTO> news = newsList.map((e) =>
-      NewsDataDTO.fromJson(e)
-    ).toList();
+    List<NewsDataDTO> news =
+        newsList.map((e) => NewsDataDTO.fromJson(e)).toList();
 
     Navigator.push(
         context,
@@ -56,7 +49,6 @@ class SmallcaseDetails extends StatelessWidget {
   }
 
   Future<void> _showAlertDialog(String message, BuildContext context) async {
-
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -65,9 +57,7 @@ class SmallcaseDetails extends StatelessWidget {
           title: Text('Gateway'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
-                Text(message)
-              ],
+              children: <Widget>[Text(message)],
             ),
           ),
           actions: <Widget>[
@@ -77,10 +67,11 @@ class SmallcaseDetails extends StatelessWidget {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(onPressed: () {
-              ClipboardManager.copyToClipBoard(message);
-            }, child: Text('Copy')
-            )
+            TextButton(
+                onPressed: () {
+                  FlutterClipboard.copy(message);
+                },
+                child: Text('Copy'))
           ],
         );
       },
@@ -88,16 +79,18 @@ class SmallcaseDetails extends StatelessWidget {
   }
 
   Widget smallcaseInfo() {
-    return
-      Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Container(
           constraints: BoxConstraints.tightFor(width: 60.0),
-          child: Image.network("https://assets.smallcase.com/images/smallcases/200/${smallcase.scid}.png", fit: BoxFit.fitWidth),
+          child: Image.network(
+              "https://assets.smallcase.com/images/smallcases/200/${smallcase.scid}.png",
+              fit: BoxFit.fitWidth),
         ),
-        const SizedBox(width : 10),
-        Expanded(child: Column(
+        const SizedBox(width: 10),
+        Expanded(
+            child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(this.smallcase.info.name),
@@ -108,28 +101,32 @@ class SmallcaseDetails extends StatelessWidget {
               softWrap: true,
             )
           ],
-        )
-        ),
+        )),
       ],
     );
   }
 
   Widget news(BuildContext context) {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      onPressed: () => _getSmallcaseNews(context),
-      color: Colors.green,
-      child: const Text('NEWS', style: TextStyle(fontSize: 20)),
-    )
-    );
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          onPressed: () => _getSmallcaseNews(context),
+          color: Colors.green,
+          child: const Text('NEWS', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget historical() {
-    return SizedBox(width: 300, height: 35, child: RaisedButton(
-      padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-      onPressed: () {},
-      color: Colors.green,
-      child: const Text('HISTORICAL', style: TextStyle(fontSize: 20)),
-    ));
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: RaisedButton(
+          padding: EdgeInsets.only(top: 10, left: 15, right: 10),
+          onPressed: () {},
+          color: Colors.green,
+          child: const Text('HISTORICAL', style: TextStyle(fontSize: 20)),
+        ));
   }
 
   Widget purchase(BuildContext context) {
@@ -157,16 +154,11 @@ class SmallcaseDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(smallcase.info.name)),
       body: SafeArea(
-
         child: ListView(
-
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-
           children: <Widget>[
             smallcaseInfo(),
-
-            SizedBox(height: MediaQuery.of(context).size.height/ 3),
-
+            SizedBox(height: MediaQuery.of(context).size.height / 3),
             Align(
               alignment: Alignment.bottomCenter,
               child: ListView(
@@ -181,11 +173,8 @@ class SmallcaseDetails extends StatelessWidget {
               ),
             ),
           ],
-
         ),
-
       ),
     );
   }
-
 }
