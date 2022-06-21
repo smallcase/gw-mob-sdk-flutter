@@ -26,7 +26,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/scgateway_flutter_plugin/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   Mixpanel-swift: ce120e0d51dcb0d0bf5a25e1ee232fe89ad1136b
   SCGateway: 19a144be4a895040c2393de3870846d514c37b23
   scgateway_flutter_plugin: 1b329a99f747c57d76b04d043909e31d7691509e
