@@ -82,7 +82,7 @@ class Gateway {
     userId = idText;
     print("userId: $userId baseUrl: $baseURL");
 
-    var body = {'id': userId};
+    var body = {'id': userId ?? ""};
     print("requestBody = $body");
 
     var url = Uri.parse(baseURL + 'user/login');
