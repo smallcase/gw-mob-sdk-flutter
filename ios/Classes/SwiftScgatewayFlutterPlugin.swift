@@ -281,10 +281,9 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                         
                                         if let transactionSuccessData = jsonObject as? [String: Any] {
                                             
-                                            var response: [String: Any] = [:]
+                                            var response : [String: Any] = transactionSuccessData
                                             
                                             response["success"] = true
-                                            response["data"] = transactionSuccessData
                                             response["transaction"] = "TRANSACTION"
                                             
                                             let jsonData = try! JSONSerialization.data(withJSONObject: response, options: [])
