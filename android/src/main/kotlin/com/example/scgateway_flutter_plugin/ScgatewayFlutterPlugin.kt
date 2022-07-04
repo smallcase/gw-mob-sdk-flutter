@@ -217,6 +217,7 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                             val res = JSONObject()
                             res.put("errorCode", errorCode)
                             res.put("errorMessage", errorMessage)
+                            res.put("data", data)
 
                             result.error(res.toString(), null, null)
                         }
