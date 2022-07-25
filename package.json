@@ -1,0 +1,15 @@
+{
+  "name": "scgateway_flutter_plugin",
+  "description": "Flutter plugin for smallcase gateway",
+  "version": "0.0.2",
+  "author": "Ankit Deshmukh",
+  "scripts": {
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major"
+  },
+  "devDependencies": {
+    "standard-version": "^9.1.0"
+  }
+}

@@ -5,6 +5,7 @@
 .pub/
 .idea/*
 .idea/**
+.idea/workspace.xml
 
 build/
 
@@ -14,3 +15,6 @@ build/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+.node_modules/*
+.node_modules
