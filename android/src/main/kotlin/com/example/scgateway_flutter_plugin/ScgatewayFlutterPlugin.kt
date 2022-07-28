@@ -127,10 +127,11 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                             result.success(res.toString())
                         }
 
-                        override fun onFailure(errorCode: Int, errorMessage: String) {
+                        override fun onFailure(errorCode: Int, errorMessage: String, data: String?) {
 
                             res.put("errorCode", errorCode)
                             res.put("errorMessage", errorMessage)
+                            res.put("data", data)
                             result.error(res.toString(), null, null)
                         }
                     })
@@ -209,6 +210,7 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                         }
 
                         override fun onError(errorCode: Int, errorMessage: String, data: String?) {
+                            Log.d("Debug", "$data")
 
                             errorCode.toString()
 
@@ -253,11 +255,11 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val res = JSONObject()
 
                 SmallcaseGatewaySdk.getSmallcases(null, null, object : DataListener<SmallcaseGatewayDataResponse> {
-                    override fun onFailure(errorCode: Int, errorMessage: String) {
+                    override fun onFailure(errorCode: Int, errorMessage: String, data: String?) {
 
                         res.put("success", false)
                         res.put("error", errorMessage)
-
+                        res.put("data", data)
                         result.error(res.toString(), null, null)
 
                     }
@@ -275,10 +277,10 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val res = JSONObject()
 
                 SmallcaseGatewaySdk.getUserInvestments(null, object : DataListener<SmallcaseGatewayDataResponse> {
-                    override fun onFailure(errorCode: Int, errorMessage: String) {
+                    override fun onFailure(errorCode: Int, errorMessage: String, data: String?) {
                         res.put("success", false)
                         res.put("error", errorMessage)
-
+                        res.put("data", data)
                         result.error(res.toString(), null, null)
                     }
 
@@ -296,10 +298,10 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val res = JSONObject()
 
                 SmallcaseGatewaySdk.getSmallcaseNews(scid, null, 200, 2, object : DataListener<SmallcaseGatewayDataResponse> {
-                    override fun onFailure(errorCode: Int, errorMessage: String) {
+                    override fun onFailure(errorCode: Int, errorMessage: String, data: String?) {
                         res.put("success", false)
                         res.put("error", errorMessage)
-
+                        res.put("data", data)
                         result.error(res.toString(), null, null)
                     }
 
@@ -314,10 +316,10 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val res = JSONObject()
 
                 SmallcaseGatewaySdk.getExitedSmallcases(object : DataListener<SmallcaseGatewayDataResponse> {
-                    override fun onFailure(errorCode: Int, errorMessage: String) {
+                    override fun onFailure(errorCode: Int, errorMessage: String, data: String?) {
                         res.put("success", false)
                         res.put("error", errorMessage)
-
+                        res.put("data", data)
                         result.error(res.toString(), null, null)
                     }
 
@@ -334,10 +336,10 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val iscid: String? = call.argument("iscid")
 
                 SmallcaseGatewaySdk.markSmallcaseArchived(iscid!!, object : DataListener<SmallcaseGatewayDataResponse> {
-                    override fun onFailure(errorCode: Int, errorMessage: String) {
+                    override fun onFailure(errorCode: Int, errorMessage: String, data: String?) {
                         res.put("success", false)
                         res.put("error", errorMessage)
-
+                        res.put("data", data)
                         result.error(res.toString(), null, null)
                     }
 
@@ -446,10 +448,10 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
                     }
 
-                    override fun onFailure(errorCode: Int, errorMessage: String) {
+                    override fun onFailure(errorCode: Int, errorMessage: String, data: String?) {
                         res.put("errorCode", errorCode)
                         res.put("errorMessage", errorMessage)
-
+                        res.put("data", data)
                         result.error(res.toString(), null, null)
                     }
 
