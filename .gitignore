@@ -6,6 +6,7 @@
 .idea/*
 .idea/**
 .idea/workspace.xml
+pubspec.lock
 
 build/
 
