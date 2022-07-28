@@ -12,9 +12,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-#  scgateway_flutter_plugin: 1.1.6
-  scgateway_flutter_plugin:
-    path: ../
+  scgateway_flutter_plugin: 1.3.3-alpha01
+#  scgateway_flutter_plugin:
+#    path: ../
+#scgateway_flutter_plugin:
+#  git:
+#    url: https://github.com/smallcase/gw-mob-sdk-flutter.git
+#    ref: db441fde09520f989b459407e67d7877a118fbb7 # branch name
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -26,6 +31,11 @@ dependencies:
 #  http: ^0.12.0+1
   http: ^0.13.3
   clipboard: ^0.1.3
+#  scgateway_flutter_plugin:
+#    git:
+#      url: https://github.com/smallcase/gw-mob-sdk-flutter
+#      ref: ankit/dummy-github-release
+
 
 dev_dependencies:
   flutter_test:
