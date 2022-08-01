@@ -86,7 +86,7 @@ class _SmtScreenState extends State<SmtScreen> {
     // print("List runtime type = $investments.runtimeType");
 
     List<InvestmentsDataDTO> investmentsList =
-        investments.map((i) => InvestmentsDataDTO.fromJson(i)).toList();
+        investments?.map((i) => InvestmentsDataDTO.fromJson(i))?.toList();
 
     print("decoded investments: $investmentsList");
 
