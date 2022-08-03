@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+#  scgateway_flutter_plugin: 1.3.2
   scgateway_flutter_plugin:
     path: ../
 #scgateway_flutter_plugin:
@@ -30,6 +31,7 @@ dependencies:
 #  http: ^0.12.0+1
   http: ^0.13.3
   clipboard: ^0.1.3
+  adjust_sdk: ^4.30.0
 #  scgateway_flutter_plugin:
 #    git:
 #      url: https://github.com/smallcase/gw-mob-sdk-flutter

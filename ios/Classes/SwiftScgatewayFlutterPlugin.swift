@@ -513,33 +513,32 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
      //MARK: Mark smallcase archive
      else if(call.method == "markArchive") {
         
-        if let args = call.arguments as? Dictionary<String, Any>,
+        if let args = call.arguments as? Dictionary<String, Any>, let iscid = args["iscid"] as? String {
             
-            let iscid = args["iscid"] as? String {
-                
+            print("-------> ISCID: \(iscid)")
             
             SCGateway.shared.markSmallcaseArchive(iscid: iscid) { (data, error) in
                 
+                print("-------> mark smallcase archive completion: data: \(String(describing: data?.debugDescription)) error: \(error?.localizedDescription)")
+                
                 guard let response = data else {
-                    
                     print(error ?? "No error object")
-                                   
                     return
                 }
                                
-               let smallcasesJson = try! JSONSerialization.jsonObject(with: response, options: [])
-                               
-               let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
-                               
-               let jsonString = String(data: jsonData, encoding: .utf8)
-                               
-               result(jsonString)
+                let smallcasesJson = try! JSONSerialization.jsonObject(with: response, options: [])
+                let jsonData = try! JSONSerialization.data(withJSONObject: smallcasesJson, options: [])
+                let jsonString = String(data: jsonData, encoding: .utf8)
                 
+                print("-------> JSON String: \(String(describing: jsonString))")
+                
+                result(jsonString)
                 return
             }
                 
         } else {
                 result(FlutterError.init(code: "bad args", message: "error at method markArchive", details: nil))
+                return
             }
         }
         
