@@ -8,7 +8,7 @@ class ScgatewayMethodChannelResult(val rawResult: MethodChannel.Result, val acti
         activity.runOnUiThread { rawResult.success(result) }
     }
 
-    override fun error(errorCode: String?, errorMessage: String?, errorDetails: Any?) {
+    override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
         activity.runOnUiThread { rawResult.error(errorCode, errorMessage, errorDetails) }
     }
 

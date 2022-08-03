@@ -8,13 +8,13 @@ class SmallcaseStatsDTO {
 
   final SmallcaseReturns returns;
 
-  final double indexValue;
+  final num indexValue;
 
-  final double unadjustedValue;
+  final num unadjustedValue;
 
   final dynamic divReturns;
 
-  final double lastCloseIndex;
+  final num lastCloseIndex;
 
   final dynamic minInvestAmount;
 

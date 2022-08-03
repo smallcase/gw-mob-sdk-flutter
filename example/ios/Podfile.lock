@@ -1,15 +1,18 @@
 PODS:
+  - Adjust (4.30.0):
+    - Adjust/Core (= 4.30.0)
+  - Adjust/Core (4.30.0)
+  - adjust_sdk (4.30.0):
+    - Adjust (= 4.30.0)
+    - Flutter
   - Flutter (1.0.0)
-  - Mixpanel-swift (3.2.6):
-    - Mixpanel-swift/Complete (= 3.2.6)
-  - Mixpanel-swift/Complete (3.2.6)
-  - SCGateway (3.4.3):
-    - Mixpanel-swift
+  - SCGateway (3.5.3)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 3.4.3)
+    - SCGateway (= 3.5.3)
 
 DEPENDENCIES:
+  - adjust_sdk (from `.symlinks/plugins/adjust_sdk/ios`)
   - Flutter (from `Flutter`)
   - scgateway_flutter_plugin (from `.symlinks/plugins/scgateway_flutter_plugin/ios`)
 
@@ -17,20 +20,23 @@ SPEC REPOS:
   https://github.com/smallcase/cocoapodspecs.git:
     - SCGateway
   trunk:
-    - Mixpanel-swift
+    - Adjust
 
 EXTERNAL SOURCES:
+  adjust_sdk:
+    :path: ".symlinks/plugins/adjust_sdk/ios"
   Flutter:
     :path: Flutter
   scgateway_flutter_plugin:
     :path: ".symlinks/plugins/scgateway_flutter_plugin/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  Mixpanel-swift: ce120e0d51dcb0d0bf5a25e1ee232fe89ad1136b
-  SCGateway: 19a144be4a895040c2393de3870846d514c37b23
-  scgateway_flutter_plugin: 1b329a99f747c57d76b04d043909e31d7691509e
+  Adjust: 6ed5493e91e9a77f6515d94f640bb72506a06b9d
+  adjust_sdk: 69945c1f064fc54294d807e2b5c6bea6c85779bf
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  SCGateway: bda6feca77a30d67ab9954523aa54bfc110227e8
+  scgateway_flutter_plugin: fe23052edd31c6fe2d06461f7e3fbd9d23bcd8ae
 
 PODFILE CHECKSUM: 149ecff69199ac385f452fe049db751eae1736cf
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

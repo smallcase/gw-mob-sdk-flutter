@@ -5,6 +5,8 @@
 .pub/
 .idea/*
 .idea/**
+.idea/workspace.xml
+pubspec.lock
 
 build/
 
@@ -14,3 +16,6 @@ build/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+.node_modules/*
+.node_modules

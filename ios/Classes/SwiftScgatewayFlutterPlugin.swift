@@ -91,18 +91,19 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                         return
                     }
                     
+                    result(
+                        self.getJsonStringResult(
+                            success: true,
+                            data: nil,
+                            errorCode: nil,
+                            errorMessage: nil,
+                            transaction: nil
+                        )
+                    )
+                    
                     print(success)
                 }
-                
-                result(
-                    self.getJsonStringResult(
-                        success: true,
-                        data: nil,
-                        errorCode: nil,
-                        errorMessage: nil,
-                        transaction: nil
-                    )
-                )
+            
             }
         }
         
@@ -179,10 +180,10 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                             switch gatewayResult {
                                 
                             case .success(let response):
-                                print("Transaction: RESPONSE: \(response)")
+                                
                                 switch response {
                                 
-                                    // MARK:- CONNECT
+                                    // MARK: CONNECT
                                     case let .connect(connectTxnResponse):
 
                                     let connectData = Data(connectTxnResponse.utf8)
@@ -192,64 +193,6 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                         if let connectResponseJson = try JSONSerialization.jsonObject(with: connectData, options: []) as? [String: Any] {
                                             
                                             if let userAuthToken = connectResponseJson["smallcaseAuthToken"] as? String {
-                                                print("Initialising SDK with authToken = \(userAuthToken)")
-                                                
-                                                //Initialise gateway if CONNECT was successfull
-                                                SCGateway.shared.initializeGateway(sdkToken: (userAuthToken)) { success, error in
-                                                    
-                                                    print("SDK Initialised = \(success)")
-                                                    
-                                                    if !success {
-                                                        
-                                                        //Gateway initialisation failed
-                                                        
-                                                        print(error ?? "")
-                                                        
-                                                        if let error = error as? TransactionError {
-                                                            
-                                                            //Gateway initialisation failed with TransactionError
-                                                            
-                                                            result(
-                                                                FlutterError.init(
-                                                                    code: (
-                                                                        self?.getJsonStringResult(
-                                                                            success: false,
-                                                                            data: nil,
-                                                                            errorCode: error.rawValue,
-                                                                            errorMessage: error.message,
-                                                                            transaction: "ERROR"
-                                                                        )
-                                                                    )!,
-                                                                    message: nil,
-                                                                    details: nil
-                                                                )
-                                                            )
-                                                            
-                                                            return
-                                                            
-                                                        } else {
-                                                            
-                                                            //Gateway initialisation failed with generic error
-                                                            
-                                                            result(
-                                                                FlutterError.init(
-                                                                    code: (
-                                                                        self?.getJsonStringResult(
-                                                                            success: false,
-                                                                            data: nil,
-                                                                            errorCode: nil,
-                                                                            errorMessage: error.debugDescription,
-                                                                            transaction: "ERROR"
-                                                                        )
-                                                                    )!,
-                                                                    message: nil,
-                                                                    details: nil
-                                                                )
-                                                            )
-                                                        }
-                                                        return
-                                                    }
-                                                }
 
                                                 result(
                                                     self?.getJsonStringResult(
@@ -269,7 +212,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                         print("Failed to convert CONNECT response to JSON: \(error.debugDescription)")
                                     }
                                     
-                                    // MARK:- TRANSACTION
+                                    // MARK: TRANSACTION
                                     case let .transaction(_, transactionData):
 
                                     do {
@@ -298,13 +241,14 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                     
                                     }
                                 
-                                    // MARK:- HOLDINGS_IMPORT
-                                    case .holdingsImport(let smallcaseAuthToken, let broker, _, _):
+                                    // MARK: HOLDINGS_IMPORT
+                                    case .holdingsImport(let smallcaseAuthToken, let broker, _, _, let signup):
 
                                         var holdingsResponse : [String: Any] = [:]
                                         
                                         holdingsResponse["smallcaseAuthToken"] = smallcaseAuthToken
                                         holdingsResponse["broker"] = broker
+                                        holdingsResponse["signup"] = signup
                                         
                                         let jsonData = try! JSONSerialization.data(withJSONObject: holdingsResponse, options: [])
                                         let holdingsResponseJsonString = String(data: jsonData, encoding: .utf8)
@@ -321,8 +265,8 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                         
                                     return
                                     
-                                    // MARK:- SIP_SETUP
-                                    case .sipSetup(let smallcaseAuthToken, let sipDetails, _):
+                                    // MARK: SIP_SETUP
+                                    case .sipSetup(let smallcaseAuthToken, let sipDetails, let transactionId, let signup):
 
                                     do{
                                         let jsonEncoder = JSONEncoder()
@@ -340,6 +284,8 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                             resDict["data"] = sipResponse
                                             resDict["smallcaseAuthToken"] = smallcaseAuthToken
                                             resDict["transaction"] = "SIP_SETUP"
+                                            resDict["transactionId"] = transactionId
+                                            resDict["signup"] = signup
                                             
                                             let jsonData = try! JSONSerialization.data(withJSONObject: resDict, options: [])
                                             let jsonString = String(data: jsonData, encoding: .utf8)
@@ -358,7 +304,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 }
                             
                                 
-                            //MARK:- Transaction Error
+                            //MARK: Transaction Error
                             case .failure(let error):
                                 
                                 print("TRANSACTION ERROR :\(error)")
@@ -368,7 +314,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                         code: (
                                             self?.getJsonStringResult(
                                                 success: false,
-                                                data: nil,
+                                                data: error.data,
                                                 errorCode: error.rawValue,
                                                 errorMessage: error.message,
                                                 transaction: "ERROR"
@@ -659,13 +605,12 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                       result(
                         self.getJsonStringResult(
                             success: false,
-                            data: nil,
+                            data: showOrdersError.userInfo.toJsonString,
                             errorCode: showOrdersError.code,
                             errorMessage: showOrdersError.domain,
                             transaction: nil
                         )
                       )
-//                      self.showPopup(title: "Error", msg: "\(errorPopupString.domain) \(errorPopupString.code)")
                   }
                   
               }
@@ -714,4 +659,23 @@ extension String {
         guard self.hasPrefix(prefix) else { return self }
         return String(self.dropFirst(prefix.count))
     }
+}
+
+extension Dictionary {
+    
+    var toJsonString : String? {
+        
+        do {
+            let jsonObject = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+            
+            return String(bytes: jsonObject, encoding: String.Encoding.utf8)
+            
+        } catch let dictionaryError as NSError {
+            
+            print("Unable to convert dictionary to json String :\(dictionaryError)")
+            
+            return nil
+        }
+    }
+    
 }

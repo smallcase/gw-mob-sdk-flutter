@@ -202,6 +202,9 @@ class Gateway {
   }
 
   static Future<String> markArchive(String iscid) async {
+
+    // String resp = await ScgatewayFlutterPlugin.markSmallcaseArchive(iscid);
+
     return ScgatewayFlutterPlugin.markSmallcaseArchive(iscid);
   }
 
