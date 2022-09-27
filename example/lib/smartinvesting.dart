@@ -1,6 +1,13 @@
 import 'package:http/http.dart' as http;
 import 'gateway.dart';
 
+final _headers = <String, String>{
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+  'Accept': 'application/json',
+  'content-type': 'application/json'
+};
+
 class SmartInvesting {
   final String baseUrl;
   const SmartInvesting.dev() : baseUrl = "https://api.dev.smartinvesting.io/";
@@ -19,20 +26,31 @@ class SmartInvesting {
     }
   }
 
+  Future<String> getPostBackStatus(String transactionId) async {
+    var url = Uri.parse(
+        baseUrl + 'transaction/response' + '?transactionId=$transactionId');
+    final http.Response response = await http.get(
+      url,
+      headers: _headers,
+    );
+    if (response.statusCode == 200) {
+      print("getPostBackStatus: ${response.body}");
+      return response.body;
+    } else {
+      print("response status code: ${response.statusCode}");
+      print(response.body);
+      throw Exception('Failed to get user holdings');
+    }
+  }
+
   Future<String> getUserHoldings(String userId, int version,
       {bool mfEnabled = false}) async {
     var url = Uri.parse(baseUrl +
         'holdings/fetch' +
         '?id=$userId&version=v$version&mfHoldings=$mfEnabled');
-
     final http.Response response = await http.get(
       url,
-      headers: <String, String>{
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-        'Accept': 'application/json',
-        'content-type': 'application/json'
-      },
+      headers: _headers,
     );
 
     if (response.statusCode == 200) {

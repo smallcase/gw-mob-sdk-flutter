@@ -9,10 +9,7 @@ import androidx.annotation.NonNull
 import com.google.gson.Gson
 import com.smallcase.gateway.data.SmallcaseGatewayListeners
 import com.smallcase.gateway.data.SmallcaseLogoutListener
-import com.smallcase.gateway.data.listeners.DataListener
-import com.smallcase.gateway.data.listeners.LeadGenResponseListener
-import com.smallcase.gateway.data.listeners.SmallPlugResponseListener
-import com.smallcase.gateway.data.listeners.TransactionResponseListener
+import com.smallcase.gateway.data.listeners.*
 import com.smallcase.gateway.data.models.*
 import com.smallcase.gateway.data.requests.InitRequest
 import com.smallcase.gateway.portal.SmallcaseGatewaySdk
@@ -38,7 +35,7 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private var replySubmitted = false
 
-    private var txnResult: String? = ""
+    internal var txnResult: String? = ""
 
     private val leadGenMap by lazy {
         HashMap<String, String>()
@@ -143,86 +140,19 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
                 if (transactionId != null) {
                     SmallcaseGatewaySdk.triggerTransaction(activity, transactionId, object : TransactionResponseListener {
-                        override fun onSuccess(transactionResult: TransactionResult) {
+                        override fun onSuccess(transactionResult: TransactionResult) = txnOnSuccessCallback(transactionResult, result)
+                        override fun onError(errorCode: Int, errorMessage: String, data: String?) = txnOnErrorCallback(errorCode, errorMessage, data, result)
+                    })
+                }
+            }
+            "triggerMfTransaction" -> {
 
-                            try {
-                                when (transactionResult.transaction) {
-                                    SmallcaseGatewaySdk.Result.HOLDING_IMPORT -> {
-                                        val holdingRes = JSONObject(transactionResult.data!!)
+                val transactionId: String? = call.argument("transactionId")
 
-                                        val smallcaseAuthToken = holdingRes.getString("smallcaseAuthToken")
-                                        val broker = holdingRes.getString("broker")
-
-                                        val res = JSONObject()
-
-                                        res.put("data", smallcaseAuthToken)
-                                        res.put("broker", broker)
-                                        res.put("success", true)
-                                        res.put("transaction", "HOLDINGS_IMPORT")
-
-                                        result.success(res.toString())
-                                    }
-                                    SmallcaseGatewaySdk.Result.TRANSACTION -> {
-
-                                        val transRes = JSONObject(transactionResult.data!!)
-                                        transRes.put("success", true)
-                                        transRes.put("transaction", "TRANSACTION")
-
-                                        result.success(transRes.toString())
-                                    }
-                                    SmallcaseGatewaySdk.Result.CONNECT -> {
-                                        val res = JSONObject()
-
-                                        try {
-
-                                            res.put("data", transactionResult.data!!)
-                                        } catch (e: Exception) {
-                                            val smallcaseAuthToken = transactionResult.data!!
-
-                                            res.put("data", smallcaseAuthToken)
-                                        }
-
-                                        res.put("success", true)
-                                        res.put("transaction", "CONNECT")
-
-                                        result.success(res.toString())
-                                    }
-                                    SmallcaseGatewaySdk.Result.SIP_SETUP -> {
-
-                                        val transRes = JSONObject(transactionResult.data!!)
-                                        transRes.put("success", true)
-                                        transRes.put("transaction", "SIP_SETUP")
-
-                                        result.success(transRes.toString())
-
-                                    }
-                                    else -> {
-                                        txnResult = transactionResult.data!!
-
-                                        result.success(Gson().toJson(transactionResult).toString())
-                                    }
-                                }
-
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-
-                        }
-
-                        override fun onError(errorCode: Int, errorMessage: String, data: String?) {
-                            Log.d("Debug", "$data")
-
-                            errorCode.toString()
-
-                            txnResult = errorMessage
-
-                            val res = JSONObject()
-                            res.put("errorCode", errorCode)
-                            res.put("errorMessage", errorMessage)
-                            res.put("data", data)
-
-                            result.error(res.toString(), null, null)
-                        }
+                if (transactionId != null) {
+                    SmallcaseGatewaySdk.triggerMfTransaction(activity, transactionId, object : MFHoldingsResponseListener {
+                        override fun onSuccess(transactionResult: TransactionResult) = txnOnSuccessCallback(transactionResult, result)
+                        override fun onError(errorCode: Int, errorMessage: String, data: String?) = txnOnErrorCallback(errorCode, errorMessage, data, result)
                     })
                 }
             }

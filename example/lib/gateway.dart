@@ -107,9 +107,12 @@ class Gateway {
     }
   }
 
-  static Future<String> getTransactionId(
-      String intent, Object orderConfig) async {
-    Map data = {'id': userId, 'intent': intent, 'orderConfig': orderConfig};
+  static Future<String> getTransactionId(String intent, Object orderConfig,
+      {Object assetConfig}) async {
+    Map data = {
+      'id': userId,
+      'intent': intent
+    };
 
     String bodyData = json.encode(data);
 
@@ -168,6 +171,16 @@ class Gateway {
     }
   }
 
+  static Future<String> getMfHoldings(String transactionId) async {
+    try {
+      final response = await smartInvesting.getPostBackStatus(transactionId);
+      return response;
+    } on Exception catch (e) {
+      print("Gateway Exception!! getMfHoldings $transactionId : $e");
+      return null;
+    }
+  }
+
   static Future<String> triggerTransactionWithTransactionId(
       String txnId) async {
     return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId);
@@ -202,7 +215,6 @@ class Gateway {
   }
 
   static Future<String> markArchive(String iscid) async {
-
     // String resp = await ScgatewayFlutterPlugin.markSmallcaseArchive(iscid);
 
     return ScgatewayFlutterPlugin.markSmallcaseArchive(iscid);

@@ -16,6 +16,7 @@ class ScgatewayIntent {
   static const FETCH_FUNDS = "FETCH_FUNDS";
   static const SIP_SETUP = "SIP_SETUP";
   static const CANCEL_AMO = "CANCEL_AMO";
+  static const MF_HOLDINGS_IMPORT = "MF_HOLDINGS_IMPORT";
 }
 
 class SmallplugData {
@@ -121,6 +122,21 @@ class ScgatewayFlutterPlugin {
     try {
       triggerTxnRes = await _channel.invokeMethod(
           'triggerTransaction', <String, dynamic>{"transactionId": txnId});
+    } on PlatformException catch (e) {
+      triggerTxnRes = e.code;
+    }
+
+    print("transaction res: " + triggerTxnRes!);
+
+    return triggerTxnRes;
+  }
+
+  static Future<String?> triggerMfGatewayTransaction(String txnId) async {
+    String? triggerTxnRes;
+
+    try {
+      triggerTxnRes = await _channel.invokeMethod(
+          'triggerMfTransaction', <String, dynamic>{"transactionId": txnId});
     } on PlatformException catch (e) {
       triggerTxnRes = e.code;
     }

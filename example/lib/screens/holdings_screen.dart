@@ -6,6 +6,7 @@ import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
 import 'package:scgateway_flutter_plugin_example/models/UserHoldingsResponse.dart';
 import 'package:scgateway_flutter_plugin_example/screens/UserHoldingsScreen.dart';
+import 'package:scgateway_flutter_plugin_example/screens/mf_holdings_screen.dart';
 
 class HoldingsScreen extends StatefulWidget {
   HoldingsScreen({Key key}) : super(key: key);
@@ -157,6 +158,12 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
               ),
             ],
           ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (ct) => MFHoldingsScreen()));
+              },
+              child: Text("MF Holdings")),
           FittedBox(
             alignment: Alignment.centerLeft,
             fit: BoxFit.none,
