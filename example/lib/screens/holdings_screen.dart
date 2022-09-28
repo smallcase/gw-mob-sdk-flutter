@@ -33,7 +33,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
 
   Future<void> _startHoldingsTransactionFor(
       String intent, Object orderConfig) async {
-    Gateway.getTransactionId(intent, orderConfig)
+    Gateway.getTransactionIdAndStartTxn(intent, orderConfig)
         .then((value) => _showAlertDialog(value));
   }
 

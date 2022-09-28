@@ -41,7 +41,7 @@ class _SstScreenState extends State<SstScreen> {
   }
 
   Future<String> _startSst(String intent, Object orderConfig) async {
-    Gateway.getTransactionId(intent, orderConfig)
+    Gateway.getTransactionIdAndStartTxn(intent, orderConfig)
         .then((value) => _showAlertDialog(value));
   }
 

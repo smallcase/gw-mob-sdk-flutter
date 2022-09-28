@@ -13,17 +13,18 @@ class MFHoldingsScreen extends StatefulWidget {
 class _MFHoldingsScreenState extends State<MFHoldingsScreen> {
   var startDate = "";
   var endDate = "";
-  var txnId = "";
+  var transactionIdForPostback = "";
 
   Future<void> importMfHoldings() async {
     try {
       final intent = ScgatewayIntent.MF_HOLDINGS_IMPORT;
       final assetConfig = {"fromDate": startDate, "toDate": endDate};
-      final txnId = await Gateway.getTransactionId(intent, null,
+      final transactionId = await Gateway.getTransactionId(intent, null,
           assetConfig: assetConfig);
       final res =
-          await ScgatewayFlutterPlugin.triggerMfGatewayTransaction(txnId);
+          await ScgatewayFlutterPlugin.triggerMfGatewayTransaction(transactionId);
       await context.showScDialog("$res");
+      getMfHoldings(transactionId);
     } catch (e) {
       context.showScDialog("$e");
     }
@@ -63,11 +64,11 @@ class _MFHoldingsScreenState extends State<MFHoldingsScreen> {
           ),
           TextField(
             decoration: InputDecoration(hintText: "Enter Transaction Id"),
-            onChanged: (value) => txnId = value,
+            onChanged: (value) => transactionIdForPostback = value,
           ),
           ElevatedButton(
               onPressed: () {
-                getMfHoldings(txnId);
+                getMfHoldings(transactionIdForPostback);
               },
               child: Text("Search Postback"))
         ],

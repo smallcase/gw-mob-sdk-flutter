@@ -28,6 +28,7 @@ class Environment {
 
   /// ```0: Prod, 1: Dev, 2: Staging```
   final int envIndex;
+
   const Environment({
     @required this.envIndex,
     this.gatewayName = "gatewaydemo",
@@ -38,10 +39,12 @@ class Environment {
     this.gatewayName = "gatewaydemo",
   })  : this.envIndex = 0,
         this.gatewayEnvironment = GatewayEnvironment.PRODUCTION;
+
   const Environment.dev({
     this.gatewayName = "gatewaydemo-dev",
   })  : this.envIndex = 1,
         this.gatewayEnvironment = GatewayEnvironment.DEVELOPMENT;
+
   const Environment.staging({
     this.gatewayName = "gatewaydemo-stag",
   })  : this.envIndex = 2,
@@ -109,51 +112,26 @@ class Gateway {
 
   static Future<String> getTransactionId(String intent, Object orderConfig,
       {Object assetConfig}) async {
-    Map data = {
-      'id': userId,
-      'intent': intent
-    };
-
-    String bodyData = json.encode(data);
-
-    // var bodyData = {'id':_userId, 'intent': intent};
-    //
-    // if(orderConfig != null) {
-    //   bodyData = {'id':_userId, 'intent': intent, 'orderConfig': orderConfig};
-    // }
-
-    print("requestBody = $bodyData");
-
-    var url = Uri.parse(baseURL + 'transaction/new');
-    print("getTransactionId url : ${url}");
-
-    final http.Response response = await http.post(
-      url,
-      headers: <String, String>{
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
-        'Accept': 'application/json',
-        'content-type': 'application/json'
-        // 'content-type': 'application/x-www-form-urlencoded'
-      },
-      body: bodyData,
-    );
-
-    if (response.statusCode == 200) {
-      var connectData = jsonDecode(response.body);
-
-      var txnId = connectData["transactionId"] as String;
-
-      print("data: " + connectData.toString());
-
-      transactionId = txnId;
-
-      return ScgatewayFlutterPlugin.triggerGatewayTransaction(txnId);
-    } else {
-      print("response status code: ${response.statusCode}");
-      print(response.body);
-      throw Exception('Failed to get transactionId');
+    try {
+      return await smartInvesting.getTransactionId(userId, intent, orderConfig, assetConfig: assetConfig);
+    } catch(e) {
+      print("Failed to get txnId in gateway.dart : $e");
+      return "";
     }
+  }
+
+  static Future<String> getTransactionIdAndStartTxn(
+      String intent, Object orderConfig,
+      {Object assetConfig, bool isMF = false}) async {
+    final transactionId = await smartInvesting.getTransactionId(
+        userId, intent, orderConfig,
+        assetConfig: assetConfig);
+    if (isMF) {
+      return await ScgatewayFlutterPlugin.triggerMfGatewayTransaction(
+          transactionId);
+    }
+    return await ScgatewayFlutterPlugin.triggerGatewayTransaction(
+        transactionId);
   }
 
   static Future<UserHoldingsResponse> getUserHoldings(
