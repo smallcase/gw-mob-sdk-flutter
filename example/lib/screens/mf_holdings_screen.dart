@@ -15,14 +15,10 @@ class _MFHoldingsScreenState extends State<MFHoldingsScreen> {
   var endDate = "";
   var transactionIdForPostback = "";
 
-  Future<void> importMfHoldings() async {
+  Future<void> importMfHoldings(String transactionId) async {
     try {
-      final intent = ScgatewayIntent.MF_HOLDINGS_IMPORT;
-      final assetConfig = {"fromDate": startDate, "toDate": endDate};
-      final transactionId = await Gateway.getTransactionId(intent, null,
-          assetConfig: assetConfig);
-      final res =
-          await ScgatewayFlutterPlugin.triggerMfGatewayTransaction(transactionId);
+      final res = await ScgatewayFlutterPlugin.triggerMfGatewayTransaction(
+          transactionId);
       await context.showScDialog("$res");
       getMfHoldings(transactionId);
     } catch (e) {
@@ -50,16 +46,27 @@ class _MFHoldingsScreenState extends State<MFHoldingsScreen> {
             children: [
               Flexible(
                 child: TextField(
-                    decoration: InputDecoration(hintText: "Start Date"),
+                    decoration: InputDecoration(hintText: "01-Aug-2022"),
                     onChanged: (value) => startDate = value),
               ),
               Flexible(
                 child: TextField(
-                    decoration: InputDecoration(hintText: "End Date"),
+                    decoration: InputDecoration(hintText: "29-Sep-2022"),
                     onChanged: (value) => endDate = value),
               ),
               ElevatedButton(
-                  onPressed: importMfHoldings, child: Text("Import Holdings"))
+                  onPressed: () async {
+                    final intent = ScgatewayIntent.MF_HOLDINGS_IMPORT;
+                    final assetConfig = {
+                      "fromDate": startDate,
+                      "toDate": endDate
+                    };
+                    final transactionId = await Gateway.getTransactionId(
+                        intent, null,
+                        assetConfig: assetConfig);
+                    importMfHoldings(transactionId);
+                  },
+                  child: Text("Import Holdings"))
             ],
           ),
           TextField(
@@ -70,7 +77,12 @@ class _MFHoldingsScreenState extends State<MFHoldingsScreen> {
               onPressed: () {
                 getMfHoldings(transactionIdForPostback);
               },
-              child: Text("Search Postback"))
+              child: Text("Search Postback")),
+          ElevatedButton(
+              onPressed: () {
+                importMfHoldings(transactionIdForPostback);
+              },
+              child: Text("Trigger MF Transaction"))
         ],
       )),
     );
