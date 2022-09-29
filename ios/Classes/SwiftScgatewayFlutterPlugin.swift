@@ -339,9 +339,10 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
     }
       
       else if (call.method == "triggerMfTransaction") {
-          var transactionId:  String  = args["transactionId"] as? String {
+          if let args = call.arguments as? Dictionary<String, Any>,
+          let transactionId:  String  = args["transactionId"] as? String {
               do {
-                  try ScgatewayFlutterPlugin.shared.triggerMfTransaction(presentingController: currentViewController, transactionId: transactionId) { [weak self]  gatewayResult in
+                  try SCGateway.shared.triggerMfTransaction(presentingController: currentViewController, transactionId: transactionId) { [weak self]  gatewayResult in
                       switch(gatewayResult) {
                       case .success(let response):
                           switch response {
@@ -372,8 +373,11 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                       }
                       
                   }
-              } catch {
-                  
+              } catch SCGatewayError.uninitialized {
+                  print(SCGatewayError.uninitialized.errorMessage)
+              }
+              catch let err {
+                  print(err)
               }
           }
       }
