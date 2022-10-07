@@ -337,6 +337,50 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                     }
             }
     }
+      
+      else if (call.method == "triggerMfTransaction") {
+          if let args = call.arguments as? Dictionary<String, Any>,
+          let transactionId:  String  = args["transactionId"] as? String {
+              do {
+                  try SCGateway.shared.triggerMfTransaction(presentingController: currentViewController, transactionId: transactionId) { [weak self]  gatewayResult in
+                      switch(gatewayResult) {
+                      case .success(let response):
+                          switch response {
+                          case let .mfHoldingsImport(data) :
+                              result(data)
+                          default : return
+                          }
+                      case .failure(let error):
+                          print("MF TRANSACTION ERROR :\(error)")
+                          
+                          result(
+                              FlutterError.init(
+                                  code: (
+                                      self?.getJsonStringResult(
+                                          success: false,
+                                          data: error.data,
+                                          errorCode: error.rawValue,
+                                          errorMessage: error.message,
+                                          transaction: "ERROR"
+                                      )
+                                  )!,
+                                  message: nil,
+                                  details: nil
+                              )
+                          )
+                          
+                          return
+                      }
+                      
+                  }
+              } catch SCGatewayError.uninitialized {
+                  print(SCGatewayError.uninitialized.errorMessage)
+              }
+              catch let err {
+                  print(err)
+              }
+          }
+      }
         
     //MARK: Lead Gen
     else if(call.method == "leadGen") {

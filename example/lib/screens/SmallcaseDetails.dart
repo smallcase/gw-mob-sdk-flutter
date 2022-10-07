@@ -22,7 +22,7 @@ class SmallcaseDetails extends StatelessWidget {
 
   Future<void> _placeSmtOrder(
       String intent, Object orderConfig, BuildContext context) async {
-    Gateway.getTransactionId(intent, orderConfig)
+    Gateway.getTransactionIdAndStartTxn(intent, orderConfig)
         .then((value) => _showAlertDialog(value, context));
   }
 

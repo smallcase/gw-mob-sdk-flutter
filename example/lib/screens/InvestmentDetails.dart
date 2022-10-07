@@ -18,7 +18,7 @@ class InvestmentDetails extends StatelessWidget {
       "iscid": investmentsDataDTO.investmentItem.iscid
     };
 
-    Gateway.getTransactionId(ScgatewayIntent.TRANSACTION, orderConfig)
+    Gateway.getTransactionIdAndStartTxn(ScgatewayIntent.TRANSACTION, orderConfig)
         .then((value) => _showAlertDialog(value, context));
   }
 
@@ -41,7 +41,7 @@ class InvestmentDetails extends StatelessWidget {
 
     print("Initiating SIP SETUP");
 
-    Gateway.getTransactionId(ScgatewayIntent.SIP_SETUP, orderConfig)
+    Gateway.getTransactionIdAndStartTxn(ScgatewayIntent.SIP_SETUP, orderConfig)
         .then((value) => _showAlertDialog(value, context));
   }
 
@@ -50,7 +50,7 @@ class InvestmentDetails extends StatelessWidget {
 
     print("Initiating CANCEL AMO");
 
-    Gateway.getTransactionId(ScgatewayIntent.CANCEL_AMO, orderConfig)
+    Gateway.getTransactionIdAndStartTxn(ScgatewayIntent.CANCEL_AMO, orderConfig)
         .then((value) => _showAlertDialog(value, context));
   }
 

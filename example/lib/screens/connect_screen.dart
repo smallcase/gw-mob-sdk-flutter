@@ -85,7 +85,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   }
 
   Future<void> _getTransactionId(String intent, Object orderConfig) async {
-    Gateway.getTransactionId(intent, orderConfig)
+    Gateway.getTransactionIdAndStartTxn(intent, orderConfig)
         .then((value) => _onUserConnected(value));
   }
 
