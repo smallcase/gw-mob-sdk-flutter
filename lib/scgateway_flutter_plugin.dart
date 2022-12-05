@@ -53,7 +53,7 @@ class ScgatewayFlutterPlugin {
   static const MethodChannel _channel =
       const MethodChannel('scgateway_flutter_plugin');
 
-  static const String _flutterPluginVersion = "1.5.0";
+  static const String _flutterPluginVersion = "2.0.0";
 
   static Future<String?> getSdkVersion() async {
     String? sdkVersion;
