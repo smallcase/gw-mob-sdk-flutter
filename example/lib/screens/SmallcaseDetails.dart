@@ -110,9 +110,9 @@ class SmallcaseDetails extends StatelessWidget {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () => _getSmallcaseNews(context),
-          color: Colors.green,
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           child: const Text('NEWS', style: TextStyle(fontSize: 20)),
         ));
   }
@@ -121,10 +121,9 @@ class SmallcaseDetails extends StatelessWidget {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
-          padding: EdgeInsets.only(top: 10, left: 15, right: 10),
+        child: ElevatedButton(
           onPressed: () {},
-          color: Colors.green,
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green, padding: EdgeInsets.only(top: 10, left: 15, right: 10)),
           child: const Text('HISTORICAL', style: TextStyle(fontSize: 20)),
         ));
   }
@@ -140,8 +139,8 @@ class SmallcaseDetails extends StatelessWidget {
             Text(this.smallcase.stats.minInvestAmount.toString())
           ],
         ),
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _buySmallcase(context),
           child: const Text('BUY', style: TextStyle(fontSize: 20)),
         ),

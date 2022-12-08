@@ -92,7 +92,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: _importHoldings,
           child: const Text('Import Holdings', style: TextStyle(fontSize: 20)),
         ));
@@ -102,7 +102,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: _fetchFunds,
           child: const Text('Fetch Funds', style: TextStyle(fontSize: 20)),
         ));
@@ -112,7 +112,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: _authoriseHoldings,
           child:
               const Text('Authorize Holdings', style: TextStyle(fontSize: 20)),
@@ -123,7 +123,7 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: _getUserHoldings,
           child: const Text('Show Holdings', style: TextStyle(fontSize: 20)),
         ));

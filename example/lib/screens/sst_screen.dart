@@ -102,7 +102,7 @@ class _SstScreenState extends State<SstScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: _placeOrder,
           child: const Text('Place Order', style: TextStyle(fontSize: 20)),
         ));

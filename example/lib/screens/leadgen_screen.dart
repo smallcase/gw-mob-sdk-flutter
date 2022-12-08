@@ -131,7 +131,7 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: _executeLeadGen,
           child: const Text('LEAD GEN', style: TextStyle(fontSize: 20)),
         ));
@@ -141,7 +141,7 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: _logout,
           child: const Text('Logout User', style: TextStyle(fontSize: 20)),
         ));

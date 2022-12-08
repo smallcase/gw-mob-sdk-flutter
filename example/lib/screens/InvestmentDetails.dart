@@ -18,7 +18,8 @@ class InvestmentDetails extends StatelessWidget {
       "iscid": investmentsDataDTO.investmentItem.iscid
     };
 
-    Gateway.getTransactionIdAndStartTxn(ScgatewayIntent.TRANSACTION, orderConfig)
+    Gateway.getTransactionIdAndStartTxn(
+            ScgatewayIntent.TRANSACTION, orderConfig)
         .then((value) => _showAlertDialog(value, context));
   }
 
@@ -131,49 +132,49 @@ class InvestmentDetails extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("repair", context),
           child: const Text('Repair', style: TextStyle(fontSize: 20)),
         ),
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () =>
               _triggerInvestmentAction("investmore".toUpperCase(), context),
           child: const Text('INVEST MORE', style: TextStyle(fontSize: 20)),
         ),
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("manage", context),
           child: const Text('Manage', style: TextStyle(fontSize: 20)),
         ),
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _sipSetup(context),
           child: const Text('SIP SETUP', style: TextStyle(fontSize: 20)),
         ),
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("rebalance", context),
           child: const Text('Rebalance', style: TextStyle(fontSize: 20)),
         ),
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("sip", context),
           child: const Text('SIP Order', style: TextStyle(fontSize: 20)),
         ),
-        RaisedButton(
+        ElevatedButton(
           onPressed: () => _cancelAmo(context),
-          color: Colors.green,
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           child: const Text('Cancel AMO', style: TextStyle(fontSize: 20)),
         ),
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("exit", context),
           child: const Text('Exit', style: TextStyle(fontSize: 20)),
         ),
-        RaisedButton(
-          color: Colors.green,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _markSmallcaseArchive(context),
           child: const Text('Archive', style: TextStyle(fontSize: 20)),
         ),
