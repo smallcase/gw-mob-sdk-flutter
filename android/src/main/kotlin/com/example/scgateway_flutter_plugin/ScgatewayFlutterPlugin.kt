@@ -180,6 +180,30 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     }
                 })
             }
+            "triggerLeadGenWithLoginCta" -> {
+
+                val name: String? = call.argument("name")
+                val email: String? = call.argument("email")
+                val contact: String? = call.argument("contact")
+                val utmParams: HashMap<String, String>? = call.argument("utmParams")
+                val showLoginCta: Boolean? = call.argument("showLoginCta")
+
+                Log.d(TAG, "ctad showLoginCta: $showLoginCta")
+
+                SmallcaseGatewaySdk.triggerLeadGen(
+                 activity = activity,
+                 params = generateMapForLead(name, email, contact),
+                 utmParams = utmParams,
+                 retargeting = null,
+                 showLoginCta = showLoginCta,
+                 leadStatusListener = object : LeadGenResponseListener {
+                     override fun onSuccess(leadResponse: String) {
+                        uiThreadHandler.post {
+                            result.success(leadResponse)
+                        }
+                    }
+                 })
+            }
             "getAllSmallcases" -> {
 
                 val res = JSONObject()

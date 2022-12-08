@@ -12,9 +12,16 @@ class LeadGenScreen extends StatefulWidget {
 
 class _LeadGenScreenState extends State<LeadGenScreen> {
   String _name = "", _email = "", _contact = "", _pincode = "";
+  bool showLoginCta = true;
 
-  Future<void> _executeLeadGen() async {
+  Future<void> _executeLeadGen({bool withLoginCta = false}) async {
     // Gateway.leadGen(_name, _email, _contact, _pincode);
+    if (withLoginCta) {
+      final res = await Gateway.leadGenWithLoginCta(_name, _email, _contact,
+          showLoginCta: showLoginCta);
+      _showAlertDialog(res);
+      return;
+    }
     Gateway.leadGenWithStatus(_name, _email, _contact)
         .then((value) => _showAlertDialog(value));
   }
@@ -185,6 +192,24 @@ class _LeadGenScreenState extends State<LeadGenScreen> {
                 child: btnStartLeadGen(),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Show Login CTA?"),
+                Switch.adaptive(
+                  value: showLoginCta,
+                  onChanged: (value) {
+                    setState(() {
+                      showLoginCta = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            ElevatedButton(
+                onPressed: () => _executeLeadGen(withLoginCta: true),
+                child: const Text('LEAD GEN with LoginCTA',
+                    style: TextStyle(fontSize: 20))),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: FittedBox(

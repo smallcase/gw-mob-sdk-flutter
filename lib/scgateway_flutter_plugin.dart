@@ -179,6 +179,29 @@ class ScgatewayFlutterPlugin {
     return leadGenRes;
   }
 
+  static Future<String?> triggerLeadGenWithLoginCta(
+      String name, String email, String contact,
+      {Map<String, String>? utmParams, bool? showLoginCta}) async {
+    String? leadGenRes;
+
+    try {
+      print("ctad showLoginCta: $showLoginCta");
+      leadGenRes =
+          await _channel.invokeMethod('triggerLeadGenWithLoginCta', <String, dynamic>{
+        "name": name,
+        "email": email,
+        "contact": contact,
+        "utmParams": utmParams ?? <String, String>{},
+        "showLoginCta": showLoginCta
+      });
+    } on PlatformException catch (e) {
+      leadGenRes = e.code;
+    }
+
+    print(leadGenRes);
+    return leadGenRes;
+  }
+
   static Future<String?> getAllSmallcases() async {
     String? fetchSmallcasesRes;
 

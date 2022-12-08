@@ -428,6 +428,32 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                   result(FlutterError.init(code: "bad args", message: "error at method leadGenWithStatus", details: nil))
               }
           }
+
+        //MARK: Lead Gen with loginCTA
+          case "triggerLeadGenWithLoginCta": do {
+              if let args = call.arguments as? Dictionary<String, Any>,
+                 
+                 let name = args["name"] as? String,
+                 let email = args["email"] as? String,
+                 let contact = args["contact"] as? String,
+                 let utmParams = args["utmParams"] as? Dictionary<String, String>,
+                 let showLoginCta = args["showLoginCta"] as? Bool?
+                  {
+
+                    // var utmParams:[String:String] = [:]
+                  
+                  var params:[String:String] = [:]
+                  params["name"] = name
+                  params["email"] = email
+                  params["contact"] = contact
+
+                  SCGateway.shared.triggerLeadGen(presentingController: currentViewController, params: params, utmParams: utmParams, retargeting: false, showLoginCta: showLoginCta ?? false) { leadStatus in
+                      result(leadStatus)
+                  }
+              } else {
+                  result(FlutterError.init(code: "bad args", message: "error at method triggerLeadGenWithLoginCta", details: nil))
+              }
+          }
               
         //MARK: Get All Smallcases
           case "getAllSmallcases": do {

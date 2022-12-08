@@ -174,6 +174,11 @@ class Gateway {
     return ScgatewayFlutterPlugin.leadGenWithStatus(name, email, contact);
   }
 
+  static Future<String> leadGenWithLoginCta(
+      String name, String email, String contact,{Map<String, String> utmParams, bool showLoginCta = true}) async {
+    return ScgatewayFlutterPlugin.triggerLeadGenWithLoginCta(name, email, contact, utmParams: utmParams, showLoginCta: showLoginCta);
+  }
+
   static Future<String> getAllSmallcases() async {
     // var result = ScgatewayFlutterPlugin.getAllSmallcases();
 
