@@ -164,6 +164,11 @@ class _HoldingsScreenState extends State<HoldingsScreen> {
                     MaterialPageRoute(builder: (ct) => MFHoldingsScreen()));
               },
               child: Text("MF Holdings")),
+          ElevatedButton(
+              onPressed: () {
+                _startHoldingsTransactionFor(ScgatewayIntent.TRANSACTION, {"type": "RECONCILIATION"});
+              },
+              child: Text("Reconcile Holdings")),
           FittedBox(
             alignment: Alignment.centerLeft,
             fit: BoxFit.none,
