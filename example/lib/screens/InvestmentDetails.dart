@@ -178,6 +178,11 @@ class InvestmentDetails extends StatelessWidget {
           onPressed: () => _markSmallcaseArchive(context),
           child: const Text('Archive', style: TextStyle(fontSize: 20)),
         ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          onPressed: () => _triggerInvestmentAction("DUMMY", context),
+          child: const Text('Place Dummy Order', style: TextStyle(fontSize: 20)),
+        ),
       ],
     );
   }
