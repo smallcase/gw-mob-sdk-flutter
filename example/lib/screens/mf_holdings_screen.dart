@@ -11,8 +11,8 @@ class MFHoldingsScreen extends StatefulWidget {
 }
 
 class _MFHoldingsScreenState extends State<MFHoldingsScreen> {
+  String notes;
   var startDate = "";
-  var endDate = "";
   var transactionIdForPostback = "";
 
   Future<void> importMfHoldings(String transactionId) async {
@@ -41,6 +41,7 @@ class _MFHoldingsScreenState extends State<MFHoldingsScreen> {
       body: SafeArea(
           child: Column(
         children: [
+          TextField(decoration: InputDecoration(hintText: "Enter Notes"), onChanged: (value) => notes = value),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -49,21 +50,14 @@ class _MFHoldingsScreenState extends State<MFHoldingsScreen> {
                     decoration: InputDecoration(hintText: "01-Aug-2022"),
                     onChanged: (value) => startDate = value),
               ),
-              Flexible(
-                child: TextField(
-                    decoration: InputDecoration(hintText: "29-Sep-2022"),
-                    onChanged: (value) => endDate = value),
-              ),
               ElevatedButton(
                   onPressed: () async {
                     final intent = ScgatewayIntent.MF_HOLDINGS_IMPORT;
-                    final assetConfig = {
-                      "fromDate": startDate,
-                      "toDate": endDate
-                    };
+                    final assetConfig =
+                        startDate.isEmpty ? null : {"fromDate": startDate};
                     final transactionId = await Gateway.getTransactionId(
                         intent, null,
-                        assetConfig: assetConfig);
+                        assetConfig: assetConfig, notes: notes);
                     importMfHoldings(transactionId);
                   },
                   child: Text("Import Holdings"))

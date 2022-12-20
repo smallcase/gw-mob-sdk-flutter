@@ -111,9 +111,9 @@ class Gateway {
   }
 
   static Future<String> getTransactionId(String intent, Object orderConfig,
-      {Object assetConfig}) async {
+      {Object assetConfig, String notes}) async {
     try {
-      return await smartInvesting.getTransactionId(userId, intent, orderConfig, assetConfig: assetConfig);
+      return await smartInvesting.getTransactionId(userId, intent, orderConfig, assetConfig: assetConfig, notes: notes);
     } catch(e) {
       print("Failed to get txnId in gateway.dart : $e");
       return "";
