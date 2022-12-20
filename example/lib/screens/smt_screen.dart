@@ -168,7 +168,7 @@ class _SmtScreenState extends State<SmtScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () => _showSmallcases(context),
           child: const Text('SMALLCASES', style: TextStyle(fontSize: 20)),
         ));
@@ -178,7 +178,7 @@ class _SmtScreenState extends State<SmtScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () => _getUserInvestments(context),
           child: const Text('USER INVESTMENTS', style: TextStyle(fontSize: 20)),
         ));
@@ -188,7 +188,7 @@ class _SmtScreenState extends State<SmtScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () => _getExitedSmallcases(context),
           child:
               const Text('EXITED SMALLCASES', style: TextStyle(fontSize: 20)),
@@ -199,14 +199,14 @@ class _SmtScreenState extends State<SmtScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () => _launchSmallplug(),
           child: const Text('SMALLPLUG', style: TextStyle(fontSize: 20)),
         ));
   }
 
   Widget smallplugWithTargetEndpoint() {
-    // return SizedBox(width: 300, height: 35, child: RaisedButton(
+    // return SizedBox(width: 300, height: 35, child: ElevatedButton(
     //   onPressed: () => _launchSmallplugWithEndpoint(),
     //   child: const Text('SMALLPLUG + Endpoint', style: TextStyle(fontSize: 20)),
     // ));
@@ -230,7 +230,7 @@ class _SmtScreenState extends State<SmtScreen> {
                                     hintText: "Enter Target Endpoint"),
                                 controller: _textEditingController,
                               ),
-                              new FlatButton(
+                              new ElevatedButton(
                                 child: new Text("Go"),
                                 onPressed: () {
                                   setState(() {

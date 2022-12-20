@@ -324,7 +324,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: _initSession,
           child: const Text('Setup', style: TextStyle(fontSize: 20)),
         ));
@@ -334,7 +334,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             _getTransactionId(ScgatewayIntent.CONNECT, null);
           },
@@ -362,7 +362,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                                     hintText: "Enter Transaction Id"),
                                 controller: _textEditingController,
                               ),
-                              new FlatButton(
+                              new ElevatedButton(
                                 child: new Text("Save"),
                                 onPressed: () {
                                   setState(() {
@@ -387,7 +387,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     return SizedBox(
         width: 300,
         height: 35,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             FlutterClipboard.copy(_transactionId).then((result) {
               final snackBar = SnackBar(
@@ -397,7 +397,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                   onPressed: () {},
                 ),
               );
-              Scaffold.of(context).showSnackBar(snackBar);
+              // Scaffold.of(context).showSnackBar(snackBar);
             });
           },
           child:

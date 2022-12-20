@@ -19,3 +19,4 @@ build/
 
 .node_modules/*
 .node_modules
+.idea/workspace.xml

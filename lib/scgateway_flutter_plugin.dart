@@ -53,7 +53,7 @@ class ScgatewayFlutterPlugin {
   static const MethodChannel _channel =
       const MethodChannel('scgateway_flutter_plugin');
 
-  static const String _flutterPluginVersion = "1.5.0";
+  static const String _flutterPluginVersion = "2.0.0";
 
   static Future<String?> getSdkVersion() async {
     String? sdkVersion;
@@ -171,6 +171,29 @@ class ScgatewayFlutterPlugin {
     try {
       leadGenRes = await _channel.invokeMethod('leadGenWithStatus',
           <String, dynamic>{"name": name, "email": email, "contact": contact});
+    } on PlatformException catch (e) {
+      leadGenRes = e.code;
+    }
+
+    print(leadGenRes);
+    return leadGenRes;
+  }
+
+  static Future<String?> triggerLeadGenWithLoginCta(
+      String name, String email, String contact,
+      {Map<String, String>? utmParams, bool? showLoginCta}) async {
+    String? leadGenRes;
+
+    try {
+      print("ctad showLoginCta: $showLoginCta");
+      leadGenRes =
+          await _channel.invokeMethod('triggerLeadGenWithLoginCta', <String, dynamic>{
+        "name": name,
+        "email": email,
+        "contact": contact,
+        "utmParams": utmParams ?? <String, String>{},
+        "showLoginCta": showLoginCta
+      });
     } on PlatformException catch (e) {
       leadGenRes = e.code;
     }

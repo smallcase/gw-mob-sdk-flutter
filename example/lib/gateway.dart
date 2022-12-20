@@ -111,9 +111,9 @@ class Gateway {
   }
 
   static Future<String> getTransactionId(String intent, Object orderConfig,
-      {Object assetConfig}) async {
+      {Object assetConfig, String notes}) async {
     try {
-      return await smartInvesting.getTransactionId(userId, intent, orderConfig, assetConfig: assetConfig);
+      return await smartInvesting.getTransactionId(userId, intent, orderConfig, assetConfig: assetConfig, notes: notes);
     } catch(e) {
       print("Failed to get txnId in gateway.dart : $e");
       return "";
@@ -172,6 +172,11 @@ class Gateway {
   static Future<String> leadGenWithStatus(
       String name, String email, String contact) async {
     return ScgatewayFlutterPlugin.leadGenWithStatus(name, email, contact);
+  }
+
+  static Future<String> leadGenWithLoginCta(
+      String name, String email, String contact,{Map<String, String> utmParams, bool showLoginCta = true}) async {
+    return ScgatewayFlutterPlugin.triggerLeadGenWithLoginCta(name, email, contact, utmParams: utmParams, showLoginCta: showLoginCta);
   }
 
   static Future<String> getAllSmallcases() async {

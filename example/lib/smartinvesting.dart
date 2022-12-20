@@ -33,12 +33,13 @@ class SmartInvesting {
 
   Future<String> getTransactionId(
       String userId, String intent, Object orderConfig,
-      {Object assetConfig}) async {
+      {Object assetConfig, String notes}) async {
     Map data = {
       'id': userId,
       'intent': intent,
       'orderConfig': orderConfig,
-      'assetConfig': assetConfig
+      'assetConfig': assetConfig,
+      'notes': notes
     };
 
     String bodyData = json.encode(data);
