@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'dart:ui';
 import 'package:flutter/services.dart';
 import './color_ext.dart';
-// import './src/constants/pubspec.yaml.g.dart' as plugin_yaml;
 
 enum GatewayEnvironment { PRODUCTION, DEVELOPMENT, STAGING }
 
@@ -53,7 +50,7 @@ class ScgatewayFlutterPlugin {
   static const MethodChannel _channel =
       const MethodChannel('scgateway_flutter_plugin');
 
-  static const String _flutterPluginVersion = "2.0.0";
+  static const String _flutterPluginVersion = "2.0.1";
 
   static Future<String?> getSdkVersion() async {
     String? sdkVersion;
