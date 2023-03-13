@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'dart:ui';
 import 'package:flutter/services.dart';
 import './color_ext.dart';
-// import './src/constants/pubspec.yaml.g.dart' as plugin_yaml;
 
 enum GatewayEnvironment { PRODUCTION, DEVELOPMENT, STAGING }
 
