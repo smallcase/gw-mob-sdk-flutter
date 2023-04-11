@@ -76,7 +76,11 @@ class Gateway {
   static var transactionId = "";
 
   static Future<String> getSessionToken(
-      Environment environment, String idText, bool leprechaun, bool amo) async {
+      Environment environment, String idText, bool leprechaun, bool amo,
+      {String token}) async {
+    if (token != null && token.isNotEmpty) {
+      return ScgatewayFlutterPlugin.initGateway(token);
+    }
     env = environment;
     print("getSessionToken env ${env}");
     smartInvesting = SmartInvesting.fromEnvironment(env);
@@ -113,8 +117,9 @@ class Gateway {
   static Future<String> getTransactionId(String intent, Object orderConfig,
       {Object assetConfig, String notes}) async {
     try {
-      return await smartInvesting.getTransactionId(userId, intent, orderConfig, assetConfig: assetConfig, notes: notes);
-    } catch(e) {
+      return await smartInvesting.getTransactionId(userId, intent, orderConfig,
+          assetConfig: assetConfig, notes: notes);
+    } catch (e) {
       print("Failed to get txnId in gateway.dart : $e");
       return "";
     }
@@ -175,8 +180,11 @@ class Gateway {
   }
 
   static Future<String> leadGenWithLoginCta(
-      String name, String email, String contact,{Map<String, String> utmParams, bool showLoginCta = true}) async {
-    return ScgatewayFlutterPlugin.triggerLeadGenWithLoginCta(name, email, contact, utmParams: utmParams, showLoginCta: showLoginCta);
+      String name, String email, String contact,
+      {Map<String, String> utmParams, bool showLoginCta = true}) async {
+    return ScgatewayFlutterPlugin.triggerLeadGenWithLoginCta(
+        name, email, contact,
+        utmParams: utmParams, showLoginCta: showLoginCta);
   }
 
   static Future<String> getAllSmallcases() async {

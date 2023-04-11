@@ -16,7 +16,7 @@ class SmartInvesting {
   const SmartInvesting.dev() : baseUrl = "https://api.dev.smartinvesting.io/";
 
   const SmartInvesting.staging()
-      : baseUrl = "https://api.stag.smartinvesting.io/";
+      : baseUrl = "https://api-stag.smartinvesting.io/";
 
   const SmartInvesting.prod() : baseUrl = "https://api.smartinvesting.io/";
 

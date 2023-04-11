@@ -26,6 +26,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
   bool _isAmoEnabled = true;
 
   String _gateway = "gatewaydemo";
+  String authToken = null;
 
   String _userIdText = "";
 
@@ -80,7 +81,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
             environment.gatewayName, _leprechaunMode, brokers,
             isAmoenabled: _isAmoEnabled)
         .then((setupResponse) => Gateway.getSessionToken(
-                environment, _userIdText ?? "", _leprechaunMode, _isAmoEnabled)
+                environment, _userIdText ?? "", _leprechaunMode, _isAmoEnabled, token: authToken)
             .then((value) => _showAlertDialog(value)));
   }
 
@@ -429,6 +430,12 @@ class _ConnectScreenState extends State<ConnectScreen> {
               fit: BoxFit.none,
               child: gateway(),
             ),
+            TextField(
+                onChanged: (value) => authToken = value,
+                decoration: InputDecoration(
+                  filled: true,
+                  labelText: 'Enter custom JWT',
+                )),
             FittedBox(
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,
