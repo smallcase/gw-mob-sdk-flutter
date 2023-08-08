@@ -335,9 +335,9 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                           }
                       }
                   }
-                  catch SCGatewayError.uninitialized {
-                      print(SCGatewayError.uninitialized.errorMessage)
-                  }
+//                  catch SCGatewayError.uninitialized {
+//                      print(SCGatewayError.uninitialized.errorMessage)
+//                  }
                   catch let err {
                       print(err)
                   }
@@ -382,9 +382,10 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                           }
                           
                       }
-                  } catch SCGatewayError.uninitialized {
-                      print(SCGatewayError.uninitialized.errorMessage)
                   }
+//                  catch SCGatewayError.uninitialized {
+//                      print(SCGatewayError.uninitialized.errorMessage)
+//                  }
                   catch let err {
                       print(err)
                   }
@@ -685,6 +686,9 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                       }
                   }
               }
+          
+          //MARK: LAMF
+          
               
           default:
               result("Flutter method not implemented on iOS")
@@ -724,31 +728,4 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
         }
     }
         
-}
-
-//MARK: Extensions
-extension String {
-    func deletingPrefix(_ prefix: String) -> String {
-        guard self.hasPrefix(prefix) else { return self }
-        return String(self.dropFirst(prefix.count))
-    }
-}
-
-extension Dictionary {
-    
-    var toJsonString : String? {
-        
-        do {
-            let jsonObject = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
-            
-            return String(bytes: jsonObject, encoding: String.Encoding.utf8)
-            
-        } catch let dictionaryError as NSError {
-            
-            print("Unable to convert dictionary to json String :\(dictionaryError)")
-            
-            return nil
-        }
-    }
-    
 }
