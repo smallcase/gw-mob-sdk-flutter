@@ -16,7 +16,7 @@ public class SCLoansFlutterPlugin: NSObject, FlutterPlugin {
       
     public static func register(with registrar: FlutterPluginRegistrar) {
       let channel = FlutterMethodChannel(name: "scloans_flutter_plugin", binaryMessenger: registrar.messenger())
-      let instance = SwiftScgatewayFlutterPlugin()
+      let instance = SCLoansFlutterPlugin()
       registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
@@ -64,7 +64,7 @@ public class SCLoansFlutterPlugin: NSObject, FlutterPlugin {
                     if let err = error {
                         result(self.convertErrorToJsonString(error: err))
                     } else {
-                        result(success?.data)
+                        result(success?.data ?? "success")
                     }
                 }
         }

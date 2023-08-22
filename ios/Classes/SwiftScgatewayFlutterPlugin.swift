@@ -18,7 +18,12 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "scgateway_flutter_plugin", binaryMessenger: registrar.messenger())
     let instance = SwiftScgatewayFlutterPlugin()
+      
+      let scLoansChannel = FlutterMethodChannel(name: "scloans_flutter_plugin", binaryMessenger: registrar.messenger())
+      let scLoansInstance = SCLoansFlutterPlugin()
+      
     registrar.addMethodCallDelegate(instance, channel: channel)
+      registrar.addMethodCallDelegate(scLoansInstance, channel: scLoansChannel)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
