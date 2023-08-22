@@ -9,6 +9,7 @@ import 'package:clipboard/clipboard.dart';
 
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
+import 'package:scgateway_flutter_plugin_example/lamf/screens/LoansScreen.dart';
 
 class ConnectScreen extends StatefulWidget {
   ConnectScreen({Key key}) : super(key: key);
@@ -406,6 +407,22 @@ class _ConnectScreenState extends State<ConnectScreen> {
         ));
   }
 
+  Widget _navigateToLoansScreen() {
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(
+                    builder: (context) => LoansScreen()
+                ));
+          },
+          child:
+          const Text('Go to Loans Screen', style: TextStyle(fontSize: 20)),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -470,6 +487,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
               alignment: Alignment.center,
               fit: BoxFit.none,
               child: copyTransactionId(),
+            ),
+            FittedBox(
+              alignment: Alignment.center,
+              fit: BoxFit.none,
+              child: _navigateToLoansScreen(),
             )
           ],
         ),

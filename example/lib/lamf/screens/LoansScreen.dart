@@ -102,7 +102,7 @@ class _LoansScreenState extends State<LoansScreen> {
         break;
     }
 
-    SCLoans.setup(environment, gatewayName).then((setupResponse) => _showAlertDialog(setupResponse));
+    SCLoans.setup(environment, gatewayName).then((setupResponse) => _showAlertDialog("success"));
   }
 
   //endregion
