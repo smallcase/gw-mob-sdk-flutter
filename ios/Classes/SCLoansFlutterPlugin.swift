@@ -35,7 +35,7 @@ public class SCLoansFlutterPlugin: NSObject, FlutterPlugin {
             
             var env = SCLoanEnvironment.production
             
-            if let hostEnv = args["gateway"] as? Int {
+            if let hostEnv = args["env"] as? Int {
                 env = SCLoanEnvironment(rawValue: hostEnv) ?? .production
             }
             
