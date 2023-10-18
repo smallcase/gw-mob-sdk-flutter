@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.smallcase.loans.core.external.*
-import com.smallcase.loans.core.internal.SCLoanEnvironment
+import com.smallcase.loans.core.internal.ScLoanEnvironment
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -13,9 +13,9 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import org.json.JSONObject
 
-class SCLoansFlutterPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware {
+class ScLoanFlutterPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware {
 
-    private val TAG: String = "Android_SCLoans"
+    private val TAG: String = "Android_ScLoan"
 
     private lateinit var context: Context
     private lateinit var activity: AppCompatActivity
@@ -26,7 +26,7 @@ class SCLoansFlutterPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, Acti
         this.context = binding.applicationContext
 
         scLoansChannel = MethodChannel(binding.binaryMessenger, "scloans_flutter_plugin")
-        scLoansChannel.setMethodCallHandler(SCLoansFlutterPlugin())
+        scLoansChannel.setMethodCallHandler(ScLoanFlutterPlugin())
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -43,15 +43,15 @@ class SCLoansFlutterPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, Acti
                 val gateway: String? = call.argument("gateway")
 
                 val environment = when (env) {
-                    1 -> SCLoanEnvironment.DEVELOPMENT
-                    2 -> SCLoanEnvironment.STAGING
-                    else -> SCLoanEnvironment.PRODUCTION
+                    1 -> ScLoanEnvironment.DEVELOPMENT
+                    2 -> ScLoanEnvironment.STAGING
+                    else -> ScLoanEnvironment.PRODUCTION
                 }
 
-                SCLoan.setup(
-                    SCLoanConfig(environment = environment, gatewayName = gateway ?: "gatewaydemo"),
-                    listener = object : SCLoanResult {
-                        override fun onFailure(error: SCLoanError) {
+                ScLoan.setup(
+                    ScLoanConfig(environment = environment, gatewayName = gateway ?: "gatewaydemo"),
+                    listener = object : ScLoanResult {
+                        override fun onFailure(error: ScLoanError) {
                             res.put("success", false)
                             res.put("error", error)
 
@@ -59,7 +59,7 @@ class SCLoansFlutterPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, Acti
 
                         }
 
-                        override fun onSuccess(response: SCLoanSuccess) {
+                        override fun onSuccess(response: ScLoanSuccess) {
                             res.put("success", true)
                             res.put("error", null)
                             result.success(res.toString())
@@ -71,15 +71,15 @@ class SCLoansFlutterPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, Acti
             "apply" -> {
                 val interactionToken: String? = call.argument("interactionToken")
 
-                SCLoan.apply(
+                ScLoan.apply(
                     activity,
-                    SCLoanInfo(interactionToken ?: ""),
-                    listener = object : SCLoanResult {
-                        override fun onFailure(error: SCLoanError) {
+                    ScLoanInfo(interactionToken ?: ""),
+                    listener = object : ScLoanResult {
+                        override fun onFailure(error: ScLoanError) {
                             result.error(Gson().toJson(error).toString(), null, null)
                         }
 
-                        override fun onSuccess(response: SCLoanSuccess) {
+                        override fun onSuccess(response: ScLoanSuccess) {
                             result.success(Gson().toJson(response).toString())
                         }
 
@@ -89,15 +89,15 @@ class SCLoansFlutterPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, Acti
             "pay" -> {
                 val interactionToken: String? = call.argument("interactionToken")
 
-                SCLoan.pay(
+                ScLoan.pay(
                     activity,
-                    SCLoanInfo(interactionToken ?: ""),
-                    listener = object : SCLoanResult {
-                        override fun onFailure(error: SCLoanError) {
+                    ScLoanInfo(interactionToken ?: ""),
+                    listener = object : ScLoanResult {
+                        override fun onFailure(error: ScLoanError) {
                             result.error(Gson().toJson(error).toString(), null, null)
                         }
 
-                        override fun onSuccess(response: SCLoanSuccess) {
+                        override fun onSuccess(response: ScLoanSuccess) {
                             result.success(Gson().toJson(response).toString())
                         }
 
@@ -107,15 +107,33 @@ class SCLoansFlutterPlugin: FlutterPlugin, MethodChannel.MethodCallHandler, Acti
             "withdraw" -> {
                 val interactionToken: String? = call.argument("interactionToken")
 
-                SCLoan.withdraw(
+                ScLoan.withdraw(
                     activity,
-                    SCLoanInfo(interactionToken ?: ""),
-                    listener = object : SCLoanResult {
-                        override fun onFailure(error: SCLoanError) {
+                    ScLoanInfo(interactionToken ?: ""),
+                    listener = object : ScLoanResult {
+                        override fun onFailure(error: ScLoanError) {
                             result.error(Gson().toJson(error).toString(), null, null)
                         }
 
-                        override fun onSuccess(response: SCLoanSuccess) {
+                        override fun onSuccess(response: ScLoanSuccess) {
+                            result.success(Gson().toJson(response).toString())
+                        }
+
+                    }
+                )
+            }
+            "service" -> {
+                val interactionToken: String? = call.argument("interactionToken")
+
+                ScLoan.service(
+                    activity,
+                    ScLoanInfo(interactionToken ?: ""),
+                    listener = object : ScLoanResult {
+                        override fun onFailure(error: ScLoanError) {
+                            result.error(Gson().toJson(error).toString(), null, null)
+                        }
+
+                        override fun onSuccess(response: ScLoanSuccess) {
                             result.success(Gson().toJson(response).toString())
                         }
 
