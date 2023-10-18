@@ -1,20 +1,19 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scgateway_flutter_plugin/SCLoans.dart';
+import 'package:scgateway_flutter_plugin/ScLoan.dart';
 
 import '../../gateway.dart';
 
 class LoansScreen extends StatefulWidget {
-  const LoansScreen({Key key}) : super(key: key);
+  const LoansScreen({Key? key}) : super(key: key);
 
   @override
   State<LoansScreen> createState() => _LoansScreenState();
 }
 
 class _LoansScreenState extends State<LoansScreen> {
-
-  int _environmentSelected = 0;
+  int? _environmentSelected = 0;
   Map<int, Widget> _environments = {
     0: Text('Prod'),
     1: Text('Dev'),
@@ -27,7 +26,7 @@ class _LoansScreenState extends State<LoansScreen> {
     return Container(
       width: 200,
       padding: const EdgeInsets.only(left: 20),
-      child: CupertinoSlidingSegmentedControl(
+      child: CupertinoSlidingSegmentedControl<int>(
           groupValue: _environmentSelected,
           children: _environments,
           onValueChanged: (value) {
@@ -39,6 +38,7 @@ class _LoansScreenState extends State<LoansScreen> {
           }),
     );
   }
+
   Widget environmentWidget() {
     return Row(
       children: <Widget>[Text('Environment'), segmentedControl()],
@@ -51,37 +51,23 @@ class _LoansScreenState extends State<LoansScreen> {
   String gatewayName = "gatewaydemo";
 
   Widget gateway() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        SizedBox(height: 50),
-        Text('Gateway '),
-        SizedBox(
-          width: 200,
-          height: 30,
-          child: TextField(
-            decoration: InputDecoration(
-              filled: true,
-              labelText: 'gatewaydemo',
-            ),
-          ),
-        )
-      ],
+    return TextField(
+      decoration: InputDecoration(
+        filled: true,
+        labelText: 'Gateway Name',
+      ),
     );
   }
   //endregion
 
   //region Setup
-  SCLoanEnvironment environment;
+  SCLoanEnvironment? environment;
 
   Widget setup() {
-    return SizedBox(
-        width: 300,
-        height: 35,
-        child: ElevatedButton(
-          onPressed: _setupScLoans,
-          child: const Text('Setup', style: TextStyle(fontSize: 20)),
-        ));
+    return ElevatedButton(
+      onPressed: _setupScLoans,
+      child: const Text('Setup', style: TextStyle(fontSize: 20)),
+    );
   }
 
   Future<void> _setupScLoans() async {
@@ -102,77 +88,66 @@ class _LoansScreenState extends State<LoansScreen> {
         break;
     }
 
-    SCLoans.setup(environment, gatewayName).then((setupResponse) => _showAlertDialog("success"));
+    SCLoans.setup(environment, gatewayName)
+        .then((setupResponse) => _showAlertDialog("success"));
   }
 
   //endregion
 
   //region SCLoans interaction
-  String interactionToken;
+  String? interactionToken;
 
   Widget interactionTokenInput() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        SizedBox(height: 50),
-        Text('Interaction Token '),
-        SizedBox(
-          width: 200,
-          height: 30,
-          child: TextField(
-            onSubmitted: (value) {
-              this.interactionToken = value;
-            },
-            decoration: InputDecoration(
-              filled: true,
-              labelText: '',
-            ),
-          ),
-        )
-      ],
+    return TextField(
+      onChanged: (value) => {
+        this.interactionToken = value
+      },
+      decoration: InputDecoration(
+        filled: true,
+        labelText: 'Interaction Token',
+      ),
     );
   }
 
   Widget _applyForLoan() {
-    return SizedBox(
-        width: 300,
-        height: 35,
-        child: ElevatedButton(
-          onPressed: _apply,
-          child: const Text('Apply', style: TextStyle(fontSize: 20)),
-        ));
+    return ElevatedButton(
+      onPressed: _apply,
+      child: const Text('Apply', style: TextStyle(fontSize: 20)),
+    );
   }
 
   Future<void> _apply() async {
-    SCLoans.apply(this.interactionToken).then((response) => _showAlertDialog(response));
+    SCLoans.apply(this.interactionToken)
+        .then((response) => _showAlertDialog(response));
   }
 
   Widget _payInterestOrPrincipal() {
-    return SizedBox(
-        width: 300,
-        height: 35,
-        child: ElevatedButton(
-          onPressed: _pay,
-          child: const Text('Pay', style: TextStyle(fontSize: 20)),
-        ));
+    return ElevatedButton(
+      onPressed: _pay,
+      child: const Text('Pay', style: TextStyle(fontSize: 20)),
+    );
   }
 
   Future<void> _pay() async {
-    SCLoans.pay(this.interactionToken).then((response) => _showAlertDialog(response));
+    SCLoans.pay(this.interactionToken)
+        .then((response) => _showAlertDialog(response));
   }
 
   Widget _withdrawAmount() {
-    return SizedBox(
-        width: 300,
-        height: 35,
-        child: ElevatedButton(
-          onPressed: _withdraw,
-          child: const Text('Withdraw', style: TextStyle(fontSize: 20)),
-        ));
+    return ElevatedButton(
+      onPressed: _withdraw,
+      child: const Text('Withdraw', style: TextStyle(fontSize: 20)),
+    );
   }
 
   Future<void> _withdraw() async {
-    SCLoans.apply(this.interactionToken).then((response) => _showAlertDialog(response));
+    SCLoans.apply(this.interactionToken)
+        .then((response) => _showAlertDialog(response));
+  }
+
+  Future<void> _service() async {
+    SCLoans.service(this.interactionToken)
+        .then((response) => _showAlertDialog(response));
   }
 
   //endregion
@@ -222,46 +197,29 @@ class _LoansScreenState extends State<LoansScreen> {
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
-          children: <Widget>[
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: environmentWidget(),
-            ),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: gateway(),
-            ),
-            FittedBox(
-              alignment: Alignment.center,
-              fit: BoxFit.none,
-              child: setup(),
-            ),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: interactionTokenInput(),
-            ),
-            FittedBox(
-              alignment: Alignment.center,
-              fit: BoxFit.none,
-              child: _applyForLoan(),
-            ),
-            FittedBox(
-              alignment: Alignment.center,
-              fit: BoxFit.none,
-              child: _payInterestOrPrincipal(),
-            ),
-            FittedBox(
-              alignment: Alignment.center,
-              fit: BoxFit.none,
-              child: _withdrawAmount(),
-            ),
+          children: [
+            Row(children: [
+              Text("Environment"),
+              
+            ],),
+            environmentWidget(),
+            TextField(
+                decoration: InputDecoration(
+              filled: true,
+              labelText: 'Gateway Name',
+            )),
+            setup(),
+            interactionTokenInput(),
+            _applyForLoan(),
+            _payInterestOrPrincipal(),
+            _withdrawAmount(),
+            ElevatedButton(
+              onPressed: _service,
+              child: const Text('Service', style: TextStyle(fontSize: 20)),
+            )
           ],
         ),
       ),
     );
   }
-
 }
