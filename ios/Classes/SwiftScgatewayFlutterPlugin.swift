@@ -20,7 +20,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
     let instance = SwiftScgatewayFlutterPlugin()
       
       let scLoansChannel = FlutterMethodChannel(name: "scloans_flutter_plugin", binaryMessenger: registrar.messenger())
-      let scLoansInstance = SCLoansFlutterPlugin()
+      let scLoansInstance = ScLoanFlutterPlugin()
       
     registrar.addMethodCallDelegate(instance, channel: channel)
       registrar.addMethodCallDelegate(scLoansInstance, channel: scLoansChannel)
