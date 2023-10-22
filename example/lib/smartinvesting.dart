@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'gateway.dart';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'app/global/SIConfigs.dart';
 
 final _headers = <String, String>{
   'Access-Control-Allow-Origin': '*',
@@ -20,11 +21,11 @@ class SmartInvesting {
 
   const SmartInvesting.prod() : baseUrl = "https://api.smartinvesting.io/";
 
-  factory SmartInvesting.fromEnvironment(Environment environment) {
-    switch (environment.envIndex) {
-      case 1:
+  factory SmartInvesting.fromEnvironment(ScGatewayConfig environment) {
+    switch (environment.environment) {
+      case GatewayEnvironment.DEVELOPMENT:
         return SmartInvesting.dev();
-      case 2:
+      case GatewayEnvironment.STAGING:
         return SmartInvesting.staging();
       default:
         return SmartInvesting.prod();
@@ -33,7 +34,7 @@ class SmartInvesting {
 
   Future<String> getTransactionId(
       String userId, String intent, Object orderConfig,
-      {Object assetConfig, String notes}) async {
+      {Object? assetConfig, String? notes}) async {
     Map data = {
       'id': userId,
       'intent': intent,

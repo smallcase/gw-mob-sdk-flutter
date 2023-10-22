@@ -1,12 +1,12 @@
 name: scgateway_flutter_plugin_example
 description: The scgateway_flutter_plugin is used to communicate with the smallcase Gateway SDK.
-version: 2.0.0
+version: 2.2.0
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
 #publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ^3.0.0
 
 dependencies:
   flutter:
@@ -24,12 +24,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
   chopper: ^4.0.0
-  provider: ^5.0.0
   json_annotation: ^4.0.1
   logging: ^1.0.1
 #  http: ^0.12.0+1
   http: ^0.13.3
   clipboard: ^0.1.3
+  hive: ^2.2.3
+  rxdart: ^0.27.7
+  go_router: ^12.0.0
 #  scgateway_flutter_plugin:
 #    git:
 #      url: https://github.com/smallcase/gw-mob-sdk-flutter
