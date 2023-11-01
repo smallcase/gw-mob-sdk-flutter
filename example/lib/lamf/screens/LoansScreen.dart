@@ -6,14 +6,14 @@ import 'package:scgateway_flutter_plugin/ScLoan.dart';
 import '../../gateway.dart';
 
 class LoansScreen extends StatefulWidget {
-  const LoansScreen({Key? key}) : super(key: key);
+  const LoansScreen({Key key}) : super(key: key);
 
   @override
   State<LoansScreen> createState() => _LoansScreenState();
 }
 
 class _LoansScreenState extends State<LoansScreen> {
-  int? _environmentSelected = 0;
+  int _environmentSelected = 0;
   Map<int, Widget> _environments = {
     0: Text('Prod'),
     1: Text('Dev'),
@@ -61,7 +61,7 @@ class _LoansScreenState extends State<LoansScreen> {
   //endregion
 
   //region Setup
-  SCLoanEnvironment? environment;
+  SCLoanEnvironment environment;
 
   Widget setup() {
     return ElevatedButton(
@@ -95,7 +95,7 @@ class _LoansScreenState extends State<LoansScreen> {
   //endregion
 
   //region SCLoans interaction
-  String? interactionToken;
+  String interactionToken;
 
   Widget interactionTokenInput() {
     return TextField(
