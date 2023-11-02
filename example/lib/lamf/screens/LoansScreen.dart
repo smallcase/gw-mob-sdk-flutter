@@ -99,9 +99,7 @@ class _LoansScreenState extends State<LoansScreen> {
 
   Widget interactionTokenInput() {
     return TextField(
-      onChanged: (value) => {
-        this.interactionToken = value
-      },
+      onChanged: (value) => {this.interactionToken = value},
       decoration: InputDecoration(
         filled: true,
         labelText: 'Interaction Token',
@@ -198,10 +196,11 @@ class _LoansScreenState extends State<LoansScreen> {
         child: ListView(
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
           children: [
-            Row(children: [
-              Text("Environment"),
-              
-            ],),
+            Row(
+              children: [
+                Text("Environment"),
+              ],
+            ),
             environmentWidget(),
             TextField(
                 decoration: InputDecoration(
