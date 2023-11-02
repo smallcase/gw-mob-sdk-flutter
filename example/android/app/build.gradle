@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '72'
+    flutterVersionCode = '73'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '2.1.1'
+    flutterVersionName = '2.2.0'
 }
 
 apply plugin: 'com.android.application'
@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -58,6 +58,15 @@ flutter {
     source '../..'
 }
 
+repositories {
+    maven {
+        url "https://artifactory.smallcase.com/SCGateway"
+        credentials {
+            username "flutter_plugin_user"
+            password "mobile@smallcase.com"
+        }
+    }
+}
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

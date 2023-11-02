@@ -9,6 +9,7 @@ import 'package:clipboard/clipboard.dart';
 
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/gateway.dart';
+import 'package:scgateway_flutter_plugin_example/lamf/screens/LoansScreen.dart';
 
 class ConnectScreen extends StatefulWidget {
   ConnectScreen({Key key}) : super(key: key);
@@ -81,7 +82,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
             environment.gatewayName, _leprechaunMode, brokers,
             isAmoenabled: _isAmoEnabled)
         .then((setupResponse) => Gateway.getSessionToken(
-                environment, _userIdText ?? "", _leprechaunMode, _isAmoEnabled, token: authToken)
+                environment, _userIdText ?? "", _leprechaunMode, _isAmoEnabled,
+                token: authToken)
             .then((value) => _showAlertDialog(value)));
   }
 
@@ -228,22 +230,22 @@ class _ConnectScreenState extends State<ConnectScreen> {
   }
 
   Widget gateway() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        SizedBox(height: 50),
-        Text('Gateway '),
-        SizedBox(
-          width: 200,
-          height: 30,
-          child: TextField(
-            decoration: InputDecoration(
-              filled: true,
-              labelText: 'gatewaydemo',
-            ),
-          ),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text('Gateway '),
+          Flexible(
+              flex: 1,
+              child: TextField(
+                decoration: InputDecoration(
+                  filled: true,
+                  labelText: 'gatewaydemo',
+                ),
+              ))
+        ],
+      ),
     );
   }
 
@@ -256,28 +258,30 @@ class _ConnectScreenState extends State<ConnectScreen> {
   }
 
   Widget userId() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text('Id '),
-        SizedBox(
-          width: 200,
-          height: 30,
-          child: TextField(
-            decoration: InputDecoration(
-              filled: true,
-              labelText: getUserIdText(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text('Id '),
+          Expanded(
+            flex: 1,
+            child: TextField(
+              decoration: InputDecoration(
+                filled: true,
+                labelText: getUserIdText(),
+              ),
+              onChanged: (id) {
+                setState(() {
+                  _userIdText = id;
+                  PageStorage.of(context)
+                      ?.writeState(context, id, identifier: ValueKey('test'));
+                });
+              },
             ),
-            onChanged: (id) {
-              setState(() {
-                _userIdText = id;
-                PageStorage.of(context)
-                    ?.writeState(context, id, identifier: ValueKey('test'));
-              });
-            },
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
@@ -406,6 +410,20 @@ class _ConnectScreenState extends State<ConnectScreen> {
         ));
   }
 
+  Widget _navigateToLoansScreen() {
+    return SizedBox(
+        width: 300,
+        height: 35,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoansScreen()));
+          },
+          child:
+              const Text('Go to Loans Screen', style: TextStyle(fontSize: 20)),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -425,22 +443,14 @@ class _ConnectScreenState extends State<ConnectScreen> {
               fit: BoxFit.none,
               child: environmentWidget(),
             ),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: gateway(),
-            ),
+            gateway(),
             TextField(
                 onChanged: (value) => authToken = value,
                 decoration: InputDecoration(
                   filled: true,
                   labelText: 'Enter custom JWT',
                 )),
-            FittedBox(
-              alignment: Alignment.centerLeft,
-              fit: BoxFit.none,
-              child: userId(),
-            ),
+            userId(),
             FittedBox(
               alignment: Alignment.centerLeft,
               fit: BoxFit.none,
@@ -470,6 +480,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
               alignment: Alignment.center,
               fit: BoxFit.none,
               child: copyTransactionId(),
+            ),
+            FittedBox(
+              alignment: Alignment.center,
+              fit: BoxFit.none,
+              child: _navigateToLoansScreen(),
             )
           ],
         ),
