@@ -18,7 +18,6 @@ class ScLoanFlutterPlugin(val getActivity: () -> Activity): MethodChannel.Method
         when (call.method) {
             "setup" -> {
 
-                val res = JSONObject()
                 val env: Int? = call.argument("env")
                 val gateway: String? = call.argument("gateway")
 
@@ -32,17 +31,11 @@ class ScLoanFlutterPlugin(val getActivity: () -> Activity): MethodChannel.Method
                     ScLoanConfig(environment = environment, gatewayName = gateway ?: "gatewaydemo"),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
-                            res.put("success", false)
-                            res.put("error", error)
-
-                            result.error(res.toString(), null, null)
-
+                            result.error(error.toString(), null, null)
                         }
 
                         override fun onSuccess(response: ScLoanSuccess) {
-                            res.put("success", true)
-                            res.put("error", null)
-                            result.success(res.toString())
+                            result.success(response.toString())
                         }
 
                     }
