@@ -24,7 +24,6 @@ rootProject.allprojects {
             }
         }
         maven {url "https://artifactory.smallcase.com/artifactory/SCGateway"}
-        maven {url "https://artifactory.smallcase.com/artifactory/SCLoans"}
         google()
         jcenter()
     }
@@ -57,5 +56,5 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'com.smallcase.gateway:sdk:3.12.0'
+    implementation "com.smallcase.gateway:sdk:3.12.1"
 }
