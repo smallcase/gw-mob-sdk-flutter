@@ -1,7 +1,7 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scgateway_flutter_plugin/ScLoan.dart';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 
 
 class LoansScreen extends StatefulWidget {
@@ -94,8 +94,12 @@ class _LoansScreenState extends State<LoansScreen> {
     final envMeta = getEnvMeta();
     environment = envMeta["env"];
     print("_setupScLoans $gatewayName");
-    ScLoan.setup(environment, gatewayName)
-        .then((setupResponse) => _showAlertDialog("$setupResponse"));
+    try {
+      final response = await ScLoan.setup(ScLoanConfig(environment, gatewayName));
+      _showAlertDialog(response);
+    } on ScLoanError catch (e) {
+     _showAlertDialog(e);
+    }
   }
 
   //endregion
@@ -105,6 +109,7 @@ class _LoansScreenState extends State<LoansScreen> {
 
   Widget interactionTokenInput() {
     return TextField(
+      enableInteractiveSelection: true,
       onChanged: (value) => {this.interactionToken = value},
       decoration: InputDecoration(
         filled: true,
@@ -122,13 +127,11 @@ class _LoansScreenState extends State<LoansScreen> {
 
   Future<void> _apply() async {
     try {
-      final String response = await ScLoan.apply(this.interactionToken);
-      // Handle the response
-    } catch (e) {
-      // Handle exception
+      final response = await ScLoan.apply(ScLoanInfo(interactionToken));
+      _showAlertDialog(response);
+    } on ScLoanError catch (e) {
+     _showAlertDialog(e);
     }
-    ScLoan.apply(this.interactionToken)
-        .then((response) => _showAlertDialog(response));
   }
 
   Widget _payInterestOrPrincipal() {
@@ -139,8 +142,12 @@ class _LoansScreenState extends State<LoansScreen> {
   }
 
   Future<void> _pay() async {
-    ScLoan.pay(this.interactionToken)
-        .then((response) => _showAlertDialog(response));
+    try {
+      final response = await ScLoan.pay(ScLoanInfo(interactionToken));
+      _showAlertDialog(response);
+    } on ScLoanError catch (e) {
+     _showAlertDialog(e);
+    }
   }
 
   Widget _withdrawAmount() {
@@ -151,20 +158,28 @@ class _LoansScreenState extends State<LoansScreen> {
   }
 
   Future<void> _withdraw() async {
-    ScLoan.withdraw(this.interactionToken)
-        .then((response) => _showAlertDialog(response));
+    try {
+      final response = await ScLoan.withdraw(ScLoanInfo(interactionToken));
+      _showAlertDialog(response);
+    } on ScLoanError catch (e) {
+     _showAlertDialog(e);
+    }
   }
 
   Future<void> _service() async {
-    ScLoan.service(this.interactionToken)
-        .then((response) => _showAlertDialog(response));
+    try {
+      final response = await ScLoan.service(ScLoanInfo(interactionToken));
+      _showAlertDialog(response);
+    } on ScLoanError catch (e) {
+     _showAlertDialog(e);
+    }
   }
 
   //endregion
 
   //region Utility
 
-  Future<void> _showAlertDialog(String message) async {
+  Future<void> _showAlertDialog(ScLoanResponse message) async {
     // FlutterClipboard.copy(message);
 
     return showDialog<void>(
@@ -175,7 +190,7 @@ class _LoansScreenState extends State<LoansScreen> {
           title: Text('SDK response'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[Text(message)],
+              children: <Widget>[Text("$message")],
             ),
           ),
           actions: <Widget>[
@@ -187,7 +202,7 @@ class _LoansScreenState extends State<LoansScreen> {
             ),
             TextButton(
                 onPressed: () {
-                  FlutterClipboard.copy(message);
+                  FlutterClipboard.copy(message.toString());
                 },
                 child: Text('Copy'))
           ],
