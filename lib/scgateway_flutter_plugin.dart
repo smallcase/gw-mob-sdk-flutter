@@ -3,6 +3,9 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import './color_ext.dart';
+export './src/loans/ScLoan.dart';
+export './src/loans/ScLoanResponses.dart';
+export './src/loans/ScLoanProps.dart';
 
 enum GatewayEnvironment { PRODUCTION, DEVELOPMENT, STAGING }
 
@@ -184,8 +187,8 @@ class ScgatewayFlutterPlugin {
 
     try {
       print("ctad showLoginCta: $showLoginCta");
-      leadGenRes =
-          await _channel.invokeMethod('triggerLeadGenWithLoginCta', <String, dynamic>{
+      leadGenRes = await _channel
+          .invokeMethod('triggerLeadGenWithLoginCta', <String, dynamic>{
         "name": name,
         "email": email,
         "contact": contact,
