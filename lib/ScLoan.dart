@@ -1,13 +1,13 @@
 import 'package:flutter/services.dart';
 
-enum SCLoanEnvironment { PRODUCTION, DEVELOPMENT, STAGING }
+enum ScLoanEnvironment { DEVELOPMENT, PRODUCTION, STAGING }
 
-class SCLoans {
+class ScLoan {
   static const MethodChannel _channel =
       const MethodChannel('scloans_flutter_plugin');
 
   static Future<String?> setup(
-    SCLoanEnvironment environment,
+    ScLoanEnvironment environment,
     String gateway,
   ) async {
     String? setupResponse;

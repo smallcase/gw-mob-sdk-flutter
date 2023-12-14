@@ -22,7 +22,7 @@ class ScLoanFlutterPlugin(val getActivity: () -> Activity): MethodChannel.Method
                 val gateway: String? = call.argument("gateway")
 
                 val environment = when (env) {
-                    1 -> ScLoanEnvironment.DEVELOPMENT
+                    0 -> ScLoanEnvironment.DEVELOPMENT
                     2 -> ScLoanEnvironment.STAGING
                     else -> ScLoanEnvironment.PRODUCTION
                 }
