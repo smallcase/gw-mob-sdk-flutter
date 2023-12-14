@@ -136,12 +136,12 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
         
         var errorDict : [String: Any?] = [
             "isSuccess": error.isSuccess,
-            "errorCode": error.errorCode,
-            "errorMessage": error.errorMessage,
+            "code": error.errorCode,
+            "message": error.errorMessage,
         ]
         
         if let errorData = error.data {
-            errorDict["data"] = errorData.toDictionary
+            errorDict["data"] = errorData
         }
         
         var flutterError = FlutterError(code: String(error.errorCode), message: error.errorMessage, details: errorDict.toJsonString)

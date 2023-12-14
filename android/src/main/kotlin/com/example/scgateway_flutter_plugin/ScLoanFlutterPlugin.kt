@@ -31,7 +31,7 @@ class ScLoanFlutterPlugin(val getActivity: () -> Activity): MethodChannel.Method
                     ScLoanConfig(environment = environment, gatewayName = gateway ?: "gatewaydemo"),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
-                            result.error(error.toString(), null, null)
+                            result.error(error.code.toString(), error.message, error.toString())
                         }
 
                         override fun onSuccess(response: ScLoanSuccess) {
@@ -49,7 +49,7 @@ class ScLoanFlutterPlugin(val getActivity: () -> Activity): MethodChannel.Method
                     ScLoanInfo(interactionToken ?: ""),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
-                            result.error(error.toString(), null, null)
+                            result.error(error.code.toString(), error.message, error.toString())
                         }
 
                         override fun onSuccess(response: ScLoanSuccess) {
@@ -67,7 +67,7 @@ class ScLoanFlutterPlugin(val getActivity: () -> Activity): MethodChannel.Method
                     ScLoanInfo(interactionToken ?: ""),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
-                            result.error(error.toString(), null, null)
+                            result.error(error.code.toString(), error.message, error.toString())
                         }
 
                         override fun onSuccess(response: ScLoanSuccess) {
@@ -85,7 +85,7 @@ class ScLoanFlutterPlugin(val getActivity: () -> Activity): MethodChannel.Method
                     ScLoanInfo(interactionToken ?: ""),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
-                            result.error(error.toString(), null, null)
+                            result.error(error.code.toString(), error.message, error.toString())
                         }
 
                         override fun onSuccess(response: ScLoanSuccess) {
@@ -103,7 +103,7 @@ class ScLoanFlutterPlugin(val getActivity: () -> Activity): MethodChannel.Method
                     ScLoanInfo(interactionToken ?: ""),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
-                            result.error(error.toString(), null, null)
+                            result.error(error.code.toString(), error.message, error.toString())
                         }
 
                         override fun onSuccess(response: ScLoanSuccess) {
