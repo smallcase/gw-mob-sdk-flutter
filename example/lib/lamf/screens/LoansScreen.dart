@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/ScLoan.dart';
 
-import '../../gateway.dart';
 
 class LoansScreen extends StatefulWidget {
   const LoansScreen({Key key}) : super(key: key);
@@ -20,6 +19,26 @@ class _LoansScreenState extends State<LoansScreen> {
     2: Text('Staging')
   };
 
+  Map<dynamic, dynamic> getEnvMeta() {
+    final meta = {};
+    switch (_environmentSelected) {
+      case 1:
+        meta["env"] = ScLoanEnvironment.DEVELOPMENT;
+        meta["gateway"] = "gatewaydemo-dev";
+        break;
+
+      case 2:
+        meta["env"] = ScLoanEnvironment.STAGING;
+        meta["gateway"] = "gatewaydemo-stag";
+        break;
+
+      default:
+        meta["env"] = ScLoanEnvironment.PRODUCTION;
+        meta["gateway"] = "gatewaydemo";
+        break;
+    }
+    return meta;
+  }
   //region Environment Widget
 
   Widget segmentedControl() {
@@ -32,6 +51,7 @@ class _LoansScreenState extends State<LoansScreen> {
           onValueChanged: (value) {
             setState(() {
               _environmentSelected = value;
+              gatewayName = getEnvMeta()["gateway"];
               PageStorage.of(context)?.writeState(context, value,
                   identifier: ValueKey('selectedEnv'));
             });
@@ -52,16 +72,16 @@ class _LoansScreenState extends State<LoansScreen> {
 
   Widget gateway() {
     return TextField(
-      decoration: InputDecoration(
-        filled: true,
-        labelText: 'Gateway Name',
-      ),
-    );
+        decoration: InputDecoration(
+          filled: true,
+          labelText: 'Gateway Name',
+        ),
+        onChanged: (value) => gatewayName = value);
   }
   //endregion
 
   //region Setup
-  SCLoanEnvironment environment;
+  ScLoanEnvironment environment;
 
   Widget setup() {
     return ElevatedButton(
@@ -71,24 +91,10 @@ class _LoansScreenState extends State<LoansScreen> {
   }
 
   Future<void> _setupScLoans() async {
-    switch (_environmentSelected) {
-      case 1:
-        environment = SCLoanEnvironment.DEVELOPMENT;
-        gatewayName = "gatewaydemo-dev";
-        break;
-
-      case 2:
-        environment = SCLoanEnvironment.STAGING;
-        gatewayName = "gatewaydemo-stag";
-        break;
-
-      default:
-        environment = SCLoanEnvironment.PRODUCTION;
-        gatewayName = "gatewaydemo";
-        break;
-    }
-
-    SCLoans.setup(environment, gatewayName)
+    final envMeta = getEnvMeta();
+    environment = envMeta["env"];
+    print("_setupScLoans $gatewayName");
+    ScLoan.setup(environment, gatewayName)
         .then((setupResponse) => _showAlertDialog("$setupResponse"));
   }
 
@@ -115,7 +121,13 @@ class _LoansScreenState extends State<LoansScreen> {
   }
 
   Future<void> _apply() async {
-    SCLoans.apply(this.interactionToken)
+    try {
+      final String response = await ScLoan.apply(this.interactionToken);
+      // Handle the response
+    } catch (e) {
+      // Handle exception
+    }
+    ScLoan.apply(this.interactionToken)
         .then((response) => _showAlertDialog(response));
   }
 
@@ -127,7 +139,7 @@ class _LoansScreenState extends State<LoansScreen> {
   }
 
   Future<void> _pay() async {
-    SCLoans.pay(this.interactionToken)
+    ScLoan.pay(this.interactionToken)
         .then((response) => _showAlertDialog(response));
   }
 
@@ -139,12 +151,12 @@ class _LoansScreenState extends State<LoansScreen> {
   }
 
   Future<void> _withdraw() async {
-    SCLoans.apply(this.interactionToken)
+    ScLoan.withdraw(this.interactionToken)
         .then((response) => _showAlertDialog(response));
   }
 
   Future<void> _service() async {
-    SCLoans.service(this.interactionToken)
+    ScLoan.service(this.interactionToken)
         .then((response) => _showAlertDialog(response));
   }
 
@@ -203,10 +215,11 @@ class _LoansScreenState extends State<LoansScreen> {
             ),
             environmentWidget(),
             TextField(
+                onChanged: (value) => gatewayName = value,
                 decoration: InputDecoration(
-              filled: true,
-              labelText: 'Gateway Name',
-            )),
+                  filled: true,
+                  labelText: 'Gateway Name',
+                )),
             setup(),
             interactionTokenInput(),
             _applyForLoan(),
