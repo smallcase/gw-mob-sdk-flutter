@@ -23,6 +23,13 @@ rootProject.allprojects {
                 password "mobile@smallcase.com"
             }
         }
+        maven {
+            url "https://artifactory.smallcase.com/artifactory/SCGateway-internal"
+            credentials {
+                username "flutter_plugin_user"
+                password "mobile@smallcase.com"
+            }
+        }
         maven {url "https://artifactory.smallcase.com/artifactory/SCGateway"}
         google()
         jcenter()
@@ -56,5 +63,5 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "com.smallcase.gateway:sdk:3.12.1"
+    implementation "com.smallcase.gateway:sdk:3.12.2-internal-release-1"
 }
