@@ -7,6 +7,7 @@ class ScgatewayMethodChannelResult(val rawResult: MethodChannel.Result, val acti
     private var isResponseSubmitted = false
 
     override fun success(result: Any?) {
+        if (isResponseSubmitted) return
         activity.runOnUiThread { 
             rawResult.success(result) 
             isResponseSubmitted = true
@@ -14,6 +15,7 @@ class ScgatewayMethodChannelResult(val rawResult: MethodChannel.Result, val acti
     }
 
     override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+        if (isResponseSubmitted) return
         activity.runOnUiThread { 
             rawResult.error(errorCode, errorMessage, errorDetails)
             isResponseSubmitted = true
@@ -21,6 +23,7 @@ class ScgatewayMethodChannelResult(val rawResult: MethodChannel.Result, val acti
     }
 
     override fun notImplemented() {
+        if (isResponseSubmitted) return
         activity.runOnUiThread {
             rawResult.notImplemented()
             isResponseSubmitted = true

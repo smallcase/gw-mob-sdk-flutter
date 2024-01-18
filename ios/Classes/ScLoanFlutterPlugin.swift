@@ -159,7 +159,7 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
         ]
         
         if let data = res.data {
-            successDict["data"] = data.toDictionary
+            successDict["data"] = data
         }
         
         return successDict.toJsonString
