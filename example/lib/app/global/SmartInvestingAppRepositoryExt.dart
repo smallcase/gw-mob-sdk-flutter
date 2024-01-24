@@ -2,4 +2,5 @@ import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRep
 
 extension on SmartInvestingAppRepository {
   
+  
 }
