@@ -3,13 +3,13 @@ PODS:
   - Mixpanel-swift (3.3.0):
     - Mixpanel-swift/Complete (= 3.3.0)
   - Mixpanel-swift/Complete (3.3.0)
-  - SCGateway (3.11.0):
+  - SCGateway (3.11.2):
     - Mixpanel-swift (= 3.3.0)
-    - SCLoans (= 2.0.0)
+    - SCLoans (= 2.0.1)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 3.11.0)
-  - SCLoans (2.0.0)
+    - SCGateway (= 3.11.2)
+  - SCLoans (2.0.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -30,10 +30,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   Mixpanel-swift: 6ffe368bcfc3b538f540f31372bc798afd90c1ad
-  SCGateway: 4dab1008f8407e6252fe32fe1dc921ca41a8ff1e
-  scgateway_flutter_plugin: e4c9663dd3954635214ef7e482e70b93a19a2939
-  SCLoans: 638d344210649e0dc00e1879eb76f1309a21b703
+  SCGateway: 2e7b3d365627c6d31c7575aa6a91af7e51b502d4
+  scgateway_flutter_plugin: bfa753856d3496e095211dafd571a03f2cfee63f
+  SCLoans: 9ddfa93d171f244323ce9b804735e792d54554a9
 
-PODFILE CHECKSUM: 149ecff69199ac385f452fe049db751eae1736cf
+PODFILE CHECKSUM: 918bca6121f3013108a959dfd05236cf8be5ddf8
 
 COCOAPODS: 1.13.0

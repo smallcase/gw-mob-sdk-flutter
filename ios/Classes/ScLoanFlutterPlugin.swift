@@ -38,14 +38,14 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
             if let hostEnv = args["env"] as? Int {
                 env = SCLoanEnvironment(rawValue: hostEnv) ?? .production
             }
-            
-            ScLoan.instance.setup(
+
+                        ScLoan.instance.setup(
                 config: ScLoanConfig(gatewayName: gateway, environment: env)) { success, error in
                     
                     if let err = error {
-                        result(self.convertErrorToJsonString(error: err))
+                        result(self.convertErrorToFlutterError(error: err))
                     } else {
-                        result(success?.data)
+                        result(self.convertSuccessToJsonString(success: success))
                     }
                 }
         }
@@ -62,9 +62,9 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
                 loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
                     
                     if let err = error {
-                        result(self.convertErrorToJsonString(error: err))
+                        result(self.convertErrorToFlutterError(error: err))
                     } else {
-                        result(success?.data ?? "success")
+                        result(self.convertSuccessToJsonString(success: success))
                     }
                 }
         }
@@ -81,9 +81,9 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
                 loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
                     
                     if let err = error {
-                        result(self.convertErrorToJsonString(error: err))
+                        result(self.convertErrorToFlutterError(error: err))
                     } else {
-                        result(success?.data)
+                        result(self.convertSuccessToJsonString(success: success))
                     }
                 }
         }
@@ -100,9 +100,9 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
                 loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
                     
                     if let err = error {
-                        result(self.convertErrorToJsonString(error: err))
+                        result(self.convertErrorToFlutterError(error: err))
                     } else {
-                        result(success?.data)
+                        result(self.convertSuccessToJsonString(success: success))
                     }
                 }
         }
@@ -119,9 +119,9 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
                 loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
                     
                     if let err = error {
-                        result(self.convertErrorToJsonString(error: err))
+                        result(self.convertErrorToFlutterError(error: err))
                     } else {
-                        result(success?.data)
+                        result(self.convertSuccessToJsonString(success: success))
                     }
                 }
         }
@@ -131,19 +131,38 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
         }
     }
     
-    private func convertErrorToJsonString(error: ScLoanError) -> String? {
+    // This conversion is vital because only by passing a FlutterError object to the result:FlutterResult call will the error be thrown in the catch block on the dart side
+    private func convertErrorToFlutterError(error: ScLoanError) -> FlutterError {
         
         var errorDict : [String: Any?] = [
             "isSuccess": error.isSuccess,
-            "errorCode": error.errorCode,
-            "errorMessage": error.errorMessage,
+            "code": error.errorCode,
+            "message": error.errorMessage,
         ]
         
         if let errorData = error.data {
-            errorDict["data"] = errorData.toDictionary
+            errorDict["data"] = errorData
         }
         
-        return errorDict.toJsonString
+        var flutterError = FlutterError(code: String(error.errorCode), message: error.errorMessage, details: errorDict.toJsonString)
+        
+        
+        return flutterError
+    }
+    
+    private func convertSuccessToJsonString(success: ScLoanSuccess?) -> String? {
+        
+        guard let res = success else { return nil }
+        
+        var successDict : [String: Any?] = [
+            "isSuccess": res.isSuccess,
+        ]
+        
+        if let data = res.data {
+            successDict["data"] = data
+        }
+        
+        return successDict.toJsonString
     }
     
 }

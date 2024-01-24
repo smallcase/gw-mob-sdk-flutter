@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
 
 class SICache {

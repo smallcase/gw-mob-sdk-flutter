@@ -49,11 +49,21 @@ class SILoansPage extends StatelessWidget {
             Wrap(
               spacing: 12,
               children: [
-                SIButton(label: "Setup"),
-                SIButton(label: "Apply"),
-                SIButton(label: "Pay"),
-                SIButton(label: "Withdraw"),
-                SIButton(label: "Service"),
+                SIButton(label: "Setup", onPressed: () async {
+                  await repository.setupScLoans(context);
+                }),
+                SIButton(label: "Apply", onPressed: () async {
+                  await repository.apply(repository.scLoanConfig.value.customInteractionToken ?? "", context);
+                }),
+                SIButton(label: "Pay", onPressed: () async {
+                  await repository.pay(repository.scLoanConfig.value.customInteractionToken ?? "", context);
+                }),
+                SIButton(label: "Withdraw", onPressed: () async {
+                  await repository.withdraw(repository.scLoanConfig.value.customInteractionToken ?? "", context);
+                }),
+                SIButton(label: "Service", onPressed: () async {
+                  await repository.service(repository.scLoanConfig.value.customInteractionToken ?? "", context);
+                }),
               ],
             ),
             StreamBuilder(
