@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:scgateway_flutter_plugin/ScLoanResponses.dart';
 
 enum SCLoanEnvironment { PRODUCTION, DEVELOPMENT, STAGING }
 
