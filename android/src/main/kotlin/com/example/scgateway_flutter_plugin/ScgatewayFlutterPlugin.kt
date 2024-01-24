@@ -55,7 +55,9 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         channel.setMethodCallHandler(this)
 
         scLoansChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "scloans_flutter_plugin")
-        scLoansChannel.setMethodCallHandler(ScLoanFlutterPlugin())
+        scLoansChannel.setMethodCallHandler(ScLoanFlutterPlugin(getActivity = {
+            activity
+        }))
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull rawResult: Result) {

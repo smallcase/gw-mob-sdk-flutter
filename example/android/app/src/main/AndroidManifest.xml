@@ -63,6 +63,27 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.smallcase.loans.features.ScLoanCustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="gatewaydemo"
+                    android:scheme="scgateway-loans" />
+                <data
+                    android:host="gatewaydemo-dev"
+                    android:scheme="scgateway-loans" />
+                <data
+                    android:host="gatewaydemo-stag"
+                    android:scheme="scgateway-loans" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="com.smallcase.gateway.screens.common.RedirectActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
