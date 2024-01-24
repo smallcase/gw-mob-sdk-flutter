@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
+
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIEnvironmentController.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';

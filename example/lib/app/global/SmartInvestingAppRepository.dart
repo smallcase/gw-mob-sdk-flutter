@@ -1,10 +1,14 @@
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
+//import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+//import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
 import 'package:flutter/material.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:scgateway_flutter_plugin/ScLoan.dart';
-import 'package:scgateway_flutter_plugin/ScLoanResponses.dart';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
+//import 'package:scgateway_flutter_plugin/src/loans/ScLoan.dart';
+//import 'package:scgateway_flutter_plugin/ScLoanResponses.dart';
+
 
 
 class SmartInvestingAppRepository {
@@ -69,9 +73,9 @@ class SmartInvestingAppRepository {
     print("AD:: _setupScLoans gateway name ${envMeta.gatewayName}");
     print("AD:: _setupScLoans environment ${envMeta.environment}");
     try {
-      final response = await SCLoans.setup(envMeta.environment, envMeta.gatewayName);
+      final response = await ScLoan.setup(ScLoanConfig(environment, gatewayName));
       print("AD:: $response");
-        _showAlertDialog(response ?? "null", context);
+        _showAlertDialog(response.toString(), context);
     } on ScLoanError catch (e) {
       print('AD:: Error:: ${e}');
      _showAlertDialog('${e.code}', context);
@@ -80,9 +84,9 @@ class SmartInvestingAppRepository {
  
   Future<void> apply(String interactionToken, BuildContext context) async {
     try {
-      final response = await SCLoans.apply(interactionToken);
+      final response = await ScLoan.apply(ScLoanInfo(interactionToken));
       print("this block is running");
-      _showAlertDialog(response ?? "no response", context);
+      _showAlertDialog(response.toString(), context);
     } on PlatformException catch (e) {
      _showAlertDialog(e.code, context);
     }
@@ -90,8 +94,8 @@ class SmartInvestingAppRepository {
 
    Future<void> pay(String interactionToken, BuildContext context) async {
     try {
-      final response = await SCLoans.pay(interactionToken);
-      _showAlertDialog(response ?? "no response", context);
+      final response = await ScLoan.pay(ScLoanInfo(interactionToken));
+      _showAlertDialog(response.toString(), context);
     } on PlatformException catch (e) {
          _showAlertDialog(e.code, context);
     }
@@ -99,8 +103,8 @@ class SmartInvestingAppRepository {
 
   Future<void> withdraw(String interactionToken, BuildContext context) async {
     try {
-      final response = await SCLoans.withdraw(interactionToken);
-      _showAlertDialog(response ?? "no response", context);
+      final response = await ScLoan.withdraw(ScLoanInfo(interactionToken));
+      _showAlertDialog(response.toString(), context);
     } on PlatformException catch (e) {
      _showAlertDialog(e.code, context);
     }
@@ -108,8 +112,8 @@ class SmartInvestingAppRepository {
 
   Future<void> service(String interactionToken, BuildContext context) async {
     try {
-      final response = await SCLoans.service(interactionToken);
-      _showAlertDialog(response ?? "no response", context);
+      final response = await ScLoan.service(ScLoanInfo(interactionToken));
+      _showAlertDialog(response.toString(), context);
     } on PlatformException catch (e) {
      _showAlertDialog(e.code, context);
     }
