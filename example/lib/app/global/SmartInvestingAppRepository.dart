@@ -66,17 +66,18 @@ class SmartInvestingAppRepository {
 
    Future<void> setupScLoans(BuildContext context) async {
     final envMeta = ScLoanConfig.prod();
-    print("_setupScLoans ${envMeta.gatewayName}");
-    print("_setupScLoans ${envMeta.environment}");
+    print("_setupScLoans gateway name ${envMeta.gatewayName}");
+    print("_setupScLoans environment ${envMeta.environment}");
     try {
       final response = await SCLoans.setup(envMeta.environment, envMeta.gatewayName);
       print(response);
         _showAlertDialog(response ?? "no response", context);
-    } on PlatformException catch (e) {
-     _showAlertDialog(e.code, context);
+    } on ScLoanError catch (e) {
+      print('AD Error:: ${e}');
+     _showAlertDialog('${e.code}', context);
     }
   }
-
+ 
   Future<void> apply(String interactionToken, BuildContext context) async {
     try {
       final response = await SCLoans.apply(interactionToken);
