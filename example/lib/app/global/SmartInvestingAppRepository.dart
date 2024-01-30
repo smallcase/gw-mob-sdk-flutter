@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,6 +5,10 @@ import 'package:rxdart/rxdart.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
 import 'package:scgateway_flutter_plugin_example/smartinvesting.dart';
+
+SmartInvestingAppRepository get repository {
+  return SmartInvestingAppRepository.singleton();
+}
 
 class SmartInvestingAppRepository {
   SmartInvestingAppRepository._() {

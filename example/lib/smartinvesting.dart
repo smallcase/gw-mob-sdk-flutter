@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 // import 'package:http/http.dart' as http;
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/app/SIGatewayPage.dart';
+import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'app/global/SIConfigs.dart';
 
 final _headers = <String, String>{
@@ -11,6 +13,10 @@ final _headers = <String, String>{
   'Accept': 'application/json',
   'content-type': 'application/json'
 };
+
+ SmartInvesting get smartInvesting {
+  return SmartInvesting.fromEnvironment(repository.scGatewayConfig.value);
+}
 
 class SmartInvesting {
   final String baseUrl;
@@ -105,7 +111,9 @@ class SmartInvesting {
 
     Future<List<String>> stockSearch(String query) async {
     var result = await _getData('search?text=$query');
-    return (result['results'] as List).map((result) => result['sid'] as String).toList();
+    return (result['results'] as List)
+      .map((result) => result['stock']['info']['ticker'] as String)
+      .toList();
   }
 
   Future<String> getPostBackStatus(String transactionId) async {

@@ -21,8 +21,8 @@ class SILoansPage extends StatelessWidget {
           SIButton(
             label: "Gateway",
             onPressed: () => {
-              SmartInvestingAppRepository.singleton().appState.add("/"),
-              context.go(SmartInvestingAppRepository.singleton().appState.value)
+              repository.appState.add("/"),
+              context.go(repository.appState.value)
             },
           )
         ],
@@ -31,9 +31,9 @@ class SILoansPage extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 8),
           children: [
-            SIEnvironmentController(repository: SmartInvestingAppRepository.singleton()),
+            SIEnvironmentController(repository: repository),
             StreamBuilder(
-              stream: SmartInvestingAppRepository.singleton().scLoanConfig,
+              stream: repository.scLoanConfig,
               builder: (context, snapshot) {
                 final data = snapshot.data;
                 return Column(
@@ -61,7 +61,7 @@ class SILoansPage extends StatelessWidget {
               ],
             ),
             StreamBuilder(
-              stream: SmartInvestingAppRepository.singleton().siConfig,
+              stream: repository.siConfig,
               builder: (context, snapshot) {
                 final data = snapshot.data;
                 return Wrap(

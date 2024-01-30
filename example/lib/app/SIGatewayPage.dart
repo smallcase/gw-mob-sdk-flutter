@@ -28,8 +28,6 @@ final Map<Widget, ({IconData iconData, int index, String label})> screensMap = {
   ),
 };
 
-SmartInvestingAppRepository repository = SmartInvestingAppRepository.singleton();
-
 class SIGatewayPage extends StatefulWidget {
   const SIGatewayPage({Key? key}) : super(key: key);
 
