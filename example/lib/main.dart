@@ -11,9 +11,9 @@ void main() {
   runApp(MyApp());
 }
 
-SmartInvestingAppRepository get repository {
-  return SmartInvestingAppRepository.singleton();
-}
+// SmartInvestingAppRepository get repository {
+//   return SmartInvestingAppRepository.singleton();
+// }
 
 class MyApp extends StatefulWidget {
   @override
@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    repository.dispose();
+    SmartInvestingAppRepository.singleton().dispose();
     super.dispose();
   }
 

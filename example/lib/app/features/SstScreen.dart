@@ -45,7 +45,7 @@ class SstScreen extends StatelessWidget {
       }
       var orderConfig = {"securities": tickersList, "type": "SECURITIES"};
       print(orderConfig);
-      repository.TriggerTransaction(ScgatewayIntent.TRANSACTION, orderConfig, false, context);
+      repository.triggerTransaction(ScgatewayIntent.TRANSACTION, orderConfig, false, context);
     } else {
       repository.showAlertDialog("empty ticker field", context);
     }

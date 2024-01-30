@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'app/global/SIConfigs.dart';
 
@@ -33,17 +33,32 @@ class SmartInvesting {
     }
   }
 
-  Future<Map<String, dynamic>> _postData(String endpoint, Map<String, dynamic> data) async {
-  String bodyData = json.encode(data);
+  Future<Map<String, dynamic>> _requestData(String endpoint, String method, Map<String, dynamic> data) async {
   final Dio dio = Dio();
+  dio.interceptors.add(LogInterceptor());
+
   try {
-    Response response = await dio.post(
-      baseUrl + endpoint,
-      data: bodyData,
-      options: Options(
-        headers: _headers,
-      ),
-    );
+    Response response;
+    if (method == 'GET') {
+      response = await dio.get(
+        baseUrl + endpoint,
+        options: Options(
+          headers: _headers,
+        ),
+      );
+    } else if (method == 'POST') {
+      String bodyData = json.encode(data);
+      response = await dio.post(
+        baseUrl + endpoint,
+        data: bodyData,
+        options: Options(
+          headers: _headers,
+        ),
+      );
+    } else {
+      throw Exception('Unsupported HTTP method: $method');
+    }
+
     if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
       return response.data;
     } else {
@@ -57,27 +72,13 @@ class SmartInvesting {
   }
 }
 
-/*
-    Future<Map<String, dynamic>> _postData(String endpoint, Map<String, dynamic> data) async {
-    String bodyData = json.encode(data);
-    
-    var url = Uri.parse(baseUrl + endpoint);
-    final http.Response response = await http.post(
-      url,
-      headers: _headers,
-      body: bodyData,
-    );
+  Future<Map<String, dynamic>> _postData(String endpoint, Map<String, dynamic> data) async {
+  return _requestData(endpoint, 'POST', data);
+}
 
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return json.decode(response.body);
-    } else {
-      print("Response status code: ${response.statusCode}");
-      print(response.body);
-      throw Exception('Error occurred');
-    }
+  Future<Map<String, dynamic>> _getData(String endpoint) async {
+    return _requestData(endpoint, 'GET', {});
   }
-
-  */
 
   Future<Map<String, dynamic>> userLogin({String? userID}) async {
     Map<String, dynamic> data = {'id': userID};
@@ -102,55 +103,19 @@ class SmartInvesting {
     return responseData["transactionId"] as String;
   }
 
-  Future<List<String>> stockSearch(String query) async {
-    var response = await http.get(Uri.parse(baseUrl + 'search?text=$query'));
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      var result = json.decode(response.body);
-       List<String> searchResults = (result['results'] as List)
-      .map((result) => result['sid'] as String)
-      .toList();
-      return searchResults;
-    } else {
-      print('Failed to load search results');
-      return [""];
-    }
+    Future<List<String>> stockSearch(String query) async {
+    var result = await _getData('search?text=$query');
+    return (result['results'] as List).map((result) => result['sid'] as String).toList();
   }
 
   Future<String> getPostBackStatus(String transactionId) async {
-    var url = Uri.parse(
-        baseUrl + 'transaction/response' + '?transactionId=$transactionId');
-    final http.Response response = await http.get(
-      url,
-      headers: _headers,
-    );
-    if (response.statusCode == 200) {
-      print("getPostBackStatus: ${response.body}");
-      return response.body;
-    } else {
-      print("response status code: ${response.statusCode}");
-      print(response.body);
-      throw Exception('Failed to get user holdings');
-    }
+    var responseData = await _getData('transaction/response?transactionId=$transactionId');
+    return responseData.toString();
   }
 
-  Future<String> getUserHoldings(String userId, int version,
-      {bool mfEnabled = false}) async {
-    var url = Uri.parse(baseUrl +
-        'holdings/fetch' +
-        '?id=$userId&version=v$version&mfHoldings=$mfEnabled');
-    final http.Response response = await http.get(
-      url,
-      headers: _headers,
-    );
-
-    if (response.statusCode == 200) {
-      print("getUserHoldings: ${response.body}");
-      return response.body;
-    } else {
-      print("response status code: ${response.statusCode}");
-      print(response.body);
-      throw Exception('Failed to get user holdings');
-    }
+  Future<String> getUserHoldings(String userId, int version, {bool mfEnabled = false}) async {
+    var responseData = await _getData('holdings/fetch?id=$userId&version=v$version&mfHoldings=$mfEnabled');
+    return responseData.toString();
   }
 
   @override

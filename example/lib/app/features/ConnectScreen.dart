@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
+import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIEnvironmentController.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
@@ -18,10 +19,11 @@ final gatewayEnvironments = [
   ScGatewayConfig.stag()
 ];
 
- SmartInvesting get smartInvesting {
-  return SmartInvesting.fromEnvironment(repository.scGatewayConfig.value);
-}
+//  SmartInvesting get smartInvesting {
+//   return SmartInvesting.fromEnvironment(repository.scGatewayConfig.value);
+// }
 
+SmartInvesting smartInvesting = SmartInvestingAppRepository.smartInvesting;
 class ConnectScreen extends StatefulWidget {
   const ConnectScreen({super.key});
 
@@ -41,13 +43,13 @@ class _ConnectScreenState extends State<ConnectScreen> {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 8),
       children: [
-        SIEnvironmentController(repository: repository),
+        SIEnvironmentController(repository: SmartInvestingAppRepository.singleton()),
         StreamBuilder(
-          stream: repository.scGatewayConfig,
+          stream: SmartInvestingAppRepository.singleton().scGatewayConfig,
           builder: (context, snapshot) {
             final data = snapshot.data;
             if (data == null)
-              return Text("scGatewayConfig is not set in $repository");
+              return Text("scGatewayConfig is not set in ${SmartInvestingAppRepository.singleton()}");
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -56,7 +58,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                   label: "Leprechaun Mode:",
                   isEnabled: data.isLeprechaunEnabled,
                   onChanged: (value) {
-                    repository.scGatewayConfig.value =
+                    SmartInvestingAppRepository.singleton().scGatewayConfig.value =
                         data.copyWith(isLeprechaunEnabled: value);
                   },
                 ),
@@ -64,28 +66,28 @@ class _ConnectScreenState extends State<ConnectScreen> {
                   label: "Amo Mode:",
                   isEnabled: data.isAmoEnabled,
                   onChanged: (value) {
-                    repository.scGatewayConfig.value =
+                    SmartInvestingAppRepository.singleton().scGatewayConfig.value =
                         data.copyWith(isAmoEnabled: value);
                   },
                 ),
                 SITextField(
                   hint: "Smart Investing User Id",
                   onChanged: (value) {
-                    repository.smartInvestingUserId.add(value);
+                    SmartInvestingAppRepository.singleton().smartInvestingUserId.add(value);
                 },
                 ),
                 SIButton(label: "Fetch AuthToken From SmartInvesting", onPressed: () async {
                   final loginResponse = await smartInvesting
-                  .userLogin(userID: repository.smartInvestingUserId.value);
-                  repository.scGatewayConfig.value = data.copyWith(customAuthToken: loginResponse["smallcaseAuthToken"]);
-                  repository.showAlertDialog(loginResponse.toString(),context);
+                  .userLogin(userID: SmartInvestingAppRepository.singleton().smartInvestingUserId.value);
+                  SmartInvestingAppRepository.singleton().scGatewayConfig.value = data.copyWith(customAuthToken: loginResponse["smallcaseAuthToken"]);
+                  SmartInvestingAppRepository.singleton().showAlertDialog(loginResponse.toString(),context);
                 },
                 ),
                 SITextField(
                   hint: "Custom Auth Token (JwT)",
                   text: data.customAuthToken,
                   onChanged: (value) {
-                    repository.scGatewayConfig.value =
+                    SmartInvestingAppRepository.singleton().scGatewayConfig.value =
                         data.copyWith(customAuthToken: value);
                   }
                 ),
@@ -93,17 +95,17 @@ class _ConnectScreenState extends State<ConnectScreen> {
                   children: [
                     SIButton(label: "SETUP", onPressed: () async {
                     final environmentResponse = await  ScgatewayFlutterPlugin.setConfigEnvironment(
-                        repository.scGatewayConfig.value.environment,
-                        repository.scGatewayConfig.value.gatewayName,
-                        repository.scGatewayConfig.value.isLeprechaunEnabled,
+                        SmartInvestingAppRepository.singleton().scGatewayConfig.value.environment,
+                        SmartInvestingAppRepository.singleton().scGatewayConfig.value.gatewayName,
+                        SmartInvestingAppRepository.singleton().scGatewayConfig.value.isLeprechaunEnabled,
                         [],
-                        isAmoenabled: repository.scGatewayConfig.value.isAmoEnabled);
-                        final initResponse = await ScgatewayFlutterPlugin.initGateway(repository.scGatewayConfig.value.customAuthToken ?? "");
-                        repository.showAlertDialog(initResponse.toString(), context);
+                        isAmoenabled: SmartInvestingAppRepository.singleton().scGatewayConfig.value.isAmoEnabled);
+                        final initResponse = await ScgatewayFlutterPlugin.initGateway(SmartInvestingAppRepository.singleton().scGatewayConfig.value.customAuthToken ?? "");
+                        SmartInvestingAppRepository.singleton().showAlertDialog(initResponse.toString(), context);
                     },
                     ),
                     SIButton(label: "CONNECT", onPressed: () async {
-                    repository.TriggerTransaction(ScgatewayIntent.CONNECT, null, false, context);
+                    SmartInvestingAppRepository.singleton().triggerTransaction(ScgatewayIntent.CONNECT, null, false, context);
                     },
                     ),
                   ],
@@ -119,11 +121,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
                       checkmarkColor: Colors.white,
                       onSelected: (value) {
                         setState(() {
-                          repository.isMFTransactionEnabled.add(value); 
+                          SmartInvestingAppRepository.singleton().isMFTransactionEnabled.add(value); 
                       });
                       },
                       label: Text("MF"),
-                      selected: repository.isMFTransactionEnabled.value ?? false,
+                      selected: SmartInvestingAppRepository.singleton().isMFTransactionEnabled.value ?? false,
                       elevation: 0,
                       selectedColor: Colors.green,
                       
@@ -133,16 +135,16 @@ class _ConnectScreenState extends State<ConnectScreen> {
                 SITextField(
                   hint: "Enter Transaction Id",
                   onChanged: (value) {
-                    repository.transactionID.add(value);
+                    SmartInvestingAppRepository.singleton().transactionID.add(value);
                 }
                 ),
                 Wrap(
                   children: [
                     SIButton(label: "Copy", onPressed: () {
-                      FlutterClipboard.copy(repository.transactionID.value);
+                      FlutterClipboard.copy(SmartInvestingAppRepository.singleton().transactionID.value);
                     },),
                     SIButton(label: "Trigger", onPressed: () {
-                    repository.TriggerTransaction(null, null, true, context, isMF: repository.isMFTransactionEnabled.value);
+                    SmartInvestingAppRepository.singleton().triggerTransaction(null, null, true, context, isMF: SmartInvestingAppRepository.singleton().isMFTransactionEnabled.value);
           },),
                     SIButton(label: "Search Postback", onPressed: () {
 

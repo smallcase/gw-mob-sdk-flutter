@@ -13,8 +13,7 @@ class SIButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(label.toUpperCase()),
         style: ElevatedButton.styleFrom(
-            elevation: 4,
-            shadowColor: Colors.black,
+            elevation: 0,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
       ),

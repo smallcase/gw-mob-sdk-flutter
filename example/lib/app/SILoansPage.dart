@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
@@ -20,8 +21,8 @@ class SILoansPage extends StatelessWidget {
           SIButton(
             label: "Gateway",
             onPressed: () => {
-              repository.appState.add("/"),
-              context.go(repository.appState.value)
+              SmartInvestingAppRepository.singleton().appState.add("/"),
+              context.go(SmartInvestingAppRepository.singleton().appState.value)
             },
           )
         ],
@@ -30,9 +31,9 @@ class SILoansPage extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 8),
           children: [
-            SIEnvironmentController(repository: repository),
+            SIEnvironmentController(repository: SmartInvestingAppRepository.singleton()),
             StreamBuilder(
-              stream: repository.scLoanConfig,
+              stream: SmartInvestingAppRepository.singleton().scLoanConfig,
               builder: (context, snapshot) {
                 final data = snapshot.data;
                 return Column(
@@ -60,7 +61,7 @@ class SILoansPage extends StatelessWidget {
               ],
             ),
             StreamBuilder(
-              stream: repository.siConfig,
+              stream: SmartInvestingAppRepository.singleton().siConfig,
               builder: (context, snapshot) {
                 final data = snapshot.data;
                 return Wrap(

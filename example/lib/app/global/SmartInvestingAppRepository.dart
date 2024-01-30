@@ -21,6 +21,10 @@ class SmartInvestingAppRepository {
   factory SmartInvestingAppRepository.singleton() =>
       _singleton ??= SmartInvestingAppRepository._();
 
+  static SmartInvesting get smartInvesting {
+    return SmartInvesting.fromEnvironment(_singleton!.scGatewayConfig.value);
+  }
+
   final environment = BehaviorSubject.seeded(SIEnvironment.PRODUCTION);
 
   final siConfig = BehaviorSubject.seeded(SIConfig(loansUserId: "020896"));
@@ -73,7 +77,7 @@ class SmartInvestingAppRepository {
 
 //Trigger transaction - 
 
- Future<String> TriggerTransaction(
+ Future<String> triggerTransaction(
       String? intent,
       Object? orderConfig,
       bool withTransactionID, 
