@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
             seedColor: Colors.blue, brightness: _brightness),
       ),
       routerConfig: GoRouter(
-        initialLocation: "/las",
+        initialLocation: repository.appState.value,
         routes: [
           GoRoute(
             path: '/',

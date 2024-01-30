@@ -19,7 +19,10 @@ class SILoansPage extends StatelessWidget {
         actions: [
           SIButton(
             label: "Gateway",
-            onPressed: () => context.go("/"),
+            onPressed: () => {
+              repository.appState.add("/"),
+              context.go(repository.appState.value)
+            },
           )
         ],
       ),
