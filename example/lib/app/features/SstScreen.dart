@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/features/ConnectScreen.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
@@ -9,19 +8,15 @@ import 'package:flutter/material.dart';
 
 class SstScreen extends StatefulWidget {
   SstScreen({super.key});
-
   @override
   State<SstScreen> createState() => _SstScreenState();
 }
 
 class _SstScreenState extends State<SstScreen> {
   String securities = "";
-
   List<String> searchResults = [];
-
   Timer? _debounceTimer;
-
-  TextEditingController _searchController = TextEditingController();
+  List<String> searchHistory = [];
 
   void _onSearchTextChanged(String value) {
     _debounceTimer?.cancel();
@@ -29,6 +24,35 @@ class _SstScreenState extends State<SstScreen> {
       searchResults = await smartInvesting.stockSearch(value.toUpperCase());
       setState(() {});
     });
+  }
+
+  Iterable<Widget> getHistoryList(SearchController controller) {
+    return searchHistory.map(
+      (String text) => ListTile(
+        // leading: const Icon(Icons.history),
+        title: Text(text),
+        trailing: IconButton(
+          icon: const Icon(Icons.call_missed),
+          onPressed: () {
+            controller.text = text;
+            controller.selection =
+                TextSelection.collapsed(offset: controller.text.length);
+          },
+        ),
+      ),
+    );
+  }
+
+  Iterable<Widget> getSuggestions(SearchController controller) {
+    return searchResults.map(
+      (String result) => ListTile(
+        title: Text(result),
+        onTap: () {
+          controller.closeView(result);
+          securities = result;
+        },
+      ),
+    );
   }
 
   @override
@@ -40,37 +64,24 @@ class _SstScreenState extends State<SstScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _searchController,
-              decoration: InputDecoration(hintText: "Enter Ticker"),
-              onChanged: _onSearchTextChanged,
+            SearchAnchor.bar(
+              barHintText: 'Enter Ticker',
+              suggestionsBuilder:
+                  (BuildContext context, SearchController controller) {
+                _onSearchTextChanged(controller.text);
+                if (controller.text.isEmpty) {
+                  if (searchHistory.isNotEmpty) {
+                    return getHistoryList(controller);
+                  }
+                  return <Widget>[
+                    Center(
+                        child: Text('No search history.',
+                            style: TextStyle(color: Colors.black)))
+                  ];
+                }
+                return getSuggestions(controller);
+              },
             ),
-            if (searchResults.isNotEmpty)
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 4),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: searchResults
-                      .map(
-                        (result) => ListTile(
-                          title: Text(result),
-                          onTap: () {
-                            setState(() {
-                              securities = result;
-                              _searchController.text = result;
-                              searchResults
-                                  .clear(); 
-                            });
-                          },
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
           ],
         ),
         SIButton(
