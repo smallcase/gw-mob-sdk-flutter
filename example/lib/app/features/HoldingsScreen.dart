@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
+import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SITextField.dart';
 
 import '../widgets/SIText.dart';
 
-class HoldingsScreen extends StatelessWidget {
+class HoldingsScreen extends StatefulWidget {
   const HoldingsScreen({super.key});
 
+  @override
+  State<HoldingsScreen> createState() => HoldingsScreenState();
+}
+
+class HoldingsScreenState extends State<HoldingsScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -18,20 +26,49 @@ class HoldingsScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                SIText(text: "Enable v2"),
-                Switch.adaptive(value: true, onChanged: null),
+                SISwitch(
+                  label: "Enable v2",
+                  isEnabled: repository.isV2enabled.value,
+                  onChanged: (value) {
+                    setState(() {
+                      repository.isV2enabled.value =
+                          value; // Update repository value
+                    });
+                  },
+                ),
               ],
             ),
             Row(
               children: [
-                SIText(text: "Enable MF"),
-                Switch.adaptive(value: true, onChanged: null),
+                SISwitch(
+                  label: "Enable MF",
+                  isEnabled: repository.isMFTransactionEnabled.value,
+                  onChanged: (value) {
+                     setState(() {
+                     repository.isMFTransactionEnabled.value = value;
+                    });
+                    
+                  },
+                ),
               ],
             )
           ],
         ),
-        SIButton(label: "AUTHORIZE HOLDINGS"),
-        SIButton(label: "IMPORT HOLDINGS"),
+        SIButton(
+          label: "AUTHORIZE HOLDINGS",
+          onPressed: () async {
+            final reponse = await repository.triggerTransaction(
+                ScgatewayIntent.AUTHORISE_HOLDINGS, null, false, context);
+            repository.showAlertDialog(reponse.toString(), context);
+          },
+        ),
+        SIButton(
+          label: "IMPORT HOLDINGS",
+          onPressed: () async {
+            final reponse = await repository.triggerTransaction(
+                ScgatewayIntent.HOLDINGS, null, false, context);
+          },
+        ),
         SIButton(label: "SHOW HOLDINGS"),
         SIButton(label: "FETCH FUNDS"),
         SIButton(label: "RECONCILE HOLDINGS"),

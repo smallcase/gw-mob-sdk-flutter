@@ -52,6 +52,26 @@ Color getColorFromHex(String hexColor) {
   return Color(parsedColor).withOpacity(1.0); 
 }
 
+  var isV2enabled = BehaviorSubject<bool>.seeded(false);
+
+
+//get user holdings 
+
+//  Future<UserHoldingsResponse> getUserHoldings(
+//       {int version = 1, bool mfEnabled = false}) async {
+//     try {
+//       final response = await smartInvesting.getUserHoldings(userId, version,
+//           mfEnabled: mfEnabled);
+//       if (version == 2) {
+//         return UserHoldingsResponse.fromJsonV2(response);
+//       }
+//       return UserHoldingsResponse.fromJson(json.decode(response));
+//     } on Exception catch (e) {
+//       print("Gateway Exception!! getUserHoldings : $e");
+//       return null;
+//     }
+//   }
+
 //MF Transaction
   var isMFTransactionEnabled = BehaviorSubject<bool>.seeded(false);
   var transactionID = BehaviorSubject<String>.seeded("");
