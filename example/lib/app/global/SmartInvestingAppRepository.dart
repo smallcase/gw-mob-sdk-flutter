@@ -77,6 +77,12 @@ Color getColorFromHex(String hexColor) {
   var transactionID = BehaviorSubject<String>.seeded("");
 
 
+//Leadgen
+  var withLoginCTA = BehaviorSubject<bool>.seeded(false);
+  final leadgenUserName = BehaviorSubject<String?>.seeded(null);
+  final leadgenUserEmail = BehaviorSubject<String?>.seeded(null);
+  final leadgenUserContact = BehaviorSubject<String?>.seeded(null);
+
   //showAlert Function -
   //alert 
   Future<void> showAlertDialog(String message, BuildContext context) async {
