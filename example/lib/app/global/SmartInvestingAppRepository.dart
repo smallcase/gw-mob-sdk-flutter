@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseDTO.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
 import 'package:scgateway_flutter_plugin_example/smartinvesting.dart';
 
@@ -36,6 +37,20 @@ class SmartInvestingAppRepository {
   final smartInvestingUserId = BehaviorSubject<String?>.seeded(null);
   final customAuthToken = BehaviorSubject<String?>.seeded(null);
   var appState = BehaviorSubject<String>.seeded("/");
+
+  //SMT Screen
+    final headerColor = BehaviorSubject<String?>.seeded(null);
+    final headerOpacity = BehaviorSubject<double?>.seeded(null);
+    final backIconColor = BehaviorSubject<String?>.seeded(null);
+    final backIconOpacity = BehaviorSubject<double?>.seeded(null);
+    final smallplugEndpoint = BehaviorSubject<String?>.seeded(null);
+    final smallcaseItems = BehaviorSubject<List<SmallcasesDTO>>.seeded([]);
+
+Color getColorFromHex(String hexColor) {
+  hexColor = hexColor.replaceAll('#', '');
+  int parsedColor = int.parse(hexColor, radix: 16);
+  return Color(parsedColor).withOpacity(1.0); 
+}
 
 //MF Transaction
   var isMFTransactionEnabled = BehaviorSubject<bool>.seeded(false);
