@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
 import 'package:scgateway_flutter_plugin_example/smartinvesting.dart';
 
@@ -53,6 +53,8 @@ Color getColorFromHex(String hexColor) {
 }
 
   var isV2enabled = BehaviorSubject<bool>.seeded(false);
+  final notes = BehaviorSubject<String?>.seeded(null);
+  final date = BehaviorSubject<String?>.seeded(null);
 
 
 //get user holdings 
@@ -126,7 +128,8 @@ Color getColorFromHex(String hexColor) {
       bool withTransactionID, 
       BuildContext context, 
       {Object? assetConfig,
-      bool isMF = false}) async {
+      bool isMF = false,
+      bool isPostBackStatus = false}) async {
       var transactionId = transactionID.value;
       if (withTransactionID == false) {
       transactionId = await SmartInvesting.fromEnvironment(scGatewayConfig.value).getTransactionId(
@@ -138,6 +141,15 @@ Color getColorFromHex(String hexColor) {
        response =  await ScgatewayFlutterPlugin.triggerMfGatewayTransaction(
           transactionId) ?? "";
           showAlertDialog(response.toString(), context);
+          if(isPostBackStatus) {
+             try {
+       final postBackStatusResponse = await smartInvesting.getPostBackStatus(transactionId);
+      repository.showAlertDialog(postBackStatusResponse.toString(), context);
+    } on Exception catch (e) {
+      print("Gateway Exception!! getMfHoldings $transactionId : $e");
+      return "cgetPostBackStatus response : null";
+    } 
+          }
       return response;
     }
     response = await ScgatewayFlutterPlugin.triggerGatewayTransaction(

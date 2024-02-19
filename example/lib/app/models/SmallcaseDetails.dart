@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/NewsDataDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseNews.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/NewsDataDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseNews.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:clipboard/clipboard.dart';
 

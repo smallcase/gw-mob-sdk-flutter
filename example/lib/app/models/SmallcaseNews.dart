@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/NewsDataDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/NewsDataDTO.dart';
 
 
 class SmallcaseNews extends StatelessWidget {

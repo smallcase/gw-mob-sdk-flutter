@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin_example/Styles.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseDetails.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDetails.dart';
 
 class SmallcasesList extends StatelessWidget {
 

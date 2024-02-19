@@ -1,9 +1,8 @@
 
-import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/StocksDTO.dart';
-
-import 'FlagsDTO.dart';
-import 'PublisherDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/FlagsDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/PublisherDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/StocksDTO.dart';
 
 
 class NewsDataDTO {

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseList.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseList.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
@@ -35,15 +35,15 @@ class SmtScreenState extends State<SmtScreen> {
                       jsonDecode(initResponse ?? "");
                   print("ResponseData = $responseData");
                   var list = responseData['data']['smallcases'] as List;
-
+                  print("AD:: list value = $list");
                   List<SmallcasesDTO> smallcases =
                       list.map((i) => SmallcasesDTO.fromJson(i)).toList();
-
+                  print("AD:: SmallcaseValue:: $smallcases");
                   setState(() {
                     print("AD:: STATE WAS SET");
                     repository.smallcaseItems.value = smallcases;
                   });
-
+                  print("AD:: items:: ${repository.smallcaseItems.value}");
                   if (smallcases.isNotEmpty) {
                     print("AD:: IF CONDITION RAN");
                     Navigator.push(
