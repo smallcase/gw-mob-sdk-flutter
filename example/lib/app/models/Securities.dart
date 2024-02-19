@@ -1,9 +1,9 @@
 import 'package:scgateway_flutter_plugin_example/app/models/Holding.dart';
 
 class Securities {
-  final List<Holding> holdings;
+  final List<Holding>? holdings;
 
-  Securities({required this.holdings});
+  Securities({this.holdings});
 
   factory Securities.fromJson(Map<String, dynamic> parsedJson) {
     var holdingsJson = parsedJson['holdings'] as List;
@@ -15,39 +15,39 @@ class Securities {
 }
 
 abstract class SecuritiesI {
-  String get ticker;
+  String? get ticker;
   dynamic get averagePrice;
-  int get shares;
+  int? get shares;
 }
 
 class SecurityV2 implements SecuritiesI {
-  Holding holdings;
-  Positions positions;
-  int transactableQuantity;
-  int smallcaseQuantity;
-  String nseTicker;
-  String bseTicker;
-  String isin;
-  String name;
+  Holding? holdings;
+  Positions? positions;
+  int? transactableQuantity;
+  int? smallcaseQuantity;
+  String? nseTicker;
+  String? bseTicker;
+  String? isin;
+  String? name;
 
   @override
-  get averagePrice => holdings.averagePrice;
+  get averagePrice => holdings?.averagePrice;
 
   @override
   int get shares => holdings?.shares ?? transactableQuantity ?? 0;
 
   @override
-  String get ticker => name;
+  String get ticker => name ?? "";
 
   SecurityV2({
-    required this.holdings,
-    required this.positions,
-    required this.transactableQuantity,
-    required this.smallcaseQuantity,
-    required this.nseTicker,
-    required this.bseTicker,
-    required this.isin,
-    required this.name,
+     this.holdings,
+     this.positions,
+     this.transactableQuantity,
+     this.smallcaseQuantity,
+     this.nseTicker,
+     this.bseTicker,
+     this.isin,
+     this.name,
   });
 
   factory SecurityV2.fromMap(Map<String, dynamic> map) => SecurityV2(
@@ -67,11 +67,11 @@ class SecurityV2 implements SecuritiesI {
 }
 
 class Positions {
-  Holding nse;
-  Holding bse;
+  Holding? nse;
+  Holding? bse;
   Positions({
-    required this.nse,
-    required this.bse,
+     this.nse,
+     this.bse,
   });
 
   factory Positions.fromMap(Map<String, dynamic> map) => Positions(

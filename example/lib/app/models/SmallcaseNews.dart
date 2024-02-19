@@ -6,12 +6,12 @@ import 'package:scgateway_flutter_plugin_example/app/models/NewsDataDTO.dart';
 
 class SmallcaseNews extends StatelessWidget {
 
-  List<NewsDataDTO> smallcaseNews;
+  List<NewsDataDTO>? smallcaseNews;
 
-  SmallcaseNews({Key? key, required this.smallcaseNews}) : super(key: key);
+  SmallcaseNews({Key? key,  this.smallcaseNews}) : super(key: key);
 
   Widget _listViewItemBuilder(BuildContext context, int index){
-    var smallcase = this.smallcaseNews[index];
+    var smallcase = this.smallcaseNews![index];
     return ListTile(
       contentPadding: EdgeInsets.all(10.0),
       // leading: _itemThumbnail(smallcase),
@@ -31,7 +31,7 @@ class SmallcaseNews extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('News')),
       body: ListView.builder(
-          itemCount: this.smallcaseNews.length,
+          itemCount: this.smallcaseNews?.length,
           itemBuilder: _listViewItemBuilder
       ),
     );

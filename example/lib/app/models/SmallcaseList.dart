@@ -9,13 +9,13 @@ import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDetails.dar
 
 class SmallcasesList extends StatelessWidget {
 
-  List<SmallcasesDTO> items;
+  List<SmallcasesDTO>? items;
 
   // receive data from the FirstScreen as a parameter
-  SmallcasesList({Key? key, required this.items}) : super(key: key);
+  SmallcasesList({Key? key,  this.items}) : super(key: key);
 
   Widget _listViewItemBuilder(BuildContext context, int index){
-    var smallcase = this.items[index];
+    var smallcase = this.items![index];
     return ListTile(
       contentPadding: EdgeInsets.all(10.0),
       leading: _itemThumbnail(smallcase),
@@ -50,7 +50,7 @@ class SmallcasesList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Smallcases')),
       body: ListView.builder(
-          itemCount: this.items.length,
+          itemCount: this.items?.length,
           itemBuilder: _listViewItemBuilder
       ),
     );

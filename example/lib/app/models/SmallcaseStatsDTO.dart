@@ -5,28 +5,28 @@ import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseReturns.dar
 
 class SmallcaseStatsDTO {
 
-  final SmallcaseReturns returns;
+  final SmallcaseReturns? returns;
 
-  final num indexValue;
+  final num? indexValue;
 
-  final num unadjustedValue;
+  final num? unadjustedValue;
 
   final dynamic divReturns;
 
-  final num lastCloseIndex;
+  final num? lastCloseIndex;
 
   final dynamic minInvestAmount;
 
-  final RatiosDTO ratios;
+  final RatiosDTO? ratios;
 
   SmallcaseStatsDTO({
-    required this.returns,
-    required this.indexValue,
-    required this.unadjustedValue,
+    this.returns,
+    this.indexValue,
+    this.unadjustedValue,
     this.divReturns,
-    required this.lastCloseIndex,
+    this.lastCloseIndex,
     this.minInvestAmount,
-    required this.ratios
+    this.ratios
 });
 
   factory SmallcaseStatsDTO.fromJson(Map<String, dynamic> parsedJson) {

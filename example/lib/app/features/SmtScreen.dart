@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseInfoDTO.dart';
 import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseList.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
+import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseStatsDTO.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SITextField.dart';
@@ -18,7 +20,6 @@ class SmtScreen extends StatefulWidget {
 }
 
 class SmtScreenState extends State<SmtScreen> {
-  
   @override
   Widget build(BuildContext context) {
     return ListView(

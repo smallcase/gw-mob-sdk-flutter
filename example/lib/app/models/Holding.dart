@@ -5,13 +5,13 @@ import 'package:scgateway_flutter_plugin_example/app/models/Securities.dart';
 class Holding implements SecuritiesI {
   final dynamic averagePrice;
 
-  final String name;
+  final String? name;
 
-  final int shares;
+  final int? shares;
 
-  final String ticker;
+  final String? ticker;
 
-  Holding({this.averagePrice, required this.name, required this.shares, required this.ticker});
+  Holding({this.averagePrice,  this.name,  this.shares,  this.ticker});
 
   factory Holding.fromJson(Map<String, dynamic> parsedJson) {
     var averagePrice = parsedJson['averagePrice'];

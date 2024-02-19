@@ -10,12 +10,12 @@ import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRep
 import 'package:clipboard/clipboard.dart';
 
 class SmallcaseDetails extends StatelessWidget {
-  SmallcasesDTO smallcase;
+  SmallcasesDTO? smallcase;
 
-  SmallcaseDetails({Key? key, required this.smallcase}) : super(key: key);
+  SmallcaseDetails({Key? key,  this.smallcase}) : super(key: key);
 
   Future<void> _buySmallcase(BuildContext context) async {
-    var orderConfig = {"type": "BUY", "scid": smallcase.scid};
+    var orderConfig = {"type": "BUY", "scid": smallcase?.scid};
 
     _placeSmtOrder(ScgatewayIntent.TRANSACTION, orderConfig, context);
   }
@@ -27,7 +27,7 @@ class SmallcaseDetails extends StatelessWidget {
   }
 
   Future<void> _getSmallcaseNews(BuildContext context) async {
-    ScgatewayFlutterPlugin.getSmallcaseNews(smallcase.scid ?? "")
+    ScgatewayFlutterPlugin.getSmallcaseNews(smallcase?.scid ?? "")
         .then((value) => _populateSmallcaseNews(value ?? "", context));
   }
 
@@ -85,7 +85,7 @@ class SmallcaseDetails extends StatelessWidget {
         Container(
           constraints: BoxConstraints.tightFor(width: 60.0),
           child: Image.network(
-              "https://assets.smallcase.com/images/smallcases/200/${smallcase.scid}.png",
+              "https://assets.smallcase.com/images/smallcases/200/${smallcase?.scid}.png",
               fit: BoxFit.fitWidth),
         ),
         const SizedBox(width: 10),
@@ -93,9 +93,9 @@ class SmallcaseDetails extends StatelessWidget {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(this.smallcase.info?.name ?? ""),
+            Text(this.smallcase?.info?.name ?? ""),
             Text(
-              this.smallcase.info?.shortDescription ?? "",
+              this.smallcase?.info?.shortDescription ?? "",
               maxLines: 5,
               overflow: TextOverflow.ellipsis,
               softWrap: true,
@@ -136,7 +136,7 @@ class SmallcaseDetails extends StatelessWidget {
           children: [
             Text("Min Amount"),
             const SizedBox(height: 10),
-            Text((this.smallcase.stats?.minInvestAmount ?? "").toString())
+            Text((this.smallcase?.stats?.minInvestAmount ?? "").toString())
           ],
         ),
         ElevatedButton(
@@ -151,7 +151,7 @@ class SmallcaseDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(smallcase.info?.name ?? "")),
+      appBar: AppBar(title: Text(smallcase?.info?.name ?? "")),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),
