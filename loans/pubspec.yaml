@@ -1,11 +1,12 @@
-name: loans
-description: A new flutter plugin project.
+name: scloans
+description: Scloans flutter plugin.
 version: 0.0.1
-homepage:
+author: gatewaytech@smallcase.com
+homepage: https://github.com/smallcase/gw-mob-sdk-flutter
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
-  flutter: ">=2.5.0"
+  sdk: '>=2.12.0 <3.0.0'
+  flutter: ">=2.2.2"
 
 dependencies:
   flutter:
@@ -28,10 +29,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.loans
-        pluginClass: LoansPlugin
+        package: com.example.scloans
+        pluginClass: ScLoanFlutterPlugin
       ios:
-        pluginClass: LoansPlugin
+        pluginClass: ScLoanFlutterPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
