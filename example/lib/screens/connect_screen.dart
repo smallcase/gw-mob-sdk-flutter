@@ -79,7 +79,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
     List<String> brokers = [];
     ScgatewayFlutterPlugin.setConfigEnvironment(environment.gatewayEnvironment,
-            environment.gatewayName, _leprechaunMode, brokers,
+          _gateway ?? environment.gatewayName, _leprechaunMode, brokers,
             isAmoenabled: _isAmoEnabled)
         .then((setupResponse) => Gateway.getSessionToken(
                 environment, _userIdText ?? "", _leprechaunMode, _isAmoEnabled,
@@ -238,7 +238,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
           Text('Gateway '),
           Flexible(
               flex: 1,
-              child: TextField(
+              child: TextField( onChanged: (value) {
+                _gateway = value;
+              },
                 decoration: InputDecoration(
                   filled: true,
                   labelText: 'gatewaydemo',

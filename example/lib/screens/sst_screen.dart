@@ -27,7 +27,7 @@ class _SstScreenState extends State<SstScreen> {
       var tickersList = [];
 
       for (var i = 0; i < tickers.length; i++) {
-        tickersList.add({"ticker": tickers[i]});
+        tickersList.add({"ticker": tickers[i].toUpperCase()});
       }
 
       var res = {"securities": tickersList, "type": "SECURITIES"};
