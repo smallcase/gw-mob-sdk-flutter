@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:scloans/ScLoan.dart';
 
 void main() {
-  runApp(LoansScreen());
+  runApp(MaterialApp(
+   home: LoansScreen()
+  ));
 }
-
 class LoansScreen extends StatefulWidget {
-  //const LoansScreen({Key key}) : super(key: key);
-
   @override
   State<LoansScreen> createState() => _LoansScreenState();
 }
