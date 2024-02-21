@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
-import 'package:scloans/ScLoanProps.dart';
-import 'package:scloans/ScLoanResponses.dart';
+import 'ScLoanProps.dart';
+import 'ScLoanResponses.dart';
 import '../PlatformExceptionExt.dart';
 export '../ScLoan.dart';
 export '../ScLoanResponses.dart';
