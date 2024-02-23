@@ -34,8 +34,6 @@ class SmallcaseDetails extends StatelessWidget {
   void _populateSmallcaseNews(String jsonString, BuildContext context) {
     final Map<String, dynamic> responseData = jsonDecode(jsonString);
 
-    print("News Response Data: $responseData");
-
     var newsList = responseData['data']['news'] as List;
 
     List<NewsDataDTO> news =

@@ -183,7 +183,6 @@ class ScgatewayFlutterPlugin {
     String? leadGenRes;
 
     try {
-      print("ctad showLoginCta: $showLoginCta");
       leadGenRes = await _channel
           .invokeMethod('triggerLeadGenWithLoginCta', <String, dynamic>{
         "name": name,

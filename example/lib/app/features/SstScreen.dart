@@ -97,7 +97,6 @@ class _SstScreenState extends State<SstScreen> {
                 "securities": tickersList,
                 "type": "SECURITIES"
               };
-              print(orderConfig);
               repository.triggerTransaction(
                   ScgatewayIntent.TRANSACTION, orderConfig, false, context);
             } else {

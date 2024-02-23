@@ -77,7 +77,6 @@ class SILoansPage extends StatelessWidget {
                   label: "Apply",
                   onPressed: () async {
                     try {
-                      print("AD:: interaction token - ${repository.scLoanConfig.value.customInteractionToken}");
                       final response =
                           await ScLoan.apply(ScLoanInfo(repository.scLoanConfig.value.customInteractionToken ?? ""));
                       repository.showAlertDialog(response.toString(), context);

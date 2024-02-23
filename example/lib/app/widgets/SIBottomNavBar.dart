@@ -46,7 +46,6 @@ class _SIBottomNavBarState extends State<SIBottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    print("Build SI Bottom Nav Bar!");
     return BottomNavigationBar(
         elevation: 0,
         currentIndex: _currentIndex,

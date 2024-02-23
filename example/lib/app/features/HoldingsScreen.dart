@@ -21,6 +21,14 @@ class HoldingsScreen extends StatefulWidget {
 class HoldingsScreenState extends State<HoldingsScreen> {
   @override
   Widget build(BuildContext context) {
+        return StreamBuilder(
+      stream: repository.scGatewayConfig, // Assuming this is the relevant stream
+      builder: (context, snapshot) {
+        final data = snapshot.data;
+        if (data == null) {
+          // Handle the case where data is not available
+          return CircularProgressIndicator(); // or any other placeholder widget
+        } else {
     return ListView(
       padding: EdgeInsets.all(8),
       children: [
@@ -32,12 +40,10 @@ class HoldingsScreenState extends State<HoldingsScreen> {
               children: [
                 SISwitch(
                   label: "Enable v2",
-                  isEnabled: repository.isV2enabled.value,
+                  isEnabled: data.isV2enabled,
                   onChanged: (value) {
-                    setState(() {
-                      repository.isV2enabled.value =
-                          value; // Update repository value
-                    });
+                     repository.scGatewayConfig.value =
+                        data.copyWith(isV2enabled: value);
                   },
                 ),
               ],
@@ -46,12 +52,10 @@ class HoldingsScreenState extends State<HoldingsScreen> {
               children: [
                 SISwitch(
                   label: "Enable MF",
-                  isEnabled: repository.isMFTransactionEnabled.value,
+                  isEnabled: data.isMFTransactionEnabled,
                   onChanged: (value) {
-                     setState(() {
-                     repository.isMFTransactionEnabled.value = value;
-                    });
-                    
+                    repository.scGatewayConfig.value =
+                        data.copyWith(isMFTransactionEnabled: value);
                   },
                 ),
               ],
@@ -76,9 +80,9 @@ class HoldingsScreenState extends State<HoldingsScreen> {
         ),
         SIButton(label: "SHOW HOLDINGS", onPressed: () async {
           try {
-            var version = repository.isV2enabled.value ? 2 : 1;
+            var version = data.isV2enabled ? 2 : 1;
       final response = await smartInvesting.getUserHoldings(repository.smartInvestingUserId.value ?? "", version,
-          mfEnabled: repository.isMFTransactionEnabled.value);
+          mfEnabled: data.isMFTransactionEnabled);
       if (version == 2) {
         final holdingsResponse =  UserHoldingsResponse.fromJsonV2(response);
       }
@@ -119,4 +123,7 @@ class HoldingsScreenState extends State<HoldingsScreen> {
       ],
     );
   }
+      }
+        );
+}
 }

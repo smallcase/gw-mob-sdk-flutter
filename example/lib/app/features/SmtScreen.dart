@@ -37,9 +37,9 @@ class SmtScreenState extends State<SmtScreen> {
                   var list = responseData['data']['smallcases'] as List;
                   List<SmallcasesDTO> smallcases =
                       list.map((i) => SmallcasesDTO.fromJson(i)).toList();
-                  setState(() {
+                 
                     repository.smallcaseItems.value = smallcases;
-                  });
+                 
                   if (smallcases.isNotEmpty) {
                     Navigator.push(
                       context,
@@ -126,7 +126,6 @@ class SmtScreenState extends State<SmtScreen> {
                   ? null
                   : repository
                       .getColorFromHex(repository.backIconColor.value ?? "");
-              debugPrint("hc: $hc");
               SmallplugUiConfig smallplugUiConfig = new SmallplugUiConfig(
                   headerColor: hc,
                   backIconColor: bc,

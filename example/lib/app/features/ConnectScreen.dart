@@ -19,8 +19,8 @@ final gatewayEnvironments = [
   ScGatewayConfig.stag()
 ];
 
-
 SmartInvesting smartInvesting = SmartInvestingAppRepository.smartInvesting;
+
 class ConnectScreen extends StatefulWidget {
   const ConnectScreen({super.key});
 
@@ -71,39 +71,65 @@ class _ConnectScreenState extends State<ConnectScreen> {
                   hint: "Smart Investing User Id",
                   onChanged: (value) {
                     repository.smartInvestingUserId.add(value);
-                },
+                  },
                 ),
-                SIButton(label: "Fetch AuthToken From SmartInvesting", onPressed: () async {
-                  final loginResponse = await smartInvesting
-                  .userLogin(userID: repository.smartInvestingUserId.value);
-                  repository.scGatewayConfig.value = data.copyWith(customAuthToken: loginResponse["smallcaseAuthToken"]);
-                  repository.showAlertDialog(loginResponse.toString(),context);
-                },
+                SIButton(
+                  label: "Fetch AuthToken From SmartInvesting",
+                  onPressed: () async {
+                    final loginResponse = await smartInvesting.userLogin(
+                        userID: repository.smartInvestingUserId.value);
+                    repository.scGatewayConfig.value = data.copyWith(
+                        customAuthToken: loginResponse["smallcaseAuthToken"]);
+                    repository.showAlertDialog(
+                        loginResponse.toString(), context);
+                  },
                 ),
                 SITextField(
-                  hint: "Custom Auth Token (JwT)",
-                  text: data.customAuthToken,
-                  onChanged: (value) {
-                    repository.scGatewayConfig.value =
-                        data.copyWith(customAuthToken: value);
-                  }
-                ),
+                    hint: "Custom Auth Token (JwT)",
+                    text: data.customAuthToken,
+                    onChanged: (value) {
+                      repository.scGatewayConfig.value =
+                          data.copyWith(customAuthToken: value);
+                    }),
                 Wrap(
                   children: [
-                    SIButton(label: "SETUP", onPressed: () async {
-                    final environmentResponse = await  ScgatewayFlutterPlugin.setConfigEnvironment(
-                        repository.scGatewayConfig.value.environment,
-                        repository.scGatewayConfig.value.gatewayName,
-                        repository.scGatewayConfig.value.isLeprechaunEnabled,
-                        [],
-                        isAmoenabled: repository.scGatewayConfig.value.isAmoEnabled);
-                        final initResponse = await ScgatewayFlutterPlugin.initGateway(repository.scGatewayConfig.value.customAuthToken ?? "");
-                        repository.showAlertDialog(initResponse.toString(), context);
-                    },
+                    SIButton(
+                      label: "SETUP",
+                      onPressed: () async {
+                        final environmentResponse =
+                            await ScgatewayFlutterPlugin.setConfigEnvironment(
+                                repository.scGatewayConfig.value.environment,
+                                repository.scGatewayConfig.value.gatewayName,
+                                repository
+                                    .scGatewayConfig.value.isLeprechaunEnabled,
+                                [],
+                                isAmoenabled: repository
+                                    .scGatewayConfig.value.isAmoEnabled);
+                        final initResponse =
+                            await ScgatewayFlutterPlugin.initGateway(repository
+                                    .scGatewayConfig.value.customAuthToken ??
+                                "");
+                        repository.showAlertDialog(
+                            initResponse.toString(), context);
+                      },
                     ),
-                    SIButton(label: "CONNECT", onPressed: () async {
-                    repository.triggerTransaction(ScgatewayIntent.CONNECT, null, false, context);
-                    },
+                    SIButton(
+                      label: "CONNECT",
+                      onPressed: () async {
+                        // final transactionId =
+                        //     await SmartInvesting.fromEnvironment(
+                        //             repository.scGatewayConfig.value)
+                        //         .getTransactionId(
+                        //             repository.smartInvestingUserId.value ?? "",
+                        //             null,
+                        //             null);
+                        // final response = await ScgatewayFlutterPlugin
+                        //         .triggerGatewayTransaction(transactionId) ?? "";
+                        // repository.showAlertDialog(
+                        //     response.toString(), context);
+                        repository.triggerTransaction(
+                            ScgatewayIntent.CONNECT, null, false, context);
+                      },
                     ),
                   ],
                 ),
@@ -117,36 +143,42 @@ class _ConnectScreenState extends State<ConnectScreen> {
                     InputChip(
                       checkmarkColor: Colors.white,
                       onSelected: (value) {
-                        setState(() {
-                         repository.isMFTransactionEnabled.add(value); 
-                      });
+                        repository.scGatewayConfig.value =
+                            data.copyWith(isMFTransactionEnabled: value);
                       },
                       label: Text("MF"),
-                      selected: repository.isMFTransactionEnabled.value ?? false,
+                      selected: data.isMFTransactionEnabled,
                       elevation: 0,
                       selectedColor: Colors.green,
-                      
                     ),
                   ],
                 ),
                 SITextField(
-                  hint: "Enter Transaction Id",
-                  onChanged: (value) {
-                   repository.transactionID.add(value);
-                }
-                ),
+                    hint: "Enter Transaction Id",
+                    onChanged: (value) {
+                      repository.transactionID.add(value);
+                    }),
                 Wrap(
                   children: [
-                    SIButton(label: "Copy", onPressed: () {
-                      FlutterClipboard.copy(repository.transactionID.value);
-                    },),
-                    SIButton(label: "Trigger", onPressed: () {
-                   repository.triggerTransaction(null, null, true, context, isMF: repository.isMFTransactionEnabled.value);
-          },),
-                    SIButton(label: "Search Postback", onPressed: () {
-
-                      //call the postback function here
-                    },),
+                    SIButton(
+                      label: "Copy",
+                      onPressed: () {
+                        FlutterClipboard.copy(repository.transactionID.value);
+                      },
+                    ),
+                    SIButton(
+                      label: "Trigger",
+                      onPressed: () {
+                        repository.triggerTransaction(null, null, true, context,
+                            isMF: data.isMFTransactionEnabled);
+                      },
+                    ),
+                    SIButton(
+                      label: "Search Postback",
+                      onPressed: () {
+                        //call the postback function here
+                      },
+                    ),
                   ],
                 )
               ],
