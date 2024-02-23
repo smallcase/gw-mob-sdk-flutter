@@ -1,3 +1,4 @@
+// ignore: constant_identifier_names
 enum ScLoanEnvironment { DEVELOPMENT, PRODUCTION, STAGING }
 
 class ScLoanConfig {
