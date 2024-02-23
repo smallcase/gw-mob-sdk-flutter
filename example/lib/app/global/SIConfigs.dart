@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:scgateway_flutter_plugin/ScLoan.dart';
+
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scloans/ScLoanProps.dart';
 
 enum SIEnvironment {
   PRODUCTION(label: "Prod"),
@@ -121,7 +122,7 @@ class ScGatewayConfig {
 }
 
 class ScLoanConfig {
-  final SCLoanEnvironment environment;
+  final ScLoanEnvironment environment;
   final String gatewayName;
   final String? customInteractionToken;
 
@@ -132,12 +133,12 @@ class ScLoanConfig {
   });
 
   factory ScLoanConfig.prod() => ScLoanConfig(
-      gatewayName: "gatewaydemo", environment: SCLoanEnvironment.PRODUCTION);
+      gatewayName: "gatewaydemo", environment: ScLoanEnvironment.PRODUCTION);
   factory ScLoanConfig.dev() => ScLoanConfig(
       gatewayName: "gatewaydemo-dev",
-      environment: SCLoanEnvironment.DEVELOPMENT);
+      environment: ScLoanEnvironment.DEVELOPMENT);
   factory ScLoanConfig.stag() => ScLoanConfig(
-      gatewayName: "gatewaydemo-stag", environment: SCLoanEnvironment.STAGING);
+      gatewayName: "gatewaydemo-stag", environment: ScLoanEnvironment.STAGING);
 
   Map<String, dynamic> toMap() {
     return {
@@ -148,7 +149,7 @@ class ScLoanConfig {
 
   factory ScLoanConfig.fromMap(Map<String, dynamic> map) {
     return ScLoanConfig(
-      environment: SCLoanEnvironment.values
+      environment: ScLoanEnvironment.values
           .firstWhere((element) => element.name == map['environment']),
       gatewayName: map['gatewayName'] ?? '',
     );
@@ -164,7 +165,7 @@ class ScLoanConfig {
       'ScLoanConfig(environment: $environment, gatewayName: $gatewayName)';
 
   ScLoanConfig copyWith({
-    SCLoanEnvironment? environment,
+    ScLoanEnvironment? environment,
     String? gatewayName,
   }) {
     return ScLoanConfig(
