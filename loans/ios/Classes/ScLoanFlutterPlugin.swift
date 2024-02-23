@@ -9,13 +9,13 @@ import Flutter
 import UIKit
 import Loans
 
-public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
+public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
     
     let currentViewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
       
     public static func register(with registrar: FlutterPluginRegistrar) {
-      let channel = FlutterMethodChannel(name: "ScLoan_flutter_plugin", binaryMessenger: registrar.messenger())
-      let instance = ScLoanFlutterPlugin()
+      let channel = FlutterMethodChannel(name: "scloans", binaryMessenger: registrar.messenger())
+      let instance = SwiftScLoanFlutterPlugin()
       registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
@@ -162,6 +162,25 @@ public class ScLoanFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         return successDict.toJsonString
+    }
+    
+}
+
+extension Dictionary {
+    
+    var toJsonString : String? {
+        
+        do {
+            let jsonObject = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+            
+            return String(bytes: jsonObject, encoding: String.Encoding.utf8)
+            
+        } catch let dictionaryError as NSError {
+            
+            print("Unable to convert dictionary to json String :\(dictionaryError)")
+            
+            return nil
+        }
     }
     
 }
