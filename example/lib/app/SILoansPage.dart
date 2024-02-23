@@ -41,11 +41,17 @@ class SILoansPage extends StatelessWidget {
                   children: [
                     SITextField(
                       hint: "Enter Gateway Name",
-                      text: data?.gatewayName,
+                      onChanged: (value) {
+                        repository.scLoanConfig.value =
+                        data!.copyWith(gatewayName: value);
+                }
                     ),
                     SITextField(
                       hint: "Enter Custom Interaction Token",
-                      text: data?.customInteractionToken,
+                      onChanged: (value) {
+                        repository.scLoanConfig.value =
+                        data!.copyWith(customInteractionToken: value);
+                }
                     ),
                   ],
                 );
@@ -71,6 +77,7 @@ class SILoansPage extends StatelessWidget {
                   label: "Apply",
                   onPressed: () async {
                     try {
+                      print("AD:: interaction token - ${repository.scLoanConfig.value.customInteractionToken}");
                       final response =
                           await ScLoan.apply(ScLoanInfo(repository.scLoanConfig.value.customInteractionToken ?? ""));
                       repository.showAlertDialog(response.toString(), context);
