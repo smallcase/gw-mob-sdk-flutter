@@ -5,6 +5,7 @@ import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SITextField.dart';
+import 'package:scloans/ScLoan.dart';
 
 import '../main.dart';
 import 'widgets/SIEnvironmentController.dart';
@@ -53,11 +54,61 @@ class SILoansPage extends StatelessWidget {
             Wrap(
               spacing: 12,
               children: [
-                SIButton(label: "Setup"),
-                SIButton(label: "Apply"),
-                SIButton(label: "Pay"),
-                SIButton(label: "Withdraw"),
-                SIButton(label: "Service"),
+                SIButton(
+                  label: "Setup",
+                  onPressed: () async {
+                    try {
+                      final response = await ScLoan.setup(ScLoanConfig(
+                          repository.scLoanConfig.value.environment,
+                          repository.scLoanConfig.value.gatewayName));
+                      repository.showAlertDialog(response.toString(), context);
+                    } on ScLoanError catch (e) {
+                      repository.showAlertDialog(e.toString(), context);
+                    }
+                  },
+                ),
+                SIButton(
+                  label: "Apply",
+                  onPressed: () async {
+                    try {
+                      final response =
+                          await ScLoan.apply(ScLoanInfo(repository.scLoanConfig.value.customInteractionToken ?? ""));
+                      repository.showAlertDialog(response.toString(), context);
+                    } on ScLoanError catch (e) {
+                      repository.showAlertDialog(e.toString(), context);
+                    }
+                  },
+                ),
+                SIButton(label: "Pay",
+                  onPressed: () async {
+                    try {
+                      final response =
+                          await ScLoan.pay(ScLoanInfo(repository.scLoanConfig.value.customInteractionToken ?? ""));
+                      repository.showAlertDialog(response.toString(), context);
+                    } on ScLoanError catch (e) {
+                      repository.showAlertDialog(e.toString(), context);
+                    }
+                  }),
+                SIButton(label: "Withdraw",
+                  onPressed: () async {
+                    try {
+                      final response =
+                          await ScLoan.withdraw(ScLoanInfo(repository.scLoanConfig.value.customInteractionToken ?? ""));
+                      repository.showAlertDialog(response.toString(), context);
+                    } on ScLoanError catch (e) {
+                      repository.showAlertDialog(e.toString(), context);
+                    }
+                  }),
+                SIButton(label: "Service",
+                  onPressed: () async {
+                    try {
+                      final response =
+                          await ScLoan.service(ScLoanInfo(repository.scLoanConfig.value.customInteractionToken ?? ""));
+                      repository.showAlertDialog(response.toString(), context);
+                    } on ScLoanError catch (e) {
+                      repository.showAlertDialog(e.toString(), context);
+                    }
+                  }),
               ],
             ),
             StreamBuilder(

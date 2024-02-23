@@ -55,12 +55,9 @@ class AccOpeningScreenState extends State<AccOpeningScreen> {
         SIButton(
           label: "LEAD GEN",
           onPressed: () async {
-            if (repository.leadgenUserName.value != null &&
-                repository.leadgenUserEmail.value != null &&
-                repository.leadgenUserContact.value != null) {
-              final leadgenUserName = repository.leadgenUserName.value!;
-              final leadgenUserEmail = repository.leadgenUserEmail.value!;
-              final leadgenUserContact = repository.leadgenUserContact.value!;
+              final leadgenUserName = repository.leadgenUserName.value ?? "";
+              final leadgenUserEmail = repository.leadgenUserEmail.value ?? "";
+              final leadgenUserContact = repository.leadgenUserContact.value ?? "";
 
               if (repository.withLoginCTA.value) {
                 Map<String, String>? utmParams;
@@ -72,7 +69,6 @@ class AccOpeningScreenState extends State<AccOpeningScreen> {
                 ScgatewayFlutterPlugin.leadGenWithStatus(
                     leadgenUserName, leadgenUserEmail, leadgenUserContact);
               }
-            }
           },
         ),
         SizedBox.square(dimension: 24),
