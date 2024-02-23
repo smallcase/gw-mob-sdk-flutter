@@ -11,10 +11,6 @@ void main() {
   runApp(MyApp());
 }
 
-SmartInvestingAppRepository get repository {
-  return SmartInvestingAppRepository.singleton();
-}
-
 class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
@@ -53,7 +49,7 @@ class _MyAppState extends State<MyApp> {
             seedColor: Colors.blue, brightness: _brightness),
       ),
       routerConfig: GoRouter(
-        initialLocation: "/las",
+        initialLocation: repository.appState.value,
         routes: [
           GoRoute(
             path: '/',

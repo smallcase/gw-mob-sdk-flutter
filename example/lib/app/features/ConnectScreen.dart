@@ -1,12 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
+import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIEnvironmentController.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SITextField.dart';
+import 'package:scgateway_flutter_plugin_example/smartinvesting.dart';
 
 import '../../main.dart';
 
@@ -16,6 +19,8 @@ final gatewayEnvironments = [
   ScGatewayConfig.stag()
 ];
 
+
+SmartInvesting smartInvesting = SmartInvestingAppRepository.smartInvesting;
 class ConnectScreen extends StatefulWidget {
   const ConnectScreen({super.key});
 
@@ -41,7 +46,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
           builder: (context, snapshot) {
             final data = snapshot.data;
             if (data == null)
-              return Text("scGatewayConfig is not set in $repository");
+              return Text("scGatewayConfig is not set in ${repository}");
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -64,14 +69,42 @@ class _ConnectScreenState extends State<ConnectScreen> {
                 ),
                 SITextField(
                   hint: "Smart Investing User Id",
+                  onChanged: (value) {
+                    repository.smartInvestingUserId.add(value);
+                },
+                ),
+                SIButton(label: "Fetch AuthToken From SmartInvesting", onPressed: () async {
+                  final loginResponse = await smartInvesting
+                  .userLogin(userID: repository.smartInvestingUserId.value);
+                  repository.scGatewayConfig.value = data.copyWith(customAuthToken: loginResponse["smallcaseAuthToken"]);
+                  repository.showAlertDialog(loginResponse.toString(),context);
+                },
                 ),
                 SITextField(
                   hint: "Custom Auth Token (JwT)",
+                  text: data.customAuthToken,
+                  onChanged: (value) {
+                    repository.scGatewayConfig.value =
+                        data.copyWith(customAuthToken: value);
+                  }
                 ),
                 Wrap(
                   children: [
-                    SIButton(label: "SETUP"),
-                    SIButton(label: "CONNECT"),
+                    SIButton(label: "SETUP", onPressed: () async {
+                    final environmentResponse = await  ScgatewayFlutterPlugin.setConfigEnvironment(
+                        repository.scGatewayConfig.value.environment,
+                        repository.scGatewayConfig.value.gatewayName,
+                        repository.scGatewayConfig.value.isLeprechaunEnabled,
+                        [],
+                        isAmoenabled: repository.scGatewayConfig.value.isAmoEnabled);
+                        final initResponse = await ScgatewayFlutterPlugin.initGateway(repository.scGatewayConfig.value.customAuthToken ?? "");
+                        repository.showAlertDialog(initResponse.toString(), context);
+                    },
+                    ),
+                    SIButton(label: "CONNECT", onPressed: () async {
+                    repository.triggerTransaction(ScgatewayIntent.CONNECT, null, false, context);
+                    },
+                    ),
                   ],
                 ),
                 SizedBox.square(dimension: 16),
@@ -82,23 +115,38 @@ class _ConnectScreenState extends State<ConnectScreen> {
                       text: "Trigger Txn with Id",
                     ),
                     InputChip(
-                      // checkmarkColor: Colors.white,
-                      onSelected: (value) {},
+                      checkmarkColor: Colors.white,
+                      onSelected: (value) {
+                        setState(() {
+                         repository.isMFTransactionEnabled.add(value); 
+                      });
+                      },
                       label: Text("MF"),
-                      selected: false,
+                      selected: repository.isMFTransactionEnabled.value ?? false,
                       elevation: 0,
-                      // selectedColor: Colors.green,
+                      selectedColor: Colors.green,
+                      
                     ),
                   ],
                 ),
                 SITextField(
                   hint: "Enter Transaction Id",
+                  onChanged: (value) {
+                   repository.transactionID.add(value);
+                }
                 ),
                 Wrap(
                   children: [
-                    SIButton(label: "Copy"),
-                    SIButton(label: "Trigger"),
-                    SIButton(label: "Search Postback"),
+                    SIButton(label: "Copy", onPressed: () {
+                      FlutterClipboard.copy(repository.transactionID.value);
+                    },),
+                    SIButton(label: "Trigger", onPressed: () {
+                   repository.triggerTransaction(null, null, true, context, isMF: repository.isMFTransactionEnabled.value);
+          },),
+                    SIButton(label: "Search Postback", onPressed: () {
+
+                      //call the postback function here
+                    },),
                   ],
                 )
               ],

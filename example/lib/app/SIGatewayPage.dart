@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIBottomNavBar.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
 
@@ -72,7 +73,10 @@ class _SIGatewayPageState extends State<SIGatewayPage> {
         actions: [
           SIButton(
             label: "Loans",
-            onPressed: () => context.go("/las"),
+            onPressed: () => {
+              repository.appState.add("/las"),
+              context.go(repository.appState.value)
+            },
           )
         ],
         title: StreamBuilder<int>(

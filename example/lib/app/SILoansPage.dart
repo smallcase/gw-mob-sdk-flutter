@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
@@ -19,7 +20,10 @@ class SILoansPage extends StatelessWidget {
         actions: [
           SIButton(
             label: "Gateway",
-            onPressed: () => context.go("/"),
+            onPressed: () => {
+              repository.appState.add("/"),
+              context.go(repository.appState.value)
+            },
           )
         ],
       ),
