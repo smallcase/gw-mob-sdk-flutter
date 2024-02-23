@@ -34,19 +34,13 @@ class SmtScreenState extends State<SmtScreen> {
                 ScgatewayFlutterPlugin.getAllSmallcases().then((initResponse) {
                   final Map<String, dynamic> responseData =
                       jsonDecode(initResponse ?? "");
-                  print("ResponseData = $responseData");
                   var list = responseData['data']['smallcases'] as List;
-                  print("AD:: list value = $list");
                   List<SmallcasesDTO> smallcases =
                       list.map((i) => SmallcasesDTO.fromJson(i)).toList();
-                  print("AD:: SmallcaseValue:: $smallcases");
                   setState(() {
-                    print("AD:: STATE WAS SET");
                     repository.smallcaseItems.value = smallcases;
                   });
-                  print("AD:: items:: ${repository.smallcaseItems.value}");
                   if (smallcases.isNotEmpty) {
-                    print("AD:: IF CONDITION RAN");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -56,7 +50,6 @@ class SmtScreenState extends State<SmtScreen> {
                       ),
                     );
                   } else {
-                    print("AD:: SMALLLCASES ARE EMPTY");
                   }
                 });
               },

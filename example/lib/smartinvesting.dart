@@ -68,12 +68,9 @@ class SmartInvesting {
     if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
       return response.data;
     } else {
-      print("Response status code: ${response.statusCode}");
-      print(response.data);
       throw Exception('Error occurred');
     }
   } catch (e) {
-    print("Error: $e");
     throw Exception('Error occurred');
   }
 }

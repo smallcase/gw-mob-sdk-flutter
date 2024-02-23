@@ -87,7 +87,6 @@ class _SstScreenState extends State<SstScreen> {
         SIButton(
           label: "PLACE ORDER",
           onPressed: () {
-            print("AD:: BUTTON PRESSSED");
             if (securities != "") {
               var tickers = securities.split(',');
               var tickersList = [];
@@ -102,7 +101,6 @@ class _SstScreenState extends State<SstScreen> {
               repository.triggerTransaction(
                   ScgatewayIntent.TRANSACTION, orderConfig, false, context);
             } else {
-              print("AD:: ELSE STATEMENT RUNNING");
               repository.showAlertDialog("empty ticker field", context);
             }
           },
