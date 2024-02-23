@@ -1,7 +1,6 @@
 name: scloans
 description: Scloans flutter plugin.
 version: 0.0.1
-author: gatewaytech@smallcase.com
 homepage: https://github.com/smallcase/gw-mob-sdk-flutter
 
 environment:
