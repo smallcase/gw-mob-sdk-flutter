@@ -130,8 +130,8 @@ class SmtScreenState extends State<SmtScreen> {
               SmallplugUiConfig smallplugUiConfig = new SmallplugUiConfig(
                   headerColor: hc,
                   backIconColor: bc,
-                  headerOpacity: repository.headerOpacity.value ?? 0,
-                  backIconOpacity: repository.backIconOpacity.value ?? 0);
+                  headerOpacity: repository.headerOpacity.value ?? 1,
+                  backIconOpacity: repository.backIconOpacity.value ?? 1);
 
               if (repository.smallplugEndpoint.value != null &&
                   repository.smallplugEndpoint.value != "") {
