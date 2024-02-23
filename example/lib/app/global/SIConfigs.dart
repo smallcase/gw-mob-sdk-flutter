@@ -66,6 +66,10 @@ class ScGatewayConfig {
   final bool isLeprechaunEnabled;
   final bool isAmoEnabled;
   final String? transactionId;
+  final bool isMFTransactionEnabled;
+  final bool isV2enabled;
+
+
 
   const ScGatewayConfig({
     required this.gatewayName,
@@ -73,7 +77,9 @@ class ScGatewayConfig {
     this.customAuthToken = null,
     this.isLeprechaunEnabled = false,
     this.isAmoEnabled = false,
-    this.transactionId
+    this.transactionId,
+    this.isMFTransactionEnabled = false,
+    this.isV2enabled = false
   });
 
   factory ScGatewayConfig.prod() => ScGatewayConfig(
@@ -110,6 +116,8 @@ class ScGatewayConfig {
     String? customAuthToken,
     bool? isLeprechaunEnabled,
     bool? isAmoEnabled,
+    bool? isMFTransactionEnabled,
+    bool? isV2enabled
   }) {
     return ScGatewayConfig(
       environment: environment ?? this.environment,
@@ -117,6 +125,8 @@ class ScGatewayConfig {
       customAuthToken: customAuthToken ?? this.customAuthToken,
       isLeprechaunEnabled: isLeprechaunEnabled ?? this.isLeprechaunEnabled,
       isAmoEnabled: isAmoEnabled ?? this.isAmoEnabled,
+      isMFTransactionEnabled: isMFTransactionEnabled ?? this.isMFTransactionEnabled,
+      isV2enabled: isV2enabled ?? this.isV2enabled
     );
   }
 }
@@ -129,7 +139,7 @@ class ScLoanConfig {
   const ScLoanConfig({
     required this.gatewayName,
     required this.environment,
-    this.customInteractionToken,
+    this.customInteractionToken = null,
   });
 
   factory ScLoanConfig.prod() => ScLoanConfig(
@@ -167,10 +177,12 @@ class ScLoanConfig {
   ScLoanConfig copyWith({
     ScLoanEnvironment? environment,
     String? gatewayName,
+    String? customInteractionToken
   }) {
     return ScLoanConfig(
       environment: environment ?? this.environment,
       gatewayName: gatewayName ?? this.gatewayName,
+      customInteractionToken: customInteractionToken ?? this.customInteractionToken
     );
   }
 }
