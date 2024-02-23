@@ -8,7 +8,9 @@ abstract class ScLoanResponse {
 class ScLoanSuccess implements ScLoanResponse {
   @override
   bool get isSuccess => true;
+  @override
   final String? data;
+
   ScLoanSuccess({
     this.data,
   });
@@ -61,7 +63,9 @@ class ScLoanError implements ScLoanResponse, Exception {
   bool get isSuccess => false;
   final int code;
   final String message;
+  @override 
   final String? data;
+
   ScLoanError({
     required this.code,
     required this.message,

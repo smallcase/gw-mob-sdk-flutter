@@ -1,14 +1,13 @@
 import 'package:flutter/services.dart';
-import 'ScLoanProps.dart';
-import 'ScLoanResponses.dart';
-import '../PlatformExceptionExt.dart';
-export '../ScLoan.dart';
-export '../ScLoanResponses.dart';
-export '../ScLoanProps.dart';
+import 'sc_loan_props.dart';
+import 'sc_loan_responses.dart';
+import 'platform_exception_ext.dart';
+export 'sc_loan.dart';
+export 'sc_loan_responses.dart';
+export 'sc_loan_props.dart';
 
 class ScLoan {
-  static const MethodChannel _channel =
-      const MethodChannel('scloans');
+  static const _channel = MethodChannel('scloans');
 
   static Future<ScLoanSuccess> setup(ScLoanConfig config) async {
     try {

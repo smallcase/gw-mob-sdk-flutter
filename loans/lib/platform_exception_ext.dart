@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import 'ScLoanResponses.dart';
+import 'sc_loan_responses.dart';
 
 extension PlatformExceptionExt on PlatformException {
   ScLoanError get toScLoanError {
