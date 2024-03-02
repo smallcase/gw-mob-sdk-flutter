@@ -121,10 +121,11 @@ class _ConnectScreenState extends State<ConnectScreen> {
                         //             repository.scGatewayConfig.value)
                         //         .getTransactionId(
                         //             repository.smartInvestingUserId.value ?? "",
-                        //             null,
+                        //             ScgatewayIntent.CONNECT,
                         //             null);
                         // final response = await ScgatewayFlutterPlugin
-                        //         .triggerGatewayTransaction(transactionId) ?? "";
+                        //         .triggerGatewayTransaction(transactionId) ??
+                        //     "";
                         // repository.showAlertDialog(
                         //     response.toString(), context);
                         repository.triggerTransaction(

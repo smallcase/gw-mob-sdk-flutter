@@ -416,6 +416,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  plugin_platform_interface:
+    dependency: transitive
+    description:
+      name: plugin_platform_interface
+      sha256: "4820fbfdb9478b1ebae27888254d445073732dae3d6ea81f0b7e06d5dedc3f02"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.8"
   pool:
     dependency: transitive
     description:
@@ -458,9 +466,10 @@ packages:
   scloans:
     dependency: "direct main"
     description:
-      path: "../loans"
-      relative: true
-    source: path
+      name: scloans
+      sha256: "540fcd4c34522cd88925d73496a23e1316b7a1bd56ea128f09a11445329de75b"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.0.1"
   shelf:
     dependency: transitive

@@ -3,19 +3,17 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/NewsDataDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseNews.dart';
+import 'package:scgateway_flutter_plugin_example/app/features/subscreens/SmallcaseNews.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:clipboard/clipboard.dart';
 
 class SmallcaseDetails extends StatelessWidget {
-  SmallcasesDTO? smallcase;
+  dynamic smallcase;
 
   SmallcaseDetails({Key? key,  this.smallcase}) : super(key: key);
 
   Future<void> _buySmallcase(BuildContext context) async {
-    var orderConfig = {"type": "BUY", "scid": smallcase?.scid};
+    var orderConfig = {"type": "BUY", "scid": smallcase["scid"]};
 
     _placeSmtOrder(ScgatewayIntent.TRANSACTION, orderConfig, context);
   }
@@ -27,7 +25,7 @@ class SmallcaseDetails extends StatelessWidget {
   }
 
   Future<void> _getSmallcaseNews(BuildContext context) async {
-    ScgatewayFlutterPlugin.getSmallcaseNews(smallcase?.scid ?? "")
+    ScgatewayFlutterPlugin.getSmallcaseNews(smallcase["scid"] ?? "")
         .then((value) => _populateSmallcaseNews(value ?? "", context));
   }
 
@@ -35,14 +33,10 @@ class SmallcaseDetails extends StatelessWidget {
     final Map<String, dynamic> responseData = jsonDecode(jsonString);
 
     var newsList = responseData['data']['news'] as List;
-
-    List<NewsDataDTO> news =
-        newsList.map((e) => NewsDataDTO.fromJson(e)).toList();
-
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SmallcaseNews(smallcaseNews: news),
+          builder: (context) => SmallcaseNews(smallcaseNews: newsList),
         ));
   }
 
@@ -83,7 +77,7 @@ class SmallcaseDetails extends StatelessWidget {
         Container(
           constraints: BoxConstraints.tightFor(width: 60.0),
           child: Image.network(
-              "https://assets.smallcase.com/images/smallcases/200/${smallcase?.scid}.png",
+              "https://assets.smallcase.com/images/smallcases/200/${smallcase["scid"]}.png",
               fit: BoxFit.fitWidth),
         ),
         const SizedBox(width: 10),
@@ -91,9 +85,9 @@ class SmallcaseDetails extends StatelessWidget {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(this.smallcase?.info?.name ?? ""),
+            Text(this.smallcase["info"]["name"] ?? ""),
             Text(
-              this.smallcase?.info?.shortDescription ?? "",
+              this.smallcase["info"]["shortDescription"] ?? "",
               maxLines: 5,
               overflow: TextOverflow.ellipsis,
               softWrap: true,
@@ -134,7 +128,7 @@ class SmallcaseDetails extends StatelessWidget {
           children: [
             Text("Min Amount"),
             const SizedBox(height: 10),
-            Text((this.smallcase?.stats?.minInvestAmount ?? "").toString())
+            Text((this.smallcase["stats"]["minInvestAmount"] ?? "").toString())
           ],
         ),
         ElevatedButton(
@@ -149,7 +143,7 @@ class SmallcaseDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(smallcase?.info?.name ?? "")),
+      appBar: AppBar(title: Text(smallcase["info"]["name"] ?? "")),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),

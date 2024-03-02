@@ -1,12 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/NewsDataDTO.dart';
 
 
 class SmallcaseNews extends StatelessWidget {
 
-  List<NewsDataDTO>? smallcaseNews;
+  List<dynamic>? smallcaseNews;
 
   SmallcaseNews({Key? key,  this.smallcaseNews}) : super(key: key);
 
@@ -14,14 +13,13 @@ class SmallcaseNews extends StatelessWidget {
     var smallcase = this.smallcaseNews![index];
     return ListTile(
       contentPadding: EdgeInsets.all(10.0),
-      // leading: _itemThumbnail(smallcase),
-      title: _itemTitle(smallcase)
+      title: _itemTitle(smallcase["headline"])
     );
   }
 
-  Widget _itemTitle(NewsDataDTO newsDataDTO){
+  Widget _itemTitle(String? newsData){
     return Text(
-      newsDataDTO.headline ?? ""
+      newsData ?? ""
     );
   }
 

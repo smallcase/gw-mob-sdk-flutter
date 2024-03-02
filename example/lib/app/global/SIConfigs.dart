@@ -2,7 +2,7 @@ import 'dart:convert';
 
 
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-import 'package:scloans/ScLoanProps.dart';
+import 'package:scloans/sc_loan.dart';
 
 enum SIEnvironment {
   PRODUCTION(label: "Prod"),

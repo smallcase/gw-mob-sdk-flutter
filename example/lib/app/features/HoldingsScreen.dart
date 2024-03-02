@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/features/ConnectScreen.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/UserHoldingsResponse.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
@@ -67,7 +66,6 @@ class HoldingsScreenState extends State<HoldingsScreen> {
           onPressed: () async {
             final reponse = await repository.triggerTransaction(
                 ScgatewayIntent.AUTHORISE_HOLDINGS, null, false, context);
-            repository.showAlertDialog(reponse.toString(), context);
           },
         ),
         SIButton(
@@ -75,7 +73,7 @@ class HoldingsScreenState extends State<HoldingsScreen> {
           onPressed: () async {
             final reponse = await repository.triggerTransaction(
                 ScgatewayIntent.HOLDINGS, null, false, context);
-              repository.showAlertDialog(reponse.toString(), context);
+              
           },
         ),
         SIButton(label: "SHOW HOLDINGS", onPressed: () async {
@@ -84,10 +82,12 @@ class HoldingsScreenState extends State<HoldingsScreen> {
       final response = await smartInvesting.getUserHoldings(repository.smartInvestingUserId.value ?? "", version,
           mfEnabled: data.isMFTransactionEnabled);
       if (version == 2) {
-        final holdingsResponse =  UserHoldingsResponse.fromJsonV2(response);
+         repository.showAlertDialog(response.toString(), context);
+      } else {
+      repository.showAlertDialog(response.toString(), context);
       }
-      final holdingsResponse =  UserHoldingsResponse.fromJson(json.decode(response));
     } on Exception catch (e) {
+       repository.showAlertDialog(e.toString(), context);
       print("Gateway Exception!! getUserHoldings : $e");
       return null;
     }

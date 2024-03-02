@@ -1,13 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseInfoDTO.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseList.dart';
+import 'package:scgateway_flutter_plugin_example/app/features/SmallcaseList.dart';
+import 'package:scgateway_flutter_plugin_example/app/features/subscreens/InvestmentsList.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseStatsDTO.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SITextField.dart';
@@ -35,34 +32,39 @@ class SmtScreenState extends State<SmtScreen> {
                   final Map<String, dynamic> responseData =
                       jsonDecode(initResponse ?? "");
                   var list = responseData['data']['smallcases'] as List;
-                  List<SmallcasesDTO> smallcases =
-                      list.map((i) => SmallcasesDTO.fromJson(i)).toList();
-                 
-                    repository.smallcaseItems.value = smallcases;
-                 
-                  if (smallcases.isNotEmpty) {
+                  if (list.isNotEmpty) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => SmallcasesList(
-                          items: repository.smallcaseItems.value,
+                          items: responseData['data']['smallcases'],
                         ),
                       ),
                     );
-                  } else {
-                  }
+                  } else {}
                 });
               },
             ),
             SIButton(
                 label: "USER INVESTMENTS",
                 onPressed: () async {
-                  ScgatewayFlutterPlugin.getAllUserInvestments();
+                  ScgatewayFlutterPlugin.getAllUserInvestments()
+                      .then((initResponse) {
+                    final Map<String, dynamic> responseData = jsonDecode(initResponse ?? "");
+                    var investments = responseData['data'] as List;
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              InvestmentsList(investments: investments),
+                        ));
+                  });
                 }),
             SIButton(
               label: "EXITED SMALLCASES",
               onPressed: () async {
-                ScgatewayFlutterPlugin.getAllExitedSmallcases();
+                final response = await ScgatewayFlutterPlugin.getAllExitedSmallcases();
+                repository.showAlertDialog(response.toString(), context);
               },
             ),
           ],

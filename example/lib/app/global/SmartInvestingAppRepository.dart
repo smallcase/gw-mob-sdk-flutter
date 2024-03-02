@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
 import 'package:scgateway_flutter_plugin_example/smartinvesting.dart';
 
@@ -44,7 +43,6 @@ class SmartInvestingAppRepository {
     final backIconColor = BehaviorSubject<String?>.seeded(null);
     final backIconOpacity = BehaviorSubject<double?>.seeded(null);
     final smallplugEndpoint = BehaviorSubject<String?>.seeded(null);
-    final smallcaseItems = BehaviorSubject<List<SmallcasesDTO>>.seeded([]);
 
 Color getColorFromHex(String hexColor) {
   hexColor = hexColor.replaceAll('#', '');

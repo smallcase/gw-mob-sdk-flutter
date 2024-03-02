@@ -5,7 +5,7 @@ import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SITextField.dart';
-import 'package:scloans/ScLoan.dart';
+import 'package:scloans/sc_loan.dart';
 
 import '../main.dart';
 import 'widgets/SIEnvironmentController.dart';
