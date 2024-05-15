@@ -1,19 +1,18 @@
 PODS:
   - Flutter (1.0.0)
-  - Mixpanel-swift (3.3.0):
-    - Mixpanel-swift/Complete (= 3.3.0)
-  - Mixpanel-swift/Complete (3.3.0)
-  - SCGateway (3.12.0):
-    - Mixpanel-swift (= 3.3.0)
-    - SCLoans (~> 2.0)
+  - Mixpanel-swift (4.2.7):
+    - Mixpanel-swift/Complete (= 4.2.7)
+  - Mixpanel-swift/Complete (4.2.7)
+  - SCGateway-internal (3.12.0-lite):
+    - Mixpanel-swift (= 4.2.7)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 3.12.0)
+    - SCGateway-internal (= 3.12.0-lite)
   - scloans (0.0.1):
     - Flutter
-    - SCLoans (= 2.1.0)
-  - SCLoans (2.1.0):
-    - Mixpanel-swift (= 3.3.0)
+    - SCLoans-internal (= 2.1.0-lite)
+  - SCLoans-internal (2.1.0-lite):
+    - Mixpanel-swift (= 4.2.7)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -21,10 +20,11 @@ DEPENDENCIES:
   - scloans (from `.symlinks/plugins/scloans/ios`)
 
 SPEC REPOS:
+  https://github.com/smallcase/cocoapodspec-internal:
+    - SCGateway-internal
+    - SCLoans-internal
   trunk:
     - Mixpanel-swift
-    - SCGateway
-    - SCLoans
 
 EXTERNAL SOURCES:
   Flutter:
@@ -35,13 +35,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/scloans/ios"
 
 SPEC CHECKSUMS:
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  Mixpanel-swift: 6ffe368bcfc3b538f540f31372bc798afd90c1ad
-  SCGateway: 24a2961e5444b8ee1a0a328293e698499987f8a1
-  scgateway_flutter_plugin: d1da48760b9fadb1c857c61f696adaba73954328
-  SCLoans: 2504c45355d0a12e4452ee0704b8a7fb43f4d6ef
-  scloans: e5e180b977a6a2cfcb412290ba114ecf98910bd9
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Mixpanel-swift: 7f5b749dbda2708033d67ff3d7a91710468d4a38
+  SCGateway-internal: 2345a8fe78f165f1858b8ae50121e0fe9b6c99f2
+  scgateway_flutter_plugin: 04d4edb11cb109a1228e6e4b1974e0777fa4642b
+  scloans: 87587e359f64ead5f5dbe3e2288d5dc1085ce4fc
+  SCLoans-internal: 4cf1488a63c87d1b5b4cf77bd2ced9c596185de8
 
-PODFILE CHECKSUM: e6e5e9e7cf3aef97ddd3b371c70e1767147f9f5b
+PODFILE CHECKSUM: 5b0719ac4a7171efcef604284556b2dabe540357
 
 COCOAPODS: 1.15.2
