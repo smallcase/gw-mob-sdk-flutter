@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 
-
 class InvestmentDetails extends StatelessWidget {
   dynamic investmentsDataDTO;
 
@@ -15,27 +14,32 @@ class InvestmentDetails extends StatelessWidget {
       "type": type,
       "iscid": investmentsDataDTO["investmentItem"]["iscid"]
     };
-repository.triggerTransaction(ScgatewayIntent.TRANSACTION, orderConfig, false, context);
-   
+    repository.triggerTransaction(
+        ScgatewayIntent.TRANSACTION, orderConfig, false, context);
   }
 
   Future<void> _sipSetup(BuildContext context) async {
-    var orderConfig = {"iscid": this.investmentsDataDTO["investmentItem"]["iscid"]};
+    var orderConfig = {
+      "iscid": this.investmentsDataDTO["investmentItem"]["iscid"]
+    };
 
-repository.triggerTransaction(ScgatewayIntent.SIP_SETUP, orderConfig, false, context);
-
+    repository.triggerTransaction(
+        ScgatewayIntent.SIP_SETUP, orderConfig, false, context);
   }
 
   Future<void> _cancelAmo(BuildContext context) async {
-    var orderConfig = {"iscid": this.investmentsDataDTO["investmentItem"]["iscid"]};
+    var orderConfig = {
+      "iscid": this.investmentsDataDTO["investmentItem"]["iscid"]
+    };
 
-repository.triggerTransaction(ScgatewayIntent.CANCEL_AMO, orderConfig, false, context);
+    repository.triggerTransaction(
+        ScgatewayIntent.CANCEL_AMO, orderConfig, false, context);
   }
 
   void _markSmallcaseArchive(BuildContext context) async {
-
-final response = await ScgatewayFlutterPlugin.markSmallcaseArchive(investmentsDataDTO["investmentItem"]["iscid"]);
-       repository.showAlertDialog(response ?? "", context);
+    final response = await ScgatewayFlutterPlugin.markSmallcaseArchive(
+        investmentsDataDTO["investmentItem"]["iscid"]);
+    repository.showAlertDialog(response ?? "", context);
   }
 
   Future<void> _showAlertDialog(String message, BuildContext context) async {
@@ -102,55 +106,56 @@ final response = await ScgatewayFlutterPlugin.markSmallcaseArchive(investmentsDa
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("repair", context),
           child: const Text('Repair', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () =>
               _triggerInvestmentAction("investmore".toUpperCase(), context),
           child: const Text('INVEST MORE', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("manage", context),
           child: const Text('Manage', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _sipSetup(context),
           child: const Text('SIP SETUP', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("rebalance", context),
           child: const Text('Rebalance', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("sip", context),
           child: const Text('SIP Order', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
           onPressed: () => _cancelAmo(context),
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           child: const Text('Cancel AMO', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("exit", context),
           child: const Text('Exit', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _markSmallcaseArchive(context),
           child: const Text('Archive', style: TextStyle(fontSize: 20)),
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("DUMMY", context),
-          child: const Text('Place Dummy Order', style: TextStyle(fontSize: 20)),
+          child:
+              const Text('Place Dummy Order', style: TextStyle(fontSize: 20)),
         ),
       ],
     );

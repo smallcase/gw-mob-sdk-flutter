@@ -10,7 +10,7 @@ import 'package:clipboard/clipboard.dart';
 class SmallcaseDetails extends StatelessWidget {
   dynamic smallcase;
 
-  SmallcaseDetails({Key? key,  this.smallcase}) : super(key: key);
+  SmallcaseDetails({Key? key, this.smallcase}) : super(key: key);
 
   Future<void> _buySmallcase(BuildContext context) async {
     var orderConfig = {"type": "BUY", "scid": smallcase["scid"]};
@@ -20,7 +20,8 @@ class SmallcaseDetails extends StatelessWidget {
 
   Future<void> _placeSmtOrder(
       String intent, Object orderConfig, BuildContext context) async {
-        repository.triggerTransaction(intent, orderConfig, false, context)
+    repository
+        .triggerTransaction(intent, orderConfig, false, context)
         .then((value) => repository.showAlertDialog(value, context));
   }
 
@@ -104,7 +105,7 @@ class SmallcaseDetails extends StatelessWidget {
         height: 35,
         child: ElevatedButton(
           onPressed: () => _getSmallcaseNews(context),
-          style: ElevatedButton.styleFrom(onPrimary: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           child: const Text('NEWS', style: TextStyle(fontSize: 20)),
         ));
   }
@@ -115,7 +116,9 @@ class SmallcaseDetails extends StatelessWidget {
         height: 35,
         child: ElevatedButton(
           onPressed: () {},
-          style: ElevatedButton.styleFrom(foregroundColor: Colors.green, padding: EdgeInsets.only(top: 10, left: 15, right: 10)),
+          style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.green,
+              padding: EdgeInsets.only(top: 10, left: 15, right: 10)),
           child: const Text('HISTORICAL', style: TextStyle(fontSize: 20)),
         ));
   }
