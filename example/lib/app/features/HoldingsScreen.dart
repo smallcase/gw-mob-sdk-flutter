@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/features/ConnectScreen.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/UserHoldingsResponse.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIButton.dart';
 import 'package:scgateway_flutter_plugin_example/app/widgets/SISwitch.dart';
@@ -21,6 +20,14 @@ class HoldingsScreen extends StatefulWidget {
 class HoldingsScreenState extends State<HoldingsScreen> {
   @override
   Widget build(BuildContext context) {
+        return StreamBuilder(
+      stream: repository.scGatewayConfig, // Assuming this is the relevant stream
+      builder: (context, snapshot) {
+        final data = snapshot.data;
+        if (data == null) {
+          // Handle the case where data is not available
+          return CircularProgressIndicator(); // or any other placeholder widget
+        } else {
     return ListView(
       padding: EdgeInsets.all(8),
       children: [
@@ -32,12 +39,10 @@ class HoldingsScreenState extends State<HoldingsScreen> {
               children: [
                 SISwitch(
                   label: "Enable v2",
-                  isEnabled: repository.isV2enabled.value,
+                  isEnabled: data.isV2enabled,
                   onChanged: (value) {
-                    setState(() {
-                      repository.isV2enabled.value =
-                          value; // Update repository value
-                    });
+                     repository.scGatewayConfig.value =
+                        data.copyWith(isV2enabled: value);
                   },
                 ),
               ],
@@ -46,12 +51,10 @@ class HoldingsScreenState extends State<HoldingsScreen> {
               children: [
                 SISwitch(
                   label: "Enable MF",
-                  isEnabled: repository.isMFTransactionEnabled.value,
+                  isEnabled: data.isMFTransactionEnabled,
                   onChanged: (value) {
-                     setState(() {
-                     repository.isMFTransactionEnabled.value = value;
-                    });
-                    
+                    repository.scGatewayConfig.value =
+                        data.copyWith(isMFTransactionEnabled: value);
                   },
                 ),
               ],
@@ -63,7 +66,6 @@ class HoldingsScreenState extends State<HoldingsScreen> {
           onPressed: () async {
             final reponse = await repository.triggerTransaction(
                 ScgatewayIntent.AUTHORISE_HOLDINGS, null, false, context);
-            repository.showAlertDialog(reponse.toString(), context);
           },
         ),
         SIButton(
@@ -71,19 +73,21 @@ class HoldingsScreenState extends State<HoldingsScreen> {
           onPressed: () async {
             final reponse = await repository.triggerTransaction(
                 ScgatewayIntent.HOLDINGS, null, false, context);
-              repository.showAlertDialog(reponse.toString(), context);
+              
           },
         ),
         SIButton(label: "SHOW HOLDINGS", onPressed: () async {
           try {
-            var version = repository.isV2enabled.value ? 2 : 1;
+            var version = data.isV2enabled ? 2 : 1;
       final response = await smartInvesting.getUserHoldings(repository.smartInvestingUserId.value ?? "", version,
-          mfEnabled: repository.isMFTransactionEnabled.value);
+          mfEnabled: data.isMFTransactionEnabled);
       if (version == 2) {
-        final holdingsResponse =  UserHoldingsResponse.fromJsonV2(response);
+         repository.showAlertDialog(response.toString(), context);
+      } else {
+      repository.showAlertDialog(response.toString(), context);
       }
-      final holdingsResponse =  UserHoldingsResponse.fromJson(json.decode(response));
     } on Exception catch (e) {
+       repository.showAlertDialog(e.toString(), context);
       print("Gateway Exception!! getUserHoldings : $e");
       return null;
     }
@@ -119,4 +123,7 @@ class HoldingsScreenState extends State<HoldingsScreen> {
       ],
     );
   }
+      }
+        );
+}
 }

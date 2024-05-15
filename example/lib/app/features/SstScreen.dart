@@ -20,7 +20,7 @@ class _SstScreenState extends State<SstScreen> {
 
   void _onSearchTextChanged(String value) {
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(Duration(milliseconds: 500), () async {
+    _debounceTimer = Timer(Duration(milliseconds: 200), () async {
       searchResults = await smartInvesting.stockSearch(value.toUpperCase());
       setState(() {});
     });
@@ -97,7 +97,6 @@ class _SstScreenState extends State<SstScreen> {
                 "securities": tickersList,
                 "type": "SECURITIES"
               };
-              print(orderConfig);
               repository.triggerTransaction(
                   ScgatewayIntent.TRANSACTION, orderConfig, false, context);
             } else {

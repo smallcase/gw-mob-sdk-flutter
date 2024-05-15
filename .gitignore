@@ -17,6 +17,7 @@ build/
 .flutter-plugins
 .flutter-plugins-dependencies
 
+
 .node_modules/*
 .node_modules
 .idea/workspace.xml

@@ -46,18 +46,13 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
-    private lateinit var scLoansChannel: MethodChannel
+    
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         this.context = flutterPluginBinding.applicationContext
 
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "scgateway_flutter_plugin")
         channel.setMethodCallHandler(this)
-
-        scLoansChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "scloans_flutter_plugin")
-        scLoansChannel.setMethodCallHandler(ScLoanFlutterPlugin(getActivity = {
-            activity
-        }))
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull rawResult: Result) {

@@ -9,8 +9,8 @@ homepage: https://github.com/smallcase/gw-mob-sdk-flutter
 #publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
-  flutter: ">=2.2.2"
+  sdk: '>=2.17.0 <3.0.0'
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:

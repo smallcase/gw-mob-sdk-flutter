@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:scgateway_flutter_plugin/ScLoan.dart';
+
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scloans/sc_loan.dart';
 
 enum SIEnvironment {
   PRODUCTION(label: "Prod"),
@@ -65,6 +66,10 @@ class ScGatewayConfig {
   final bool isLeprechaunEnabled;
   final bool isAmoEnabled;
   final String? transactionId;
+  final bool isMFTransactionEnabled;
+  final bool isV2enabled;
+
+
 
   const ScGatewayConfig({
     required this.gatewayName,
@@ -72,7 +77,9 @@ class ScGatewayConfig {
     this.customAuthToken = null,
     this.isLeprechaunEnabled = false,
     this.isAmoEnabled = false,
-    this.transactionId
+    this.transactionId,
+    this.isMFTransactionEnabled = false,
+    this.isV2enabled = false
   });
 
   factory ScGatewayConfig.prod() => ScGatewayConfig(
@@ -109,6 +116,8 @@ class ScGatewayConfig {
     String? customAuthToken,
     bool? isLeprechaunEnabled,
     bool? isAmoEnabled,
+    bool? isMFTransactionEnabled,
+    bool? isV2enabled
   }) {
     return ScGatewayConfig(
       environment: environment ?? this.environment,
@@ -116,28 +125,30 @@ class ScGatewayConfig {
       customAuthToken: customAuthToken ?? this.customAuthToken,
       isLeprechaunEnabled: isLeprechaunEnabled ?? this.isLeprechaunEnabled,
       isAmoEnabled: isAmoEnabled ?? this.isAmoEnabled,
+      isMFTransactionEnabled: isMFTransactionEnabled ?? this.isMFTransactionEnabled,
+      isV2enabled: isV2enabled ?? this.isV2enabled
     );
   }
 }
 
 class ScLoanConfig {
-  final SCLoanEnvironment environment;
+  final ScLoanEnvironment environment;
   final String gatewayName;
   final String? customInteractionToken;
 
   const ScLoanConfig({
     required this.gatewayName,
     required this.environment,
-    this.customInteractionToken,
+    this.customInteractionToken = null,
   });
 
   factory ScLoanConfig.prod() => ScLoanConfig(
-      gatewayName: "gatewaydemo", environment: SCLoanEnvironment.PRODUCTION);
+      gatewayName: "gatewaydemo", environment: ScLoanEnvironment.PRODUCTION);
   factory ScLoanConfig.dev() => ScLoanConfig(
       gatewayName: "gatewaydemo-dev",
-      environment: SCLoanEnvironment.DEVELOPMENT);
+      environment: ScLoanEnvironment.DEVELOPMENT);
   factory ScLoanConfig.stag() => ScLoanConfig(
-      gatewayName: "gatewaydemo-stag", environment: SCLoanEnvironment.STAGING);
+      gatewayName: "gatewaydemo-stag", environment: ScLoanEnvironment.STAGING);
 
   Map<String, dynamic> toMap() {
     return {
@@ -148,7 +159,7 @@ class ScLoanConfig {
 
   factory ScLoanConfig.fromMap(Map<String, dynamic> map) {
     return ScLoanConfig(
-      environment: SCLoanEnvironment.values
+      environment: ScLoanEnvironment.values
           .firstWhere((element) => element.name == map['environment']),
       gatewayName: map['gatewayName'] ?? '',
     );
@@ -164,12 +175,14 @@ class ScLoanConfig {
       'ScLoanConfig(environment: $environment, gatewayName: $gatewayName)';
 
   ScLoanConfig copyWith({
-    SCLoanEnvironment? environment,
+    ScLoanEnvironment? environment,
     String? gatewayName,
+    String? customInteractionToken
   }) {
     return ScLoanConfig(
       environment: environment ?? this.environment,
       gatewayName: gatewayName ?? this.gatewayName,
+      customInteractionToken: customInteractionToken ?? this.customInteractionToken
     );
   }
 }

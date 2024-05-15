@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
-import 'package:scgateway_flutter_plugin_example/app/models/SmallcaseDTO.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SIConfigs.dart';
 import 'package:scgateway_flutter_plugin_example/smartinvesting.dart';
 
@@ -44,7 +43,6 @@ class SmartInvestingAppRepository {
     final backIconColor = BehaviorSubject<String?>.seeded(null);
     final backIconOpacity = BehaviorSubject<double?>.seeded(null);
     final smallplugEndpoint = BehaviorSubject<String?>.seeded(null);
-    final smallcaseItems = BehaviorSubject<List<SmallcasesDTO>>.seeded([]);
 
 Color getColorFromHex(String hexColor) {
   hexColor = hexColor.replaceAll('#', '');
@@ -52,30 +50,10 @@ Color getColorFromHex(String hexColor) {
   return Color(parsedColor).withOpacity(1.0); 
 }
 
-  var isV2enabled = BehaviorSubject<bool>.seeded(false);
   final notes = BehaviorSubject<String?>.seeded(null);
   final date = BehaviorSubject<String?>.seeded(null);
 
-
-//get user holdings 
-
-//  Future<UserHoldingsResponse> getUserHoldings(
-//       {int version = 1, bool mfEnabled = false}) async {
-//     try {
-//       final response = await smartInvesting.getUserHoldings(userId, version,
-//           mfEnabled: mfEnabled);
-//       if (version == 2) {
-//         return UserHoldingsResponse.fromJsonV2(response);
-//       }
-//       return UserHoldingsResponse.fromJson(json.decode(response));
-//     } on Exception catch (e) {
-//       print("Gateway Exception!! getUserHoldings : $e");
-//       return null;
-//     }
-//   }
-
 //MF Transaction
-  var isMFTransactionEnabled = BehaviorSubject<bool>.seeded(false);
   var transactionID = BehaviorSubject<String>.seeded("");
 
 
@@ -151,10 +129,11 @@ Color getColorFromHex(String hexColor) {
     } 
           }
       return response;
-    }
+    } else {
     response = await ScgatewayFlutterPlugin.triggerGatewayTransaction(
         transactionId) ?? "";
         showAlertDialog(response.toString(), context);
+    }
     return response;
   }
 
@@ -162,7 +141,6 @@ Color getColorFromHex(String hexColor) {
     environment.close();
     scGatewayConfig.close();
     scLoanConfig.close();
-    isMFTransactionEnabled.close();
     transactionID.close();
     _singleton = null;
   }

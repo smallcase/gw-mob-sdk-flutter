@@ -41,37 +41,40 @@ class AccOpeningScreenState extends State<AccOpeningScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SISwitch(
-              label: "Show Login CTA",
-              isEnabled: repository.withLoginCTA.value,
-              onChanged: (value) {
-                setState(() {
-                  repository.withLoginCTA.value = value;
-                });
-              },
-            ),
+            StreamBuilder<bool>(
+                stream: repository.withLoginCTA,
+                builder: (context, snapshot) {
+                  final data = snapshot.data;
+                  if (data == null) {
+                    return const SizedBox();
+                  }
+                  return SISwitch(
+                    label: "Show Login CTA",
+                    isEnabled: data,
+                    onChanged: (value) {
+                      repository.withLoginCTA.value = value;
+                    },
+                  );
+                }),
           ],
         ),
         SIButton(
           label: "LEAD GEN",
           onPressed: () async {
-            if (repository.leadgenUserName.value != null &&
-                repository.leadgenUserEmail.value != null &&
-                repository.leadgenUserContact.value != null) {
-              final leadgenUserName = repository.leadgenUserName.value!;
-              final leadgenUserEmail = repository.leadgenUserEmail.value!;
-              final leadgenUserContact = repository.leadgenUserContact.value!;
+            final leadgenUserName = repository.leadgenUserName.value ?? "";
+            final leadgenUserEmail = repository.leadgenUserEmail.value ?? "";
+            final leadgenUserContact =
+                repository.leadgenUserContact.value ?? "";
 
-              if (repository.withLoginCTA.value) {
-                Map<String, String>? utmParams;
-                ScgatewayFlutterPlugin.triggerLeadGenWithLoginCta(
-                    leadgenUserName, leadgenUserEmail, leadgenUserContact,
-                    utmParams: utmParams,
-                    showLoginCta: repository.withLoginCTA.value);
-              } else {
-                ScgatewayFlutterPlugin.leadGenWithStatus(
-                    leadgenUserName, leadgenUserEmail, leadgenUserContact);
-              }
+            if (repository.withLoginCTA.value) {
+              Map<String, String>? utmParams;
+              ScgatewayFlutterPlugin.triggerLeadGenWithLoginCta(
+                  leadgenUserName, leadgenUserEmail, leadgenUserContact,
+                  utmParams: utmParams,
+                  showLoginCta: repository.withLoginCTA.value);
+            } else {
+              ScgatewayFlutterPlugin.leadGenWithStatus(
+                  leadgenUserName, leadgenUserEmail, leadgenUserContact);
             }
           },
         ),
