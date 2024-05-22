@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import com.google.gson.Gson
 import com.smallcase.loans.core.external.*
-import com.smallcase.loans.core.internal.ScLoanEnvironment
+import com.smallcase.loans.core.external.ScLoanEnvironment
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
