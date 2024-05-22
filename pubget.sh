@@ -1,6 +1,7 @@
 #!/bin/bash
 
 flutter clean
+cd example/android && ./gradlew clean && cd -
 cd loans
 flutter clean
 
