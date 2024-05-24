@@ -76,22 +76,20 @@ class HoldingsScreenState extends State<HoldingsScreen> {
               
           },
         ),
-        SIButton(label: "SHOW HOLDINGS", onPressed: () async {
-          try {
-            var version = data.isV2enabled ? 2 : 1;
-      final response = await smartInvesting.getUserHoldings(repository.smartInvestingUserId.value ?? "", version,
-          mfEnabled: data.isMFTransactionEnabled);
-      if (version == 2) {
-         repository.showAlertDialog(response.toString(), context);
-      } else {
-      repository.showAlertDialog(response.toString(), context);
-      }
-    } on Exception catch (e) {
-       repository.showAlertDialog(e.toString(), context);
-      print("Gateway Exception!! getUserHoldings : $e");
-      return null;
+ SIButton(
+  label: "SHOW HOLDINGS",
+  onPressed: () async {
+    try {
+      var version = data.isV2enabled ? 2 : 1;
+      print("HEY LOL HERE IS YOUR SMARTINVESTING USER ID: ${repository.smartInvestingUserId.value}");
+      final response = await smartInvesting.getUserHoldings(repository.smartInvestingUserId.value ?? "", version, mfEnabled: data.isMFTransactionEnabled);
+      repository.showAlertDialog(response, context);
+    } catch (e) {
+      repository.showAlertDialog("Error: ${e.toString()}", context);
+      print("Exception!! getUserHoldings : $e");
     }
-        },),
+  },
+),
         SIButton(label: "FETCH FUNDS", onPressed: () async {
             final reponse = await repository.triggerTransaction(
                 ScgatewayIntent.FETCH_FUNDS, null, false, context);
