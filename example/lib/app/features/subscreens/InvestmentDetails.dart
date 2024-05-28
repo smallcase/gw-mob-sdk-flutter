@@ -2,6 +2,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
+import 'package:scgateway_flutter_plugin_example/app/widgets/SITextField.dart';
 
 class InvestmentDetails extends StatelessWidget {
   final dynamic investmentsDataDTO;
@@ -111,6 +112,12 @@ class InvestmentDetails extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
+        SITextField(
+                  hint: "Smart Investing User Id",
+                  onChanged: (value) {
+                    repository.smartInvestingUserId.add(value);
+                  },
+                ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("repair", context),

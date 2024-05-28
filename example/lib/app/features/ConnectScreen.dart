@@ -76,6 +76,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                 SIButton(
                   label: "Fetch AuthToken From SmartInvesting",
                   onPressed: () async {
+                    print("AD:: THE SMARTINVESTING USER ID INSIDE FETCH AUTH TOKEN IS ${repository.smartInvestingUserId.value}");
                     final loginResponse = await smartInvesting.userLogin(
                         userID: repository.smartInvestingUserId.value);
                     repository.scGatewayConfig.value = data.copyWith(
@@ -130,6 +131,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                         //     response.toString(), context);
                         repository.triggerTransaction(
                             ScgatewayIntent.CONNECT, null, false, context);
+                            
                       },
                     ),
                   ],
