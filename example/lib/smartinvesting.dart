@@ -112,6 +112,20 @@ Future<Map<String, dynamic>> _requestData(String endpoint, String method, Map<St
     return responseData["transactionId"] as String;
   }
 
+Future<void> connectBroker(String userId, String authToken) async {
+  Map<String, dynamic> data = {
+    'id': userId,
+    'smallcaseAuthToken': authToken,
+  };
+
+  try {
+    var responseData = await _postData('user/connect', data);
+    print("Connection successful: $responseData");
+  } catch (error) {
+    print("Error connecting broker: $error");
+  }
+}
+
     Future<List<String>> stockSearch(String query) async {
     var result = await _getData('search?text=$query');
     return (result['results'] as List)

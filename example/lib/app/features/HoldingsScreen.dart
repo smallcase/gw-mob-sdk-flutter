@@ -31,6 +31,7 @@ class HoldingsScreenState extends State<HoldingsScreen> {
     return ListView(
       padding: EdgeInsets.all(8),
       children: [
+       
         SIText.large(text: "STOCK HOLDINGS"),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,6 +62,12 @@ class HoldingsScreenState extends State<HoldingsScreen> {
             )
           ],
         ),
+         SITextField(
+                  hint: "Smart Investing User Id",
+                  onChanged: (value) {
+                    repository.smartInvestingUserId.add(value);
+                  },
+                ),
         SIButton(
           label: "AUTHORIZE HOLDINGS",
           onPressed: () async {
