@@ -2,17 +2,17 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 import 'package:scgateway_flutter_plugin_example/app/global/SmartInvestingAppRepository.dart';
+import 'package:scgateway_flutter_plugin_example/app/widgets/SITextField.dart';
 
 class InvestmentDetails extends StatelessWidget {
-  dynamic investmentsDataDTO;
+  final dynamic investmentsDataDTO;
 
-  InvestmentDetails({Key? key, @required this.investmentsDataDTO})
-      : super(key: key);
+  InvestmentDetails({Key? key, @required this.investmentsDataDTO}) : super(key: key);
 
   void _triggerInvestmentAction(String type, BuildContext context) {
     var orderConfig = {
       "type": type,
-      "iscid": investmentsDataDTO["investmentItem"]["iscid"]
+      "iscid": investmentsDataDTO["iscid"] ?? 'default_iscid'
     };
     repository.triggerTransaction(
         ScgatewayIntent.TRANSACTION, orderConfig, false, context);
@@ -20,7 +20,7 @@ class InvestmentDetails extends StatelessWidget {
 
   Future<void> _sipSetup(BuildContext context) async {
     var orderConfig = {
-      "iscid": this.investmentsDataDTO["investmentItem"]["iscid"]
+      "iscid": this.investmentsDataDTO["iscid"] ?? 'default_iscid'
     };
 
     repository.triggerTransaction(
@@ -29,7 +29,7 @@ class InvestmentDetails extends StatelessWidget {
 
   Future<void> _cancelAmo(BuildContext context) async {
     var orderConfig = {
-      "iscid": this.investmentsDataDTO["investmentItem"]["iscid"]
+      "iscid": this.investmentsDataDTO["iscid"] ?? 'default_iscid'
     };
 
     repository.triggerTransaction(
@@ -38,7 +38,7 @@ class InvestmentDetails extends StatelessWidget {
 
   void _markSmallcaseArchive(BuildContext context) async {
     final response = await ScgatewayFlutterPlugin.markSmallcaseArchive(
-        investmentsDataDTO["investmentItem"]["iscid"]);
+        investmentsDataDTO["iscid"] ?? 'default_iscid');
     repository.showAlertDialog(response ?? "", context);
   }
 
@@ -74,23 +74,30 @@ class InvestmentDetails extends StatelessWidget {
   }
 
   Widget investmentInfo() {
+    var scid = investmentsDataDTO?["scid"] ?? 'default_scid';
+    var name = investmentsDataDTO?["name"] ?? 'Unnamed Investment';
+    var shortDescription = investmentsDataDTO?["shortDescription"] ?? 'No description available';
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Container(
           constraints: BoxConstraints.tightFor(width: 60.0),
           child: Image.network(
-              "https://assets.smallcase.com/images/smallcases/200/${investmentsDataDTO["investmentItem"]["scid"]}.png",
-              fit: BoxFit.fitWidth),
+              "https://assets.smallcase.com/images/smallcases/200/$scid.png",
+              fit: BoxFit.fitWidth,
+              errorBuilder: (context, error, stackTrace) {
+                return Icon(Icons.error); // Show an error icon if the image fails to load
+              }),
         ),
         const SizedBox(width: 10),
         Expanded(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(this.investmentsDataDTO["investmentItem"]["name"]),
+            Text(name),
             Text(
-              this.investmentsDataDTO["investmentItem"]["shortDescription"],
+              shortDescription,
               maxLines: 5,
               overflow: TextOverflow.ellipsis,
               softWrap: true,
@@ -105,6 +112,12 @@ class InvestmentDetails extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
+        SITextField(
+                  hint: "Smart Investing User Id",
+                  onChanged: (value) {
+                    repository.smartInvestingUserId.add(value);
+                  },
+                ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("repair", context),
@@ -154,8 +167,7 @@ class InvestmentDetails extends StatelessWidget {
         ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () => _triggerInvestmentAction("DUMMY", context),
-          child:
-              const Text('Place Dummy Order', style: TextStyle(fontSize: 20)),
+          child: const Text('Place Dummy Order', style: TextStyle(fontSize: 20)),
         ),
       ],
     );
@@ -163,8 +175,10 @@ class InvestmentDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var name = investmentsDataDTO?["name"] ?? 'Unnamed Investment';
+
     return Scaffold(
-      appBar: AppBar(title: Text(investmentsDataDTO["investmentItem"]["name"])),
+      appBar: AppBar(title: Text(name)),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.only(top: 10, left: 15, right: 10),

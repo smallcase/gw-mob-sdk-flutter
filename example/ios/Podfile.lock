@@ -35,7 +35,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/scloans/ios"
 
 SPEC CHECKSUMS:
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   Mixpanel-swift: 6ffe368bcfc3b538f540f31372bc798afd90c1ad
   SCGateway: 24a2961e5444b8ee1a0a328293e698499987f8a1
   scgateway_flutter_plugin: d1da48760b9fadb1c857c61f696adaba73954328

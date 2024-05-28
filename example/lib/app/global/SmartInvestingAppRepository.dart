@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -100,42 +102,75 @@ Color getColorFromHex(String hexColor) {
 
 //Trigger transaction - 
 
- Future<String> triggerTransaction(
-      String? intent,
-      Object? orderConfig,
-      bool withTransactionID, 
-      BuildContext context, 
-      {Object? assetConfig,
-      bool isMF = false,
-      bool isPostBackStatus = false}) async {
-      var transactionId = transactionID.value;
-      if (withTransactionID == false) {
+Future<String> triggerTransaction(
+    String? intent,
+    Object? orderConfig,
+    bool withTransactionID, 
+    BuildContext context, 
+    {Object? assetConfig,
+    bool isMF = false,
+    bool isPostBackStatus = false}) async {
+
+  var transactionId = transactionID.value;
+
+  if (withTransactionID == false) {
+    print("AD:: SMART INVESTING USER ID INSIDE TRIGGER TRANSACTION VALUE -- ${smartInvestingUserId.value}");
+    try {
       transactionId = await SmartInvesting.fromEnvironment(scGatewayConfig.value).getTransactionId(
         smartInvestingUserId.value ?? "", intent, orderConfig,
         assetConfig: assetConfig);
-      }
-      var response = "";
-      if (isMF) {
-       response =  await ScgatewayFlutterPlugin.triggerMfGatewayTransaction(
-          transactionId) ?? "";
-          showAlertDialog(response.toString(), context);
-          if(isPostBackStatus) {
-             try {
-       final postBackStatusResponse = await smartInvesting.getPostBackStatus(transactionId);
-      repository.showAlertDialog(postBackStatusResponse.toString(), context);
-    } on Exception catch (e) {
-      print("Gateway Exception!! getMfHoldings $transactionId : $e");
-      return "cgetPostBackStatus response : null";
-    } 
-          }
-      return response;
-    } else {
-    response = await ScgatewayFlutterPlugin.triggerGatewayTransaction(
-        transactionId) ?? "";
-        showAlertDialog(response.toString(), context);
+    } catch (e) {
+      print("Error fetching transaction ID: $e");
+      repository.showAlertDialog("Error fetching transaction ID: $e", context);
+      return "Error fetching transaction ID";
     }
-    return response;
   }
+
+  var response = "";
+
+  try {
+    if (isMF) {
+      response = await ScgatewayFlutterPlugin.triggerMfGatewayTransaction(transactionId) ?? "";
+      repository.showAlertDialog(response.toString(), context);
+      
+      if (isPostBackStatus) {
+        try {
+          final postBackStatusResponse = await smartInvesting.getPostBackStatus(transactionId);
+          repository.showAlertDialog(postBackStatusResponse.toString(), context);
+        } catch (e) {
+          print("Gateway Exception!! getPostBackStatus $transactionId : $e");
+          repository.showAlertDialog("Error fetching post-back status: $e", context);
+          return "Error fetching post-back status";
+        }
+      }
+    } else {
+      response = await ScgatewayFlutterPlugin.triggerGatewayTransaction(transactionId) ?? "";
+      repository.showAlertDialog(response.toString(), context);
+    }
+     try {
+    // Parse the JSON response
+    var jsonResponse = json.decode(response);
+    var data = json.decode(jsonResponse['data']);
+    
+    // Check conditions
+    if (repository.smartInvestingUserId.value != null && jsonResponse['transaction'] == "CONNECT") {
+      await smartInvesting.connectBroker(repository.smartInvestingUserId.value!, data['smallcaseAuthToken']);
+    }
+  } catch (e) {
+    print("Error parsing JSON response: $e");
+    // You might want to handle this error differently
+  }
+  
+  } catch (e) {
+    print("Error triggering transaction: $e");
+    repository.showAlertDialog("Error triggering transaction: $e", context);
+    return "Error triggering transaction";
+  }
+
+ 
+
+  return response;
+}
 
   dispose() {
     environment.close();

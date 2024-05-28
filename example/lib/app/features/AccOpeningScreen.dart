@@ -68,13 +68,15 @@ class AccOpeningScreenState extends State<AccOpeningScreen> {
 
             if (repository.withLoginCTA.value) {
               Map<String, String>? utmParams;
-              ScgatewayFlutterPlugin.triggerLeadGenWithLoginCta(
+              final response = await ScgatewayFlutterPlugin.triggerLeadGenWithLoginCta(
                   leadgenUserName, leadgenUserEmail, leadgenUserContact,
                   utmParams: utmParams,
                   showLoginCta: repository.withLoginCTA.value);
+              repository.showAlertDialog(response.toString(), context);
             } else {
-              ScgatewayFlutterPlugin.leadGenWithStatus(
+              final response = await ScgatewayFlutterPlugin.leadGenWithStatus(
                   leadgenUserName, leadgenUserEmail, leadgenUserContact);
+              repository.showAlertDialog(response.toString(), context);
             }
           },
         ),
