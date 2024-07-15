@@ -251,6 +251,12 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                           } catch {
                                               
                                           }
+
+                                              // MARK: MF TRNASACTIONS
+                                
+                                              case .mfTransaction(let data):
+                                                 result(data)
+                                              return
                                           
                                           // MARK: HOLDINGS_IMPORT
                                       case .holdingsImport(let smallcaseAuthToken, let broker, _, _, let signup):
