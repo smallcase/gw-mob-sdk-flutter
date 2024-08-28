@@ -462,14 +462,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.3.1+3"
+    version: "3.0.0+4"
   scloans:
     dependency: "direct main"
     description:
       path: "../loans"
       relative: true
     source: path
-    version: "0.0.1+3"
+    version: "1.0.0+4"
   shelf:
     dependency: transitive
     description:
