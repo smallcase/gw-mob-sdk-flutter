@@ -69,4 +69,16 @@ class ScLoan {
       throw e.toScLoanError;
     }
   }
+
+  static Future<ScLoanSuccess> triggerInteraction(ScLoanInfo loanInfo) async {
+    try {
+      String? triggerInteractionResponse =
+          await _channel.invokeMethod('triggerInteraction', <String, dynamic>{
+        "interactionToken": loanInfo.interactionToken,
+      });
+      return ScLoanSuccess.fromJson(triggerInteractionResponse ?? "{}");
+    } on PlatformException catch (e) {
+      throw e.toScLoanError;
+    }
+  }
 }

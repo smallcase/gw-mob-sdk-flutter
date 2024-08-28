@@ -124,6 +124,24 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
                     }
                 }
         }
+        case "triggerInteraction": do {
+            guard let interactionToken = args["interactionToken"] as? String else {
+                //SDK setup failure
+                print("ScLoan triggerInteraction failed: No interactionToken provided")
+                return
+            }
+            
+            ScLoan.instance.triggerInteraction(
+                presentingController: currentViewController,
+                loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
+                    
+                    if let err = error {
+                        result(self.convertErrorToFlutterError(error: err))
+                    } else {
+                        result(self.convertSuccessToJsonString(success: success))
+                    }
+                }
+        }
             
         default:
             result("Flutter method not implemented on iOS")

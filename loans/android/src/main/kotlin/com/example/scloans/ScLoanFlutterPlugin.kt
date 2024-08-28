@@ -159,6 +159,24 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                     }
                 )
             }
+            "triggerInteraction" -> {
+                val interactionToken: String? = call.argument("interactionToken")
+
+                ScLoan.triggerInteraction(
+                    activity,
+                    ScLoanInfo(interactionToken ?: ""),
+                    listener = object : ScLoanResult {
+                        override fun onFailure(error: ScLoanError) {
+                            safeResult.error(error.code.toString(), error.message, error.toString())
+                        }
+
+                        override fun onSuccess(response: ScLoanSuccess) {
+                            safeResult.success(response.toString())
+                        }
+
+                    }
+                )
+            }
         }
     }
 }

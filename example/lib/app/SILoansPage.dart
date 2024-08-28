@@ -128,6 +128,20 @@ class SILoansPage extends StatelessWidget {
                         repository.showAlertDialog(e.toString(), context);
                       }
                     }),
+                    SIButton(
+                    label: "Trigger Interaction",
+                    onPressed: () async {
+                      try {
+                        final response = await ScLoan.triggerInteraction(ScLoanInfo(
+                            repository.scLoanConfig.value
+                                    .customInteractionToken ??
+                                ""));
+                        repository.showAlertDialog(
+                            response.toString(), context);
+                      } on ScLoanError catch (e) {
+                        repository.showAlertDialog(e.toString(), context);
+                      }
+                    }),
               ],
             ),
             StreamBuilder(
