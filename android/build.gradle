@@ -39,16 +39,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    ///ADDED THIS FOR NAMESPACE ISSUE
+    namespace 'com.example.scgateway_flutter_plugin'
     compileSdkVersion 33
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -58,13 +52,13 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
-
-//    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-//        kotlinOptions {
-//            jvmTarget = "1.8"
-//            freeCompilerArgs += ["-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check"]
-//        }
-//    }
+    /// UNCOMMENTED JVM TARGET FOR KOTLIN COMPATIBILITY
+   tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+       kotlinOptions {
+           jvmTarget = "1.8"
+           freeCompilerArgs += ["-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check"]
+       }
+   }
 }
 
 dependencies {
