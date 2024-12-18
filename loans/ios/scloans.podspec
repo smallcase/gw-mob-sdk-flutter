@@ -24,5 +24,5 @@ A new flutter plugin project.
   s.swift_version = ["5.10"]
   s.ios.deployment_target = "12.0"
 
-  s.dependency 'SCLoans-internal', '3.1.2-28-release'
+  s.dependency 'SCLoans-internal', '3.1.2-29-release'
 end
