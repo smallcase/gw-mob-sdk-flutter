@@ -10,8 +10,8 @@ PODS:
     - SCGateway (= 4.0.2)
   - scloans (0.0.1):
     - Flutter
-    - SCLoans-internal (= 3.1.2-27-release)
-  - SCLoans-internal (3.1.2-27-release):
+    - SCLoans-internal (= 3.1.2-28-release)
+  - SCLoans-internal (3.1.2-28-release):
     - Mixpanel-swift (~> 4.2.5)
 
 DEPENDENCIES:
@@ -39,8 +39,8 @@ SPEC CHECKSUMS:
   Mixpanel-swift: 7f5b749dbda2708033d67ff3d7a91710468d4a38
   SCGateway: 77199f9b499b2b05116af8450e60d56c279a67ba
   scgateway_flutter_plugin: b058bb5797eb6b1ea10877eb6c4d0b21bac316cd
-  scloans: b2462a0b68c7ef5f9ca189a4c987be92ef306b48
-  SCLoans-internal: 717e458c37d14fbfd255d64a847b08c28525281c
+  scloans: 81570c31de325f64ffde368a94a2b47cac2a14b8
+  SCLoans-internal: 8610599ae852215b1f85ffef0dc3658483b0fc88
 
 PODFILE CHECKSUM: 539fb129eb524f195cc40c27f9bc65f0d8fd8e9d
 
