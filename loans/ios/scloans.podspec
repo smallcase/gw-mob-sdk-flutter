@@ -15,7 +15,7 @@ A new flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '11.0'
   s.xcconfig = {'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'}
   s.vendored_frameworks = 'Loans.xcframework'
 
