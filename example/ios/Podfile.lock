@@ -10,8 +10,8 @@ PODS:
     - SCGateway (= 4.0.2)
   - scloans (0.0.1):
     - Flutter
-    - SCLoans (= 3.1.1)
-  - SCLoans (3.1.1):
+    - SCLoans-internal (= 3.1.2-27-release)
+  - SCLoans-internal (3.1.2-27-release):
     - Mixpanel-swift (~> 4.2.5)
 
 DEPENDENCIES:
@@ -20,10 +20,11 @@ DEPENDENCIES:
   - scloans (from `.symlinks/plugins/scloans/ios`)
 
 SPEC REPOS:
+  https://github.com/smallcase/cocoapodspec-internal.git:
+    - SCLoans-internal
   trunk:
     - Mixpanel-swift
     - SCGateway
-    - SCLoans
 
 EXTERNAL SOURCES:
   Flutter:
@@ -38,9 +39,9 @@ SPEC CHECKSUMS:
   Mixpanel-swift: 7f5b749dbda2708033d67ff3d7a91710468d4a38
   SCGateway: 77199f9b499b2b05116af8450e60d56c279a67ba
   scgateway_flutter_plugin: b058bb5797eb6b1ea10877eb6c4d0b21bac316cd
-  SCLoans: c56af3425355f8937ff0004eecd75fa9f2ab0053
-  scloans: 67f5a2d8e5ad9b370e489fd7c5ee22bb0ee77372
+  scloans: b2462a0b68c7ef5f9ca189a4c987be92ef306b48
+  SCLoans-internal: 717e458c37d14fbfd255d64a847b08c28525281c
 
-PODFILE CHECKSUM: e6e5e9e7cf3aef97ddd3b371c70e1767147f9f5b
+PODFILE CHECKSUM: 539fb129eb524f195cc40c27f9bc65f0d8fd8e9d
 
 COCOAPODS: 1.15.2
