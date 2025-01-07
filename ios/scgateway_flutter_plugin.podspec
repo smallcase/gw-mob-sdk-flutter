@@ -15,7 +15,7 @@ Scgateway Flutter plugin.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'SCGateway', '4.0.2'
+  s.dependency 'SCGateway', '4.1.1'
   s.xcconfig = {'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'}
   s.vendored_frameworks = 'SCGateway.xcframework'
   s.platform = :ios, '11.0'
