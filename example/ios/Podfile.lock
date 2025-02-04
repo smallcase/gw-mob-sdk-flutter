@@ -3,45 +3,57 @@ PODS:
   - Mixpanel-swift (4.2.7):
     - Mixpanel-swift/Complete (= 4.2.7)
   - Mixpanel-swift/Complete (4.2.7)
-  - SCGateway (4.1.1):
+  - otp_autofill (0.0.1):
+    - Flutter
+  - SCGateway (4.1.2):
     - Mixpanel-swift (~> 4.2.5)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 4.1.1)
+    - SCGateway (= 4.1.2)
   - scloans (0.0.1):
     - Flutter
-    - SCLoans-internal (= 3.1.2-30-release)
-  - SCLoans-internal (3.1.2-30-release):
+    - SCLoans (= 4.0.0)
+  - SCLoans (4.0.0):
     - Mixpanel-swift (~> 4.2.5)
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - otp_autofill (from `.symlinks/plugins/otp_autofill/ios`)
   - scgateway_flutter_plugin (from `.symlinks/plugins/scgateway_flutter_plugin/ios`)
   - scloans (from `.symlinks/plugins/scloans/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 SPEC REPOS:
-  https://github.com/smallcase/cocoapodspec-internal.git:
-    - SCLoans-internal
   trunk:
     - Mixpanel-swift
     - SCGateway
+    - SCLoans
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  otp_autofill:
+    :path: ".symlinks/plugins/otp_autofill/ios"
   scgateway_flutter_plugin:
     :path: ".symlinks/plugins/scgateway_flutter_plugin/ios"
   scloans:
     :path: ".symlinks/plugins/scloans/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   Mixpanel-swift: 7f5b749dbda2708033d67ff3d7a91710468d4a38
-  SCGateway: 32ba46c97cf329761fba167aaaca49b9a4750597
-  scgateway_flutter_plugin: 062df3dcf323aef0df3d5037d07a3b4a9a8b4150
-  scloans: dc72f3dbec567f201b67341c8c8b5df096bc4fc1
-  SCLoans-internal: 3406ca6889ec2899927eb1cc5d3c611f7884c578
+  otp_autofill: 93bcc21475705d35445927cb9aef24e818bbf083
+  SCGateway: d2271d8b57fa190d48f49a15f6eb06bb4b469f85
+  scgateway_flutter_plugin: fb789a8a07a4973dacecf0bd659301a753edc388
+  SCLoans: 5e6dd77a7b31bd3ea5acaaee8e22d57ee1609525
+  scloans: 2357aa83b34fcb647106af2e7809c5f42f6966d8
+  webview_flutter_wkwebview: a4af96a051138e28e29f60101d094683b9f82188
 
-PODFILE CHECKSUM: 539fb129eb524f195cc40c27f9bc65f0d8fd8e9d
+PODFILE CHECKSUM: d84cce7a43f89867305a6eb399583f992df2aea7
 
 COCOAPODS: 1.15.2

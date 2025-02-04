@@ -10,14 +10,14 @@ pubspec.lock
 
 build/
 
-.fvm/flutter_sdk
-.fvm
 .vscode
 
 .flutter-plugins
 .flutter-plugins-dependencies
 
-
 .node_modules/*
 .node_modules
 .idea/workspace.xml
+
+# FVM Version Cache
+.fvm/

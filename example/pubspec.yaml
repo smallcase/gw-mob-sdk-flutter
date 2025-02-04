@@ -15,8 +15,16 @@ dependencies:
   scgateway_flutter_plugin: 
     path: ../
     
-  scloans:
-    path: ../loans/
+  scloans: ^2.0.0+6
+
+  sdk_core:
+    hosted:
+      name: sdk_core
+      url: https://finarkein.jfrog.io/artifactory/api/pub/pub
+  
+  webview_flutter: ^4.4.4
+  webview_flutter_wkwebview: ^3.8.4
+  
 #scgateway_flutter_plugin:
 #  git:
 #    url: https://github.com/smallcase/gw-mob-sdk-flutter.git
@@ -26,12 +34,12 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
-  chopper: ^4.0.0
+  chopper: ^8.0.4
   json_annotation: ^4.0.1
   logging: ^1.0.1
   dio: ^5.4.0
 #  http: ^0.12.0+1
-  http: ^0.13.3
+  http: ^1.1.0
   clipboard: ^0.1.3
   hive: ^2.2.3
   rxdart: ^0.27.7
@@ -47,8 +55,8 @@ dev_dependencies:
     sdk: flutter
 
   build_runner: ^2.0.6
-  chopper_generator: ^4.0.1
-  json_serializable: ^4.1.4
+  chopper_generator: ^8.0.4
+  json_serializable: ^6.8.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

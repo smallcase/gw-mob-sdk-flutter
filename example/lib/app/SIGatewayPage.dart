@@ -6,6 +6,7 @@ import 'package:scgateway_flutter_plugin_example/app/widgets/SIBottomNavBar.dart
 import 'package:scgateway_flutter_plugin_example/app/widgets/SIText.dart';
 
 import 'features/AccOpeningScreen.dart';
+import 'features/AnubhavScreen.dart';
 import 'features/ConnectScreen.dart';
 import 'features/HoldingsScreen.dart';
 import 'features/SmtScreen.dart';
@@ -26,6 +27,12 @@ final Map<Widget, ({IconData iconData, int index, String label})> screensMap = {
     label: "Lead Gen",
     iconData: Icons.open_in_new_rounded
   ),
+  AnubhavScreen(): (
+    index: 5,
+    label: "Anubhav",
+    iconData: Icons.web_rounded
+  ),
+
 };
 
 class SIGatewayPage extends StatefulWidget {
