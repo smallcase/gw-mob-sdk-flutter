@@ -23,16 +23,21 @@ if (flutterVersionName == null) {
 }
 
 android {
+    namespace "com.example.scgateway_flutter_plugin_example" 
+
     compileSdkVersion 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = '1.8'
     }
+    // sourceCompatibility JavaVersion.VERSION_1_8
+    // targetCompatibility JavaVersion.VERSION_1_8
+
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'

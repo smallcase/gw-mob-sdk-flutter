@@ -39,6 +39,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    namespace "com.example.scgateway_flutter_plugin" 
+
     compileSdkVersion 34
 
     compileOptions {

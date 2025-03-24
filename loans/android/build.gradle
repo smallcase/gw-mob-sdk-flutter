@@ -40,6 +40,8 @@ apply plugin: 'kotlin-android'
 
 
 android {
+    namespace "com.example.scloans" 
+
     compileSdkVersion 34
 
     compileOptions {
