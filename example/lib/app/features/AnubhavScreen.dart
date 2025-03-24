@@ -35,10 +35,10 @@ class _AnubhavScreenState extends State<AnubhavScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://gw-aa-stag.smallcase.com/v1/internal/vendor/journey'),
+        Uri.parse('https://gw-aa-prod.smallcase.com/v1/internal/vendor/journey'),
         headers: {
           'x-client-id': 'gatewayDemo',
-          'x-api-key': 'aee22d5b-206c-4ae9-8410-7bb272e10049',
+          'x-api-key': 'e0483a17-dbfc-41ae-966c-e97d56b55678',
           'x-flow-name': 'wealth_office',
           'Content-Type': 'application/json',
         },
