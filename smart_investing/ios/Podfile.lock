@@ -1,0 +1,47 @@
+PODS:
+  - Flutter (1.0.0)
+  - Mixpanel-swift (4.2.7):
+    - Mixpanel-swift/Complete (= 4.2.7)
+  - Mixpanel-swift/Complete (4.2.7)
+  - SCGateway-xcode-16 (5.0.0-387-release):
+    - Mixpanel-swift (~> 4.2.5)
+  - scgateway_flutter_plugin (0.0.1):
+    - Flutter
+    - SCGateway-xcode-16 (= 5.0.0-387-release)
+  - scloans (0.0.1):
+    - Flutter
+    - SCLoans-xcode-16 (= 5.0.0-31-release)
+  - SCLoans-xcode-16 (5.0.0-31-release):
+    - Mixpanel-swift (~> 4.2.5)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - scgateway_flutter_plugin (from `.symlinks/plugins/scgateway_flutter_plugin/ios`)
+  - scloans (from `.symlinks/plugins/scloans/ios`)
+
+SPEC REPOS:
+  https://github.com/smallcase/cocoapodspec-internal.git:
+    - SCGateway-xcode-16
+    - SCLoans-xcode-16
+  trunk:
+    - Mixpanel-swift
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  scgateway_flutter_plugin:
+    :path: ".symlinks/plugins/scgateway_flutter_plugin/ios"
+  scloans:
+    :path: ".symlinks/plugins/scloans/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Mixpanel-swift: 7f5b749dbda2708033d67ff3d7a91710468d4a38
+  SCGateway-xcode-16: df1edf2f0486e8c029e1e0b110550821c63837cf
+  scgateway_flutter_plugin: 747ff186a112514252fffc9a3b0892defee853a9
+  scloans: fa1b4cebc5db6e8ed6f9efda0e8a1c2325d0e12b
+  SCLoans-xcode-16: 3fcfe8aaf45318fd3ebeb8fb62c102d0013005f8
+
+PODFILE CHECKSUM: 32b0659ca3529b1ef2c9e5c229290749c8c79710
+
+COCOAPODS: 1.16.2
