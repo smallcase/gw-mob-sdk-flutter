@@ -11,12 +11,13 @@ import Loans
 
 public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
     
+    @MainActor
     let currentViewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
-      
+    
     public static func register(with registrar: FlutterPluginRegistrar) {
-      let channel = FlutterMethodChannel(name: "scloans", binaryMessenger: registrar.messenger())
-      let instance = SwiftScLoanFlutterPlugin()
-      registrar.addMethodCallDelegate(instance, channel: channel)
+        let channel = FlutterMethodChannel(name: "scloans", binaryMessenger: registrar.messenger())
+        let instance = SwiftScLoanFlutterPlugin()
+        registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -37,8 +38,8 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
             if let hostEnv = args["env"] as? Int {
                 env = SCLoanEnvironment(rawValue: hostEnv) ?? .production
             }
-
-                        ScLoan.instance.setup(
+            
+            ScLoan.instance.setup(
                 config: ScLoanConfig(gatewayName: gateway, environment: env)) { success, error in
                     
                     if let err = error {
@@ -105,7 +106,7 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
                     }
                 }
         }
-
+            
         case "service": do {
             guard let interactionToken = args["interactionToken"] as? String else {
                 //SDK setup failure
