@@ -3,11 +3,11 @@ PODS:
   - Mixpanel-swift (4.2.7):
     - Mixpanel-swift/Complete (= 4.2.7)
   - Mixpanel-swift/Complete (4.2.7)
-  - SCGateway (5.0.0-rc.1):
+  - SCGateway (5.0.0-rc.4):
     - Mixpanel-swift (~> 4.2.5)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 5.0.0-rc.1)
+    - SCGateway (= 5.0.0-rc.4)
   - scloans (0.0.1):
     - Flutter
     - SCLoans (= 5.0.0-rc.1)
@@ -36,8 +36,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   Mixpanel-swift: 7f5b749dbda2708033d67ff3d7a91710468d4a38
-  SCGateway: a9425f07cdff1c5853f78db40f9f2fb927526cb3
-  scgateway_flutter_plugin: 5113cd794fbc9f7b3e95134e4c29e0e6a25b4b40
+  SCGateway: 1acb5e5b74fb84351bee7cf5553a4b72ad8328e0
+  scgateway_flutter_plugin: 526e4e5ce16405efb2bcccd5b04be2a00d245326
   SCLoans: 1bce14b8347678b7ab2cc4aacd198912911ba6a2
   scloans: 4311b992436905c72cc572c18af7b236bef7454b
 

@@ -12,10 +12,10 @@ Scgateway Flutter plugin.
   s.homepage         = 'https://github.com/smallcase/gw-mob-sdk-flutter'
   s.license          = { :file => '../LICENSE' }
   s.authors          = { "smallcase" => "mobile@smallcase.com" }
-  s.source           = { :path => '.' }
+  s.source           = { :path => '5.0.0-395-release-rc.3.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'SCGateway', '5.0.0-rc.1'
+  s.dependency 'SCGateway', '5.0.0-rc.4'
   s.xcconfig = {'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'}
   s.vendored_frameworks = 'SCGateway.xcframework'
   s.platform = :ios, '14.0'
