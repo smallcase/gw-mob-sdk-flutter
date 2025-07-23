@@ -6,15 +6,15 @@ PODS:
   - mixpanel_flutter (2.4.4):
     - Flutter
     - Mixpanel-swift (= 5.1.0)
-  - SCGateway (5.1.0-rc.4):
+  - SCGateway (5.1.0):
     - Mixpanel-swift (~> 5)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 5.1.0-rc.4)
+    - SCGateway (= 5.1.0)
   - scloans (0.0.1):
     - Flutter
-    - SCLoans (= 5.1.0-rc.4)
-  - SCLoans (5.1.0-rc.4):
+    - SCLoans (= 5.1.0)
+  - SCLoans (5.1.0):
     - Mixpanel-swift (~> 5)
 
 DEPENDENCIES:
@@ -43,10 +43,10 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   Mixpanel-swift: 7b26468fc0e2e521104e51d65c4bbf7cab8162f8
   mixpanel_flutter: a0b6b937035899cd01951735ad5f87718b2ffee5
-  SCGateway: 2fa1a74eabde4916f854fca90ec8910c33643652
-  scgateway_flutter_plugin: aff5cf1336245b0dd2cc3f1b508a3bb3bd7b769a
-  SCLoans: 11bef6d25e21f19f83f1f7c2bc81a27f9aa39476
-  scloans: b3dc0b8385976cb5d39aa76edb377e1296a6baff
+  SCGateway: 4b6425150597b1847cc9d5dfe9fc54d360e85286
+  scgateway_flutter_plugin: 3acce6e4d6d05c5087dda107df5c1862a9789b75
+  SCLoans: 0a61f423d0a2df489f743de58df583a463e9e2c9
+  scloans: 2f91d12b6d7de22f0931b46dce5d4d102ea59085
 
 PODFILE CHECKSUM: 32b0659ca3529b1ef2c9e5c229290749c8c79710
 
