@@ -11,7 +11,7 @@ on:
       - "!deployment/**"
   pull_request:
     branches:
-      - "production"
+      - "master"
       - "feat/**"
     paths:
       - "**"
@@ -22,7 +22,6 @@ jobs:
   sonar_scan:
     uses: smallcase/sc-infra-configs/.github/workflows/sonarqube_scan.yaml@master
     with:
-      ENVIRONMENT: ${{ inputs.ENVIRONMENT  || 'staging' }}
       RUNNER_NAME: arc-runner-set-dind
       APPLICATION_NAME: "gw-mob-sdk-flutter"
       BRANCH_NAME: "${{ github.ref_name }}"
