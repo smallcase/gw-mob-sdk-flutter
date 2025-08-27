@@ -1,11 +1,9 @@
 #!/bin/bash
 
-flutter clean
-cd example/android && ./gradlew clean && cd -
-cd loans
-flutter clean
+cd smart_investing && flutter clean && cd ..
+cd scgateway && flutter clean && cd ..
+cd loans && flutter clean && cd ..
 
-cd ..
-flutter pub get
-cd loans
-flutter pub get
+cd scgateway && flutter pub get && cd ..
+cd loans && flutter pub get && cd ..
+cd smart_investing && flutter pub get && cd ..
