@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/services.dart';
 import './color_ext.dart';
 
@@ -78,6 +77,7 @@ class ScgatewayFlutterPlugin {
       var setFlutterSdkVersion = await _channel.invokeMethod(
           'setFlutterSdkVersion',
           <String, dynamic>{"flutterSdkVersion": _flutterPluginVersion});
+      print("setFlutterSdkVersion: $setFlutterSdkVersion");
     } on PlatformException catch (e) {
       print(e.stacktrace);
     }

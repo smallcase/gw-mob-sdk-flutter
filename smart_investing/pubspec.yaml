@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   scgateway_flutter_plugin: 
-    path: ../
+    path: ../scgateway/
     
   scloans:
     path: ../loans/
