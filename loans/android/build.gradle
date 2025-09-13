@@ -64,5 +64,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.smallcase.loans:sdk:3.1.1"
+    implementation "com.smallcase.loans:sdk-release-scg-v5-0-0-loans-v4-0-0-1df0c05:3.1.1-81-release"
 }
