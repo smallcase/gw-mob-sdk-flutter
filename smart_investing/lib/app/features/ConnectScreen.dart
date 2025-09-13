@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin/scgateway_events.dart';
 
 import '../../smartinvesting.dart';
 import '../global/SIConfigs.dart';
@@ -27,9 +29,30 @@ class ConnectScreen extends StatefulWidget {
 }
 
 class _ConnectScreenState extends State<ConnectScreen> {
+  StreamSubscription<String>? _scGatewayEventsSubscription;
+  final List<String> _scGatewayEvents = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _setupScGatewayEvents();
+  }
+
+  void _setupScGatewayEvents() {
+    _scGatewayEventsSubscription = ScgatewayEvents.eventStream.listen((jsonString) {
+      setState(() {
+        // Display the JSON string directly
+        _scGatewayEvents.insert(0, jsonString);
+        if (_scGatewayEvents.length > 20) {
+          _scGatewayEvents.removeLast();
+        }
+      });
+    });
+  }
+
   @override
   void dispose() {
-    // TODO: implement dispose
+    _scGatewayEventsSubscription?.cancel();
     super.dispose();
   }
 
@@ -96,8 +119,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                     SIButton(
                       label: "SETUP",
                       onPressed: () async {
-                        final environmentResponse =
-                            await ScgatewayFlutterPlugin.setConfigEnvironment(
+                        await ScgatewayFlutterPlugin.setConfigEnvironment(
                                 repository.scGatewayConfig.value.environment,
                                 repository.scGatewayConfig.value.gatewayName,
                                 repository
@@ -189,12 +211,116 @@ class _ConnectScreenState extends State<ConnectScreen> {
                       },
                     ),
                   ],
-                )
+                ),
+                SizedBox(height: 20),
+                _buildScGatewayEventsSection(),
               ],
             );
           },
         ),
       ],
+    );
+  }
+
+  Widget _buildScGatewayEventsSection() {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: Padding(
+        padding: EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'ScGateway Events',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.clear_all),
+                      onPressed: () {
+                        setState(() {
+                          _scGatewayEvents.clear();
+                        });
+                      },
+                      tooltip: 'Clear Events',
+                    ),
+                    Text('${_scGatewayEvents.length}'),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: _scGatewayEvents.isEmpty
+                  ? Center(
+                      child: Text(
+                        'No ScGateway events yet...',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: _scGatewayEvents.length,
+                      itemBuilder: (context, index) {
+                        final eventString = _scGatewayEvents[index];
+                        return Container(
+                          padding: EdgeInsets.all(8),
+                          margin: EdgeInsets.symmetric(vertical: 2),
+                          decoration: BoxDecoration(
+                            color: index % 2 == 0 ? Colors.grey[50] : Colors.white,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${_scGatewayEvents.length - index}. ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              Expanded(
+                                child: SelectableText(
+                                  eventString,
+                                  style: TextStyle(
+                                    fontFamily: 'monospace',
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.copy, size: 16),
+                                onPressed: () {
+                                  FlutterClipboard.copy(eventString);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Event copied!')),
+                                  );
+                                },
+                                tooltip: 'Copy Event',
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

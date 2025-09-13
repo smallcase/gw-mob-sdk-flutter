@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scloans/sc_loan.dart';
 
-import '../main.dart';
 import 'global/SmartInvestingAppRepository.dart';
 import 'widgets/SIButton.dart';
 import 'widgets/SIEnvironmentController.dart';
 import 'widgets/SISwitch.dart';
 import 'widgets/SIText.dart';
 import 'widgets/SITextField.dart';
+import 'package:flutter/widgets.dart';
 
 class SILoansPage extends StatelessWidget {
   const SILoansPage({super.key});
@@ -144,6 +144,10 @@ class SILoansPage extends StatelessWidget {
                     }),
               ],
             ),
+            const SizedBox(height: 16),
+            SIText.large(text: "Loans Events (live)"),
+            const SizedBox(height: 8),
+            _LoansEventsList(),
             StreamBuilder(
               stream: repository.siConfig,
               builder: (context, snapshot) {
@@ -182,6 +186,40 @@ class SILoansPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _LoansEventsList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: repository.loansEvents.stream,
+      builder: (context, snapshot) {
+        final items = snapshot.data ?? const [];
+        if (items.isEmpty) {
+          return Text('No events yet', style: Theme.of(context).textTheme.bodySmall);
+        }
+        return ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: items.length.clamp(0, 50),
+          separatorBuilder: (_, __) => const Divider(height: 1),
+          itemBuilder: (context, index) {
+            final event = items[items.length - 1 - index];
+            final ts = event['timestamp'] ?? DateTime.now().millisecondsSinceEpoch;
+            final type = event['type']?.toString() ?? 'unknown';
+            final data = event['data'];
+            final dt = DateTime.fromMillisecondsSinceEpoch(ts).toLocal();
+            final timeStr = '${dt.hour.toString().padLeft(2,'0')}:${dt.minute.toString().padLeft(2,'0')}:${dt.second.toString().padLeft(2,'0')}';
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Text('[$timeStr] $type — ${data is Map ? data : data?.toString() ?? ''}',
+                  style: Theme.of(context).textTheme.bodySmall),
+            );
+          },
+        );
+      },
     );
   }
 }
