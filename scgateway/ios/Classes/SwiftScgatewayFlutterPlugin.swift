@@ -16,16 +16,19 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
     @MainActor
     let currentViewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
     
-    public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "scgateway_flutter_plugin", binaryMessenger: registrar.messenger())
-        let instance = SwiftScgatewayFlutterPlugin()
-        
-        //   let scLoansChannel = FlutterMethodChannel(name: "scloans", binaryMessenger: registrar.messenger())
-        //   let scLoansInstance = ScLoanFlutterPlugin()
-        
-        registrar.addMethodCallDelegate(instance, channel: channel)
-        // registrar.addMethodCallDelegate(scLoansInstance, channel: scLoansChannel)
-    }
+    private var eventsHandler: ScgatewayEventsHandler?
+
+public static func register(with registrar: FlutterPluginRegistrar) {
+    let channel = FlutterMethodChannel(name: "scgateway_flutter_plugin", binaryMessenger: registrar.messenger())
+    let instance = SwiftScgatewayFlutterPlugin()
+    registrar.addMethodCallDelegate(instance, channel: channel)
+    
+    // Setup events handler with same registrar
+    instance.eventsHandler = ScgatewayEventsHandler()
+    instance.eventsHandler?.setup(with: registrar)
+    
+    print("SwiftScgatewayFlutterPlugin with events handler registered successfully")
+}
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         

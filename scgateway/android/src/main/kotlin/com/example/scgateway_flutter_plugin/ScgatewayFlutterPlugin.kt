@@ -1,4 +1,4 @@
-package com.example.scgateway_flutter_plugin
+package com.example.scgateway_flutter_plugin //native side ka like we had .kt file in RN
 
 import android.app.Activity
 import android.content.Context
@@ -13,6 +13,9 @@ import com.smallcase.gateway.data.listeners.*
 import com.smallcase.gateway.data.models.*
 import com.smallcase.gateway.data.requests.InitRequest
 import com.smallcase.gateway.portal.SmallcaseGatewaySdk
+import com.smallcase.gateway.portal.ScgNotification
+import com.smallcase.gateway.data.listeners.Notification
+import com.smallcase.gateway.data.listeners.NotificationCenter
 import com.smallcase.gateway.portal.SmallplugPartnerProps
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -21,6 +24,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import io.flutter.plugin.common.EventChannel
 import org.json.JSONObject
 
 /** ScgatewayFlutterPlugin */
@@ -36,7 +40,7 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private var replySubmitted = false
 
     internal var txnResult: String? = ""
-
+    private var scGatewayEventsHandler: ScgatewayEventsHandler? = null
     private val leadGenMap by lazy {
         HashMap<String, String>()
     }
@@ -53,6 +57,9 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "scgateway_flutter_plugin")
         channel.setMethodCallHandler(this)
+        
+        scGatewayEventsHandler = ScgatewayEventsHandler()
+        scGatewayEventsHandler?.onAttachedToEngine(flutterPluginBinding)
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull rawResult: Result) {
@@ -441,6 +448,9 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
+        
+        scGatewayEventsHandler?.onDetachedFromEngine(binding)
+        scGatewayEventsHandler = null
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
