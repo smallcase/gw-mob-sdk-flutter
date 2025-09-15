@@ -1,5 +1,6 @@
 import Foundation
 import Flutter
+import Loans
 
 class ScLoanEventsHandler: NSObject {
     
@@ -19,7 +20,7 @@ class ScLoanEventsHandler: NSObject {
     
     private func setupNotificationListener() {
         NotificationCenter.default.addObserver(
-            forName: Notification.Name("scloans_notification"),
+            forName: ScLoan.scLoansNotificationName,
             object: nil,
             queue: .main
         ) { [weak self] notification in
@@ -30,7 +31,7 @@ class ScLoanEventsHandler: NSObject {
     private func handleNotification(_ notification: Notification) {
         guard let eventStreamHandler = eventStreamHandler,
               let userInfo = notification.userInfo,
-              let jsonString = userInfo["payload_str"] as? String else { return }
+              let jsonString = userInfo[ScLoanNotification.strigifiedPayloadKey] as? String else { return }
         
         eventStreamHandler.sendEvent(jsonString)
     }
