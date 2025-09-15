@@ -11,9 +11,14 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import com.google.gson.Gson
 import com.smallcase.loans.core.external.*
 import com.smallcase.loans.core.external.ScLoanEnvironment
+import com.smallcase.loans.core.external.ScLoan
+import com.smallcase.loans.core.external.ScLoanNotification
+import com.smallcase.loans.data.listeners.Notification
+import com.smallcase.loans.data.listeners.NotificationCenter
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.flutter.plugin.common.EventChannel
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import org.json.JSONObject
@@ -26,6 +31,7 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var activity: Activity
     private lateinit var scLoansChannel: MethodChannel
     private val uiThreadHandler: Handler = Handler(Looper.getMainLooper())
+    private var scLoanEventsHandler: ScLoanEventsHandler? = null
 
     
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -33,13 +39,18 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
         scLoansChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "scloans")
         scLoansChannel.setMethodCallHandler(this)
-        // scLoansChannel.setMethodCallHandler(ScLoanFlutterPlugin(getActivity = {
-        //     activity
-        // }))
+
+                
+        scLoanEventsHandler = ScLoanEventsHandler()
+        scLoanEventsHandler?.onAttachedToEngine(flutterPluginBinding)
+
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         scLoansChannel.setMethodCallHandler(null)
+                
+        scLoanEventsHandler?.onDetachedFromEngine(binding)
+        scLoanEventsHandler = null
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {

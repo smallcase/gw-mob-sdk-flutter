@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
@@ -5,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin/scgateway_events.dart';
+import 'package:scloans/sc_loan.dart';
+import 'package:scloans/sc_loan_events.dart';
 
 import '../../smartinvesting.dart';
-import 'SIConfigs.dart';
+import 'SIConfigs.dart' as si;
 
 SmartInvestingAppRepository get repository {
   return SmartInvestingAppRepository.singleton();
@@ -20,6 +24,25 @@ class SmartInvestingAppRepository {
       scGatewayConfig.value = element.scGatewayConfig;
       scLoanConfig.value = element.scLoanConfig;
     });
+
+    // Subscribe to native event streams and pipe to BehaviorSubjects
+    _gatewaySub = ScgatewayEvents.eventStream.listen((jsonString) {
+      // Parse and append gateway events
+      final event = ScgatewayEvents.parseEvent(jsonString);
+      if (event != null) {
+        _appendGatewayEvent(event);
+      } else {
+        _appendGatewayEvent({"type": "raw", "data": jsonString, "timestamp": DateTime.now().millisecondsSinceEpoch});
+      }
+    }, onError: (e) {
+      _appendGatewayEvent({"type": "error", "data": e.toString(), "timestamp": DateTime.now().millisecondsSinceEpoch});
+    });
+
+    // _loansSub = ScLoanEvents.eventStream.listen((event) {
+    //   _appendLoansEvent(event);
+    // }, onError: (e) {
+    //   _appendLoansEvent({"type": "error", "data": e.toString(), "timestamp": DateTime.now().millisecondsSinceEpoch});
+    // });
   }
 
   static SmartInvestingAppRepository? _singleton;
@@ -30,15 +53,21 @@ class SmartInvestingAppRepository {
     return SmartInvesting.fromEnvironment(_singleton!.scGatewayConfig.value);
   }
 
-  final environment = BehaviorSubject.seeded(SIEnvironment.PRODUCTION);
+  final environment = BehaviorSubject.seeded(si.SIEnvironment.PRODUCTION);
 
-  final siConfig = BehaviorSubject.seeded(SIConfig(loansUserId: "020896"));
-  final scGatewayConfig = BehaviorSubject.seeded(ScGatewayConfig.prod());
-  final scLoanConfig = BehaviorSubject.seeded(ScLoanConfig.prod());
+  final siConfig = BehaviorSubject.seeded(si.SIConfig(loansUserId: "020896"));
+  final scGatewayConfig = BehaviorSubject.seeded(si.ScGatewayConfig.prod());
+  final scLoanConfig = BehaviorSubject.seeded(si.ScLoanConfig.prod());
 
   final smartInvestingUserId = BehaviorSubject<String?>.seeded(null);
   final customAuthToken = BehaviorSubject<String?>.seeded(null);
   var appState = BehaviorSubject<String>.seeded("/");
+
+  // Live events log
+  final gatewayEvents = BehaviorSubject<List<Map<String, dynamic>>>.seeded(const []);
+  final loansEvents = BehaviorSubject<List<Map<String, dynamic>>>.seeded(const []);
+  StreamSubscription? _gatewaySub;
+  StreamSubscription? _loansSub;
 
   //SMT Screen
     final headerColor = BehaviorSubject<String?>.seeded(null);
@@ -174,10 +203,30 @@ Future<String> triggerTransaction(
 }
 
   dispose() {
+    _gatewaySub?.cancel();
+    _loansSub?.cancel();
     environment.close();
     scGatewayConfig.close();
     scLoanConfig.close();
     transactionID.close();
+    gatewayEvents.close();
+    loansEvents.close();
     _singleton = null;
+  }
+}
+
+extension on SmartInvestingAppRepository {
+  void _appendGatewayEvent(Map<String, dynamic> event) {
+    final current = List<Map<String, dynamic>>.from(gatewayEvents.value);
+    if (current.length >= 200) current.removeAt(0);
+    current.add(event);
+    gatewayEvents.add(current);
+  }
+
+  void _appendLoansEvent(Map<String, dynamic> event) {
+    final current = List<Map<String, dynamic>>.from(loansEvents.value);
+    if (current.length >= 200) current.removeAt(0);
+    current.add(event);
+    loansEvents.add(current);
   }
 }

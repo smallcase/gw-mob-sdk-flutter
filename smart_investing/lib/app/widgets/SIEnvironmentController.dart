@@ -15,17 +15,21 @@ class SIEnvironmentController extends StatelessWidget {
         final data = snapshot.data;
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: CupertinoSlidingSegmentedControl(
-            padding: const EdgeInsets.all(8),
-            groupValue: data?.index ?? 0,
-            children: SIEnvironment.values
-                .asMap()
-                .map((key, value) => MapEntry(key, Text(value.label))),
-            onValueChanged: (value) {
-              if (value == null) return;
-              repository.environment.value =
-                  SIEnvironment.values.elementAt(value);
-            },
+          child: SizedBox(
+            width: double.infinity,
+            child: CupertinoSlidingSegmentedControl(
+              padding: const EdgeInsets.all(8),
+              groupValue: data?.index ?? 0,
+              children: SIEnvironment.values.asMap().map(
+                (key, value) => MapEntry(key, Text(value.label)),
+              ),
+              onValueChanged: (value) {
+                if (value == null) return;
+                repository.environment.value = SIEnvironment.values.elementAt(
+                  value,
+                );
+              },
+            ),
           ),
         );
       },

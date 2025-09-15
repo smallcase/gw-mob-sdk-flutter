@@ -14,12 +14,19 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
     @MainActor
     let currentViewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
     
+    private var eventsHandler: ScLoanEventsHandler?
+    
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "scloans", binaryMessenger: registrar.messenger())
         let instance = SwiftScLoanFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+
+        instance.eventsHandler = ScLoanEventsHandler()
+        instance.eventsHandler?.setup(with: registrar)
+        
+        print("SwiftScLoansFlutterPlugin with events handler registered successfully")
     }
-    
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         
         guard let args = call.arguments as? Dictionary<String, Any> else { return }
@@ -148,7 +155,7 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
             result("Flutter method not implemented on iOS")
         }
     }
-    
+
     // This conversion is vital because only by passing a FlutterError object to the result:FlutterResult call will the error be thrown in the catch block on the dart side
     private func convertErrorToFlutterError(error: ScLoanError) -> FlutterError {
         
@@ -196,7 +203,7 @@ extension Dictionary {
             
         } catch let dictionaryError as NSError {
             
-            print("Unable to convert dictionary to json String :\(dictionaryError)")
+        print("Unable to convert dictionary to json String :\(dictionaryError)")
             
             return nil
         }

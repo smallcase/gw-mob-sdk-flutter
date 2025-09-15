@@ -1,6 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
+import 'package:scgateway_flutter_plugin/scgateway_events.dart';
+import 'package:scloans/sc_loan.dart';
+import 'package:scloans/sc_loan_events.dart';
 
 import 'app/SIGatewayPage.dart';
 import 'app/SILoansPage.dart';
@@ -20,6 +25,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Brightness _brightness;
+  StreamSubscription<String>? _gatewayEventsSub;
+  StreamSubscription<String>? _loansEventsSub;
 
   @override
   void initState() {
@@ -31,12 +38,54 @@ class _MyAppState extends State<MyApp> {
         _brightness = dispatcher.platformBrightness;
       });
     };
+
+    ScgatewayEvents.startListening();
+    _gatewayEventsSub = ScgatewayEvents.eventStream.listen( 
+      (jsonString) {
+        // Parse the event if needed
+        final event = ScgatewayEvents.parseEvent(jsonString);
+        if (event != null) {
+          print('[Gateway Event] $event');
+        } else {
+          print('[Gateway Event] Raw: $jsonString');
+        }
+      },
+      onError: (e) {
+        print('[Gateway Event][Error] $e');
+      },
+    );
+
+    ScLoanEvents.startListening();
+     _loansEventsSub = ScLoanEvents.eventStream.listen(
+      (jsonString) {
+        // Parse the event if needed
+        final event = ScLoanEvents.parseEvent(jsonString);
+        if (event != null) {
+          print('[Loans Event] $event');
+        } else {
+          print('[Loans Event] Raw: $jsonString');
+        }
+      },
+      onError: (e) {
+        print('[Loans Event][Error] $e');
+      },
+    );
+
     super.initState();
   }
 
   @override
   void dispose() {
+    ScgatewayEvents.stopListening();
+    ScLoanEvents.stopListening();
+
+    _gatewayEventsSub?.cancel();
+    _loansEventsSub?.cancel();
+
+    ScgatewayEvents.dispose();
+    ScLoanEvents.dispose();
     repository.dispose();
+    
     super.dispose();
   }
 

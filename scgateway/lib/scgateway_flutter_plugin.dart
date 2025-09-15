@@ -50,6 +50,8 @@ class ScgatewayFlutterPlugin {
   static const MethodChannel _channel =
       const MethodChannel('scgateway_flutter_plugin');
 
+  // Events are handled by ScgatewayEvents class - import 'package:scgateway_flutter_plugin/scgateway_events.dart'
+
   static const String _flutterPluginVersion = "4.0.0";
 
   static Future<String?> getSdkVersion() async {
@@ -340,4 +342,8 @@ class ScgatewayFlutterPlugin {
 
     return showOrdersResponse;
   }
+
+  // Events are now handled by ScgatewayEvents class
+  // Use: import 'package:scgateway_flutter_plugin/scgateway_events.dart';
+  // Then: ScgatewayEvents.startListening() and ScgatewayEvents.eventStream
 }
