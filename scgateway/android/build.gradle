@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     repositories {
+        mavenLocal()
         google()
         jcenter()
     }
@@ -15,6 +16,7 @@ buildscript {
 
 rootProject.allprojects {
     repositories {
+        mavenLocal()
         maven {
             url "https://artifactory.smallcase.com/artifactory/gradle-dev-local"
             credentials {
@@ -64,6 +66,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation "com.smallcase.gateway:sdk:4.4.0"
+    implementation "com.smallcase.gateway:sdk-null:4.4.0-3180-release"
 }
