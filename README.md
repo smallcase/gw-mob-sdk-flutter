@@ -37,3 +37,28 @@ To deploy a new version of the package:
 
 5. **Run the publish workflow**
    Go to [GitHub Actions](https://github.com/smallcase/gw-mob-sdk-flutter/actions) and manually trigger the "🚀 Publish" workflow on the created tag. The workflow will not work on branches - it must be run on a tag.
+
+## Development
+
+### Reset (clean + reinstall deps)
+
+Use the reset script to clean build artifacts (Flutter, Gradle, CocoaPods), lock files and reinstall dependencies across all packages (`scgateway`, `loans`, `smart_investing`):
+
+```bash
+bash scripts/reset.sh
+```
+
+Then run the example app:
+
+```bash
+cd smart_investing && flutter run
+```
+
+### Check ELF 16KB alignment in an APK
+
+Build the APK, then run the checker (requires `zipalign`, `objdump` in PATH):
+
+```bash
+cd smart_investing && flutter build apk --release
+bash scripts/check_elf_alignment.sh smart_investing/build/app/outputs/flutter-apk/app-release.apk
+```
