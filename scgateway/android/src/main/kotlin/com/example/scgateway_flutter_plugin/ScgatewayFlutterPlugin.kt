@@ -78,10 +78,14 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
                 val res = JSONObject()
 
-                val env: String? = call.argument("env")
-                val gateway: String? = call.argument("gateway")
-                val leprechaun: Boolean? = call.argument("leprechaun")
-                val amo: Boolean? = call.argument("amo")
+                // val env: String? = call.argument("env")
+                // val gateway: String? = call.argument("gateway")
+                // val leprechaun: Boolean? = call.argument("leprechaun")
+                // val amo: Boolean? = call.argument("amo")
+                val env = call.argument<Any>("env") as? String ?: "GatewayEnvironment.PRODUCTION"
+                val gateway = call.argument<Any>("gateway") as? String ?: ""
+                val leprechaun = call.argument<Any>("leprechaun") as? Boolean ?: false
+                val amo = call.argument<Any>("amo") as? Boolean ?: true
 
                 val environment = when (env) {
                     "GatewayEnvironment.DEVELOPMENT" -> Environment.PROTOCOL.DEVELOPMENT
