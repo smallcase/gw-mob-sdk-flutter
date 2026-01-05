@@ -579,10 +579,57 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                 SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugData: SmallplugData(target, params), completion: {
                     response, error in
                     
-                    if let smallplugResponse = response {
+                    if let error = error {
+                        let res = NSMutableDictionary()
+                        res.setValue(false, forKey: "success")
                         
-                        result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                        var errorMessage = error.localizedDescription
+                        if let objcError = error as? ObjcTransactionError {
+                            errorMessage = objcError.domain
+                        }
                         
+                        res.setValue(errorMessage, forKey: "error")
+                        
+                        let jsonData = try! JSONSerialization.data(withJSONObject: res, options: [])
+                        let jsonString = String(data: jsonData, encoding: .utf8)
+                        
+                        result(FlutterError.init(code: jsonString ?? "", message: nil, details: nil))
+                        return
+                    }
+                    
+                    if let smallplugResult = response as? SmallPlugResult {
+                        var responseDict = NSMutableDictionary()
+                        responseDict.setValue(true, forKey: "success")
+                        
+                        if let authToken = smallplugResult.smallcaseAuthToken {
+                            responseDict.setValue(authToken, forKey: "smallcaseAuthToken")
+                        }
+                        
+                        // Add userInfo inside data object if available
+                        if let userInfo = smallplugResult.userInfo {
+                            let dataDict = NSMutableDictionary()
+                            let userInfoDict = NSMutableDictionary()
+
+                            // number and countryCode are NON-OPTIONAL Strings
+                            if !userInfo.number.isEmpty {
+                                userInfoDict.setValue(userInfo.number, forKey: "number")
+                            }
+
+                            if !userInfo.countryCode.isEmpty {
+                                userInfoDict.setValue(userInfo.countryCode, forKey: "countryCode")
+                            }
+
+                            // Only add userInfo if it has at least one field
+                            if userInfoDict.count > 0 {
+                                dataDict.setValue(userInfoDict, forKey: "userInfo")
+                                responseDict.setValue(dataDict, forKey: "data")
+                            }
+                        }
+
+                        let jsonData = try! JSONSerialization.data(withJSONObject: responseDict, options: [])
+                        let jsonString = String(data: jsonData, encoding: .utf8)
+                        
+                        result(jsonString)
                     }
                 })
                 
@@ -591,10 +638,58 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                 SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugData: nil, completion: {
                     response, error in
                     
-                    if let smallplugResponse = response {
+                    if let error = error {
+                        let res = NSMutableDictionary()
+                        res.setValue(false, forKey: "success")
                         
-                        result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                        var errorMessage = error.localizedDescription
+                        if let objcError = error as? ObjcTransactionError {
+                            errorMessage = objcError.domain
+                        }
                         
+                        res.setValue(errorMessage, forKey: "error")
+                        
+                        let jsonData = try! JSONSerialization.data(withJSONObject: res, options: [])
+                        let jsonString = String(data: jsonData, encoding: .utf8)
+                        
+                        result(FlutterError.init(code: jsonString ?? "", message: nil, details: nil))
+                        return
+                    }
+                    
+                    if let smallplugResult = response as? SmallPlugResult {
+                        var responseDict = NSMutableDictionary()
+                        responseDict.setValue(true, forKey: "success")
+                        
+                        if let authToken = smallplugResult.smallcaseAuthToken {
+                            responseDict.setValue(authToken, forKey: "smallcaseAuthToken")
+                        }
+                        
+                        // Add userInfo inside data object if available
+                        if let userInfo = smallplugResult.userInfo {
+                            let dataDict = NSMutableDictionary()
+                            let userInfoDict = NSMutableDictionary()
+
+                            // number and countryCode are NON-OPTIONAL Strings
+                            if !userInfo.number.isEmpty {
+                                userInfoDict.setValue(userInfo.number, forKey: "number")
+                            }
+
+                            if !userInfo.countryCode.isEmpty {
+                                userInfoDict.setValue(userInfo.countryCode, forKey: "countryCode")
+                            }
+
+                            // Only add userInfo if it has at least one field
+                            if userInfoDict.count > 0 {
+                                dataDict.setValue(userInfoDict, forKey: "userInfo")
+                                responseDict.setValue(dataDict, forKey: "data")
+                            }
+                        }
+
+                        
+                        let jsonData = try! JSONSerialization.data(withJSONObject: responseDict, options: [])
+                        let jsonString = String(data: jsonData, encoding: .utf8)
+                        
+                        result(jsonString)
                     }
                 })
                 
@@ -639,10 +734,49 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                     completion: {
                         response, error in
                         
-                        if let smallplugResponse = response {
+                        if let error = error {
+                            let res = NSMutableDictionary()
+                            res.setValue(false, forKey: "success")
                             
-                            result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                            var errorMessage = error.localizedDescription
+                            if let objcError = error as? ObjcTransactionError {
+                                errorMessage = objcError.domain
+                            }
                             
+                            res.setValue(errorMessage, forKey: "error")
+                            
+                            let jsonData = try! JSONSerialization.data(withJSONObject: res, options: [])
+                            let jsonString = String(data: jsonData, encoding: .utf8)
+                            
+                            result(FlutterError.init(code: jsonString ?? "", message: nil, details: nil))
+                            return
+                        }
+                        
+                        if let smallplugResult = response as? SmallPlugResult {
+                            var responseDict = NSMutableDictionary()
+                            responseDict.setValue(true, forKey: "success")
+                            
+                            if let authToken = smallplugResult.smallcaseAuthToken {
+                                responseDict.setValue(authToken, forKey: "smallcaseAuthToken")
+                            }
+                            
+                            // Add userInfo inside data object if available
+                            if let userInfo = smallplugResult.userInfo {
+                                let dataDict = NSMutableDictionary()
+                                let userInfoDict = NSMutableDictionary()
+                                
+                                // number and countryCode are not optional in SmallPlugUserInfo
+                                userInfoDict.setValue(userInfo.number, forKey: "number")
+                                userInfoDict.setValue(userInfo.countryCode, forKey: "countryCode")
+                                
+                                dataDict.setValue(userInfoDict, forKey: "userInfo")
+                                responseDict.setValue(dataDict, forKey: "data")
+                            }
+                            
+                            let jsonData = try! JSONSerialization.data(withJSONObject: responseDict, options: [])
+                            let jsonString = String(data: jsonData, encoding: .utf8)
+                            
+                            result(jsonString)
                         }
                     })
                 
@@ -651,10 +785,58 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                 SCGateway.shared.launchSmallPlug(presentingController: currentViewController, smallplugData: nil, completion: {
                     response, error in
                     
-                    if let smallplugResponse = response {
+                    if let error = error {
+                        let res = NSMutableDictionary()
+                        res.setValue(false, forKey: "success")
                         
-                        result(self.getJsonStringResult(success: true, data: smallplugResponse as? String, errorCode: nil, errorMessage: nil, transaction: nil))
+                        var errorMessage = error.localizedDescription
+                        if let objcError = error as? ObjcTransactionError {
+                            errorMessage = objcError.domain
+                        }
                         
+                        res.setValue(errorMessage, forKey: "error")
+                        
+                        let jsonData = try! JSONSerialization.data(withJSONObject: res, options: [])
+                        let jsonString = String(data: jsonData, encoding: .utf8)
+                        
+                        result(FlutterError.init(code: jsonString ?? "", message: nil, details: nil))
+                        return
+                    }
+                    
+                    if let smallplugResult = response as? SmallPlugResult {
+                        var responseDict = NSMutableDictionary()
+                        responseDict.setValue(true, forKey: "success")
+                        
+                        if let authToken = smallplugResult.smallcaseAuthToken {
+                            responseDict.setValue(authToken, forKey: "smallcaseAuthToken")
+                        }
+                        
+                        // Add userInfo inside data object if available
+                        if let userInfo = smallplugResult.userInfo {
+                            let dataDict = NSMutableDictionary()
+                            let userInfoDict = NSMutableDictionary()
+
+                            // number and countryCode are NON-OPTIONAL Strings
+                            if !userInfo.number.isEmpty {
+                                userInfoDict.setValue(userInfo.number, forKey: "number")
+                            }
+
+                            if !userInfo.countryCode.isEmpty {
+                                userInfoDict.setValue(userInfo.countryCode, forKey: "countryCode")
+                            }
+
+                            // Only add userInfo if it has at least one field
+                            if userInfoDict.count > 0 {
+                                dataDict.setValue(userInfoDict, forKey: "userInfo")
+                                responseDict.setValue(dataDict, forKey: "data")
+                            }
+                        }
+
+                        
+                        let jsonData = try! JSONSerialization.data(withJSONObject: responseDict, options: [])
+                        let jsonString = String(data: jsonData, encoding: .utf8)
+                        
+                        result(jsonString)
                     }
                 })
                 

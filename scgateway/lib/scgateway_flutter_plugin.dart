@@ -288,6 +288,17 @@ class ScgatewayFlutterPlugin {
     return logoutResponse;
   }
 
+  /// Launches SmallPlug and returns a JSON string with the following structure:
+  /// {
+  ///   "success": true,
+  ///   "smallcaseAuthToken": "token", // optional
+  ///   "data": {
+  ///     "userInfo": {
+  ///       "number": "1234567890", // optional
+  ///       "countryCode": "+91" // optional
+  ///     }
+  ///   }
+  /// }
   static Future<String?> launchSmallplug(SmallplugData smallplugData) async {
     String? smallplugResponse;
 
@@ -306,6 +317,17 @@ class ScgatewayFlutterPlugin {
     return smallplugResponse;
   }
 
+  /// Launches SmallPlug with custom branding and returns a JSON string with the following structure:
+  /// {
+  ///   "success": true,
+  ///   "smallcaseAuthToken": "token", // optional
+  ///   "data": {
+  ///     "userInfo": {
+  ///       "number": "1234567890", // optional
+  ///       "countryCode": "+91" // optional
+  ///     }
+  ///   }
+  /// }
   static Future<String?> launchSmallplugWithBranding(
       SmallplugData smallplugData,
       {SmallplugUiConfig? smallplugUiConfig}) async {
