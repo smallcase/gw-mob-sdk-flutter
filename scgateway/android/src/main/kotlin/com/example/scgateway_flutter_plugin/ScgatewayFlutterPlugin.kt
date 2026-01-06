@@ -351,7 +351,34 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
                     override fun onSuccess(smallPlugResult: SmallPlugResult) {
                         uiThreadHandler.post {
-                            result.success(Gson().toJson(smallPlugResult).toString())
+                            val responseDict = JSONObject()
+                            responseDict.put("success", true)
+
+                            if (smallPlugResult.smallcaseAuthToken != null) {
+                                responseDict.put("smallcaseAuthToken", smallPlugResult.smallcaseAuthToken)
+                            }
+
+                            // Add userInfo inside data object if available
+                            smallPlugResult.userInfo?.let { userInfo ->
+                                val dataDict = JSONObject()
+                                val userInfoDict = JSONObject()
+
+                                // number and countryCode are optional
+                                userInfo.number?.let {
+                                    userInfoDict.put("number", it)
+                                }
+                                userInfo.countryCode?.let {
+                                    userInfoDict.put("countryCode", it)
+                                }
+
+                                // Only add userInfo if it has at least one field
+                                if (userInfoDict.length() > 0) {
+                                    dataDict.put("userInfo", userInfoDict)
+                                    responseDict.put("data", dataDict)
+                                }
+                            }
+
+                            result.success(responseDict.toString())
                         }
                     }
 
@@ -381,7 +408,34 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
                     override fun onSuccess(smallPlugResult: SmallPlugResult) {
                         uiThreadHandler.post {
-                            result.success(Gson().toJson(smallPlugResult).toString())
+                            val responseDict = JSONObject()
+                            responseDict.put("success", true)
+
+                            if (smallPlugResult.smallcaseAuthToken != null) {
+                                responseDict.put("smallcaseAuthToken", smallPlugResult.smallcaseAuthToken)
+                            }
+
+                            // Add userInfo inside data object if available
+                            smallPlugResult.userInfo?.let { userInfo ->
+                                val dataDict = JSONObject()
+                                val userInfoDict = JSONObject()
+
+                                // number and countryCode are optional
+                                userInfo.number?.let {
+                                    userInfoDict.put("number", it)
+                                }
+                                userInfo.countryCode?.let {
+                                    userInfoDict.put("countryCode", it)
+                                }
+
+                                // Only add userInfo if it has at least one field
+                                if (userInfoDict.length() > 0) {
+                                    dataDict.put("userInfo", userInfoDict)
+                                    responseDict.put("data", dataDict)
+                                }
+                            }
+
+                            result.success(responseDict.toString())
                         }
                     }
 
