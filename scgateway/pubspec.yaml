@@ -1,6 +1,6 @@
 name: scgateway_flutter_plugin
 description: Scgateway Flutter plugin.
-version: 7.0.0
+version: 7.0.1
 homepage: https://github.com/smallcase/gw-mob-sdk-flutter
 
 # The following line prevents the package from being accidentally published to
