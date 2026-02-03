@@ -271,6 +271,19 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                 
                                 return
                                 
+                                // MARK: MF_HOLDINGS_IMPORT
+                            case let .mfHoldingsImport(data):
+                                result(
+                                    self?.getJsonStringResult(
+                                        success: true,
+                                        data: data ?? "",
+                                        errorCode: nil,
+                                        errorMessage: nil,
+                                        transaction: "MF_HOLDINGS_IMPORT"
+                                    )
+                                )
+                                return
+                                
                                 // MARK: SIP_SETUP
                             case .sipSetup(let smallcaseAuthToken, let sipDetails, let transactionId, let signup):
                                 
