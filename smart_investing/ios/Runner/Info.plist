@@ -62,6 +62,8 @@
 		</array>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Saving your CAS QR code to Photos</string>
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
