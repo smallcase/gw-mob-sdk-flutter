@@ -64,5 +64,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.smallcase.gateway:sdk-sourav-webview-mfhi-baa6586:6.0.4-3183-release'
+    implementation 'com.smallcase.gateway:sdk-sourav-webview-mfhi-42fd4b6:6.0.4-3184-release'
 }
