@@ -29,6 +29,25 @@
 
         <!-- Gateway SDK configs (scgateway & scloans) -->
         <activity
+            android:name="com.smallcase.gateway.screens.mutualfunds.activity.MFHoldingsActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="scgatewaymfhi"/>
+                <data android:host="gatewaydemo"/>
+                <data android:scheme="scgatewaymfhi"/>
+                <data android:host="gatewaydemo-dev"/>
+                <data android:scheme="scgatewaymfhi"/>
+                <data android:host="gatewaydemo-stag"/>
+            </intent-filter>
+        </activity>
+        
+        <activity
             android:name="com.smallcase.gateway.screens.transaction.activity.TransactionProcessActivity"
             android:exported="true"
             >
