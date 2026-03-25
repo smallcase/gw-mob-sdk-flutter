@@ -6,14 +6,14 @@ PODS:
   - mixpanel_flutter (2.4.4):
     - Flutter
     - Mixpanel-swift (= 5.1.0)
-  - SCGateway (7.1.4)
+  - SCGateway-dhruv-migrate-to-sceneDelegate-007ae6e (7.1.6-24-debug)
   - scgateway_flutter_plugin (0.0.1):
     - Flutter
-    - SCGateway (= 7.1.4)
+    - SCGateway-dhruv-migrate-to-sceneDelegate-007ae6e (= 7.1.6-24-debug)
   - scloans (0.0.1):
     - Flutter
-    - SCLoans (= 7.1.1)
-  - SCLoans (7.1.1)
+    - SCLoans-dhruv-migrate-to-sceneDelegate-80eca69 (= 7.1.1-39-debug)
+  - SCLoans-dhruv-migrate-to-sceneDelegate-80eca69 (7.1.1-39-debug)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -22,10 +22,11 @@ DEPENDENCIES:
   - scloans (from `.symlinks/plugins/scloans/ios`)
 
 SPEC REPOS:
+  https://github.com/smallcase/cocoapodspec-internal.git:
+    - SCGateway-dhruv-migrate-to-sceneDelegate-007ae6e
+    - SCLoans-dhruv-migrate-to-sceneDelegate-80eca69
   trunk:
     - Mixpanel-swift
-    - SCGateway
-    - SCLoans
 
 EXTERNAL SOURCES:
   Flutter:
@@ -41,10 +42,10 @@ SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   Mixpanel-swift: 7b26468fc0e2e521104e51d65c4bbf7cab8162f8
   mixpanel_flutter: a0b6b937035899cd01951735ad5f87718b2ffee5
-  SCGateway: 66313f5bd5c650bbde20941cf99c6059d544818a
-  scgateway_flutter_plugin: be9320b246499772148fbc2089b67d0c2a747121
-  SCLoans: c01e392507599b9a4cbb28fae6c7aa3531c484c8
-  scloans: 197f27e69914af5f743852b5c7c12f6d685bdef0
+  SCGateway-dhruv-migrate-to-sceneDelegate-007ae6e: b09149fc113aa409ad828253763c720520a2b642
+  scgateway_flutter_plugin: 3ed28fc720e0fdf9ca79c638509a5310788ce48b
+  scloans: 3c4c1632b4a972373933c81cf91b70265b9a606b
+  SCLoans-dhruv-migrate-to-sceneDelegate-80eca69: ab2115d77604c531216613247d237a8b08e283a4
 
 PODFILE CHECKSUM: 06f3d79628f5881e8468842b1f97f7d12c291209
 
