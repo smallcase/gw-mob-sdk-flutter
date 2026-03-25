@@ -15,7 +15,7 @@ Scgateway Flutter plugin.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'SCGateway-dhruv-inject-mfhiInjectJSQrPage-f2d8deb', '7.1.6-24-debug'
+  s.dependency 'SCGateway-dhruv-inject-mfhiInjectJSQrPage-0a27e53', '7.1.6-25-debug'
   s.xcconfig = {'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'}
   s.vendored_frameworks = 'SCGateway.xcframework'
   s.platform = :ios, '13.0'

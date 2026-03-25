@@ -64,5 +64,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.smallcase.gateway:sdk-dhruv-inject-mfhiInjectJSQrPage-b3d9162:6.0.5-3186-release'
+    implementation 'com.smallcase.gateway:sdk-dhruv-inject-mfhiInjectJSQrPage-4477da0:6.0.5-3187-release'
 }
