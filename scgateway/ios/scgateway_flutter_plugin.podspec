@@ -15,7 +15,7 @@ Scgateway Flutter plugin.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'SCGateway-dhruv-propagate-dm-events-eaf8710', '7.1.0-18-debug'
+  s.dependency 'SCGateway', '7.1.7'
   s.xcconfig = {'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'}
   s.vendored_frameworks = 'SCGateway.xcframework'
   s.platform = :ios, '13.0'
