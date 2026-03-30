@@ -11,20 +11,57 @@ enum IntentType: String {
     case authoriseHoldings = "AUTHORISE_HOLDINGS"
 }
 
-public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
-    
+public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
+
     @MainActor
     let currentViewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
-    
+
+    private var eventSink: FlutterEventSink?
+    private var notificationObserver: NSObjectProtocol?
+
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "scgateway_flutter_plugin", binaryMessenger: registrar.messenger())
         let instance = SwiftScgatewayFlutterPlugin()
-        
-        //   let scLoansChannel = FlutterMethodChannel(name: "scloans", binaryMessenger: registrar.messenger())
-        //   let scLoansInstance = ScLoanFlutterPlugin()
-        
+
+        let eventChannel = FlutterEventChannel(name: "scgateway_flutter_plugin/smallplug_events", binaryMessenger: registrar.messenger())
+        eventChannel.setStreamHandler(instance)
+
         registrar.addMethodCallDelegate(instance, channel: channel)
-        // registrar.addMethodCallDelegate(scLoansInstance, channel: scLoansChannel)
+    }
+
+    // MARK: - FlutterStreamHandler (SmallPlug event streaming)
+
+    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        self.eventSink = events
+        notificationObserver = NotificationCenter.default.addObserver(
+            forName: SCGateway.scgNotificationName,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            self?.handleScgNotification(notification)
+        }
+        return nil
+    }
+
+    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        if let observer = notificationObserver {
+            NotificationCenter.default.removeObserver(observer)
+            notificationObserver = nil
+        }
+        eventSink = nil
+        return nil
+    }
+
+    private func handleScgNotification(_ notification: Notification) {
+        guard let jsonString = notification.userInfo?[SCGNotification.strigifiedPayloadKey] as? String,
+              let data = jsonString.data(using: .utf8),
+              let parsed = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              parsed["type"] as? String == NotificationTypes.smallplugAnalyticsEvent,
+              let eventData = parsed["data"] as? [String: Any] else { return }
+        guard let sink = eventSink,
+              let eventJson = try? JSONSerialization.data(withJSONObject: eventData),
+              let eventString = String(data: eventJson, encoding: .utf8) else { return }
+        sink(eventString)
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
