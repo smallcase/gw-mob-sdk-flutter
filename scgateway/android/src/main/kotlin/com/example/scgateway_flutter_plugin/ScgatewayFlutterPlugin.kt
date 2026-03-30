@@ -14,9 +14,13 @@ import com.smallcase.gateway.data.models.*
 import com.smallcase.gateway.data.requests.InitRequest
 import com.smallcase.gateway.portal.SmallcaseGatewaySdk
 import com.smallcase.gateway.portal.SmallplugPartnerProps
+import com.smallcase.gateway.data.listeners.Notification
+import com.smallcase.gateway.data.listeners.NotificationCenter
+import com.smallcase.gateway.portal.ScgNotification
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -46,13 +50,43 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
-    
+    private lateinit var eventChannel: EventChannel
+    private var eventSink: EventChannel.EventSink? = null
+    private var notificationObserver: ((Notification) -> Unit)? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         this.context = flutterPluginBinding.applicationContext
 
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "scgateway_flutter_plugin")
         channel.setMethodCallHandler(this)
+
+        eventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "scgateway_flutter_plugin/smallplug_events")
+        eventChannel.setStreamHandler(object : EventChannel.StreamHandler {
+            override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+                eventSink = events
+                notificationObserver = { notification ->
+                    processSmallplugNotification(notification)
+                }
+                notificationObserver?.let { NotificationCenter.addObserver(it) }
+            }
+            override fun onCancel(arguments: Any?) {
+                notificationObserver?.let { NotificationCenter.removeObserver(it) }
+                notificationObserver = null
+                eventSink = null
+            }
+        })
+    }
+
+    private fun processSmallplugNotification(notification: Notification) {
+        val jsonString = notification.userInfo?.get(ScgNotification.STRINGIFIED_PAYLOAD_KEY) as? String ?: return
+        try {
+            val parsed = org.json.JSONObject(jsonString)
+            if (parsed.optString("type") != "smallplug_analytics_event") return
+            val eventData = parsed.optJSONObject("data") ?: return
+            uiThreadHandler.post {
+                eventSink?.success(eventData.toString())
+            }
+        } catch (_: Exception) {}
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull rawResult: Result) {
@@ -495,6 +529,9 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
+        notificationObserver?.let { NotificationCenter.removeObserver(it) }
+        notificationObserver = null
+        eventSink = null
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {

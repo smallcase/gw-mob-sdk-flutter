@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import './color_ext.dart';
@@ -46,9 +47,42 @@ class SmallplugUiConfig {
       };
 }
 
+class SmallplugAnalyticsEvent {
+  final String eventName;
+  final Map<String, dynamic> data;
+  final double timestamp;
+
+  SmallplugAnalyticsEvent({
+    required this.eventName,
+    required this.data,
+    required this.timestamp,
+  });
+
+  factory SmallplugAnalyticsEvent.fromJson(Map<String, dynamic> json) {
+    return SmallplugAnalyticsEvent(
+      eventName: json['eventName'] as String? ?? '',
+      data: (json['data'] as Map?)?.cast<String, dynamic>() ?? {},
+      timestamp: (json['timestamp'] as num?)?.toDouble() ?? 0,
+    );
+  }
+}
+
 class ScgatewayFlutterPlugin {
   static const MethodChannel _channel =
       const MethodChannel('scgateway_flutter_plugin');
+
+  static const EventChannel _smallplugEventChannel =
+      EventChannel('scgateway_flutter_plugin/smallplug_events');
+
+  /// Stream of SmallPlug / DM analytics events.
+  /// Subscribe before calling [launchSmallplug] or [launchSmallplugWithBranding].
+  static Stream<SmallplugAnalyticsEvent> get smallplugEventStream {
+    return _smallplugEventChannel.receiveBroadcastStream().map((event) {
+      final Map<String, dynamic> json =
+          (event is String ? jsonDecode(event) : event) as Map<String, dynamic>;
+      return SmallplugAnalyticsEvent.fromJson(json);
+    });
+  }
 
   static const String _flutterPluginVersion = "4.0.0";
 

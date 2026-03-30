@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scgateway_flutter_plugin/scgateway_flutter_plugin.dart';
 
 import 'app/SIGatewayPage.dart';
 import 'app/SILoansPage.dart';
@@ -20,6 +23,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Brightness _brightness;
+  StreamSubscription? _smallplugEventSub;
 
   @override
   void initState() {
@@ -31,11 +35,17 @@ class _MyAppState extends State<MyApp> {
         _brightness = dispatcher.platformBrightness;
       });
     };
+    _smallplugEventSub =
+        ScgatewayFlutterPlugin.smallplugEventStream.listen((event) {
+      print(
+          '[SmallplugEvent] ${event.eventName} | data: ${event.data} | ts: ${event.timestamp}');
+    });
     super.initState();
   }
 
   @override
   void dispose() {
+    _smallplugEventSub?.cancel();
     repository.dispose();
     super.dispose();
   }
