@@ -43,3 +43,24 @@ jobs:
       - name: Publish to pub.dev
         run: flutter pub publish -f
         working-directory: ${{ inputs.working-directory }}
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+        continue-on-error: true
+
+      - name: Clone small-things
+        uses: actions/checkout@v4
+        with:
+          repository: smallcase/small-things
+          path: small-things
+          token: ${{ secrets.GH_PAT }}
+        continue-on-error: true
+
+      - name: Track release
+        env:
+          SMALL_THINGS_PATH: small-things
+          NOTIFY_WEBHOOK_URL: ${{ secrets.NOTIFY_WEBHOOK_URL }}
+        run: bash scripts/track-release.sh --working-dir ${{ inputs.working-directory }}
+        continue-on-error: true
