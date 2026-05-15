@@ -1,3 +1,7 @@
+## 5.1.3
+
+- Update Android native SDK dependency to 5.1.3.
+
 ## 5.1.2
 
 - Update Android and iOS native SDK dependencies for the 5.1.2 release.
