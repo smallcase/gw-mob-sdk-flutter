@@ -8,6 +8,7 @@ enum IntentType: String {
     case holding = "HOLDINGS_IMPORT"
     case fetchFunds = "FETCH_FUNDS"
     case sipSetup = "SIP_SETUP"
+    case imrSetup = "IMR_SETUP"
     case authoriseHoldings = "AUTHORISE_HOLDINGS"
 }
 
@@ -344,6 +345,40 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
                                     /// Catch exception
                                 }
                                 
+                                // MARK: IMR_SETUP
+                            case .imrSetup(let smallcaseAuthToken, let imrAction, let transactionId, let signup):
+
+                                do {
+                                    let jsonEncoder = JSONEncoder()
+                                    let jsonData = try jsonEncoder.encode(imrAction)
+
+                                    let data = try? JSONSerialization.jsonObject(with: jsonData, options: [])
+
+                                    if let imrResponse = data as? [String: Any] {
+
+                                        print("IMR_SETUP response: \(imrResponse)")
+
+                                        var resDict: [String: Any] = [:]
+
+                                        resDict["success"] = true
+                                        resDict["data"] = imrResponse
+                                        resDict["smallcaseAuthToken"] = smallcaseAuthToken
+                                        resDict["transaction"] = "IMR_SETUP"
+                                        resDict["transactionId"] = transactionId
+                                        resDict["signup"] = signup
+
+                                        let jsonData = try! JSONSerialization.data(withJSONObject: resDict, options: [])
+                                        let jsonString = String(data: jsonData, encoding: .utf8)
+
+                                        result(jsonString)
+
+                                        return
+                                    }
+
+                                } catch {
+                                    /// Catch exception
+                                }
+
                             default:
                                 return
                             }

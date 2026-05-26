@@ -58,6 +58,15 @@ fun ScgatewayFlutterPlugin.txnOnSuccessCallback(transactionResult: TransactionRe
                 result.success(transRes.toString())
 
             }
+            SmallcaseGatewaySdk.Result.IMR_SETUP -> {
+
+                val transRes = JSONObject(transactionResult.data!!)
+                transRes.put("success", true)
+                transRes.put("transaction", "IMR_SETUP")
+
+                result.success(transRes.toString())
+
+            }
             else -> {
 
                 txnResult = transactionResult.data!!
