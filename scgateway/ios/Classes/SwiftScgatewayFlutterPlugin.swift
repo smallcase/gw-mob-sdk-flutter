@@ -12,9 +12,12 @@ enum IntentType: String {
     case authoriseHoldings = "AUTHORISE_HOLDINGS"
 }
 
-@MainActor
-public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin {
-    
+public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
+
+    private var eventSink: FlutterEventSink?
+    private var notificationObserver: NSObjectProtocol?
+
+    @MainActor
     var currentViewController: UIViewController {
         let foregroundScene = UIApplication.shared.connectedScenes
             .filter({ $0.activationState == .foregroundActive })
