@@ -77,6 +77,7 @@ fun ScgatewayFlutterPlugin.txnOnSuccessCallback(transactionResult: TransactionRe
 
     } catch (e: Exception) {
         e.printStackTrace()
+        result.error("TXN_ERROR", e.message ?: "Unknown error in transaction callback", null)
     }
 }
 

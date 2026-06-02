@@ -404,7 +404,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin, FlutterStream
                                         resDict["transactionId"] = transactionId
                                         resDict["signup"] = signup
 
-                                        let jsonData = try! JSONSerialization.data(withJSONObject: resDict, options: [])
+                                        let jsonData = try JSONSerialization.data(withJSONObject: resDict, options: [])
                                         let jsonString = String(data: jsonData, encoding: .utf8)
 
                                         result(jsonString)
@@ -413,7 +413,7 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin, FlutterStream
                                     }
 
                                 } catch {
-                                    /// Catch exception
+                                    result(FlutterError(code: "IMR_SETUP_ERROR", message: error.localizedDescription, details: nil))
                                 }
 
                             default:
