@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 7.0.8
+
+* Update Android and iOS native SDK dependencies for the 7.0.8 release.
+* For detailed changes, see the [Gateway SDK Flutter changelog](https://developers.gateway.smallcase.com/changelog/gateway-sdk-flutter).
+
 ## 7.0.3
 
 * Update Android and iOS native SDK dependencies for the 7.0.3 release.
