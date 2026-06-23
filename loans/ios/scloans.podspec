@@ -5,13 +5,11 @@
 Pod::Spec.new do |s|
   s.name             = 'scloans'
   s.version          = '0.0.1'
-  s.summary          = 'A new flutter plugin project.'
-  s.description      = <<-DESC
-A new flutter plugin project.
-                       DESC
-  s.homepage         = 'http://example.com'
+  s.summary          = 'SCLoans Flutter plugin.'
+  s.description      = 'SCLoans Flutter plugin.'
+  s.homepage         = 'https://github.com/smallcase/gw-mob-sdk-flutter'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.authors          = { 'smallcase' => '' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
