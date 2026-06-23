@@ -1,3 +1,8 @@
+## 5.2.0
+
+- Update iOS native SDK dependency to 7.2.0.
+- Migrate view controller resolution to SceneDelegate-based approach.
+
 ## 5.1.3
 
 - Update Android native SDK dependency to 5.1.3.
