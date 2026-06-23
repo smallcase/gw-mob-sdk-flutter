@@ -9,10 +9,47 @@ import Flutter
 import UIKit
 import Loans
 
+@MainActor
 public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
-    
-    @MainActor
-    let currentViewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
+
+    var currentViewController: UIViewController {
+        let foregroundScene = UIApplication.shared.connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .compactMap({ $0 as? UIWindowScene })
+            .first
+
+        if let scene = foregroundScene {
+            let keyWindow: UIWindow?
+            if #available(iOS 15.0, *) {
+                keyWindow = scene.keyWindow
+            } else {
+                keyWindow = scene.windows.first(where: { $0.isKeyWindow })
+            }
+            if let rootVC = keyWindow?.rootViewController {
+                return rootVC
+            }
+        }
+
+        if let windowScene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first {
+            let window: UIWindow?
+            if #available(iOS 15.0, *) {
+                window = windowScene.keyWindow ?? windowScene.windows.first
+            } else {
+                window = windowScene.windows.first(where: { $0.isKeyWindow }) ?? windowScene.windows.first
+            }
+            if let rootVC = window?.rootViewController {
+                return rootVC
+            }
+        }
+
+        if let rootVC = UIApplication.shared.delegate?.window??.rootViewController {
+            return rootVC
+        }
+
+        fatalError("SwiftScLoanFlutterPlugin: No root view controller found. Ensure a UIWindow is set up in SceneDelegate or AppDelegate.")
+    }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "scloans", binaryMessenger: registrar.messenger())
