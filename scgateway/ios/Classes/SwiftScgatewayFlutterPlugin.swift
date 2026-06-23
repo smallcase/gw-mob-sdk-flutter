@@ -8,17 +8,57 @@ enum IntentType: String {
     case holding = "HOLDINGS_IMPORT"
     case fetchFunds = "FETCH_FUNDS"
     case sipSetup = "SIP_SETUP"
+    case imrSetup = "IMR_SETUP"
     case authoriseHoldings = "AUTHORISE_HOLDINGS"
 }
 
+@MainActor
 public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
-
-    @MainActor
-    let currentViewController: UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
 
     private var eventSink: FlutterEventSink?
     private var notificationObserver: NSObjectProtocol?
 
+    var currentViewController: UIViewController {
+        let foregroundScene = UIApplication.shared.connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .compactMap({ $0 as? UIWindowScene })
+            .first
+
+        if let scene = foregroundScene {
+            let keyWindow: UIWindow?
+            if #available(iOS 15.0, *) {
+                keyWindow = scene.keyWindow
+            } else {
+                keyWindow = scene.windows.first(where: { $0.isKeyWindow })
+            }
+            if let rootVC = keyWindow?.rootViewController {
+                return rootVC
+            }
+        }
+
+        // Any connected scene fallback (covers edge cases where no scene is .foregroundActive yet)
+        if let windowScene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first {
+            let window: UIWindow?
+            if #available(iOS 15.0, *) {
+                window = windowScene.keyWindow ?? windowScene.windows.first
+            } else {
+                window = windowScene.windows.first(where: { $0.isKeyWindow }) ?? windowScene.windows.first
+            }
+            if let rootVC = window?.rootViewController {
+                return rootVC
+            }
+        }
+
+        // Fallback (AppDelegate-based window)
+        if let rootVC = UIApplication.shared.delegate?.window??.rootViewController {
+            return rootVC
+        }
+
+        fatalError("SwiftScgatewayFlutterPlugin: No root view controller found. Ensure a UIWindow is set up in SceneDelegate or AppDelegate.")
+    }
+    
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "scgateway_flutter_plugin", binaryMessenger: registrar.messenger())
         let instance = SwiftScgatewayFlutterPlugin()
@@ -342,6 +382,40 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin, FlutterStream
                                     /// Catch exception
                                 }
                                 
+                                // MARK: IMR_SETUP
+                            case .imrSetup(let smallcaseAuthToken, let imrAction, let transactionId, let signup):
+
+                                do {
+                                    let jsonEncoder = JSONEncoder()
+                                    let jsonData = try jsonEncoder.encode(imrAction)
+
+                                    let data = try? JSONSerialization.jsonObject(with: jsonData, options: [])
+
+                                    if let imrResponse = data as? [String: Any] {
+
+                                        print("IMR_SETUP response: \(imrResponse)")
+
+                                        var resDict: [String: Any] = [:]
+
+                                        resDict["success"] = true
+                                        resDict["data"] = imrResponse
+                                        resDict["smallcaseAuthToken"] = smallcaseAuthToken
+                                        resDict["transaction"] = "IMR_SETUP"
+                                        resDict["transactionId"] = transactionId
+                                        resDict["signup"] = signup
+
+                                        let jsonData = try JSONSerialization.data(withJSONObject: resDict, options: [])
+                                        let jsonString = String(data: jsonData, encoding: .utf8)
+
+                                        result(jsonString)
+
+                                        return
+                                    }
+
+                                } catch {
+                                    result(FlutterError(code: "IMR_SETUP_ERROR", message: error.localizedDescription, details: nil))
+                                }
+
                             default:
                                 return
                             }
