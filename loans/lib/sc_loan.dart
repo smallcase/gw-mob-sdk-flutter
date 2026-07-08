@@ -25,6 +25,7 @@ class ScLoan {
   static Map<String, dynamic> _loanInfoArgs(ScLoanInfo loanInfo) {
     return <String, dynamic>{
       "interactionToken": loanInfo.interactionToken,
+      // TODO: use explicit value mapping, not enum .name (fragile to renames).
       if (loanInfo.colorScheme != null)
         "colorScheme": loanInfo.colorScheme!.name,
     };
