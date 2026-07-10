@@ -58,6 +58,21 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     }
 
+    // colorScheme rides the bridge as a primitive string and is mapped back to the native
+    // enum here. Unknown/absent → null so the SDK keeps its light-default behaviour.
+    private fun parseColorScheme(value: String?): ScLoanColorScheme? = when (value) {
+        "dark" -> ScLoanColorScheme.DARK
+        "light" -> ScLoanColorScheme.LIGHT
+        "system" -> ScLoanColorScheme.SYSTEM
+        else -> null
+    }
+
+    private fun buildLoanInfo(call: MethodCall): ScLoanInfo {
+        val interactionToken: String = call.argument("interactionToken") ?: ""
+        val colorScheme = parseColorScheme(call.argument("colorScheme"))
+        return ScLoanInfo(interactionToken, colorScheme)
+    }
+
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
 
         val safeResult = ScLoanMethodChannelResult(result, activity)
@@ -88,11 +103,9 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 )
             }
             "apply" -> {
-                val interactionToken: String? = call.argument("interactionToken")
-
                 ScLoan.apply(
                     activity,
-                    ScLoanInfo(interactionToken ?: ""),
+                    buildLoanInfo(call),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
                             safeResult.error(error.code.toString(), error.message, error.toString())
@@ -106,11 +119,9 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 )
             }
             "pay" -> {
-                val interactionToken: String? = call.argument("interactionToken")
-
                 ScLoan.pay(
                     activity,
-                    ScLoanInfo(interactionToken ?: ""),
+                    buildLoanInfo(call),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
                             safeResult.error(error.code.toString(), error.message, error.toString())
@@ -124,11 +135,9 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 )
             }
             "withdraw" -> {
-                val interactionToken: String? = call.argument("interactionToken")
-
                 ScLoan.withdraw(
                     activity,
-                    ScLoanInfo(interactionToken ?: ""),
+                    buildLoanInfo(call),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
                             safeResult.error(error.code.toString(), error.message, error.toString())
@@ -142,11 +151,9 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 )
             }
             "service" -> {
-                val interactionToken: String? = call.argument("interactionToken")
-
                 ScLoan.service(
                     activity,
-                    ScLoanInfo(interactionToken ?: ""),
+                    buildLoanInfo(call),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
                             safeResult.error(error.code.toString(), error.message, error.toString())
@@ -160,11 +167,9 @@ class ScLoanFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
                 )
             }
             "triggerInteraction" -> {
-                val interactionToken: String? = call.argument("interactionToken")
-
                 ScLoan.triggerInteraction(
                     activity,
-                    ScLoanInfo(interactionToken ?: ""),
+                    buildLoanInfo(call),
                     listener = object : ScLoanResult {
                         override fun onFailure(error: ScLoanError) {
                             safeResult.error(error.code.toString(), error.message, error.toString())

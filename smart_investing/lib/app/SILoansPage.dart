@@ -10,8 +10,29 @@ import 'widgets/SISwitch.dart';
 import 'widgets/SIText.dart';
 import 'widgets/SITextField.dart';
 
-class SILoansPage extends StatelessWidget {
+class SILoansPage extends StatefulWidget {
   const SILoansPage({super.key});
+
+  @override
+  State<SILoansPage> createState() => _SILoansPageState();
+}
+
+class _SILoansPageState extends State<SILoansPage> {
+  static const _colorSchemeLabels = ['None', 'Light', 'Dark', 'System'];
+  static const _colorSchemeValues = <ScLoanColorScheme?>[
+    null,
+    ScLoanColorScheme.light,
+    ScLoanColorScheme.dark,
+    ScLoanColorScheme.system,
+  ];
+
+  int _colorSchemeIndex = 0;
+
+  ScLoanInfo _buildLoanInfo() {
+    final token = repository.scLoanConfig.value.customInteractionToken ?? "";
+    final scheme = _colorSchemeValues[_colorSchemeIndex];
+    return ScLoanInfo(token, colorScheme: scheme);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +79,31 @@ class SILoansPage extends StatelessWidget {
                 );
               },
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SIText.large(text: "Color Scheme"),
+                  const SizedBox(height: 6),
+                  ToggleButtons(
+                    isSelected: List.generate(
+                      _colorSchemeLabels.length,
+                      (i) => i == _colorSchemeIndex,
+                    ),
+                    onPressed: (i) => setState(() => _colorSchemeIndex = i),
+                    borderRadius: BorderRadius.circular(8),
+                    children: _colorSchemeLabels
+                        .map((label) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 14),
+                              child: Text(label),
+                            ))
+                        .toList(),
+                  ),
+                ],
+              ),
+            ),
             Wrap(
               spacing: 12,
               children: [
@@ -78,9 +124,7 @@ class SILoansPage extends StatelessWidget {
                   label: "Apply",
                   onPressed: () async {
                     try {
-                      final response = await ScLoan.apply(ScLoanInfo(repository
-                              .scLoanConfig.value.customInteractionToken ??
-                          ""));
+                      final response = await ScLoan.apply(_buildLoanInfo());
                       repository.showAlertDialog(response.toString(), context);
                     } on ScLoanError catch (e) {
                       repository.showAlertDialog(e.toString(), context);
@@ -91,9 +135,7 @@ class SILoansPage extends StatelessWidget {
                     label: "Pay",
                     onPressed: () async {
                       try {
-                        final response = await ScLoan.pay(ScLoanInfo(repository
-                                .scLoanConfig.value.customInteractionToken ??
-                            ""));
+                        final response = await ScLoan.pay(_buildLoanInfo());
                         repository.showAlertDialog(
                             response.toString(), context);
                       } on ScLoanError catch (e) {
@@ -104,10 +146,8 @@ class SILoansPage extends StatelessWidget {
                     label: "Withdraw",
                     onPressed: () async {
                       try {
-                        final response = await ScLoan.withdraw(ScLoanInfo(
-                            repository.scLoanConfig.value
-                                    .customInteractionToken ??
-                                ""));
+                        final response =
+                            await ScLoan.withdraw(_buildLoanInfo());
                         repository.showAlertDialog(
                             response.toString(), context);
                       } on ScLoanError catch (e) {
@@ -118,24 +158,20 @@ class SILoansPage extends StatelessWidget {
                     label: "Service",
                     onPressed: () async {
                       try {
-                        final response = await ScLoan.service(ScLoanInfo(
-                            repository.scLoanConfig.value
-                                    .customInteractionToken ??
-                                ""));
+                        final response =
+                            await ScLoan.service(_buildLoanInfo());
                         repository.showAlertDialog(
                             response.toString(), context);
                       } on ScLoanError catch (e) {
                         repository.showAlertDialog(e.toString(), context);
                       }
                     }),
-                    SIButton(
+                SIButton(
                     label: "Trigger Interaction",
                     onPressed: () async {
                       try {
-                        final response = await ScLoan.triggerInteraction(ScLoanInfo(
-                            repository.scLoanConfig.value
-                                    .customInteractionToken ??
-                                ""));
+                        final response =
+                            await ScLoan.triggerInteraction(_buildLoanInfo());
                         repository.showAlertDialog(
                             response.toString(), context);
                       } on ScLoanError catch (e) {

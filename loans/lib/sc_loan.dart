@@ -22,12 +22,19 @@ class ScLoan {
     }
   }
 
+  static Map<String, dynamic> _loanInfoArgs(ScLoanInfo loanInfo) {
+    return <String, dynamic>{
+      "interactionToken": loanInfo.interactionToken,
+      // TODO: use explicit value mapping, not enum .name (fragile to renames).
+      if (loanInfo.colorScheme != null)
+        "colorScheme": loanInfo.colorScheme!.name,
+    };
+  }
+
   static Future<ScLoanSuccess> apply(ScLoanInfo loanInfo) async {
     try {
       String? applyResponse =
-          await _channel.invokeMethod('apply', <String, dynamic>{
-        "interactionToken": loanInfo.interactionToken,
-      });
+          await _channel.invokeMethod('apply', _loanInfoArgs(loanInfo));
       return ScLoanSuccess.fromJson(applyResponse ?? "{}");
     } on PlatformException catch (e) {
       throw e.toScLoanError;
@@ -37,9 +44,7 @@ class ScLoan {
   static Future<ScLoanSuccess> pay(ScLoanInfo loanInfo) async {
     try {
       String? payResponse =
-          await _channel.invokeMethod('pay', <String, dynamic>{
-        "interactionToken": loanInfo.interactionToken,
-      });
+          await _channel.invokeMethod('pay', _loanInfoArgs(loanInfo));
       return ScLoanSuccess.fromJson(payResponse ?? "{}");
     } on PlatformException catch (e) {
       throw e.toScLoanError;
@@ -49,9 +54,7 @@ class ScLoan {
   static Future<ScLoanSuccess> withdraw(ScLoanInfo loanInfo) async {
     try {
       String? withdrawResponse =
-          await _channel.invokeMethod('withdraw', <String, dynamic>{
-        "interactionToken": loanInfo.interactionToken,
-      });
+          await _channel.invokeMethod('withdraw', _loanInfoArgs(loanInfo));
       return ScLoanSuccess.fromJson(withdrawResponse ?? "{}");
     } on PlatformException catch (e) {
       throw e.toScLoanError;
@@ -61,9 +64,7 @@ class ScLoan {
   static Future<ScLoanSuccess> service(ScLoanInfo loanInfo) async {
     try {
       String? serviceResponse =
-          await _channel.invokeMethod('service', <String, dynamic>{
-        "interactionToken": loanInfo.interactionToken,
-      });
+          await _channel.invokeMethod('service', _loanInfoArgs(loanInfo));
       return ScLoanSuccess.fromJson(serviceResponse ?? "{}");
     } on PlatformException catch (e) {
       throw e.toScLoanError;
@@ -72,10 +73,8 @@ class ScLoan {
 
   static Future<ScLoanSuccess> triggerInteraction(ScLoanInfo loanInfo) async {
     try {
-      String? triggerInteractionResponse =
-          await _channel.invokeMethod('triggerInteraction', <String, dynamic>{
-        "interactionToken": loanInfo.interactionToken,
-      });
+      String? triggerInteractionResponse = await _channel.invokeMethod(
+          'triggerInteraction', _loanInfoArgs(loanInfo));
       return ScLoanSuccess.fromJson(triggerInteractionResponse ?? "{}");
     } on PlatformException catch (e) {
       throw e.toScLoanError;

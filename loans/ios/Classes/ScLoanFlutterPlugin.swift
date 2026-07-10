@@ -57,28 +57,46 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
+    // colorScheme rides the bridge as a primitive string and is mapped back to the native
+    // enum here. Unknown/absent → token-only initializer so the SDK keeps its light-default.
+    private func loanInfo(from args: Dictionary<String, Any>) -> ScLoanInfo? {
+        guard let interactionToken = args["interactionToken"] as? String else { return nil }
+        if let scheme = args["colorScheme"] as? String {
+            switch scheme {
+            case "dark":
+                return ScLoanInfo(interactionToken: interactionToken, colorScheme: .dark)
+            case "light":
+                return ScLoanInfo(interactionToken: interactionToken, colorScheme: .light)
+            case "system":
+                return ScLoanInfo(interactionToken: interactionToken, colorScheme: .system)
+            default:
+                break
+            }
+        }
+        return ScLoanInfo(interactionToken: interactionToken)
+    }
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        
+
         guard let args = call.arguments as? Dictionary<String, Any> else { return }
-        
+
         switch (call.method) {
-            
+
         case "setup": do {
             guard let gateway = args["gateway"] as? String else {
-                //SDK setup failure
                 print("ScLoan setup failed: No gateway name provided")
                 return
             }
-            
+
             var env = SCLoanEnvironment.production
-            
+
             if let hostEnv = args["env"] as? Int {
                 env = SCLoanEnvironment(rawValue: hostEnv) ?? .production
             }
-            
+
             ScLoan.instance.setup(
                 config: ScLoanConfig(gatewayName: gateway, environment: env)) { success, error in
-                    
+
                     if let err = error {
                         result(self.convertErrorToFlutterError(error: err))
                     } else {
@@ -86,18 +104,17 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
                     }
                 }
         }
-            
+
         case "apply": do {
-            guard let interactionToken = args["interactionToken"] as? String else {
-                //SDK setup failure
+            guard let info = loanInfo(from: args) else {
                 print("ScLoan apply failed: No interactionToken provided")
                 return
             }
-            
+
             ScLoan.instance.apply(
                 presentingController: currentViewController,
-                loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
-                    
+                loanInfo: info) { success, error in
+
                     if let err = error {
                         result(self.convertErrorToFlutterError(error: err))
                     } else {
@@ -105,18 +122,17 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
                     }
                 }
         }
-            
+
         case "pay": do {
-            guard let interactionToken = args["interactionToken"] as? String else {
-                //SDK setup failure
+            guard let info = loanInfo(from: args) else {
                 print("ScLoan pay failed: No interactionToken provided")
                 return
             }
-            
+
             ScLoan.instance.pay(
                 presentingController: currentViewController,
-                loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
-                    
+                loanInfo: info) { success, error in
+
                     if let err = error {
                         result(self.convertErrorToFlutterError(error: err))
                     } else {
@@ -124,18 +140,17 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
                     }
                 }
         }
-            
+
         case "withdraw": do {
-            guard let interactionToken = args["interactionToken"] as? String else {
-                //SDK setup failure
+            guard let info = loanInfo(from: args) else {
                 print("ScLoan withdraw failed: No interactionToken provided")
                 return
             }
-            
+
             ScLoan.instance.withdraw(
                 presentingController: currentViewController,
-                loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
-                    
+                loanInfo: info) { success, error in
+
                     if let err = error {
                         result(self.convertErrorToFlutterError(error: err))
                     } else {
@@ -143,18 +158,17 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
                     }
                 }
         }
-            
+
         case "service": do {
-            guard let interactionToken = args["interactionToken"] as? String else {
-                //SDK setup failure
+            guard let info = loanInfo(from: args) else {
                 print("ScLoan service failed: No interactionToken provided")
                 return
             }
-            
+
             ScLoan.instance.service(
                 presentingController: currentViewController,
-                loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
-                    
+                loanInfo: info) { success, error in
+
                     if let err = error {
                         result(self.convertErrorToFlutterError(error: err))
                     } else {
@@ -163,16 +177,15 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
                 }
         }
         case "triggerInteraction": do {
-            guard let interactionToken = args["interactionToken"] as? String else {
-                //SDK setup failure
+            guard let info = loanInfo(from: args) else {
                 print("ScLoan triggerInteraction failed: No interactionToken provided")
                 return
             }
-            
+
             ScLoan.instance.triggerInteraction(
                 presentingController: currentViewController,
-                loanInfo: ScLoanInfo(interactionToken: interactionToken)) { success, error in
-                    
+                loanInfo: info) { success, error in
+
                     if let err = error {
                         result(self.convertErrorToFlutterError(error: err))
                     } else {
@@ -180,7 +193,7 @@ public class SwiftScLoanFlutterPlugin: NSObject, FlutterPlugin {
                     }
                 }
         }
-            
+
         default:
             result("Flutter method not implemented on iOS")
         }
