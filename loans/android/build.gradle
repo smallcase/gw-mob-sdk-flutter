@@ -64,5 +64,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.smallcase.loans:sdk-sourav-native-dark-theme-cb54bf9:5.1.4-92-release'
+    implementation 'com.smallcase.loans:sdk:5.3.0'
 }

@@ -1,3 +1,12 @@
+## 5.4.0
+
+- Update Android native SDK dependency to 5.3.0.
+
+## 5.3.0
+
+- Update Android native SDK dependency to 5.2.1 and iOS native SDK dependency to 7.3.0.
+- Add `colorScheme` param for dark-theme LAS launch.
+
 ## 5.2.0
 
 - Update iOS native SDK dependency to 7.2.0.
