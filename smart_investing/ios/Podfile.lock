@@ -12,8 +12,8 @@ PODS:
     - SCGateway (= 7.2.0)
   - scloans (0.0.1):
     - Flutter
-    - SCLoans (= 7.3.0)
-  - SCLoans (7.3.0)
+    - SCLoans-fix-kyc-media-permissions-85906df (= 7.3.0-48-release)
+  - SCLoans-fix-kyc-media-permissions-85906df (7.3.0-48-release)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -22,10 +22,11 @@ DEPENDENCIES:
   - scloans (from `.symlinks/plugins/scloans/ios`)
 
 SPEC REPOS:
+  https://github.com/smallcase/cocoapodspec-internal.git:
+    - SCLoans-fix-kyc-media-permissions-85906df
   trunk:
     - Mixpanel-swift
     - SCGateway
-    - SCLoans
 
 EXTERNAL SOURCES:
   Flutter:
@@ -43,8 +44,8 @@ SPEC CHECKSUMS:
   mixpanel_flutter: a0b6b937035899cd01951735ad5f87718b2ffee5
   SCGateway: 8089d79c55ecc8e7b581e0bf56fd28a2e3d957d0
   scgateway_flutter_plugin: 2ab3f2036d213e2bc8c77cb34e9d8dc39541d458
-  SCLoans: 1effcdedc4be32992f5a1a08afa2b812827e5086
-  scloans: 03206bb7f6d067e2fec5a9c0baa6b47188dca92a
+  scloans: b501d6515433dc1d1ad1467873783c3070f1ce19
+  SCLoans-fix-kyc-media-permissions-85906df: 31c0179a5e1e0682fb623d3959cd143f8aaa39db
 
 PODFILE CHECKSUM: 06f3d79628f5881e8468842b1f97f7d12c291209
 
