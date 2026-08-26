@@ -19,5 +19,5 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
 
-  s.dependency 'SCLoans', '7.3.0'
+  s.dependency 'SCLoans-feat-loan-webview-geolocation-0a10f22', '7.3.0-49-release'
 end
