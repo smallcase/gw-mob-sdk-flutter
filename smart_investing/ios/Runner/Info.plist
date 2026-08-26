@@ -22,6 +22,12 @@
 		<string>????</string>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Smart Investing needs camera access for supported Loan SDK verification flows.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Smart Investing needs microphone access for supported Loan SDK verification flows.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Smart Investing needs your location while using supported Loan SDK flows.</string>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>fbapi</string>
