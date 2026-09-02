@@ -1,3 +1,7 @@
+## 5.4.2
+
+- Update Android native SDK dependency to 5.3.2.
+
 ## 5.4.1
 
 - Update Android native SDK dependency to 5.3.1.
