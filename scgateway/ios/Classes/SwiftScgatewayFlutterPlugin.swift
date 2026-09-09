@@ -122,6 +122,29 @@ public class SwiftScgatewayFlutterPlugin: NSObject, FlutterPlugin, FlutterStream
                 result(scgatewayFlutterPluginVersion)
             }
         }
+
+        case "launchScWebView": do {
+            guard let args = call.arguments as? [String: Any],
+                  let urlString = args["url"] as? String,
+                  let url = URL(string: urlString),
+                  let scheme = url.scheme?.lowercased(),
+                  ["http", "https"].contains(scheme),
+                  url.host != nil else {
+                result(FlutterError(
+                    code: "invalid_url",
+                    message: "A valid absolute HTTP(S) URL is required",
+                    details: nil
+                ))
+                return
+            }
+
+            SCGateway.shared.launchScWebView(
+                presentingController: currentViewController,
+                url: url,
+                completion: { _, _ in }
+            )
+            result(true)
+        }
             
             //MARK: Set Config Environment
         case "setConfigEnvironment" : do {
