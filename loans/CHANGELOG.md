@@ -3,6 +3,10 @@
 - Add camera, microphone, and location permission declarations for Loans KYC.
 - Update iOS native SCLoans SDK dependency to 7.4.0.
 
+## 5.4.2
+
+- Update Android native SDK dependency to 5.3.2.
+
 ## 5.4.1
 
 - Update Android native SDK dependency to 5.3.1.
