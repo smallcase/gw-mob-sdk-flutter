@@ -18,6 +18,8 @@ class SmtScreen extends StatefulWidget {
 }
 
 class SmtScreenState extends State<SmtScreen> {
+  String webViewUrl = "https://www.smallcase.com";
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -146,7 +148,23 @@ class SmtScreenState extends State<SmtScreen> {
                       smallplugData,
                       smallplugUiConfig: smallplugUiConfig);
               repository.showAlertDialog(initResponse.toString(), context);
-            })
+            }),
+        SITextField(
+          hint: "WebView URL",
+          text: webViewUrl,
+          onChanged: (value) => webViewUrl = value,
+        ),
+        SIButton(
+          label: "LAUNCH SC WEBVIEW",
+          onPressed: () async {
+            try {
+              await ScgatewayFlutterPlugin.launchScWebView(webViewUrl);
+            } catch (error) {
+              if (!context.mounted) return;
+              repository.showAlertDialog(error.toString(), context);
+            }
+          },
+        )
       ],
     );
   }
