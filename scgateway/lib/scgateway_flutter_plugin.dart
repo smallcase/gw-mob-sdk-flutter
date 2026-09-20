@@ -323,6 +323,22 @@ class ScgatewayFlutterPlugin {
     return logoutResponse;
   }
 
+  /// Launches a standalone native WebView for an absolute HTTP(S) URL.
+  /// Gateway setup and initialization are not required.
+  static Future<bool> launchScWebView(String url) async {
+    final uri = Uri.tryParse(url.trim());
+    if (uri == null ||
+        !uri.hasAuthority ||
+        (uri.scheme != 'http' && uri.scheme != 'https')) {
+      throw ArgumentError.value(
+          url, 'url', 'A valid absolute HTTP(S) URL is required');
+    }
+
+    return await _channel.invokeMethod<bool>(
+            'launchScWebView', <String, dynamic>{'url': uri.toString()}) ??
+        false;
+  }
+
   /// Launches SmallPlug and returns a JSON string with the following structure:
   /// {
   ///   "success": true,
