@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 7.1.0
+
+* Add support for launching a smallcase web experience from a URL.
+* Update Android and iOS native Gateway SDK dependencies.
+
 ## 7.0.8
 
 * Update Android and iOS native SDK dependencies for the 7.0.8 release.
