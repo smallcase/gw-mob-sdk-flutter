@@ -62,6 +62,12 @@
 		</array>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
+		<key>NSCameraUsageDescription</key>
+		<string>Camera access is required to capture your selfie during KYC.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Location access is required to verify your location during KYC.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Microphone access is required for audio during video KYC.</string>
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
