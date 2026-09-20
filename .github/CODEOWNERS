@@ -1,0 +1,5 @@
+# Default owner for everything
+*               @smallcase/gw-fe
+
+# Release machinery — always reviewed, regardless of who touches it
+/.github/       @smallcase/gw-fe
