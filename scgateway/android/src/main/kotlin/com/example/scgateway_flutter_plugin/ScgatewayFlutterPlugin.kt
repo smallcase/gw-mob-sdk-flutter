@@ -2,6 +2,7 @@ package com.example.scgateway_flutter_plugin
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -106,6 +107,24 @@ class ScgatewayFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val flutterSdkVersion: String = ",flutter:" + call.argument("flutterSdkVersion")
                 val nativeSdkVersion = "android:${SmallcaseGatewaySdk.getSdkVersion()}"
                 result.success(nativeSdkVersion + flutterSdkVersion)
+            }
+
+            "launchScWebView" -> {
+                val url = call.argument<String>("url")
+                val uri = url?.let(Uri::parse)
+                if (url.isNullOrBlank() || uri?.scheme?.lowercase() !in setOf("http", "https") || uri?.host.isNullOrBlank()) {
+                    result.error("invalid_url", "A valid absolute HTTP(S) URL is required", null)
+                    return
+                }
+
+                activity.runOnUiThread {
+                    try {
+                        SmallcaseGatewaySdk.launchScWebView(activity, url)
+                        result.success(true)
+                    } catch (error: Exception) {
+                        result.error("launch_failed", error.message, null)
+                    }
+                }
             }
 
             "setConfigEnvironment" -> {
