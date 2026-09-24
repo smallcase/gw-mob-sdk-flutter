@@ -19,5 +19,5 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
 
-  s.dependency 'SCLoans', '7.4.0'
+  s.dependency 'SCLoans-release-scg-v7-2-1-loans-v7-5-0-37c9f15', '7.5.0-53-release'
 end
