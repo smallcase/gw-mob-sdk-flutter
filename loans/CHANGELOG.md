@@ -1,3 +1,8 @@
+## 5.5.1
+
+- Update Android native Loans SDK dependency to production version 5.4.0.
+- Update iOS native SCLoans SDK dependency to production version 7.5.0.
+
 ## 5.5.0
 
 - Document the iOS host-app camera, microphone, and location usage descriptions required for Loans KYC.
