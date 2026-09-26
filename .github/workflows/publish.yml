@@ -19,6 +19,12 @@ jobs:
       id-token: write # This is required for requesting the JWT
     runs-on: ubuntu-latest
     steps:
+      - name: Guard branch
+        run: |
+          if [[ "${{ github.ref_name }}" != "master" ]]; then
+            echo "::error::publish runs only from master (got ${{ github.ref_name }})"
+            exit 1
+          fi
       # Checkout repository
       - uses: actions/checkout@v4
       # Set up the Dart SDK and provision the OIDC token used for publishing.
