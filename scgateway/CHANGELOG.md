@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## Unreleased
+
+- Migrate the Android plugin to Built-in Kotlin: the plugin no longer applies the Kotlin Gradle Plugin (KGP) or declares the KGP classpath and Kotlin stdlib dependency.
+- Replace the removed `jcenter()` repository with `mavenCentral()` for Gradle 9 compatibility.
+- Raise the minimum supported SDK to Flutter 3.44 / Dart 3.12.
+
 ## 7.1.0
 
 * Add support for launching a smallcase web experience from a URL.

@@ -1,3 +1,9 @@
+## Unreleased
+
+- Migrate the Android plugin to Built-in Kotlin: the plugin no longer applies the Kotlin Gradle Plugin (KGP) or declares the KGP classpath and Kotlin stdlib dependency.
+- Replace the removed `jcenter()` repository with `mavenCentral()` for Gradle 9 compatibility.
+- Raise the minimum supported SDK to Flutter 3.44 / Dart 3.12.
+
 ## 5.5.1
 
 - Update Android native Loans SDK dependency to production version 5.4.0.
