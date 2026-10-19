@@ -1,0 +1,26 @@
+name: Release
+
+# On every push to main, release-please keeps one release PR up to date for scgateway and loans.
+# Merging it tags scgateway-vX.Y.Z / loans-vX.Y.Z; the tag push starts publish.yml (pub.dev).
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # GITHUB_TOKEN would neither start checks on the release PR nor the publish workflow on its tags.
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.CASE_CI_RELEASE_APP_ID }}
+          private-key: ${{ secrets.CASE_CI_RELEASE_APP_PRI_KEY }}
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ steps.app.outputs.token }}
+          target-branch: main

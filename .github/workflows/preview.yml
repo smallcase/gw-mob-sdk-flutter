@@ -1,0 +1,72 @@
+name: Preview
+
+# Commits the given native SDK versions on a new branch preview/<ios-...>__<android-...> (from the selected branch),
+# so the combination stays visible and reproducible. Apps install that branch as a git dependency;
+# pub.dev versions are permanent, so there is no preview package.
+on:
+  workflow_dispatch:
+    inputs:
+      ios_scg:
+        description: iOS SCGateway pod version (empty = branch pin)
+        required: false
+      ios_loans:
+        description: iOS SCLoans pod version (empty = branch pin)
+        required: false
+      android_scg:
+        description: Android SCGateway version (empty = branch pin)
+        required: false
+      android_loans:
+        description: Android Loans version (empty = branch pin)
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.CASE_CI_RELEASE_APP_ID }}
+          private-key: ${{ secrets.CASE_CI_RELEASE_APP_PRI_KEY }}
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app.outputs.token }}
+
+      - name: Commit the native versions on a preview branch
+        env:
+          IOS_SCG: ${{ inputs.ios_scg }}
+          IOS_LOANS: ${{ inputs.ios_loans }}
+          ANDROID_SCG: ${{ inputs.android_scg }}
+          ANDROID_LOANS: ${{ inputs.android_loans }}
+        run: |
+          pins=() names=()
+          for platform in ios android; do
+            parts=()
+            for sdk in scg loans; do
+              var="${platform^^}_${sdk^^}" v=${!var}
+              [ -z "$v" ] || { pins+=("$platform-$sdk=$v"); parts+=("$sdk-$v"); }
+            done
+            [ ${#parts[@]} -eq 0 ] || names+=("$platform-$(IFS=_; echo "${parts[*]}")")
+          done
+          [ ${#pins[@]} -gt 0 ] || { echo '::error::Give at least one native version.'; exit 1; }
+
+          scripts/apply-native-pins.sh "${pins[@]}" # validates every input
+          branch=$(printf '%s__' "${names[@]}")
+          branch="preview/${branch%__}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$branch"
+          git commit -am "chore: preview ${pins[*]}"
+          git push --force origin "$branch" # same versions again: the latest run wins
+          {
+            echo "Pushed \`$branch\` (from \`$GITHUB_REF_NAME\`) with ${pins[*]}. Install with:"
+            echo '```yaml'
+            echo "scgateway_flutter_plugin:"
+            echo "  git: {url: https://github.com/$GITHUB_REPOSITORY, ref: $branch, path: scgateway}"
+            echo "scloans:"
+            echo "  git: {url: https://github.com/$GITHUB_REPOSITORY, ref: $branch, path: loans}"
+            echo '```'
+          } >>"$GITHUB_STEP_SUMMARY"

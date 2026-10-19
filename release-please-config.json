@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "dart",
+  "include-v-in-tag": true,
+  "bootstrap-sha": "5eefac22d0f02c850c45873dfa6bee0c83e2d5c6",
+  "packages": {
+    "scgateway": { "component": "scgateway" },
+    "loans": { "component": "loans" }
+  }
+}
