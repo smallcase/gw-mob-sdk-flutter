@@ -64,5 +64,6 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.smallcase.loans:sdk:5.4.0'
+    implementation 'com.smallcase.loans:sdk:5.4.0' // native-sdk: android-loans
+    implementation "com.google.code.gson:gson:2.10.1"
 }
