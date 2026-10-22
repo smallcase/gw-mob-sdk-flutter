@@ -84,6 +84,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - id: flutter
+        run: echo "version=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
       - uses: flutter-actions/setup-flutter@54feb1e258158303e041b9eaf89314dcfbf6d38a
+        with:
+          version: ${{ steps.flutter.outputs.version }}
       - run: flutter build apk --debug
         working-directory: smart_investing
